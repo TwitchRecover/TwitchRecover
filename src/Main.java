@@ -256,8 +256,9 @@ public class Main {
 	 * @throws ParseException
 	 */
 	public long getUNIXTime(String timestamp) throws ParseException {
-		DateFormat df=new SimpleDateFormat("yyyy-mm-dd HH:mm:ss");
-		Date date=df.parse(timestamp);
+		String time=timestamp+" UTC";
+		DateFormat df=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss zzz");
+		Date date=df.parse(time);
 		return (long) date.getTime()/1000;
 	}
 	
