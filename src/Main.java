@@ -1,10 +1,7 @@
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
 import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -24,7 +21,6 @@ public class Main {
 		try {
 			main.mainCLI();
 		} catch (IOException e) {
-			e.printStackTrace();
 		}
 	}
 	
@@ -62,7 +58,7 @@ public class Main {
 				+ "\n1. Input values manually:"
 				+ "\n2. Input Twitch Tracker stream URL."
 				+ "\n3. Input timestamp to the minute and brute force."
-				+ "\nPlease enter your input choice below (1, 2 or 3):"
+				+ "\nPlease enter your input choice below (1, 2 or 3):	"
 				);
 		String input=sc.nextLine();
 		while(input.equals("1")==false && input.equals("2")==false && input.equals("3")==false) {
@@ -72,11 +68,12 @@ public class Main {
 					+ "\n1. Input values manually:"
 					+ "\n2. Input Twitch Tracker stream URL."
 					+ "\n3. Input timestamp to the minute and brute force."
-					+ "\nPlease enter either a '1' or a '2' or a '3' depending on your desired option."
+					+ "\nPlease enter either a '1' or a '2' or a '3' depending on your desired option:	"
 					);
 			input=sc.nextLine();
 		}
-		if(input.equals("1") || input.equals("3")) {
+		//Option Selection:
+		if(input.equals("1") || input.equals("3")) {	//Manual inputs:
 			System.out.print("\n\nPlease enter the corresponding values:");
 			System.out.print("\nStreamer's name: ");
 			name=sc.nextLine();
@@ -91,7 +88,7 @@ public class Main {
 			System.out.print("\nTimestamp (YYYY-MM-DD HH:mm:ss): ");
 			date=sc.nextLine();
 		}
-		else if(input.equals("2")) {
+		else if(input.equals("2")) {	//Twitch Tracker URL: 
 			System.out.print("\n\nPlease enter the Twitch Tracker stream URL: ");
 			url=sc.nextLine();
 			while(isValidURL(url).equals("invalid")) {
@@ -122,6 +119,9 @@ public class Main {
 		System.out.print("\n\nResults: ");
 		for(int i=0; i<resultURLs.size();i++) {
 			System.out.print("\n"+resultURLs.get(i));
+		}
+		if(resultURLs.size()==0) {
+			System.out.print("\n\nNO SUCCESSFUL RESULTS WERE FOUND");
 		}
 	}
 	
@@ -207,8 +207,9 @@ public class Main {
 			return checkURLs(URLs);
 		}
 		catch(IOException e) {
-			URLs.add(0, "No successful connection was made.");
-			URLs.add(1, "Listing all possible URLs:");
+			URLs.add(0, "The VOD URLs were unable to be checked.");
+			URLs.add(1, "Please double check the URL/inputted data for any typos.");
+			URLs.add(2, "Listing all possible URLs:");
 			return URLs;
 		}
 	}
