@@ -1,0 +1,5 @@
+https://vod-secure.twitch.tv
+https://vod-metro.twitch,tv
+https://d2e2de1etea730.cloudfront.net
+https://dqrpb9wgowsf5.cloudfront.net
+https://ds0h3roq6wcgc.cloudfront.net
