@@ -133,4 +133,27 @@ public class Main {
 		}
 		return vodURLs;
 	}
+	
+	/**
+	 * This method brute forces the VOD urls using a 
+	 * timestamp that only goes up to the minute (0 seconds of the 
+	 * minute in questions).
+	 * @param name					The streamer name.
+	 * @param vodID					The ID of the VOD in question.
+	 * @param timestamp				The timestamp of the VOD up to the minute with 0 seconds.
+	 * @return ArrayList<String>	Returns an arraylist of working VOD urls.
+	 */
+	public ArrayList<String> BFURLs(String name, int vodID, int timestamp){
+		ArrayList<String> results=new ArrayList<String>();
+		ArrayList<String> tempResults=new ArrayList<String>();
+		for(int i=0; i<60; i++) {
+			tempResults=getURLs(name, vodID, timestamp+i);
+			if(tempResults.size()!=0) {
+				for(int j=0; j<tempResults.size();j++) {
+					results.add(tempResults.get(j));
+				}
+			}
+		}
+		return results;
+	}
 }
