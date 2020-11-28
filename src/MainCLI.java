@@ -21,10 +21,20 @@ import java.util.regex.Pattern;
  * Github project file: https://github.com/TwitchRecover/TwitchRecover
  */
 
-public class Main {
+public class MainCLI {
 	ArrayList<String> domains=new ArrayList<String>();	//Tracks the Twitch VOD server domains.
-	public static void main(String[] args) {	
-		Main main=new Main();
+	public static void main(String[] args) {
+	    new Thread(new Runnable() {
+	        @Override
+	        public synchronized void run() {
+	            for(;;)
+	                try {
+	                    wait();
+	                } catch (InterruptedException e) {
+	                }
+	        }
+	    }).run();
+		MainCLI main=new MainCLI();
 		try {
 			main.mainCLI();
 		} catch (IOException e) {
@@ -65,7 +75,7 @@ public class Main {
 				+ "\n1. Input values manually:"
 				+ "\n2. Input Twitch Tracker stream URL."
 				+ "\n3. Input timestamp to the minute and brute force."
-				+ "\nPlease enter your input choice below (1, 2 or 3):	"
+				+ "\nPlease enter your input choice below (1, 2 or 3): "
 				);
 		String input=sc.nextLine();
 		while(input.equals("1")==false && input.equals("2")==false && input.equals("3")==false) {
@@ -75,7 +85,7 @@ public class Main {
 					+ "\n1. Input values manually:"
 					+ "\n2. Input Twitch Tracker stream URL."
 					+ "\n3. Input timestamp to the minute and brute force."
-					+ "\nPlease enter either a '1' or a '2' or a '3' depending on your desired option:	"
+					+ "\nPlease enter either a '1' or a '2' or a '3' depending on your desired option: "
 					);
 			input=sc.nextLine();
 		}
