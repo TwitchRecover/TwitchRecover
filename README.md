@@ -1,11 +1,10 @@
-### If you like this, feel free to help support me: 
 <a href="https://paypal.me/daylamtayari"><img src="https://img.shields.io/badge//daylamtayari-%2300457C.svg?&style=for-the-badge&logo=PayPal&logoColor=white&labelColor=black"></a> 
 <a href="https://cash.app/$daylamtayari"><img src="https://img.shields.io/badge//$daylamtayari-%2300C244.svg?&style=for-the-badge&logo=Cash-App&logoColor=white&labelColor=black"></a> 
 <a href="https://www.blockchain.com/btc/address/15KcKrsqW6DQdyZPrgRXXmsKkyyZzHAQVX"><img src="https://img.shields.io/badge/15KcKrsqW6DQdyZPrgRXXmsKkyyZzHAQVX-%23F7931A.svg?&style=for-the-badge&logo=bitcoin&logoColor=white&labelColor=black"></a>
 
 # Twitch Recover
 
-**Twitch Recover** is a free tool that allows you to recover **ALL VODs including DELETED VODs** directly from Twitch servers!  
+### Twitch Recover is a free tool that allows you to recover ALL VODs including DELETED VODs directly from Twitch servers!  
 
 Disclaimer: VODs are only kept on Twitch servers for 60 days but in some rare cases can be only available for ~45/50 days.  
 **VOD links are provided in the m3u8 format. To play them you NEED to use a video client like VLC.**  
