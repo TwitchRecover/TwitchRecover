@@ -59,20 +59,22 @@ public class Main {
 				+ "\n\nInput Options:"
 				+ "\n1. Input values manually:"
 				+ "\n2. Input Twitch Tracker stream URL."
-				+ "\nPlease enter your input choice below (1 or 2):"
+				+ "\n3. Input timestamp to the minute and brute force."
+				+ "\nPlease enter your input choice below (1, 2 or 3):"
 				);
 		String input=sc.nextLine();
-		while(input.equals("1")==false && input.equals("2")==false) {
+		while(input.equals("1")==false && input.equals("2")==false && input.equals("3")==false) {
 			System.out.print(""
 					+ "\nINVALID INPUT"
 					+ "\n\nInput Options:"
 					+ "\n1. Input values manually:"
 					+ "\n2. Input Twitch Tracker stream URL."
-					+ "\nPlease enter either a '1' or a '2' depending on your desired option."
+					+ "\n3. Input timestamp to the minute and brute force."
+					+ "\nPlease enter either a '1' or a '2' or a '3' depending on your desired option."
 					);
 			input=sc.nextLine();
 		}
-		if(input.equals("1")) {
+		if(input.equals("1") || input.equals("3")) {
 			System.out.print("\n\nPlease enter the corresponding values:");
 			System.out.print("\nStreamer's name: ");
 			name=sc.nextLine();
@@ -87,7 +89,7 @@ public class Main {
 			System.out.print("\nTimestamp (YYYY-MM-DD HH:mm:ss): ");
 			date=sc.nextLine();
 		}
-		else {
+		else if(input.equals("2")) {
 			System.out.print("\n\nPlease enter the Twitch Tracker stream URL: ");
 			url=sc.nextLine();
 			while(isValidURL(url).equals("invalid")) {
@@ -109,7 +111,12 @@ public class Main {
 		}
 		sc.close();
 		//Backend computing:
-		resultURLs=getURLs(name, vodID, timestamp);
+		if(input.equals("3")) {
+			resultURLs=BFURLs(name, vodID, timestamp);
+		}
+		else {
+			resultURLs=getURLs(name, vodID, timestamp);
+		}
 		System.out.print("\n\nResults: ");
 		for(int i=0; i<resultURLs.size();i++) {
 			System.out.print("\n"+resultURLs.get(i));
