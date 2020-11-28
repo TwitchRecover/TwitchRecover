@@ -14,6 +14,13 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * 
+ * @author daylamtayari https://github.com/daylamtayari
+ * @version CLI 1.0
+ * Github project file: https://github.com/TwitchRecover/TwitchRecover
+ */
+
 public class Main {
 	ArrayList<String> domains=new ArrayList<String>();	//Tracks the Twitch VOD server domains.
 	public static void main(String[] args) {	
