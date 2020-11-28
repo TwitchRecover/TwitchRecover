@@ -4,6 +4,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
+import java.net.ProtocolException;
 import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -171,5 +172,60 @@ public class Main {
 		DateFormat df=new SimpleDateFormat("yyyy-mm-dd HH:mm:ss");
 		Date date=df.parse(timestamp);
 		return (long) date.getTime()/1000;
+	}
+	
+	/**
+	 * This handler checks the validity of a given URL.
+	 * @param url		The given URL to check.
+	 * @return String	Returns "invalid" if the URL is invalid or returns the name of the service the URL is from.
+	 */
+	public String isValidURL(String url) {
+		if(url.indexOf("twitchtracker.com")!=-1 && url.indexOf("/streams/")!=-1) {
+			return "twitchtracker";
+		}
+		else {
+			return "invalid";
+		}
+	}
+	
+	/**
+	 * This method scrapes the given TwitchTracker page and returns 
+	 * the values necessary for the VOD URL discovery.
+	 * @param url				The URL of the TwitchTracker page in question.
+	 * @return String[]			Return a string array with the streamer's name at index 0, 
+	 * the VOD ID at index 1 and the timestamp at index 2.
+	 * @throws IOException
+	 */
+	public String[] getTTData(String url) throws IOException {
+		String[] results=new String[3];
+		URL obj=new URL(url);
+		HttpURLConnection httpcon=(HttpURLConnection) obj.openConnection();
+		httpcon.setRequestMethod("GET");
+		httpcon.setRequestProperty("User_Agent", "Mozilla/5.0");
+		int responseCode=httpcon.getResponseCode();
+		if(responseCode==HttpURLConnection.HTTP_OK) {
+			BufferedReader brt=new BufferedReader(new InputStreamReader(httpcon.getInputStream()));
+			for(int i=0; i<8;i++) {
+				brt.readLine();
+			}
+			String response=brt.readLine();
+			int contentIndex=response.indexOf("content");
+			response=response.substring(contentIndex+contentIndex+9);
+			//Get the streamer's name:
+			int nameIndex=response.indexOf(" ");
+			results[0]=response.substring(0, nameIndex);
+			//Get the VOD ID:
+			String vodID=url.substring(url.indexOf(results[0])+results[0].length()+9);
+			if(vodID.indexOf("/")!=-1) {
+				vodID=vodID.substring(0, vodID.indexOf("/"));
+			}
+			results[1]=vodID;
+			//Get timestamp:
+			int tsIndex=response.indexOf(" on ")+5;
+			results[2]=response.substring(tsIndex, tsIndex+19);
+			//Return the array:
+			return results;
+		}
+		throw new IOException();
 	}
 }
