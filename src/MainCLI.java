@@ -62,91 +62,114 @@ public class MainCLI {
 		}
 		//User inputs:
 		boolean goAgane=true;
-		String name, date, url;
-		date="";
-		name="";
-		long vodID;
-		vodID=0;
-		long timestamp;
-		timestamp=0;
-		ArrayList<String> resultURLs=new ArrayList<String>();
-		Scanner sc=new Scanner(System.in);
-		System.out.print(""
-				+ "\nWelcome to Twitch Recover!"
-				+ "\nGet the m3u8 link of any deleted Twitch VOD (up to 60 days) to then watch it in VLC or other similar programs."
-				+ "\n\nInput Options:"
-				+ "\n1. Input values manually:"
-				+ "\n2. Input Twitch Tracker stream URL."
-				+ "\n3. Input timestamp to the minute and brute force."
-				+ "\nPlease enter your input choice below (1, 2 or 3): "
-				);
-		String input=sc.nextLine();
-		while(input.equals("1")==false && input.equals("2")==false && input.equals("3")==false) {
+		while(goAgane) {
+			String name, date, url;
+			date="";
+			name="";
+			long vodID;
+			vodID=0;
+			long timestamp;
+			timestamp=0;
+			ArrayList<String> resultURLs=new ArrayList<String>();
+			Scanner sc=new Scanner(System.in);
 			System.out.print(""
-					+ "\nINVALID INPUT"
+					+ "\nWelcome to Twitch Recover!"
+					+ "\nGet the m3u8 link of any deleted Twitch VOD (up to 60 days) to then watch it in VLC or other similar programs."
 					+ "\n\nInput Options:"
 					+ "\n1. Input values manually:"
 					+ "\n2. Input Twitch Tracker stream URL."
 					+ "\n3. Input timestamp to the minute and brute force."
-					+ "\nPlease enter either a '1' or a '2' or a '3' depending on your desired option: "
+					+ "\nPlease enter your input choice below (1, 2 or 3): "
 					);
-			input=sc.nextLine();
-		}
-		//Option Selection:
-		if(input.equals("1") || input.equals("3")) {	//Manual inputs:
-			System.out.print("\n\nPlease enter the corresponding values:");
-			System.out.print("\nStreamer's name: ");
-			name=sc.nextLine();
-			System.out.print("\nVOD ID: ");
-			try {
-				vodID=Long.parseLong(sc.nextLine());
+			String input=sc.nextLine();
+			while(input.equals("1")==false && input.equals("2")==false && input.equals("3")==false) {
+				System.out.print(""
+						+ "\nINVALID INPUT"
+						+ "\n\nInput Options:"
+						+ "\n1. Input values manually:"
+						+ "\n2. Input Twitch Tracker stream URL."
+						+ "\n3. Input timestamp to the minute and brute force."
+						+ "\nPlease enter either a '1' or a '2' or a '3' depending on your desired option: "
+						);
+				input=sc.nextLine();
 			}
-			catch(NumberFormatException e) {
-				System.out.print("\nINVALID VOD ID");
-				System.exit(0);
+			//Option Selection:
+			if(input.equals("1") || input.equals("3")) {	//Manual inputs:
+				System.out.print("\n\nPlease enter the corresponding values:");
+				System.out.print("\nStreamer's name: ");
+				name=sc.nextLine();
+				System.out.print("\nVOD ID: ");
+				try {
+					vodID=Long.parseLong(sc.nextLine());
+				}
+				catch(NumberFormatException e) {
+					System.out.print("\nINVALID VOD ID");
+					System.exit(0);
+				}
+				System.out.print("\nTimestamp (YYYY-MM-DD HH:mm:ss): ");
+				date=sc.nextLine();
 			}
-			System.out.print("\nTimestamp (YYYY-MM-DD HH:mm:ss): ");
-			date=sc.nextLine();
-		}
-		else if(input.equals("2")) {	//Twitch Tracker URL: 
-			System.out.print("\n\nPlease enter the Twitch Tracker stream URL: ");
-			url=sc.nextLine();
-			while(isValidURL(url).equals("invalid")) {
-				System.out.print("\nINVALID URL\nPlease enter a valid Twitch Tracker stream URL (URL of the page of a stream): ");
+			else if(input.equals("2")) {	//Twitch Tracker URL: 
+				System.out.print("\n\nPlease enter the Twitch Tracker stream URL: ");
 				url=sc.nextLine();
+				while(isValidURL(url).equals("invalid")) {
+					System.out.print("\nINVALID URL\nPlease enter a valid Twitch Tracker stream URL (URL of the page of a stream): ");
+					url=sc.nextLine();
+				}
+				try {
+					String[] results=getTTData(url);
+					name=results[0];
+					vodID=Long.parseLong(results[1]);
+					date=results[2];
+				}
+				catch(IOException e){
+				}
 			}
 			try {
-				String[] results=getTTData(url);
-				name=results[0];
-				vodID=Long.parseLong(results[1]);
-				date=results[2];
+				timestamp=getUNIXTime(date);
+			} catch (ParseException e) {
 			}
-			catch(IOException e){
+			//Backend computing:
+			if(input.equals("3")) {
+				resultURLs=BFURLs(name, vodID, timestamp);
 			}
-		}
-		try {
-			timestamp=getUNIXTime(date);
-		} catch (ParseException e) {
-		}
-		//Backend computing:
-		if(input.equals("3")) {
-			resultURLs=BFURLs(name, vodID, timestamp);
-		}
-		else {
-			resultURLs=getURLs(name, vodID, timestamp);
-		}
-		System.out.print("\n\nResults: ");
-		for(int i=0; i<resultURLs.size();i++) {
-			System.out.print("\n"+resultURLs.get(i));
-		}
-		if(resultURLs.size()==0) {
-			System.out.print("\n\nNO SUCCESSFUL RESULTS WERE FOUND");
-		}
-		System.out.print("\nDo you wish to export the results?\nYes or No? (y/n): ");
-		input=sc.nextLine();
-		if(input.equals("y")) {
-			System.out.print("\nPlease enter the folder path of where you want the results to be exported to: ");
-			exportResults(sc.nextLine(), resultURLs, name, vodID);
+			else {
+				resultURLs=getURLs(name, vodID, timestamp);
+			}
+			System.out.print("\n\nResults: ");
+			for(int i=0; i<resultURLs.size();i++) {
+				System.out.print("\n"+resultURLs.get(i));
+			}
+			if(resultURLs.size()==0) {
+				System.out.print("\n\nNO SUCCESSFUL RESULTS WERE FOUND");
+			}
+			System.out.print("\nDo you wish to export the results?\nYes or No? (y/n): ");
+			input=sc.nextLine();
+			if(input.equals("y")) {
+				System.out.print("\nPlease enter the folder path of where you want the results to be exported to: ");
+				exportResults(sc.nextLine(), resultURLs, name, vodID);
+			}
+			System.out.print("\nDo you want to get the VOD of a new stream? (y/n): ");
+			input=sc.nextLine();
+			if(input.equals("y")) {
+				goAgane=true;
+			}
+			else if(input.equals("n")) {
+				goAgane=false;
+				System.out.print("\nThank you for using Twitch Recover!\npeepoHey");
+			}
+			else {
+				System.out.print("\nInvalid input.\nDo you want to get the VOD of a new stream? (y/n): ");
+				input=sc.nextLine();
+				if(input.equals("y")) {
+					goAgane=true;
+				}
+				else {
+					goAgane=false;
+					System.out.print("\nThank you for using Twitch Recover!\npeepoHey");
+				}
+			}
+			sc.close();
 		}
 	}
 	
@@ -359,8 +382,9 @@ public class MainCLI {
 		File fo=new File(fp+"TwitchRecover-"+name+"-"+Long.toString(vodID)+".txt");
 		fo.createNewFile();
 		FileWriter fw=new FileWriter(fp);
+		fw.write("Results generated using Twitch Recover. https://github.com/TwitchRecover/TwitchRecover\n");
 		for(int i=0; i<results.size(); i++) {
-			fw.write(results.get(i));
+			fw.write(results.get(i)+"\n");
 		}
 		fw.close();
 		System.out.print("\nThe results were succesfully exported to "+fp+"TwitchRecover-"+name+"-"+Long.toString(vodID)+".txt");
