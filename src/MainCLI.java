@@ -62,6 +62,7 @@ public class MainCLI {
 		}
 		//User inputs:
 		boolean goAgane=true;
+		Scanner sc=new Scanner(System.in);
 		while(goAgane) {
 			String name, date, url;
 			date="";
@@ -71,7 +72,6 @@ public class MainCLI {
 			long timestamp;
 			timestamp=0;
 			ArrayList<String> resultURLs=new ArrayList<String>();
-			Scanner sc=new Scanner(System.in);
 			System.out.print(""
 					+ "\nWelcome to Twitch Recover!"
 					+ "\nGet the m3u8 link of any deleted Twitch VOD (up to 60 days) to then watch it in VLC or other similar programs."
@@ -145,32 +145,26 @@ public class MainCLI {
 			}
 			System.out.print("\nDo you wish to export the results?\nYes or No? (y/n): ");
 			input=sc.nextLine();
-			if(input.equals("y")) {
+			if(input.equalsIgnoreCase("y")) {
 				System.out.print("\nPlease enter the folder path of where you want the results to be exported to: ");
 				exportResults(sc.nextLine(), resultURLs, name, vodID);
 			}
 			System.out.print("\nDo you want to get the VOD of a new stream? (y/n): ");
 			input=sc.nextLine();
-			if(input.equals("y")) {
-				goAgane=true;
-			}
-			else if(input.equals("n")) {
+			if(input.equalsIgnoreCase("n")) {
 				goAgane=false;
 				System.out.print("\nThank you for using Twitch Recover!\npeepoHey");
 			}
-			else {
+			else if(input.equalsIgnoreCase("n")==false && input.equalsIgnoreCase("y")==false){
 				System.out.print("\nInvalid input.\nDo you want to get the VOD of a new stream? (y/n): ");
 				input=sc.nextLine();
-				if(input.equals("y")) {
-					goAgane=true;
-				}
-				else {
+				if(input.equalsIgnoreCase("y")==false) {
 					goAgane=false;
 					System.out.print("\nThank you for using Twitch Recover!\npeepoHey");
 				}
 			}
-			sc.close();
 		}
+		sc.close();
 	}
 	
 	/**
