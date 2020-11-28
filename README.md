@@ -8,8 +8,10 @@
 
 Disclaimer: VODs are only kept on Twitch servers for 60 days but in some rare cases can be only available for ~45/50 days.  
 **VOD links are provided in the m3u8 format. To play them you NEED to use a video client like VLC.**  
+**Full tutorial: https://www.twitch.tv/videos/818659849**   
   
 <break/>  
+
 
 ## Downloads:  
 <break/>  
