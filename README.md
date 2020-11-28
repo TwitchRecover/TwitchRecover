@@ -14,16 +14,15 @@ Disclaimer: VODs are only kept on Twitch servers for 60 days but in some rare ca
 ## Downloads:  
 <break/>  
 
-### [Graphical (GUI) Version (WIP)]()
-### [Command Line Version]()
+### [Graphical (GUI) Version (WIP, coming soon)]()
+### [Command Line Version](https://github.com/TwitchRecover/TwitchRecover/releases/download/1.0/TwitchRecover-CLI-v1.0.exe)
 
 ## Installation:
 1. Download the exe file for your desired version.
-    - [Graphical (GUI) Version (WIP)]()
-    - [Command Line Version]()
-2. Install the program.
-3. Use the program.
-4. Paste one of the given URLs into VLC.  
+    - [Graphical (GUI) Version (WIP, coming soon)]()
+    - [Command Line Version](https://github.com/TwitchRecover/TwitchRecover/releases/download/1.0/TwitchRecover-CLI-v1.0.exe)
+2. Run the exe.
+3. Paste the result URL into VLC or another similar video client.  
 <img src="https://i.gyazo.com/8de89763015852c0ab70aabc6447ec04.gif" width="646.5" height="426"/>
 
 ## Guide:
