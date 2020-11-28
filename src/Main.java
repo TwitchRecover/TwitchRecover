@@ -7,7 +7,11 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class Main {
 	ArrayList<String> domains=new ArrayList<String>();	//Tracks the Twitch VOD server domains.
@@ -48,8 +52,8 @@ public class Main {
 	 * @param timestamp		UNIX Timestamp.
 	 * @return String		URL of the VOD excluding the actual domain.
 	 */
-	public String URLCompute(String name, int vodID, int timestamp) {
-		String baseString=name+"_"+Integer.toString(vodID)+"_"+Integer.toString(timestamp);
+	public String URLCompute(String name, int vodID, long timestamp) {
+		String baseString=name+"_"+Integer.toString(vodID)+"_"+Long.toString(timestamp);
 		try {
 			String hash=hash(baseString);
 			String finalString=hash+"_"+baseString;
@@ -89,14 +93,14 @@ public class Main {
 	}
 	
 	/**
-	 * THis method gets the successful VOD URLs or if 
+	 * This method gets the successful VOD URLs or if 
 	 * unsuccessful to connect to the internet, lists all possibilites.
 	 * @param name					Name of the streamer.
 	 * @param vodID					VOD ID of the VOD in question.
 	 * @param timestamp				UNIX timestamp of the VOD.
 	 * @return ArrayList<String>	Returns a string arraylist with all of the working VOD urls.
 	 */
-	public ArrayList<String> getURLs(String name, int vodID, int timestamp) {
+	public ArrayList<String> getURLs(String name, int vodID, long timestamp) {
 		String baseURL=URLCompute(name, vodID, timestamp);
 		ArrayList<String> URLs=new ArrayList<String>();
 		for(int i=0; i<domains.size(); i++) {
@@ -143,7 +147,7 @@ public class Main {
 	 * @param timestamp				The timestamp of the VOD up to the minute with 0 seconds.
 	 * @return ArrayList<String>	Returns an arraylist of working VOD urls.
 	 */
-	public ArrayList<String> BFURLs(String name, int vodID, int timestamp){
+	public ArrayList<String> BFURLs(String name, int vodID, long timestamp){
 		ArrayList<String> results=new ArrayList<String>();
 		ArrayList<String> tempResults=new ArrayList<String>();
 		for(int i=0; i<60; i++) {
@@ -155,5 +159,17 @@ public class Main {
 			}
 		}
 		return results;
+	}
+	
+	/**
+	 * This method gets the UNIX timestamp of a particular given date.
+	 * @param timestamp			String which represents the timestamp of the VOD in a date format.
+	 * @return long				Timestamp of the VOD start time and date in UNIX time.
+	 * @throws ParseException
+	 */
+	public long getUNIXTime(String timestamp) throws ParseException {
+		DateFormat df=new SimpleDateFormat("yyyy-mm-dd HH:mm:ss");
+		Date date=df.parse(timestamp);
+		return (long) date.getTime()/1000;
 	}
 }
