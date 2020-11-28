@@ -379,14 +379,15 @@ public class MainCLI {
 	 * @throws IOException
 	 */
 	public void exportResults(String fp, ArrayList<String> results, String name, long vodID) throws IOException {
-		File fo=new File(fp+"TwitchRecover-"+name+"-"+Long.toString(vodID)+".txt");
+		fp=fp+"TwitchRecover-"+name+"-"+Long.toString(vodID)+".txt";
+		File fo=new File(fp);
 		fo.createNewFile();
 		FileWriter fw=new FileWriter(fp);
-		fw.write("Results generated using Twitch Recover. https://github.com/TwitchRecover/TwitchRecover\n");
+		fw.write("Results generated using Twitch Recover. https://github.com/TwitchRecover/TwitchRecover");
 		for(int i=0; i<results.size(); i++) {
-			fw.write(results.get(i)+"\n");
+			fw.write("\n"+results.get(i));
 		}
 		fw.close();
-		System.out.print("\nThe results were succesfully exported to "+fp+"TwitchRecover-"+name+"-"+Long.toString(vodID)+".txt");
+		System.out.print("\nThe results were succesfully exported to "+fp);
 	}
 }
