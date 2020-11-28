@@ -17,25 +17,21 @@ import java.util.Scanner;
 
 public class Main {
 	ArrayList<String> domains=new ArrayList<String>();	//Tracks the Twitch VOD server domains.
-	public void main(String[] args) {
-//		try {
-//			getDomains();
-//		}
-//		catch(IOException e) {
-//			domains.add("https://vod-secure.twitch.tv");
-//			domains.add("https://vod-metro.twitch.tv");
-//			domains.add("https://d2e2de1etea730.cloudfront.net");
-//			domains.add("https://dqrpb9wgowsf5.cloudfront.net");
-//			domains.add("https://ds0h3roq6wcgc.cloudfront.net");
-//		}
-		
+	public static void main(String[] args) {	
+		Main main=new Main();
+		try {
+			main.mainCLI();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	/**
 	 * This is the CLI handler which runs the entire program 
 	 * in the CLI for the CLI release.
+	 * @throws IOException 
 	 */
-	public void mainCLI() {
+	public void mainCLI() throws IOException {
 		//Get domains:
 		try {
 			getDomains();
@@ -49,7 +45,13 @@ public class Main {
 		}
 		//User inputs:
 		String name, date, url;
+		date="";
+		name="";
 		int vodID;
+		vodID=0;
+		long timestamp;
+		timestamp=0;
+		ArrayList<String> resultURLs=new ArrayList<String>();
 		Scanner sc=new Scanner(System.in);
 		System.out.print(""
 				+ "\nWelcome to Twitch Recover!"
@@ -92,6 +94,25 @@ public class Main {
 				System.out.print("\nINVALID URL\nPlease enter a valid Twitch Tracker stream URL (URL of the page of a stream): ");
 				url=sc.nextLine();
 			}
+			try {
+				String[] results=getTTData(url);
+				name=results[0];
+				vodID=Integer.parseInt(results[1]);
+				date=results[2];
+			}
+			catch(IOException e){
+			}
+		}
+		try {
+			timestamp=getUNIXTime(date);
+		} catch (ParseException e) {
+		}
+		sc.close();
+		//Backend computing:
+		resultURLs=getURLs(name, vodID, timestamp);
+		System.out.print("\n\nResults: ");
+		for(int i=0; i<resultURLs.size();i++) {
+			System.out.print("\n"+resultURLs.get(i));
 		}
 	}
 	
