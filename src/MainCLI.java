@@ -61,6 +61,7 @@ public class MainCLI {
 			domains.add("https://ds0h3roq6wcgc.cloudfront.net");
 		}
 		//User inputs:
+		boolean goAgane=true;
 		String name, date, url;
 		date="";
 		name="";
@@ -127,7 +128,6 @@ public class MainCLI {
 			timestamp=getUNIXTime(date);
 		} catch (ParseException e) {
 		}
-		sc.close();
 		//Backend computing:
 		if(input.equals("3")) {
 			resultURLs=BFURLs(name, vodID, timestamp);
@@ -141,6 +141,12 @@ public class MainCLI {
 		}
 		if(resultURLs.size()==0) {
 			System.out.print("\n\nNO SUCCESSFUL RESULTS WERE FOUND");
+		}
+		System.out.print("\nDo you wish to export the results?\nYes or No? (y/n): ");
+		input=sc.nextLine();
+		if(input.equals("y")) {
+			System.out.print("\nPlease enter the folder path of where you want the results to be exported to: ");
+			exportResults(sc.nextLine(), resultURLs, name, vodID);
 		}
 	}
 	
@@ -341,5 +347,22 @@ public class MainCLI {
 			return results;
 		}
 		throw new IOException();
+	}
+	
+	/**
+	 * This method exports the results into a file at the user's request.
+	 * @param fp			The desired filepath of the results file.
+	 * @param results		The string arraylist with the results of all the correct VOD links.
+	 * @throws IOException
+	 */
+	public void exportResults(String fp, ArrayList<String> results, String name, long vodID) throws IOException {
+		File fo=new File(fp+"TwitchRecover-"+name+"-"+Long.toString(vodID)+".txt");
+		fo.createNewFile();
+		FileWriter fw=new FileWriter(fp);
+		for(int i=0; i<results.size(); i++) {
+			fw.write(results.get(i));
+		}
+		fw.close();
+		System.out.print("\nThe results were succesfully exported to "+fp+"TwitchRecover-"+name+"-"+Long.toString(vodID)+".txt");
 	}
 }
