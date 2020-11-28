@@ -47,7 +47,7 @@ public class Main {
 		String name, date, url;
 		date="";
 		name="";
-		int vodID;
+		long vodID;
 		vodID=0;
 		long timestamp;
 		timestamp=0;
@@ -78,7 +78,7 @@ public class Main {
 			name=sc.nextLine();
 			System.out.print("\nVOD ID: ");
 			try {
-				vodID=Integer.parseInt(sc.nextLine());
+				vodID=Long.parseLong(sc.nextLine());
 			}
 			catch(NumberFormatException e) {
 				System.out.print("\nINVALID VOD ID");
@@ -97,7 +97,7 @@ public class Main {
 			try {
 				String[] results=getTTData(url);
 				name=results[0];
-				vodID=Integer.parseInt(results[1]);
+				vodID=Long.parseLong(results[1]);
 				date=results[2];
 			}
 			catch(IOException e){
@@ -140,8 +140,8 @@ public class Main {
 	 * @param timestamp		UNIX Timestamp.
 	 * @return String		URL of the VOD excluding the actual domain.
 	 */
-	public String URLCompute(String name, int vodID, long timestamp) {
-		String baseString=name+"_"+Integer.toString(vodID)+"_"+Long.toString(timestamp);
+	public String URLCompute(String name, long vodID, long timestamp) {
+		String baseString=name+"_"+Long.toString(vodID)+"_"+Long.toString(timestamp);
 		try {
 			String hash=hash(baseString);
 			String finalString=hash+"_"+baseString;
@@ -188,7 +188,7 @@ public class Main {
 	 * @param timestamp				UNIX timestamp of the VOD.
 	 * @return ArrayList<String>	Returns a string arraylist with all of the working VOD urls.
 	 */
-	public ArrayList<String> getURLs(String name, int vodID, long timestamp) {
+	public ArrayList<String> getURLs(String name, long vodID, long timestamp) {
 		String baseURL=URLCompute(name, vodID, timestamp);
 		ArrayList<String> URLs=new ArrayList<String>();
 		for(int i=0; i<domains.size(); i++) {
@@ -235,7 +235,7 @@ public class Main {
 	 * @param timestamp				The timestamp of the VOD up to the minute with 0 seconds.
 	 * @return ArrayList<String>	Returns an arraylist of working VOD urls.
 	 */
-	public ArrayList<String> BFURLs(String name, int vodID, long timestamp){
+	public ArrayList<String> BFURLs(String name, long vodID, long timestamp){
 		ArrayList<String> results=new ArrayList<String>();
 		ArrayList<String> tempResults=new ArrayList<String>();
 		for(int i=0; i<60; i++) {
