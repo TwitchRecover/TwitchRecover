@@ -13,10 +13,11 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Scanner;
 
 public class Main {
 	ArrayList<String> domains=new ArrayList<String>();	//Tracks the Twitch VOD server domains.
-	public static void main(String[] args) {
+	public void main(String[] args) {
 //		try {
 //			getDomains();
 //		}
@@ -27,6 +28,71 @@ public class Main {
 //			domains.add("https://dqrpb9wgowsf5.cloudfront.net");
 //			domains.add("https://ds0h3roq6wcgc.cloudfront.net");
 //		}
+		
+	}
+	
+	/**
+	 * This is the CLI handler which runs the entire program 
+	 * in the CLI for the CLI release.
+	 */
+	public void mainCLI() {
+		//Get domains:
+		try {
+			getDomains();
+		}
+		catch(IOException e) {
+			domains.add("https://vod-secure.twitch.tv");
+			domains.add("https://vod-metro.twitch.tv");
+			domains.add("https://d2e2de1etea730.cloudfront.net");
+			domains.add("https://dqrpb9wgowsf5.cloudfront.net");
+			domains.add("https://ds0h3roq6wcgc.cloudfront.net");
+		}
+		//User inputs:
+		String name, date, url;
+		int vodID;
+		Scanner sc=new Scanner(System.in);
+		System.out.print(""
+				+ "\nWelcome to Twitch Recover!"
+				+ "\nGet the m3u8 link of any deleted Twitch VOD (up to 60 days) to then watch it in VLC or other similar programs."
+				+ "\n\nInput Options:"
+				+ "\n1. Input values manually:"
+				+ "\n2. Input Twitch Tracker stream URL."
+				+ "\nPlease enter your input choice below (1 or 2):"
+				);
+		String input=sc.nextLine();
+		while(input.equals("1")==false && input.equals("2")==false) {
+			System.out.print(""
+					+ "\nINVALID INPUT"
+					+ "\n\nInput Options:"
+					+ "\n1. Input values manually:"
+					+ "\n2. Input Twitch Tracker stream URL."
+					+ "\nPlease enter either a '1' or a '2' depending on your desired option."
+					);
+			input=sc.nextLine();
+		}
+		if(input.equals("1")) {
+			System.out.print("\n\nPlease enter the corresponding values:");
+			System.out.print("\nStreamer's name: ");
+			name=sc.nextLine();
+			System.out.print("\nVOD ID: ");
+			try {
+				vodID=Integer.parseInt(sc.nextLine());
+			}
+			catch(NumberFormatException e) {
+				System.out.print("\nINVALID VOD ID");
+				System.exit(0);
+			}
+			System.out.print("\nTimestamp (YYYY-MM-DD HH:mm:ss): ");
+			date=sc.nextLine();
+		}
+		else {
+			System.out.print("\n\nPlease enter the Twitch Tracker stream URL: ");
+			url=sc.nextLine();
+			while(isValidURL(url).equals("invalid")) {
+				System.out.print("\nINVALID URL\nPlease enter a valid Twitch Tracker stream URL (URL of the page of a stream): ");
+				url=sc.nextLine();
+			}
+		}
 	}
 	
 	/**
