@@ -14,6 +14,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Main {
 	ArrayList<String> domains=new ArrayList<String>();	//Tracks the Twitch VOD server domains.
@@ -300,24 +302,21 @@ public class Main {
 		int responseCode=httpcon.getResponseCode();
 		if(responseCode==HttpURLConnection.HTTP_OK) {
 			BufferedReader brt=new BufferedReader(new InputStreamReader(httpcon.getInputStream()));
-			for(int i=0; i<8;i++) {
+			for(int i=0; i<7;i++) {
 				brt.readLine();
 			}
+			//Get the timestamp:
 			String response=brt.readLine();
-			int contentIndex=response.indexOf("content");
-			response=response.substring(contentIndex+contentIndex+9);
-			//Get the streamer's name:
-			int nameIndex=response.indexOf(" ");
-			results[0]=response.substring(0, nameIndex);
-			//Get the VOD ID:
-			String vodID=url.substring(url.indexOf(results[0])+results[0].length()+9);
-			if(vodID.indexOf("/")!=-1) {
-				vodID=vodID.substring(0, vodID.indexOf("/"));
+			int tsIndex=response.indexOf(" on ")+4;
+			results[2]=response.substring(tsIndex,tsIndex+19);
+			//Get the streamer's name and the VOD ID:
+			String pattern="twitchtracker\\.com\\/([a-zA-Z0-9]*)\\/streams\\/(\\d*)";
+			Pattern r=Pattern.compile(pattern);
+			Matcher m=r.matcher(url);
+			if(m.find()) {
+				results[0]=m.group(1);
+				results[1]=m.group(2);
 			}
-			results[1]=vodID;
-			//Get timestamp:
-			int tsIndex=response.indexOf(" on ")+5;
-			results[2]=response.substring(tsIndex, tsIndex+19);
 			//Return the array:
 			return results;
 		}
