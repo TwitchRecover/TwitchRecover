@@ -1,7 +1,17 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 
 public class Main {
+	ArrayList<String> domains=new ArrayList<String>();	//Tracks the Twitch VOD server domains.
+	
 	public static void main(String[] args) {
 		
 	}
@@ -42,5 +52,31 @@ public class Main {
 		}
 	}
 	
-	
+	/**
+	 * This method gets the domains from the domains file from 
+	 * the git repository and if unsuccessful, sets some of the 'defaults' manually.
+	 * @throws IOException
+	 */
+	public void getDomains() throws IOException{
+		URL obj=new URL("https://raw.githubusercontent.com/TwitchRecover/TwitchRecover/main/domains.txt");
+		HttpURLConnection httpcon=(HttpURLConnection) obj.openConnection();
+		httpcon.setRequestMethod("GET");
+		httpcon.setRequestProperty("User-Agent", "Mozilla/5.0");
+		int responseCode=httpcon.getResponseCode();
+		if(responseCode==HttpURLConnection.HTTP_OK) {
+			BufferedReader br=new BufferedReader(new InputStreamReader(httpcon.getInputStream()));
+			String inputline;
+			while((inputline=br.readLine())!=null) {
+				String response=inputline.toString();
+				domains.add(response);
+			}
+		}
+		else {
+			domains.add("https://vod-secure.twitch.tv");
+			domains.add("https://vod-metro.twitch.tv");
+			domains.add("https://d2e2de1etea730.cloudfront.net");
+			domains.add("https://dqrpb9wgowsf5.cloudfront.net");
+			domains.add("https://ds0h3roq6wcgc.cloudfront.net");
+		}
+	}
 }
