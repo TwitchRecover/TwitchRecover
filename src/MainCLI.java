@@ -117,6 +117,7 @@ public class MainCLI {
 					System.out.print("\nINVALID URL\nPlease enter a valid Twitch Tracker stream URL (URL of the page of a stream): ");
 					url=sc.nextLine();
 				}
+				url=adaptURL(url);
 				try {
 					String[] results=getTTData(url);
 					name=results[0];
@@ -384,5 +385,21 @@ public class MainCLI {
 		}
 		fw.close();
 		System.out.print("\nThe results were succesfully exported to "+fp);
+	}
+	
+	/**
+	 * This method takes any URL format for a Twitch Tracker link 
+	 * and then converts it into our desired format which is https://...
+	 * @param url		The inputted URL which needs to be adapted.
+	 * @return String	The URL in our desired format.
+	 */
+	public String adaptURL(String url) {
+		String pattern="(twitchtracker\\.com\\/([a-z]*)\\/streams\\/(\\d*))";
+		Pattern r=Pattern.compile(pattern);
+		Matcher m=r.matcher(url);
+		if(m.find()) {
+			return "https://"+m.group(1);
+		}
+		return "";
 	}
 }
