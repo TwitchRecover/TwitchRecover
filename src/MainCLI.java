@@ -342,7 +342,7 @@ public class MainCLI {
 		URL obj=new URL(url);
 		HttpURLConnection httpcon=(HttpURLConnection) obj.openConnection();
 		httpcon.setRequestMethod("GET");
-		httpcon.setRequestProperty("User_Agent", "Mozilla/5.0");
+		httpcon.setRequestProperty("User-Agent", "Mozilla/5.0");
 		int responseCode=httpcon.getResponseCode();
 		if(responseCode==HttpURLConnection.HTTP_OK) {
 			BufferedReader brt=new BufferedReader(new InputStreamReader(httpcon.getInputStream()));
