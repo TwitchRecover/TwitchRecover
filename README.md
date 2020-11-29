@@ -49,6 +49,10 @@ Select option 2 and paste the link and you will get the VOD links.
 3. Input the VOD ID **(the disclaimer in bold right above also applies)**.
 4. Input the timestamp in the same format but set the seconds value to 00.
     **'YYYY-MM-DD HH:mm:00'**
+    
+## Upcoming features:
+- GUI.
+- A feature to recover any Twitch clip from any time in history, including those deleted.
 
 ## Credits:
 - **[Daylam Tayari](https://github.com/daylamtayari): Developer of Twitch Recover.**  
