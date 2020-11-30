@@ -19,7 +19,7 @@ import java.util.regex.Pattern;
 /**
  * 
  * @author daylamtayari https://github.com/daylamtayari
- * @version CLI 1.0
+ * @version CLI 1.2
  * Github project file: https://github.com/TwitchRecover/TwitchRecover
  * 
  */
@@ -28,9 +28,52 @@ public class MainCLI {
 	ArrayList<String> domains=new ArrayList<String>();	//Tracks the Twitch VOD server domains.
 	public static void main(String[] args) {
 		MainCLI main=new MainCLI();
-		try {
-			main.mainCLI();
-		} catch (IOException e) {
+		boolean goAgain=true;
+		while(goAgain) {
+			Scanner scRunner=new Scanner(System.in);
+			System.out.print(""
+					+ "\nWelcome to Twitch Recover!"
+					+ "\nGet clips (no time limit) and all VODs, including those that are deleted or sub only (only up to 60 days)."
+					+ "\n\nSelect your option:"
+					+ "\n1. Get Twitch VODs (up to 60 days)."
+					+ "\n2. Get all Twitch clips from a stream (NO time limit, you can get clips from any time, including those from banned streamers)."
+					+ "\nPlease enter your input choice below (1 or 2): "
+					);
+			String input=scRunner.nextLine();
+			while(input.equals("1")==false && input.equals("2")==false) {
+				System.out.print(""
+						+ "\nINVALID INPUT"
+						+ "\n\nValid Options:"
+						+ "\n1. Get Twitch VODs (up to 60 days)."
+						+ "\n2. Get all Twitch clips from a stream (NO time limit, you can get clips from any time, including those from banned streamers)."
+						+ "\nPlease enter either a '1' or a '2' depending on your desired option: "
+						);
+				input=scRunner.nextLine();
+			}
+			if(input.equals("1")) {
+				try {
+					main.VODs();
+				} catch (IOException e) {
+				}
+			}
+			else {
+				main.Clips();
+			}
+			System.out.print("\n\nDo you want to retrieve a new VOD/stream's clip? (y/n): ");
+			input=scRunner.nextLine();
+			if(input.equalsIgnoreCase("n")) {
+				goAgain=false;
+				System.out.print("\nThank you for using Twitch Recover!\npeepoHey");
+			}
+			else if(input.equalsIgnoreCase("n")==false && input.equalsIgnoreCase("y")==false){
+				System.out.print("\nInvalid input.\nDo you want to get the VOD of a new stream? (y/n): ");
+				input=scRunner.nextLine();
+				if(input.equalsIgnoreCase("y")==false) {
+					goAgain=false;
+					System.out.print("\nThank you for using Twitch Recover!\npeepoHey");
+				}
+			}
+			scRunner.close();
 		}
 		new Thread(new Runnable() {
 	        @Override
@@ -45,11 +88,10 @@ public class MainCLI {
 	}
 	
 	/**
-	 * This is the CLI handler which runs the entire program 
-	 * in the CLI for the CLI release.
+	 * This is the handler for the VOD retrieval option.
 	 * @throws IOException 
 	 */
-	public void mainCLI() throws IOException {
+	public void VODs() throws IOException {
 		//Get domains:
 		try {
 			getDomains();
@@ -74,10 +116,9 @@ public class MainCLI {
 			timestamp=0;
 			ArrayList<String> resultURLs=new ArrayList<String>();
 			System.out.print(""
-					+ "\nWelcome to Twitch Recover!"
-					+ "\nGet the m3u8 link of any deleted Twitch VOD (up to 60 days) to then watch it in VLC or other similar programs."
-					+ "\n\nInput Options:"
-					+ "\n1. Input values manually:"
+					+ "\nGet the m3u8 link of any deleted Twitch VOD (up to 60 days) to then watch it in VLC or other similar programs: "
+					+ "\n\nValid Options:"
+					+ "\n1. Input values manually."
 					+ "\n2. Input Twitch Tracker stream URL."
 					+ "\n3. Input timestamp to the minute and brute force."
 					+ "\nPlease enter your input choice below (1, 2 or 3): "
@@ -155,14 +196,12 @@ public class MainCLI {
 			input=sc.nextLine();
 			if(input.equalsIgnoreCase("n")) {
 				goAgane=false;
-				System.out.print("\nThank you for using Twitch Recover!\npeepoHey");
 			}
 			else if(input.equalsIgnoreCase("n")==false && input.equalsIgnoreCase("y")==false){
 				System.out.print("\nInvalid input.\nDo you want to get the VOD of a new stream? (y/n): ");
 				input=sc.nextLine();
 				if(input.equalsIgnoreCase("y")==false) {
 					goAgane=false;
-					System.out.print("\nThank you for using Twitch Recover!\npeepoHey");
 				}
 			}
 		}
@@ -339,7 +378,7 @@ public class MainCLI {
 	 * @throws IOException
 	 */
 	public String[] getTTData(String url) throws IOException {
-		String[] results=new String[3];
+		String[] results=new String[4];
 		URL obj=new URL(url);
 		HttpURLConnection httpcon=(HttpURLConnection) obj.openConnection();
 		httpcon.setRequestMethod("GET");
