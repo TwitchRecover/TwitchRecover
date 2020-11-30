@@ -58,11 +58,14 @@ public class MainCLI {
 				}
 			}
 			else {
-				main.Clips();
+				try {
+					main.Clips();
+				} catch (IOException e) {
+				}
 			}
 			System.out.print("\n\nDo you want to retrieve a new VOD/stream's clip? (y/n): ");
 			runnerInput=scRunner.nextLine();
-			if(input.equalsIgnoreCase("n")) {
+			if(runnerInput.equalsIgnoreCase("n")) {
 				goAgain=false;
 				System.out.print("\nThank you for using Twitch Recover!\npeepoHey");
 			}
@@ -141,12 +144,12 @@ public class MainCLI {
 				System.out.print("\n\nPlease enter the corresponding values:");
 				System.out.print("\nStreamer's name: ");
 				name=sc.nextLine();
-				System.out.print("\nVOD ID: ");
+				System.out.print("\nStream ID: ");
 				try {
 					vodID=Long.parseLong(sc.nextLine());
 				}
 				catch(NumberFormatException e) {
-					System.out.print("\nINVALID VOD ID");
+					System.out.print("\nINVALID Stream ID");
 					System.exit(0);
 				}
 				System.out.print("\nTimestamp (YYYY-MM-DD HH:mm:ss): ");
@@ -241,12 +244,30 @@ public class MainCLI {
 			}
 			//Option selection:
 			if(input.equals("1")) {
-				System.out.print("\nPlease enter the VOD ID of the VOD you want to get all of the clips from.\nVOD ID: ");
-				//TODO: Add verification for the VOD ID being valid.
-				vodID=Long.parseLong(sc.nextLine());
-				System.out.print("\nPlease enter the streamn duration time in minutes only: ");
-				//TODO: Add verification for the stream duration being valid.
-				duration=Integer.parseInt(sc.nextLine());
+				System.out.print("\nPlease enter the Stream ID of the Stream you want to get all of the clips from.\nStream ID: ");
+				boolean isValidVODID=false;
+				while(isValidVODID==false) {
+					try {
+						long vod=Long.parseLong(sc.nextLine());
+						isValidVODID=true;
+						vodID=vod;
+					}
+					catch(NumberFormatException e) {
+						System.out.print("\nThe Stream ID is invalid. Please enter a valid Stream ID: ");
+					}
+				}
+				System.out.print("\nPlease enter the stream duration time in minutes only: ");
+				boolean isValidDuration=false;
+				while(isValidDuration==false) {
+					try {
+						int num=Integer.parseInt(sc.nextLine());
+						isValidDuration=true;
+						duration=num;
+					}
+					catch(NumberFormatException e) {
+						System.out.print("\nThe stream duration is invalid. Please enter a valid Stream duration in minutes (60 minutes per hour): ");
+					}
+				}
 			}
 			else if(input.equals("2")) {
 				System.out.print("\nPlease enter the Twitch Tracker stream link (URL of the page of a stream) of the VOD you want to get all of the clips from.\nTwitch Tracker stream URL: ");
