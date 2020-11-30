@@ -4,6 +4,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -39,8 +40,8 @@ public class MainCLI {
 					+ "\n2. Get all Twitch clips from a stream (NO time limit, you can get clips from any time, including those from banned streamers)."
 					+ "\nPlease enter your input choice below (1 or 2): "
 					);
-			String input=scRunner.nextLine();
-			while(input.equals("1")==false && input.equals("2")==false) {
+			String runnerInput=scRunner.nextLine();
+			while(runnerInput.equals("1")==false && runnerInput.equals("2")==false) {
 				System.out.print(""
 						+ "\nINVALID INPUT"
 						+ "\n\nValid Options:"
@@ -48,9 +49,9 @@ public class MainCLI {
 						+ "\n2. Get all Twitch clips from a stream (NO time limit, you can get clips from any time, including those from banned streamers)."
 						+ "\nPlease enter either a '1' or a '2' depending on your desired option: "
 						);
-				input=scRunner.nextLine();
+				runnerInput=scRunner.nextLine();
 			}
-			if(input.equals("1")) {
+			if(runnerInput.equals("1")) {
 				try {
 					main.VODs();
 				} catch (IOException e) {
@@ -60,15 +61,15 @@ public class MainCLI {
 				main.Clips();
 			}
 			System.out.print("\n\nDo you want to retrieve a new VOD/stream's clip? (y/n): ");
-			input=scRunner.nextLine();
+			runnerInput=scRunner.nextLine();
 			if(input.equalsIgnoreCase("n")) {
 				goAgain=false;
 				System.out.print("\nThank you for using Twitch Recover!\npeepoHey");
 			}
-			else if(input.equalsIgnoreCase("n")==false && input.equalsIgnoreCase("y")==false){
+			else if(runnerInput.equalsIgnoreCase("n")==false && runnerInput.equalsIgnoreCase("y")==false){
 				System.out.print("\nInvalid input.\nDo you want to get the VOD of a new stream? (y/n): ");
-				input=scRunner.nextLine();
-				if(input.equalsIgnoreCase("y")==false) {
+				runnerInput=scRunner.nextLine();
+				if(runnerInput.equalsIgnoreCase("y")==false) {
 					goAgain=false;
 					System.out.print("\nThank you for using Twitch Recover!\npeepoHey");
 				}
@@ -206,6 +207,89 @@ public class MainCLI {
 			}
 		}
 		sc.close();
+	}
+	
+	public void Clips() throws IOException {
+		boolean goAgane=true;
+		Scanner sc=new Scanner(System.in);
+		while(goAgane) {
+			long vodID=0;
+			int duration=0;
+			String url;
+			ArrayList<String> resultClips=new ArrayList<String>();
+			System.out.print(""
+					+ "\nGet the list of all the clips from a particular Twitch stream."
+					+ "\nThis will get Twitch clips from any stream, no matter if the clip is deleted."
+					+ "\nThis works no matter how old the clip is or if the streamer is banned."
+					+ "\nPLEASE KEEP IN MIND THAT THIS IS PROCESS TAKES TIME, ESPECIALLY FOR LONG STREAM."
+					+ "\nClips are retrieved by what is pratically a brute force method so it is a time consuming process and expect it to take multiple minutes, especially if a stream is very long."
+					+ "\n\nYou can input either the stream info manually or use a Twitch Tracker stream link."
+					+ "\n1. Input the stream info manually."
+					+ "\n2. Input a Twitch Tracker stream URL."
+					+ "\nPlease enter your input choice below (1 or 2): "
+					);
+			String input=sc.nextLine();
+			while(input.equals("1")==false && input.equals("2")==false) {
+				System.out.print(""
+						+ "\nINVALID INPUT"
+						+ "\n\nInput Options:"
+						+ "\n1. Input the stream info manually."
+						+ "\n2. Input a Twitch Tracker stream URL."
+						+ "\nPlease enter either a '1' or a '2' depending on your desired option: "
+						);
+				input=sc.nextLine();
+			}
+			//Option selection:
+			if(input.equals("1")) {
+				System.out.print("\nPlease enter the VOD ID of the VOD you want to get all of the clips from.\nVOD ID: ");
+				//TODO: Add verification for the VOD ID being valid.
+				vodID=Long.parseLong(sc.nextLine());
+				System.out.print("\nPlease enter the streamn duration time in minutes only: ");
+				//TODO: Add verification for the stream duration being valid.
+				duration=Integer.parseInt(sc.nextLine());
+			}
+			else if(input.equals("2")) {
+				System.out.print("\nPlease enter the Twitch Tracker stream link (URL of the page of a stream) of the VOD you want to get all of the clips from.\nTwitch Tracker stream URL: ");
+				url=sc.nextLine();
+				while(isValidURL(url).equals("invalid")) {
+					System.out.print("\nINVALID URL\nPlease enter a valid Twitch Tracker stream URL (URL of the page of a stream, format: https://twitchtracker.com/[streamer]/stream/...).\nTwitch Tracker stream URL: ");
+					url=sc.nextLine();
+				}
+				url=adaptURL(url);
+				try {
+					String[] results=getTTData(url);
+					vodID=Long.parseLong(results[1]);
+					duration=Integer.parseInt(results[3]);
+				} catch (IOException e) {
+				}
+				resultClips=fuzz(vodID, duration);
+			}
+			System.out.print("\n\nResults: ");
+			for(int i=0; i<resultClips.size();i++) {
+				System.out.print("\n"+resultClips.get(i));
+			}
+			if(resultClips.size()==0) {
+				System.out.print("\n\nNO SUCCESSFUL RESULTS WERE FOUND");
+			}
+			System.out.print("\nDo you wish to export the results?\nYes or No? (y/n): ");
+			input=sc.nextLine();
+			if(input.equalsIgnoreCase("y")) {
+				System.out.print("\nPlease enter the folder path of where you want the results to be exported to: ");
+				exportResults(sc.nextLine(), resultClips, "Clips", vodID);
+			}
+			System.out.print("\nDo you want to get all the clips of a new stream? (y/n): ");
+			input=sc.nextLine();
+			if(input.equalsIgnoreCase("n")) {
+				goAgane=false;
+			}
+			else if(input.equalsIgnoreCase("n")==false && input.equalsIgnoreCase("y")==false){
+				System.out.print("\nInvalid input.\nDo you want to get all the clips of a new stream? (y/n): ");
+				input=sc.nextLine();
+				if(input.equalsIgnoreCase("y")==false) {
+					goAgane=false;
+				}
+			}
+		}
 	}
 	
 	/**
@@ -386,13 +470,23 @@ public class MainCLI {
 		int responseCode=httpcon.getResponseCode();
 		if(responseCode==HttpURLConnection.HTTP_OK) {
 			BufferedReader brt=new BufferedReader(new InputStreamReader(httpcon.getInputStream()));
-			for(int i=0; i<7;i++) {
+			for(int i=0; i<204;i++) {
 				brt.readLine();
+				if(i==7) {
+					//Get the timestamp:
+					String response=brt.readLine();
+					int tsIndex=response.indexOf(" on ")+4;
+					results[2]=response.substring(tsIndex,tsIndex+19);
+				}
 			}
-			//Get the timestamp:
+			//Get the stream duration:
 			String response=brt.readLine();
-			int tsIndex=response.indexOf(" on ")+4;
-			results[2]=response.substring(tsIndex,tsIndex+19);
+			String durationPattern="<div class=\"stats-value to-time-lg\">(\\d*)</div>";
+			Pattern dr=Pattern.compile(durationPattern);
+			Matcher dm=dr.matcher(response);
+			if(dm.find()) {
+				results[3]=dm.group(1);
+			}
 			//Get the streamer's name and the VOD ID:
 			String pattern="twitchtracker\\.com\\/([a-zA-Z0-9]*)\\/streams\\/(\\d*)";
 			Pattern r=Pattern.compile(pattern);
@@ -440,5 +534,33 @@ public class MainCLI {
 			return "https://"+m.group(1);
 		}
 		return "";
+	}
+	
+	/**
+	 * This method fuzzes all possible clip URLs for a particular stream.
+	 * @param vodID					VOD ID of the stream in question.
+	 * @param duration				Duration of the stream in question.
+	 * @return ArrayList<String>	String arraylist which contains all of the found clip urls.
+	 * @throws IOException
+	 */
+	public ArrayList<String> fuzz(long vodID, int duration) throws IOException{
+		String url="https://clips-media-assets2.twitch.tv/"+vodID+"-offset-";
+		int reps=(duration*3600)+2000;
+		ArrayList<String> results=new ArrayList<String>();
+		for(int i=0;i<reps;i++) {
+			if(reps%3600==0) {
+				System.out.print("\nChecked all clips for the first "+(reps/3600)+" hour(s).");
+			}
+			//HTTP Connection:
+			URL  obj=new URL(url+i+".mp4");
+			HttpURLConnection httpcon=(HttpURLConnection) obj.openConnection();
+			httpcon.setRequestMethod("GET");
+			httpcon.setRequestProperty("User-Agent", "Mozilla/5.0");
+			int responseCode=httpcon.getResponseCode();
+			if(responseCode==HttpURLConnection.HTTP_OK) {
+				results.add(url+i+".mp4");
+			}
+		}
+		return results;
 	}
 }
