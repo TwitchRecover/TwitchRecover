@@ -38,15 +38,15 @@ Select option 2 and paste the link and you will get the VOD links.
 ### Manually inputting the stream information:
 1. Select option 1.
 2. Input the streamer's name.
-3. Input the VOD ID.  
-    **The unique VOD ID, not what comes after 'videos/...'.** You can get it a variety of ways but the simplest are using Twitch Tracker or Sully Gnome, they are the string of digits in the stream page's URL.
+3. Input the Stream ID.  
+    **The unique Stream ID, not what comes after 'videos/...'.** You can get it a variety of ways but the simplest are using Twitch Tracker or Sully Gnome, they are the string of digits in the stream page's URL.
 4. Enter the timestamp of the start of the stream in the 'YYYY-MM-DD HH:mm:ss' format.
 
 ### Brute forcing the seconds:
 **Only use this option when you do not have the time in seconds of the stream's start, only the time up to minutes.**
 1. Select option 3.
 2. Input the streamer's name.
-3. Input the VOD ID **(the disclaimer in bold right above also applies)**.
+3. Input the Stream ID **(the disclaimer in bold right above also applies)**.
 4. Input the timestamp in the same format but set the seconds value to 00.
     **'YYYY-MM-DD HH:mm:00'**
     
