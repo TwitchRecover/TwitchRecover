@@ -221,7 +221,7 @@ public class MainCLI {
 			String url;
 			ArrayList<String> resultClips=new ArrayList<String>();
 			System.out.print(""
-					+ "\nGet the list of all the clips from a particular Twitch stream."
+					+ "\n\nGet the list of all the clips from a particular Twitch stream."
 					+ "\nThis will get Twitch clips from any stream, no matter if the clip is deleted."
 					+ "\nThis works no matter how old the clip is or if the streamer is banned."
 					+ "\nPLEASE KEEP IN MIND THAT THIS IS PROCESS TAKES TIME, ESPECIALLY FOR LONG STREAM."
@@ -311,6 +311,7 @@ public class MainCLI {
 				}
 			}
 		}
+		sc.close();
 	}
 	
 	/**
@@ -490,21 +491,26 @@ public class MainCLI {
 		httpcon.setRequestProperty("User-Agent", "Mozilla/5.0");
 		int responseCode=httpcon.getResponseCode();
 		if(responseCode==HttpURLConnection.HTTP_OK) {
+			//Get the timestamp:
 			BufferedReader brt=new BufferedReader(new InputStreamReader(httpcon.getInputStream()));
-			for(int i=0; i<204;i++) {
+			for(int i=0; i<7;i++) {
 				brt.readLine();
-				if(i==7) {
-					//Get the timestamp:
-					String response=brt.readLine();
-					int tsIndex=response.indexOf(" on ")+4;
-					results[2]=response.substring(tsIndex,tsIndex+19);
+			}
+			String response=brt.readLine();
+			int tsIndex=response.indexOf(" on ")+4;
+			results[2]=response.substring(tsIndex,tsIndex+19);
+			//Get the stream duration:
+			BufferedReader brtd=new BufferedReader(new InputStreamReader(httpcon.getInputStream()));
+			String responseD="";
+			for(int i=0;i<300;i++) {
+				String res=brtd.readLine();
+				if(res.indexOf("stats-value to-time-lg")!=-1) {
+					responseD=res;
 				}
 			}
-			//Get the stream duration:
-			String response=brt.readLine();
 			String durationPattern="<div class=\"stats-value to-time-lg\">(\\d*)</div>";
 			Pattern dr=Pattern.compile(durationPattern);
-			Matcher dm=dr.matcher(response);
+			Matcher dm=dr.matcher(responseD);
 			if(dm.find()) {
 				results[3]=dm.group(1);
 			}
@@ -581,6 +587,8 @@ public class MainCLI {
 			if(responseCode==HttpURLConnection.HTTP_OK) {
 				results.add(url+i+".mp4");
 			}
+			//Allows to view each individual request:
+			//System.out.print("\nhttps://clips-media-assets2.twitch.tv/"+vodID+"-offset-"+i+".mp4\t"+responseCode);
 		}
 		return results;
 	}
