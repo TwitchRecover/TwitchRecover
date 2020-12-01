@@ -4,7 +4,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -41,7 +40,7 @@ public class MainCLI {
 					+ "\nPlease enter your input choice below (1 or 2): "
 					);
 			String runnerInput=scRunner.nextLine();
-			while(runnerInput.equals("1")==false && runnerInput.equals("2")==false) {
+			while(!runnerInput.equals("1") && !runnerInput.equals("2")) {
 				System.out.print(""
 						+ "\nINVALID INPUT"
 						+ "\n\nValid Options:"
@@ -54,13 +53,13 @@ public class MainCLI {
 			if(runnerInput.equals("1")) {
 				try {
 					main.VODs();
-				} catch (IOException e) {
+				} catch (IOException ignored) {
 				}
 			}
 			else {
 				try {
 					main.Clips();
-				} catch (IOException e) {
+				} catch (IOException ignored) {
 				}
 			}
 			System.out.print("\n\nDo you want to retrieve a new VOD/stream's clip? (y/n): ");
@@ -69,10 +68,10 @@ public class MainCLI {
 				goAgain=false;
 				System.out.print("\nThank you for using Twitch Recover!\npeepoHey");
 			}
-			else if(runnerInput.equalsIgnoreCase("n")==false && runnerInput.equalsIgnoreCase("y")==false){
+			else if(!runnerInput.equalsIgnoreCase("n") && !runnerInput.equalsIgnoreCase("y")){
 				System.out.print("\nInvalid input.\nDo you want to get the VOD of a new stream? (y/n): ");
 				runnerInput=scRunner.nextLine();
-				if(runnerInput.equalsIgnoreCase("y")==false) {
+				if(!runnerInput.equalsIgnoreCase("y")) {
 					goAgain=false;
 					System.out.print("\nThank you for using Twitch Recover!\npeepoHey");
 				}
@@ -80,15 +79,15 @@ public class MainCLI {
 			scRunner.close();
 		}
 		new Thread(new Runnable() {
-	        @Override
-	        public synchronized void run() {
-	            for(;;)
-	                try {
-	                    wait();
-	                } catch (InterruptedException e) {
-	                }
-	        }
-	    }).run();
+			@Override
+			public synchronized void run() {
+				for(; ; )
+					try {
+						wait();
+					} catch(InterruptedException e) {
+					}
+			}
+		}).start();
 	}
 	
 	/**
@@ -316,7 +315,7 @@ public class MainCLI {
 	
 	/**
 	 * Computes the SHA1 hash of the given final string and returns the first 20 values.
-	 * @param finalString	Represents the string containing the streamer name, vodID and timestamp of the VOD timestamp.
+	 * @param baseString	Represents the string containing the streamer name, vodID and timestamp of the VOD timestamp.
 	 * @return String		Returns the first 20 values of the SHA1 hash of the given string.
 	 * @throws NoSuchAlgorithmException
 	 */
@@ -389,8 +388,8 @@ public class MainCLI {
 	public ArrayList<String> getURLs(String name, long vodID, long timestamp) {
 		String baseURL=URLCompute(name, vodID, timestamp);
 		ArrayList<String> URLs=new ArrayList<String>();
-		for(int i=0; i<domains.size(); i++) {
-			URLs.add(domains.get(i)+baseURL);
+		for(String domain : domains) {
+			URLs.add(domain + baseURL);
 		}
 		try {
 			return checkURLs(URLs);
@@ -412,14 +411,14 @@ public class MainCLI {
 	 */
 	public ArrayList<String> checkURLs(ArrayList<String> URLs) throws IOException{
 		ArrayList<String> vodURLs=new ArrayList<String>();
-		for(int i=0; i<URLs.size();i++) {
-			URL obj=new URL(URLs.get(i));
-			HttpURLConnection httpcon=(HttpURLConnection) obj.openConnection();
+		for(String url : URLs) {
+			URL obj = new URL(url);
+			HttpURLConnection httpcon = (HttpURLConnection) obj.openConnection();
 			httpcon.setRequestMethod("GET");
 			httpcon.setRequestProperty("User-Agent", "Mozilla/5.0");
-			int responseCode=httpcon.getResponseCode();
-			if(responseCode==HttpURLConnection.HTTP_OK) {
-				vodURLs.add(URLs.get(i));
+			int responseCode = httpcon.getResponseCode();
+			if(responseCode == HttpURLConnection.HTTP_OK) {
+				vodURLs.add(url);
 			}
 		}
 		return vodURLs;
@@ -440,8 +439,8 @@ public class MainCLI {
 		for(int i=0; i<60; i++) {
 			tempResults=getURLs(name, vodID, timestamp+i);
 			if(tempResults.size()!=0) {
-				for(int j=0; j<tempResults.size();j++) {
-					results.add(tempResults.get(j));
+				for(String tempResult : tempResults) {
+					results.add(tempResult);
 				}
 			}
 		}
@@ -588,7 +587,7 @@ public class MainCLI {
 				results.add(url+i+".mp4");
 			}
 			//Allows to view each individual request:
-			//System.out.print("\nhttps://clips-media-assets2.twitch.tv/"+vodID+"-offset-"+i+".mp4\t"+responseCode);
+			System.out.print("\nhttps://clips-media-assets2.twitch.tv/"+vodID+"-offset-"+i+".mp4\t"+responseCode);
 		}
 		return results;
 	}
