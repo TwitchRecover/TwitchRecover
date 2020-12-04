@@ -62,3 +62,8 @@ Contact: tayari#6113 (Discord) or daylam@tayari.gg.
   
 - [Saysera](https://twitter.com/Saysera69): Helped my understanding of how some elements of Twitch's backend work.
 - [Koolski](https://twitter.com/Koolski_): Logo designer.
+
+## Disclaimer:
+
+Twitch Recover is not associated with Amazon, Twitch, Twitch Tracker, Sullygnome or any of their partners.
+All copyrights belong to their respective owners.
