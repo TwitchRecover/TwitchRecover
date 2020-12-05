@@ -1,6 +1,7 @@
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -417,15 +418,43 @@ public class MainCLI {
 		return "";
 	}
 
-	public void unmute(String url, String fp){
-		String pattern="https:\\/\\/([a-zA-Z0-9]*)\\.cloudfront\\.net\\/([[:alnum:]_]*)\\/chunked\\/index-dvr\\.m3u8";
+	public void unmute(String url, String fp) throws IOException{
+		String pattern="https:\\/\\/([a-zA-Z0-9]*)\\.cloudfront\\.net\\/([a-zA-Z0-9_]*)\\/chunked\\/index-dvr\\.m3u8";
 		Pattern r=Pattern.compile(pattern);
 		Matcher m=r.matcher(url);
 		if(m.find()) {
 			fp=fp+m.group(2)+".m3u8";
-			System.out.println(m.group(1));
 		}
 		download(url, fp);
+		url=url.substring(0, url.lastIndexOf("/"))+"/";
+		ArrayList<String> m3u8=new ArrayList<String>();
+		//Read the file and add the URL:
+		File obj=new File(fp);
+		Scanner sc=new Scanner(obj);
+		while(sc.hasNextLine()) {
+			String data=sc.nextLine();
+			if(data.indexOf("-unmuted.ts")!=-1) {
+				String p="([\\d*]*)(-unmuted\\.ts)";
+				Pattern r2=Pattern.compile(p);
+				Matcher m2=r2.matcher(data);
+				int nums=0;
+				if(m2.find()) {
+					nums=Integer.valueOf(m2.group(1));
+				}
+				data=nums+"-muted.ts";
+			}
+			if(data.indexOf("#")==-1) {
+				data=url+data;
+			}
+			m3u8.add(data);
+		}
+		sc.close();
+		//Rewrite the m3u8 file:
+		FileWriter fw=new FileWriter(obj);
+		for(int i=0;i<m3u8.size();i++) {
+			fw.write(m3u8.get(i)+"\n");
+		}
+		fw.close();
 	}
 
 	public void download(String url, String fp){
