@@ -1,5 +1,7 @@
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -80,17 +82,18 @@ public class MainCLI {
 					+ "\n1. Input values manually:"
 					+ "\n2. Input Twitch Tracker stream URL."
 					+ "\n3. Input timestamp to the minute and brute force."
-					+ "\nPlease enter your input choice below (1, 2 or 3): "
+					+ "\n4. Unmute a VOD."
+					+ "\nPlease enter your input choice below (1, 2, 3 or 4): "
 					);
 			String input=sc.nextLine();
-			while(input.equals("1")==false && input.equals("2")==false && input.equals("3")==false) {
+			while(input.equals("1")==false && input.equals("2")==false && input.equals("3")==false && input.equals("4")==false) {
 				System.out.print(""
 						+ "\nINVALID INPUT"
 						+ "\n\nInput Options:"
 						+ "\n1. Input values manually:"
 						+ "\n2. Input Twitch Tracker stream URL."
 						+ "\n3. Input timestamp to the minute and brute force."
-						+ "\nPlease enter either a '1' or a '2' or a '3' depending on your desired option: "
+						+ "\nPlease enter either a '1' or a '2' or a '3' orr a '4' depending on your desired option: "
 						);
 				input=sc.nextLine();
 			}
@@ -126,6 +129,17 @@ public class MainCLI {
 				}
 				catch(IOException e){
 				}
+			}
+			else if(input.equals("4")){
+				System.out.print("\n\nPlease enter the Twitch m3u8 VOD link: ");
+				url=sc.nextLine();
+				while(url.indexOf("/chunked/index-dvr.m3u8")==-1){
+					System.out.print("\nINVALID URL\nPlease enter a valid Twitch m3u8 VOD link: ");
+					url=sc.nextLine();
+				}
+				System.out.print("\nPlease enter the file path where you want to save the unmuted VOD link: ");
+				String fp=sc.nextLine();
+				unmute(url, fp);
 			}
 			try {
 				timestamp=getUNIXTime(date);
@@ -401,5 +415,29 @@ public class MainCLI {
 			return "https://"+m.group(1);
 		}
 		return "";
+	}
+
+	public void unmute(String url, String fp){
+		String pattern="https:\\/\\/([a-zA-Z0-9]*)\\.cloudfront\\.net\\/([[:alnum:]_]*)\\/chunked\\/index-dvr\\.m3u8";
+		Pattern r=Pattern.compile(pattern);
+		Matcher m=r.matcher(url);
+		if(m.find()) {
+			fp=fp+m.group(2)+".m3u8";
+			System.out.println(m.group(1));
+		}
+		download(url, fp);
+	}
+
+	public void download(String url, String fp){
+		try(BufferedInputStream inputStream=new BufferedInputStream(new URL(url).openStream());
+		FileOutputStream fileOutputStream=new FileOutputStream(fp)){
+			byte dataBuffer[]=new byte[1024];
+			int bytesRead;
+			while((bytesRead=inputStream.read(dataBuffer, 0, 1024))!=-1){
+				fileOutputStream.write(dataBuffer, 0, bytesRead);
+			}
+		}
+		catch(IOException e){
+		}
 	}
 }
