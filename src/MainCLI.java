@@ -454,6 +454,7 @@ public class MainCLI {
 		for(int i=0;i<m3u8.size();i++) {
 			fw.write(m3u8.get(i)+"\n");
 		}
+		fw.write(url);
 		fw.close();
 	}
 
