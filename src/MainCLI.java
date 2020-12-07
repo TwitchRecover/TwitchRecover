@@ -1,5 +1,8 @@
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -19,7 +22,7 @@ import java.util.regex.Pattern;
 /**
  * 
  * @author daylamtayari https://github.com/daylamtayari
- * @version CLI 1.0
+ * @version CLI 1.2
  * Github project file: https://github.com/TwitchRecover/TwitchRecover
  * 
  */
@@ -80,17 +83,18 @@ public class MainCLI {
 					+ "\n1. Input values manually:"
 					+ "\n2. Input Twitch Tracker stream URL."
 					+ "\n3. Input timestamp to the minute and brute force."
-					+ "\nPlease enter your input choice below (1, 2 or 3): "
+					+ "\n4. Unmute a VOD."
+					+ "\nPlease enter your input choice below (1, 2, 3 or 4): "
 					);
 			String input=sc.nextLine();
-			while(input.equals("1")==false && input.equals("2")==false && input.equals("3")==false) {
+			while(input.equals("1")==false && input.equals("2")==false && input.equals("3")==false && input.equals("4")==false) {
 				System.out.print(""
 						+ "\nINVALID INPUT"
 						+ "\n\nInput Options:"
 						+ "\n1. Input values manually:"
 						+ "\n2. Input Twitch Tracker stream URL."
 						+ "\n3. Input timestamp to the minute and brute force."
-						+ "\nPlease enter either a '1' or a '2' or a '3' depending on your desired option: "
+						+ "\nPlease enter either a '1' or a '2' or a '3' or a '4' depending on your desired option: "
 						);
 				input=sc.nextLine();
 			}
@@ -127,6 +131,18 @@ public class MainCLI {
 				catch(IOException e){
 				}
 			}
+			else if(input.equals("4")){
+				System.out.print("\n\nPlease enter the Twitch m3u8 VOD link: ");
+				url=sc.nextLine();
+				while(url.indexOf("/chunked/index-dvr.m3u8")==-1){
+					System.out.print("\nINVALID URL\nPlease enter a valid Twitch m3u8 VOD link: ");
+					url=sc.nextLine();
+				}
+				System.out.print("\nPlease enter the file path where you want to save the unmuted VOD link: ");
+				String fp=sc.nextLine();
+				String result=unmute(url, fp);
+				resultURLs.add(result);
+			}
 			try {
 				timestamp=getUNIXTime(date);
 			} catch (ParseException e) {
@@ -135,7 +151,7 @@ public class MainCLI {
 			if(input.equals("3")) {
 				resultURLs=BFURLs(name, vodID, timestamp);
 			}
-			else {
+			else if(input.equals("1")||input.equals("2")){
 				resultURLs=getURLs(name, vodID, timestamp);
 			}
 			System.out.print("\n\nResults: ");
@@ -230,6 +246,7 @@ public class MainCLI {
 			domains.add("https://d2e2de1etea730.cloudfront.net");
 			domains.add("https://dqrpb9wgowsf5.cloudfront.net");
 			domains.add("https://ds0h3roq6wcgc.cloudfront.net");
+			domains.add("https://dqrpb9wgowsf5.cloudfront.net");
 		}
 	}
 	
@@ -401,5 +418,85 @@ public class MainCLI {
 			return "https://"+m.group(1);
 		}
 		return "";
+	}
+
+	/**
+	 * This is the main method for the unmuting of VODs.
+	 * @param url		URL of the VOD.
+	 * @param fp		Raw file path of where to store the VOD.
+	 * @return String	Result string to display to the user.
+	 * @throws IOException
+	 */
+	public String unmute(String url, String fp) throws IOException{
+		fp=fpAdjust(fp);
+		//Get the file path from the URL.
+		String pattern="([a-zA-Z0-9]*)\\.cloudfront\\.net\\/([a-zA-Z0-9_]*)\\/chunked\\/index-dvr\\.m3u8";
+		Pattern r=Pattern.compile(pattern);
+		Matcher m=r.matcher(url);
+		if(m.find()) {
+			fp=fp+m.group(2)+".m3u8";
+		}
+		download(url, fp);
+		url=url.substring(0, url.lastIndexOf("/"))+"/";
+		ArrayList<String> m3u8=new ArrayList<String>();
+		//Read the file and add the URL:
+		File obj=new File(fp);
+		Scanner sc=new Scanner(obj);
+		while(sc.hasNextLine()) {
+			String data=sc.nextLine();
+			if(data.indexOf("-unmuted.ts")!=-1) {
+				String p="([\\d*]*)(-unmuted\\.ts)";
+				Pattern r2=Pattern.compile(p);
+				Matcher m2=r2.matcher(data);
+				int nums=0;
+				if(m2.find()) {
+					nums=Integer.valueOf(m2.group(1));
+				}
+				data=nums+"-muted.ts";
+			}
+			if(data.indexOf("#")==-1) {
+				data=url+data;
+			}
+			m3u8.add(data);
+		}
+		sc.close();
+		//Rewrite the m3u8 file:
+		FileWriter fw=new FileWriter(obj);
+		for(int i=0;i<m3u8.size();i++) {
+			fw.write(m3u8.get(i)+"\n");
+		}
+		fw.write(url);
+		fw.close();
+		return "Unmuted VOD exported to "+fp;
+	}
+
+	/**
+	 * Download method which downloads the m3u8 file from Twitch servers.
+	 * @param url		URL of the VOD to download.
+	 * @param fp		Adjusted file path of where to download the VOD.
+	 */
+	public void download(String url, String fp){
+		try(BufferedInputStream inputStream=new BufferedInputStream(new URL(url).openStream());
+		FileOutputStream fileOutputStream=new FileOutputStream(fp)){
+			byte dataBuffer[]=new byte[1024];
+			int bytesRead;
+			while((bytesRead=inputStream.read(dataBuffer, 0, 1024))!=-1){
+				fileOutputStream.write(dataBuffer, 0, bytesRead);
+			}
+		}
+		catch(IOException e){
+		}
+	}
+	
+	/**
+	 * This method adjusts the file by adding a '\' at the end if it is not already present.
+	 * @param fp		Raw file path.
+	 * @return String	Adjusted file path of where to save the VOD.
+	 */
+	public String fpAdjust(String fp) {
+		if(fp.indexOf('\\')!=fp.length()-1) {
+			fp+="\\";
+		}
+		return fp;
 	}
 }
