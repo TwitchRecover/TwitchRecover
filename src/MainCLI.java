@@ -22,7 +22,7 @@ import java.util.regex.Pattern;
 /**
  * 
  * @author daylamtayari https://github.com/daylamtayari
- * @version CLI 1.0
+ * @version CLI 1.2
  * Github project file: https://github.com/TwitchRecover/TwitchRecover
  * 
  */
@@ -94,7 +94,7 @@ public class MainCLI {
 						+ "\n1. Input values manually:"
 						+ "\n2. Input Twitch Tracker stream URL."
 						+ "\n3. Input timestamp to the minute and brute force."
-						+ "\nPlease enter either a '1' or a '2' or a '3' orr a '4' depending on your desired option: "
+						+ "\nPlease enter either a '1' or a '2' or a '3' or a '4' depending on your desired option: "
 						);
 				input=sc.nextLine();
 			}
@@ -140,7 +140,8 @@ public class MainCLI {
 				}
 				System.out.print("\nPlease enter the file path where you want to save the unmuted VOD link: ");
 				String fp=sc.nextLine();
-				unmute(url, fp);
+				String result=unmute(url, fp);
+				resultURLs.add(result);
 			}
 			try {
 				timestamp=getUNIXTime(date);
@@ -150,7 +151,7 @@ public class MainCLI {
 			if(input.equals("3")) {
 				resultURLs=BFURLs(name, vodID, timestamp);
 			}
-			else {
+			else if(input.equals("1")||input.equals("2")){
 				resultURLs=getURLs(name, vodID, timestamp);
 			}
 			System.out.print("\n\nResults: ");
@@ -245,6 +246,7 @@ public class MainCLI {
 			domains.add("https://d2e2de1etea730.cloudfront.net");
 			domains.add("https://dqrpb9wgowsf5.cloudfront.net");
 			domains.add("https://ds0h3roq6wcgc.cloudfront.net");
+			domains.add("https://dqrpb9wgowsf5.cloudfront.net");
 		}
 	}
 	
@@ -418,8 +420,17 @@ public class MainCLI {
 		return "";
 	}
 
-	public void unmute(String url, String fp) throws IOException{
-		String pattern="https:\\/\\/([a-zA-Z0-9]*)\\.cloudfront\\.net\\/([a-zA-Z0-9_]*)\\/chunked\\/index-dvr\\.m3u8";
+	/**
+	 * This is the main method for the unmuting of VODs.
+	 * @param url		URL of the VOD.
+	 * @param fp		Raw file path of where to store the VOD.
+	 * @return String	Result string to display to the user.
+	 * @throws IOException
+	 */
+	public String unmute(String url, String fp) throws IOException{
+		fp=fpAdjust(fp);
+		//Get the file path from the URL.
+		String pattern="([a-zA-Z0-9]*)\\.cloudfront\\.net\\/([a-zA-Z0-9_]*)\\/chunked\\/index-dvr\\.m3u8";
 		Pattern r=Pattern.compile(pattern);
 		Matcher m=r.matcher(url);
 		if(m.find()) {
@@ -456,8 +467,14 @@ public class MainCLI {
 		}
 		fw.write(url);
 		fw.close();
+		return "Unmuted VOD exported to "+fp;
 	}
 
+	/**
+	 * Download method which downloads the m3u8 file from Twitch servers.
+	 * @param url		URL of the VOD to download.
+	 * @param fp		Adjusted file path of where to download the VOD.
+	 */
 	public void download(String url, String fp){
 		try(BufferedInputStream inputStream=new BufferedInputStream(new URL(url).openStream());
 		FileOutputStream fileOutputStream=new FileOutputStream(fp)){
@@ -469,5 +486,17 @@ public class MainCLI {
 		}
 		catch(IOException e){
 		}
+	}
+	
+	/**
+	 * This method adjusts the file by adding a '\' at the end if it is not already present.
+	 * @param fp		Raw file path.
+	 * @return String	Adjusted file path of where to save the VOD.
+	 */
+	public String fpAdjust(String fp) {
+		if(fp.indexOf('\\')!=fp.length()-1) {
+			fp+="\\";
+		}
+		return fp;
 	}
 }
