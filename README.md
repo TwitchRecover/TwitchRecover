@@ -2,6 +2,8 @@
 <a href="https://cash.app/$daylamtayari"><img src="https://img.shields.io/badge//$daylamtayari-%2300C244.svg?&style=for-the-badge&logo=Cash-App&logoColor=white&labelColor=black"></a> 
 <a href="https://www.blockchain.com/btc/address/15KcKrsqW6DQdyZPrgRXXmsKkyyZzHAQVX"><img src="https://img.shields.io/badge/15KcKrsqW6DQdyZPrgRXXmsKkyyZzHAQVX-%23F7931A.svg?&style=for-the-badge&logo=bitcoin&logoColor=white&labelColor=black"></a>
 
+## Notice: The 2.0 version with a GUI, ton of extra features from clips recovery to VOD downloads, clip downloads and much more is releasing today 09/12/2020!
+
 # Twitch Recover
 
 ### Twitch Recover is a free tool that allows you to recover ALL VODs including SUB ONLY and DELETED VODs directly from Twitch servers!  
