@@ -14,6 +14,39 @@
  * Twitch Recover repository: https://github.com/TwitchRecover/TwitchRecover
  */
 
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
 public class Download{
-    
+    /**
+     * This method adjusts a given file path to ensure that it is formatted correctly.
+     * @param fp        String value which represents the given file path to be adjusted.
+     * @return String   Adjusted file path.
+     */
+    private String fpAdjust(String fp){
+        if(fp.indexOf('\\')!=fp.length()-1) {
+            fp+="\\";
+        }
+        return fp;
+    }
+
+    /**
+     * This method downloads a file and saves it at the location precised in the filepath.
+     * Should not be used for VODs
+     * @param url   String value which represents the URL of the file to download.
+     * @param fp    String value which represents the filepath of where to save the file.
+     */
+    public void download(String url, String fp){
+        try(BufferedInputStream is=new BufferedInputStream(new URL(url).openStream());
+            FileOutputStream os=new FileOutputStream(fp)){
+            byte dataBuffer[]=new byte[1024];
+            int bytesRead;
+            while((bytesRead=is.read(dataBuffer, 0, 1024))!=-1){
+                os.write(dataBuffer, 0, bytesRead);
+            }
+        }
+        catch(IOException e){}
+    }
 }
