@@ -17,12 +17,12 @@ Disclaimer: VODs are only kept on Twitch servers for 60 days but in some rare ca
 <break/>  
 
 ### [Graphical (GUI) Version (WIP, coming soon)]()
-### [Command Line Version](https://github.com/TwitchRecover/TwitchRecover/releases/download/1.1/TwitchRecover-CLI-v1.1.exe)
+### [Command Line Version](https://github.com/TwitchRecover/TwitchRecover/releases/download/1.1/TwitchRecover-CLI-v1.2.exe)
 
 ## Installation:
 1. Download the exe file for your desired version.
     - [Graphical (GUI) Version (WIP, coming soon)]()
-    - [Command Line Version](https://github.com/TwitchRecover/TwitchRecover/releases/download/1.1/TwitchRecover-CLI-v1.1.exe)
+    - [Command Line Version](https://github.com/TwitchRecover/TwitchRecover/releases/download/1.1/TwitchRecover-CLI-v1.2.exe)
 2. Run the exe. **Ignore the Windows Defender popup, click more info and run anyway. It is a certificate issue, not a security issue.**
 3. Paste the result URL into VLC or another similar video client.  
 <img src="https://i.gyazo.com/8de89763015852c0ab70aabc6447ec04.gif" width="646.5" height="426"/>
@@ -38,17 +38,21 @@ Select option 2 and paste the link and you will get the VOD links.
 ### Manually inputting the stream information:
 1. Select option 1.
 2. Input the streamer's name.
-3. Input the VOD ID.  
-    **The unique VOD ID, not what comes after 'videos/...'.** You can get it a variety of ways but the simplest are using Twitch Tracker or Sully Gnome, they are the string of digits in the stream page's URL.
+3. Input the Stream ID.  
+    **The unique Stream ID, not what comes after 'videos/...'.** You can get it a variety of ways but the simplest are using Twitch Tracker or Sully Gnome, they are the string of digits in the stream page's URL.
 4. Enter the timestamp of the start of the stream in the 'YYYY-MM-DD HH:mm:ss' format.
 
 ### Brute forcing the seconds:
 **Only use this option when you do not have the time in seconds of the stream's start, only the time up to minutes.**
 1. Select option 3.
 2. Input the streamer's name.
-3. Input the VOD ID **(the disclaimer in bold right above also applies)**.
+3. Input the Stream ID **(the disclaimer in bold right above also applies)**.
 4. Input the timestamp in the same format but set the seconds value to 00.
     **'YYYY-MM-DD HH:mm:00'**
+    
+## Upcoming features:
+- GUI.
+- A feature to recover any Twitch clip from any time in history, including those deleted.
 
 ## Credits:
 - **[Daylam Tayari](https://github.com/daylamtayari): Developer of Twitch Recover.**  
@@ -58,3 +62,8 @@ Contact: tayari#6113 (Discord) or daylam@tayari.gg.
   
 - [Saysera](https://twitter.com/Saysera69): Helped my understanding of how some elements of Twitch's backend work.
 - [Koolski](https://twitter.com/Koolski_): Logo designer.
+
+## Disclaimer:
+
+Twitch Recover is not associated with Amazon, Twitch, Twitch Tracker, Sullygnome or any of their partners.
+All copyrights belong to their respective owners.
