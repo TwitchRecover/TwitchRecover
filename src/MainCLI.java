@@ -278,7 +278,7 @@ public class MainCLI {
 					duration=Integer.parseInt(results[3]);
 				} catch (IOException e) {
 				}
-				resultClips=fuzz(vodID, duration, false);
+				resultClips=fuzz(vodID, duration, true);
 			}
 			System.out.print("\n\nResults: ");
 			for(int i=0; i<resultClips.size();i++) {
@@ -567,7 +567,7 @@ public class MainCLI {
 	 */
 	public ArrayList<String> fuzz(long vodID, int duration, boolean wfuzz) throws IOException{
 		String url="https://clips-media-assets2.twitch.tv/"+vodID+"-offset-";
-		int reps=(duration*900)+2000;
+		int reps=(duration*60)+2000;
 		ArrayList<String> results=new ArrayList<String>();
 		if(wfuzz){
 			results=wfuzz(vodID, reps);
@@ -597,23 +597,30 @@ public class MainCLI {
 
 	public ArrayList<String> wfuzz(long vodID, int reps){
 		ArrayList<String> fuzzRes=new ArrayList<String>();
-		String command="wfuzz -o csv -z range,0-"+reps+" --hc 403 https://clips-media-assets2.twitch.tv/"+vodID+"-offset-FUZZ.mp4";
+		String command="wfuzz -o csv -z range,0-"+reps+" --hc 404 https://clips-media-assets2.twitch.tv/"+vodID+"-offset-FUZZ.mp4";
 		try{
 			Process process=Runtime.getRuntime().exec(command);
 			BufferedReader reader=new BufferedReader(new InputStreamReader(process.getInputStream()));
 			String line;
 			boolean atResults=false;
 			Pattern wp=Pattern.compile("(\\d*),(\\d*),(\\d*,\\d*,\\d*),(\\d*),(\\d*)");
+			double quarters=0;
+			int found=0;
 			while((line=reader.readLine())!=null){
 				if(atResults){
 					Matcher wm= wp.matcher(line);
 					if(wm.find()){
+						if(Integer.valueOf(wm.group(1))%900==0){
+							quarters++;
+							System.out.print("\n"+(quarters/4)+" hours into the VOD. "+found+" clips found so far. Continuing to find clips.");
+						}
 						if(wm.group(2).equals("200")){
+							found++;
 							fuzzRes.add("https://clips-media-assets2.twitch.tv/"+vodID+"-offset-"+wm.group(4)+".mp4");
 						}
 					}
 				}
-				else if(line.substring(0,3).equals("id")) {
+				else if(line.indexOf("id,")==0) {
 					atResults = true;
 				}
 			}
