@@ -570,7 +570,7 @@ public class MainCLI {
 		int reps=(duration*900)+2000;
 		ArrayList<String> results=new ArrayList<String>();
 		if(wfuzz){
-			results=wfuzz();
+			results=wfuzz(vodID, reps);
 		}
 		else{
 			for(int i=0;i<200;i++) {
@@ -593,5 +593,35 @@ public class MainCLI {
 		catch(Exception e){
 			return false;
 		}
+	}
+
+	public ArrayList<String> wfuzz(long vodID, int reps){
+		ArrayList<String> fuzzRes=new ArrayList<String>();
+		String command="wfuzz -o csv -z range,0-"+reps+" --hc 403 https://clips-media-assets2.twitch.tv/"+vodID+"-offset-FUZZ.mp4";
+		try{
+			Process process=Runtime.getRuntime().exec(command);
+			BufferedReader reader=new BufferedReader(new InputStreamReader(process.getInputStream()));
+			String line;
+			boolean atResults=false;
+			Pattern wp=Pattern.compile("(\\d*),(\\d*),(\\d*,\\d*,\\d*),(\\d*),(\\d*)");
+			while((line=reader.readLine())!=null){
+				if(atResults){
+					Matcher wm= wp.matcher(line);
+					if(wm.find()){
+						if(wm.group(2).equals("200")){
+							fuzzRes.add("https://clips-media-assets2.twitch.tv/"+vodID+"-offset-"+wm.group(4)+".mp4");
+						}
+					}
+				}
+				else if(line.substring(0,3).equals("id")) {
+					atResults = true;
+				}
+			}
+			reader.close();
+		}
+		catch(IOException e){
+			fuzzRes.add("Error using Wfuzz. Please make sure you have installed Wfuzz correctly and it is working.");
+		}
+		return fuzzRes;
 	}
 }
