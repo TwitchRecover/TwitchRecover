@@ -1,10 +1,6 @@
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import sun.net.www.http.HttpClient;
+import java.io.*;
+import java.net.*;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.DateFormat;
@@ -282,7 +278,7 @@ public class MainCLI {
 					duration=Integer.parseInt(results[3]);
 				} catch (IOException e) {
 				}
-				resultClips=fuzz(vodID, duration);
+				resultClips=fuzz(vodID, duration, false);
 			}
 			System.out.print("\n\nResults: ");
 			for(int i=0; i<resultClips.size();i++) {
@@ -569,26 +565,33 @@ public class MainCLI {
 	 * @return ArrayList<String>	String arraylist which contains all of the found clip urls.
 	 * @throws IOException
 	 */
-	public ArrayList<String> fuzz(long vodID, int duration) throws IOException{
+	public ArrayList<String> fuzz(long vodID, int duration, boolean wfuzz) throws IOException{
 		String url="https://clips-media-assets2.twitch.tv/"+vodID+"-offset-";
-		int reps=(duration*3600)+2000;
+		int reps=(duration*900)+2000;
 		ArrayList<String> results=new ArrayList<String>();
-		for(int i=0;i<reps;i++) {
-			if(reps%3600==0) {
-				System.out.print("\nChecked all clips for the first "+(reps/3600)+" hour(s).");
-			}
-			//HTTP Connection:
-			URL  obj=new URL(url+i+".mp4");
-			HttpURLConnection httpcon=(HttpURLConnection) obj.openConnection();
-			httpcon.setRequestMethod("GET");
-			httpcon.setRequestProperty("User-Agent", "Mozilla/5.0");
-			int responseCode=httpcon.getResponseCode();
-			if(responseCode==HttpURLConnection.HTTP_OK) {
-				results.add(url+i+".mp4");
-			}
-			//Allows to view each individual request:
-			System.out.print("\nhttps://clips-media-assets2.twitch.tv/"+vodID+"-offset-"+i+".mp4\t"+responseCode);
+		if(wfuzz){
+			results=wfuzz();
 		}
+		else{
+			for(int i=0;i<200;i++) {
+				String clips=url+i+".mp4";
+				boolean query=clipsQuery(clips);
+				if(query){
+					results.add(clips);
+				}
+			}
+		}
+
 		return results;
+	}
+
+	public boolean clipsQuery(String url){
+		try{
+			new URL(url).openStream();
+			return true;
+		}
+		catch(Exception e){
+			return false;
+		}
 	}
 }
