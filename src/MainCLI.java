@@ -631,4 +631,34 @@ public class MainCLI {
 		}
 		return fuzzRes;
 	}
+
+	public void clipsDownload(String lfp, String dfp){
+		ArrayList<String> clips=new ArrayList<String>();
+		//Reading file:
+		try{
+			File fobj=new File(lfp);
+			Scanner sc=new Scanner(fobj);
+			while(sc.hasNextLine()){
+				if(sc.nextLine().indexOf("Results generated")!=0){
+					clips.add(sc.nextLine());
+				}
+			}
+		}
+		catch(FileNotFoundException e){
+
+		}
+		//Download files:
+		for(int i=0;i<clips.size();i++){
+			try(BufferedInputStream inputStream=new BufferedInputStream(new URL(clips.get(i)).openStream());
+				FileOutputStream fileOutputStream=new FileOutputStream(lfp)){
+				byte dataBuffer[]=new byte[1024];
+				int bytesRead;
+				while((bytesRead=inputStream.read(dataBuffer, 0, 1024))!=-1){
+					fileOutputStream.write(dataBuffer, 0, bytesRead);
+				}
+			}
+			catch(IOException e){
+			}
+		}
+	}
 }
