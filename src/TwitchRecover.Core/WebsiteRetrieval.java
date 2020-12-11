@@ -58,6 +58,13 @@ public class WebsiteRetrieval{
         }
         return -1;
     }
+
+    /**
+     * This method gets the JSON return from a URL.
+     * @param url       String representing the URL to get the JSON response from.
+     * @return String   String response representing the JSON response of the URL.
+     * @throws IOException
+     */
     private String getJSON(String url) throws IOException {
         String json="";
         URL jsonFetch=new URL(url);
@@ -94,6 +101,15 @@ public class WebsiteRetrieval{
 //
 //    }
     //Stream Charts retrieval:
+
+    /**
+     * This method gets the 4 principal values (streamer's name, stream ID, timestamp and the duration)
+     * from a Stream Charts stream URL.
+     * @param url           String value representing the Stream Charts's steam URL.
+     * @return String[4]    String array containing the 4 principal values (streamer's name, stream ID,
+     * timestamp of the start of the stream and the duration) in that respective order.
+     * @throws IOException
+     */
     private String[] getSCData(String url) throws IOException {
         String[] results=new String[4];     //0: streamer's name; 1: Stream ID; 2: Timestamp; 3: Duration.
         String userID;
