@@ -7,17 +7,19 @@
  * You should have received a copy of the GNU General Public License along with this program. If not see http://www.gnu.org/licenses/ or write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-/**
+/*
  * @author Daylam Tayari https://github.com/daylamtayari
  * @version 2.0
  * Github project home page: https://github.com/TwitchRecover
  * Twitch Recover repository: https://github.com/TwitchRecover/TwitchRecover
  */
 
+package TwitchRecover.Core;
+
 import java.io.BufferedInputStream;
-import java.io.BufferedReader;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.URL;
 
 /**
  * This class contains all of the download and their related methods.
@@ -44,12 +46,12 @@ public class Download{
     public void download(String url, String fp){
         try(BufferedInputStream is=new BufferedInputStream(new URL(url).openStream());
             FileOutputStream os=new FileOutputStream(fp)){
-            byte dataBuffer[]=new byte[1024];
+            byte[] dataBuffer =new byte[1024];
             int bytesRead;
             while((bytesRead=is.read(dataBuffer, 0, 1024))!=-1){
                 os.write(dataBuffer, 0, bytesRead);
             }
         }
-        catch(IOException e){}
+        catch(IOException ignored){}
     }
 }
