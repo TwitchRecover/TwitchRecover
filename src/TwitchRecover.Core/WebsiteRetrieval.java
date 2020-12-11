@@ -22,6 +22,7 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.ProtocolException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.net.URL;
@@ -87,25 +88,68 @@ public class WebsiteRetrieval{
     /**
      * This method checks if the inputted URL is a
      * Sully Gnome stream URL.
-     * @param url       Inputted URL to be checked.
+     *
+     * @param url Inputted URL to be checked.
      * @return boolean  Returns true if the URL is a Sully Gnome stream URL and false otherwise.
      */
-    public boolean isSG(String url){
+    public boolean isSG(String url) {
         return url.contains("sullygnome.com/channel/") && url.contains("/stream/");
     }
 
     //Individual website retrieval:
 
     //Twitch Tracker retrieval:
-//    private String[] getTTData(String url){
-//
-//    }
+    private String[] getTTData(String url) throws IOException {
+        String[] results = new String[4];
+        URL obj = new URL(url);
+        HttpURLConnection httpcon = (HttpURLConnection) obj.openConnection();
+        httpcon.setRequestMethod("GET");
+        httpcon.setRequestProperty("User-Agent", "Mozilla/5.0");
+        int responseCode = httpcon.getResponseCode();
+        if(responseCode == HttpURLConnection.HTTP_OK) {
+            //Get the timestamp:
+            BufferedReader brt = new BufferedReader(new InputStreamReader(httpcon.getInputStream()));
+            for(int i = 0; i < 7; i++) {
+                brt.readLine();
+            }
+            String response = brt.readLine();
+            int tsIndex = response.indexOf(" on ") + 4;
+            results[2] = response.substring(tsIndex, tsIndex + 19);
+            //Get the stream duration:
+            BufferedReader brtd = new BufferedReader(new InputStreamReader(httpcon.getInputStream()));
+            String responseD = "";
+            for(int i = 0; i < 300; i++) {
+                String res = brtd.readLine();
+                if(res.contains("stats-value to-time-lg")) {
+                    responseD = res;
+                }
+            }
+            String durationPattern = "<div class=\"stats-value to-time-lg\">(\\d*)</div>";
+            Pattern dr = Pattern.compile(durationPattern);
+            Matcher dm = dr.matcher(responseD);
+            if(dm.find()) {
+                results[3] = dm.group(1);
+            }
+            //Get the streamer's name and the VOD ID:
+            String pattern = "twitchtracker\\.com\\/([a-zA-Z0-9]*)\\/streams\\/(\\d*)";
+            Pattern r = Pattern.compile(pattern);
+            Matcher m = r.matcher(url);
+            if(m.find()) {
+                results[0] = m.group(1);
+                results[1] = m.group(2);
+            }
+        }
+        //Return the array:
+        return results;
+    }
+
     //Stream Charts retrieval:
 
     /**
      * This method gets the 4 principal values (streamer's name, stream ID, timestamp and the duration)
      * from a Stream Charts stream URL.
-     * @param url           String value representing the Stream Charts's steam URL.
+     *
+     * @param url String value representing the Stream Charts's steam URL.
      * @return String[4]    String array containing the 4 principal values (streamer's name, stream ID,
      * timestamp of the start of the stream and the duration) in that respective order.
      * @throws IOException
