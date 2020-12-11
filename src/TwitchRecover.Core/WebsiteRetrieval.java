@@ -50,11 +50,9 @@ public class WebsiteRetrieval{
     private int checkURL(String url){
         if(url.contains("twitchtracker.com/") && url.contains("/streams/")){
             return 1;   //Twitch Tracker URL.
-        }
-        else if(url.contains("streamscharts.com/twitch/channels/") && url.contains("/streams/")){
+        } else if(url.contains("streamscharts.com/twitch/channels/") && url.contains("/streams/")){
             return 2;   //Streams Charts URL.
-        }
-        else if(isSG(url)){
+        } else if(isSG(url)){
             return 3;   //Sully Gnome URL.
         }
         return -1;
@@ -99,14 +97,23 @@ public class WebsiteRetrieval{
     //Individual website retrieval:
 
     //Twitch Tracker retrieval:
+
+    /**
+     * This method gets the 4 principal values (streamer's name, stream ID, timestamp and the duration)
+     * from a Twitch Tracker stream URL.
+     *
+     * @param url String value representing the Twitch Tracker stream URL.
+     * @return String[4]    String array containing the 4 principal values (streamer's name, stream ID,
+     * timestamp of the start of the stream and the duration) in that respective order.
+     * @throws IOException
+     */
     private String[] getTTData(String url) throws IOException {
         String[] results = new String[4];
         URL obj = new URL(url);
         HttpURLConnection httpcon = (HttpURLConnection) obj.openConnection();
         httpcon.setRequestMethod("GET");
         httpcon.setRequestProperty("User-Agent", "Mozilla/5.0");
-        int responseCode = httpcon.getResponseCode();
-        if(responseCode == HttpURLConnection.HTTP_OK) {
+        if(httpcon.getResponseCode() == HttpURLConnection.HTTP_OK) {
             //Get the timestamp:
             BufferedReader brt = new BufferedReader(new InputStreamReader(httpcon.getInputStream()));
             for(int i = 0; i < 7; i++) {
@@ -138,9 +145,10 @@ public class WebsiteRetrieval{
                 results[0] = m.group(1);
                 results[1] = m.group(2);
             }
+            //Return the array:
+            return results;
         }
-        //Return the array:
-        return results;
+        throw new IOException();
     }
 
     //Stream Charts retrieval:
@@ -148,8 +156,7 @@ public class WebsiteRetrieval{
     /**
      * This method gets the 4 principal values (streamer's name, stream ID, timestamp and the duration)
      * from a Stream Charts stream URL.
-     *
-     * @param url String value representing the Stream Charts's steam URL.
+     * @param url           String value representing the Stream Charts stream URL.
      * @return String[4]    String array containing the 4 principal values (streamer's name, stream ID,
      * timestamp of the start of the stream and the duration) in that respective order.
      * @throws IOException
@@ -178,15 +185,30 @@ public class WebsiteRetrieval{
         String dataJSON=getJSON("https://alla.streamscharts.com/api/free/streaming/platforms/1/channels/"+userID+"/streams/"+results[2]+"/statuses");
         JSONObject joD=new JSONObject(dataJSON);
         JSONArray items=joD.getJSONArray("items");
-        for(int i=0; i<items.length();i++){
-            JSONObject item=items.getJSONObject(i);
-            if(i==0){
-                results[2]=item.getString("stream_created_at");
+        for(int i = 0; i < items.length(); i++) {
+            JSONObject item = items.getJSONObject(i);
+            if(i == 0) {
+                results[2] = item.getString("stream_created_at");
             }
-            duration+=item.getDouble("air_time");
+            duration += item.getDouble("air_time");
         }
+        results[3] = String.valueOf(duration * 60);
+        return results;
+    }
 
-        results[3]=String.valueOf(duration);
+    //Sully Gnome retrieval:
+
+    /**
+     * This method gets the 4 principal values (streamer's name, stream ID, timestamp and the duration)
+     * from a Sully Gnome stream URL.
+     *
+     * @param url String value representing the Sully Gnome stream URL.
+     * @return String[4]    String array containing the 4 principal values (streamer's name, stream ID,
+     * timestamp of the start of the stream and the duration) in that respective order.
+     * @throws IOException
+     */
+    private String[] getSGData(String url) throws IOException {
+        String[] results = new String[4];     //0: streamer's name; 1: Stream ID; 2: Timestamp; 3: Duration.
         return results;
     }
 }
