@@ -30,7 +30,6 @@ public class Download {
      * @param fp String value which represents the given file path to be adjusted.
      * @return String   Adjusted file path.
      */
-    //TODO: Move to main compute method.
     private String fpAdjust(String fp) {
         if(fp.indexOf('\\') != fp.length() - 1) {
             fp += "\\";
