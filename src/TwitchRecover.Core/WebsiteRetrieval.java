@@ -62,12 +62,6 @@ public class WebsiteRetrieval {
             } catch(IOException ignored) {
             }
             return results;
-        } else if(source == 3) {     //Sully Gnome URL.
-            try {
-                results = getSGData(url);
-            } catch(IOException ignored) {
-            }
-            return results;
         }
         return results;
     }
@@ -84,8 +78,6 @@ public class WebsiteRetrieval {
             return 1;   //Twitch Tracker URL.
         } else if(url.contains("streamscharts.com/twitch/channels/") && url.contains("/streams/")){
             return 2;   //Streams Charts URL.
-        } else if(isSG(url)){
-            return 3;   //Sully Gnome URL.
         }
         return -1;
     }
@@ -115,21 +107,9 @@ public class WebsiteRetrieval {
         return json;
     }
 
-    /**
-     * This method checks if the inputted URL is a
-     * Sully Gnome stream URL.
-     *
-     * @param url       Inputted URL to be checked.
-     * @return boolean  Returns true if the URL is a Sully Gnome stream URL and false otherwise.
-     */
-    public boolean isSG(String url) {
-        return url.contains("sullygnome.com/channel/") && url.contains("/stream/");
-    }
-
     //Individual website retrieval:
 
     //Twitch Tracker retrieval:
-
     /**
      * This method gets the 4 principal values (streamer's name, stream ID, timestamp and the duration)
      * from a Twitch Tracker stream URL.
@@ -170,9 +150,9 @@ public class WebsiteRetrieval {
                 results[3] = dm.group(1);
             }
             //Get the streamer's name and the VOD ID:
-            String pattern = "twitchtracker\\.com\\/([a-zA-Z0-9]*)\\/streams\\/(\\d*)";
+            String pattern = "twitchtracker\\.com\\/([a-zA-Z0-9]*)\\/streams\\/(\\d*)\\/";
             Pattern r = Pattern.compile(pattern);
-            Matcher m = r.matcher(url);
+            Matcher m = r.matcher(url+"/");
             if(m.find()) {
                 results[0] = m.group(1);
                 results[1] = m.group(2);
@@ -184,7 +164,6 @@ public class WebsiteRetrieval {
     }
 
     //Stream Charts retrieval:
-
     /**
      * This method gets the 4 principal values (streamer's name, stream ID, timestamp and the duration)
      * from a Stream Charts stream URL.
@@ -198,9 +177,9 @@ public class WebsiteRetrieval {
         String userID;
         double duration=0.0;
         //Retrieve initial values:
-        String pattern="streamscharts\\.com\\/twitch\\/channels\\/([a-zA-Z0-9]*)\\/streams\\/(\\d*)";
+        String pattern="streamscharts\\.com\\/twitch\\/channels\\/([a-zA-Z0-9]*)\\/streams\\/(\\d*)\\/";
         Pattern r=Pattern.compile(pattern);
-        Matcher m=r.matcher(url);
+        Matcher m=r.matcher(url+"/");
         if(m.find()){
             results[0]=m.group(1);
             results[1]=m.group(2);
@@ -225,22 +204,6 @@ public class WebsiteRetrieval {
             duration += item.getDouble("air_time");
         }
         results[3] = String.valueOf(duration * 60);
-        return results;
-    }
-
-    //Sully Gnome retrieval:
-
-    /**
-     * This method gets the 4 principal values (streamer's name, stream ID, timestamp and the duration)
-     * from a Sully Gnome stream URL.
-     *
-     * @param url           String value representing the Sully Gnome stream URL.
-     * @return String[4]    String array containing the 4 principal values (streamer's name, stream ID,
-     * timestamp of the start of the stream and the duration) in that respective order.
-     * @throws IOException
-     */
-    private String[] getSGData(String url) throws IOException {
-        String[] results = new String[4];     //0: streamer's name; 1: Stream ID; 2: Timestamp; 3: Duration.
         return results;
     }
 }
