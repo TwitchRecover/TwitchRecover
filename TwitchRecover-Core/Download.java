@@ -19,6 +19,9 @@ import java.io.BufferedReader;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+/**
+ * This class contains all of the download and their related methods.
+ */
 public class Download{
     /**
      * This method adjusts a given file path to ensure that it is formatted correctly.
