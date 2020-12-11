@@ -128,8 +128,18 @@ public class WebsiteRetrieval {
         if(httpcon.getResponseCode() == HttpURLConnection.HTTP_OK) {
             //Get the timestamp:
             BufferedReader brt = new BufferedReader(new InputStreamReader(httpcon.getInputStream()));
-            for(int i = 0; i < 7; i++) {
-                brt.readLine();
+            String response;
+            String responseD = "";
+            for(int i = 0; i < 300; i++) {
+                response = brt.readLine();
+                if(i == 7) {
+                    int tsIndex = response.indexOf(" on ") + 4;
+                    results[2] = response.substring(tsIndex, tsIndex + 19);
+                }
+                //Stream duration fetcher:
+                if(response.contains("stats-value to-time-lg")) {
+                    responseD = response;
+                }
             }
             String response = brt.readLine();
             int tsIndex = response.indexOf(" on ") + 4;
