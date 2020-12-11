@@ -32,10 +32,10 @@ public class Fuzz {
     /**
      * This is the core method for fuzzing all of the
      * clips of a particular stream.
-     * @param streamID              Long value which represents the stream ID for which clips should be fuzzed for.
-     * @param duration              Long value which represents the duration of the stream.
-     * @param wfuzz                 Boolean which represents whether Wfuzz is installed and should be used or not.
-     * @param cli                   Boolean which represents whether the method calling this is the CLI or GUI version.
+     * @param streamID Long value which represents the stream ID for which clips should be fuzzed for.
+     * @param duration Long value which represents the duration of the stream.
+     * @param wfuzz    Boolean which represents whether Wfuzz is installed and should be used or not.
+     * @param cli      Boolean which represents whether the method calling this is the CLI or GUI version.
      * @return ArrayList<String>    String arraylist which holds all of the results of clips.
      */
     public ArrayList<String> fuzz(long streamID, long duration, boolean wfuzz, boolean cli) {
@@ -43,7 +43,8 @@ public class Fuzz {
         int reps = (((int) duration) * 60) + 2000;
         if(wfuzz) {
             results = wfuzz(streamID, reps, cli);
-        } else {
+        }
+        else {
             results = jFuzz(streamID, reps);
         }
         return results;
@@ -51,9 +52,9 @@ public class Fuzz {
 
     /**
      * Method which utlises Wfuzz for fuzzing clips from a stream.
-     * @param streamID              Long value which represents the stream ID for which clips should be fuzzed for.
-     * @param reps                  Integer value which represents the maximum range for a particular stream.
-     * @param cli                   Boolean which represents whether the method calling this is the CLI or GUI version.
+     * @param streamID Long value which represents the stream ID for which clips should be fuzzed for.
+     * @param reps     Integer value which represents the maximum range for a particular stream.
+     * @param cli      Boolean which represents whether the method calling this is the CLI or GUI version.
      * @return ArrayList<String>    String arraylist which holds all of the results of clips.
      */
     private ArrayList<String> wfuzz(long streamID, int reps, boolean cli) {
@@ -80,11 +81,13 @@ public class Fuzz {
                             fuzzRes.add("https://clips-media-assets2.twitch.tv/" + streamID + "-offset-" + wm.group(4) + ".mp4");
                         }
                     }
-                } else if(line.indexOf("id,") == 0) {
+                }
+                else if(line.indexOf("id,") == 0) {
                     atResults = true;
                 }
             }
-        } catch(IOException e) {
+        }
+        catch(IOException e) {
             fuzzRes.add("Error using Wfuzz. Please make sure you have installed Wfuzz correctly and it is working.");
         }
         return fuzzRes;
@@ -94,8 +97,8 @@ public class Fuzz {
      * Method which utilises available fuzzing tools in JSE8 to fuzz for
      * clips from a given stream.
      * NOTICE: Extremely slow.
-     * @param streamID              Long value which represents the stream ID for which clips should be fuzzed for.
-     * @param reps                  Integer value which represents the maximum range for a particular stream.
+     * @param streamID Long value which represents the stream ID for which clips should be fuzzed for.
+     * @param reps     Integer value which represents the maximum range for a particular stream.
      * @return ArrayList<String>    String arraylist which holds all of the results of clips.
      */
     private ArrayList<String> jFuzz(long streamID, int reps) {
@@ -106,7 +109,8 @@ public class Fuzz {
             try {
                 new URL(clip).openStream();
                 jfuzzRes.add(clip);
-            } catch(IOException ignored) {
+            }
+            catch(IOException ignored) {
             }
         }
         return jfuzzRes;

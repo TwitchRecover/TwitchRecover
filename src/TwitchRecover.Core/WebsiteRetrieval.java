@@ -19,6 +19,7 @@ package TwitchRecover.Core;
 import jdk.nashorn.internal.parser.JSONParser;
 import org.json.JSONArray;
 import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -40,7 +41,7 @@ public class WebsiteRetrieval {
     /**
      * Core method which retrieves the 4 principal values (streamer's name, stream ID, timestamp, duration)
      * of a stream and returns in a string array in that order.
-     * @param url           URL to retrieve the values from.
+     * @param url URL to retrieve the values from.
      * @return String[4]    String array containing the 4 principal values (streamer's name, stream ID,
      * timestamp of the start of the stream and the duration) in that respective order. If all values of the
      * array are null, the URL is invalid.
@@ -50,17 +51,19 @@ public class WebsiteRetrieval {
         int source = checkURL(url);
         if(source == -1) {         //Invalid URL.
             return results;
-        } else if(source == 1) {     //Twitch Tracker URL.
+        }
+        else if(source == 1) {     //Twitch Tracker URL.
             try {
                 results = getTTData(url);
-            } catch(IOException ignored) {
             }
+            catch(IOException ignored) {}
             return results;
-        } else if(source == 2) {     //Stream Charts URL.
+        }
+        else if(source == 2) {     //Stream Charts URL.
             try {
                 results = getSCData(url);
-            } catch(IOException ignored) {
             }
+            catch(IOException ignored) {}
             return results;
         }
         return results;
@@ -69,14 +72,15 @@ public class WebsiteRetrieval {
     /**
      * This method checks if a URL is a stream URL
      * from one of the supported analytics websites.
-     * @param url       URL to be checked.
+     * @param url URL to be checked.
      * @return int      Integer that is either -1 if the URL is invalid or
      * a value that represents which analytics service the stream link is from.
      */
     private int checkURL(String url) {
         if(url.contains("twitchtracker.com/") && url.contains("/streams/")) {
             return 1;   //Twitch Tracker URL.
-        } else if(url.contains("streamscharts.com/twitch/channels/") && url.contains("/streams/")){
+        }
+        else if(url.contains("streamscharts.com/twitch/channels/") && url.contains("/streams/")) {
             return 2;   //Streams Charts URL.
         }
         return -1;
@@ -84,25 +88,25 @@ public class WebsiteRetrieval {
 
     /**
      * This method gets the JSON return from a URL.
-     * @param url       String representing the URL to get the JSON response from.
+     * @param url String representing the URL to get the JSON response from.
      * @return String   String response representing the JSON response of the URL.
      * @throws IOException
      */
     private String getJSON(String url) throws IOException {
-        String json="";
-        URL jsonFetch=new URL(url);
-        HttpURLConnection httpcon=(HttpURLConnection) jsonFetch.openConnection();
+        String json = "";
+        URL jsonFetch = new URL(url);
+        HttpURLConnection httpcon = (HttpURLConnection) jsonFetch.openConnection();
         httpcon.setRequestMethod("GET");
         httpcon.setRequestProperty("User-Agent", "Mozilla/5.0");
-        String readLine=null;
-        if(httpcon.getResponseCode()==HttpURLConnection.HTTP_OK){
-            BufferedReader br=new BufferedReader(new InputStreamReader(httpcon.getInputStream()));
-            StringBuffer response=new StringBuffer();
-            while((readLine=br.readLine())!=null){
+        String readLine = null;
+        if(httpcon.getResponseCode() == HttpURLConnection.HTTP_OK) {
+            BufferedReader br = new BufferedReader(new InputStreamReader(httpcon.getInputStream()));
+            StringBuffer response = new StringBuffer();
+            while((readLine = br.readLine()) != null) {
                 response.append(readLine);
             }
             br.close();
-            json=response.toString();
+            json = response.toString();
         }
         return json;
     }
@@ -113,8 +117,7 @@ public class WebsiteRetrieval {
     /**
      * This method gets the 4 principal values (streamer's name, stream ID, timestamp and the duration)
      * from a Twitch Tracker stream URL.
-     *
-     * @param url           String value representing the Twitch Tracker stream URL.
+     * @param url String value representing the Twitch Tracker stream URL.
      * @return String[4]    String array containing the 4 principal values (streamer's name, stream ID,
      * timestamp of the start of the stream and the duration) in that respective order.
      * @throws IOException
@@ -141,18 +144,8 @@ public class WebsiteRetrieval {
                     responseD = response;
                 }
             }
-            String response = brt.readLine();
-            int tsIndex = response.indexOf(" on ") + 4;
-            results[2] = response.substring(tsIndex, tsIndex + 19);
+
             //Get the stream duration:
-            BufferedReader brtd = new BufferedReader(new InputStreamReader(httpcon.getInputStream()));
-            String responseD = "";
-            for(int i = 0; i < 300; i++) {
-                String res = brtd.readLine();
-                if(res.contains("stats-value to-time-lg")) {
-                    responseD = res;
-                }
-            }
             String durationPattern = "<div class=\"stats-value to-time-lg\">(\\d*)</div>";
             Pattern dr = Pattern.compile(durationPattern);
             Matcher dm = dr.matcher(responseD);
@@ -162,7 +155,7 @@ public class WebsiteRetrieval {
             //Get the streamer's name and the VOD ID:
             String pattern = "twitchtracker\\.com\\/([a-zA-Z0-9]*)\\/streams\\/(\\d*)\\/";
             Pattern r = Pattern.compile(pattern);
-            Matcher m = r.matcher(url+"/");
+            Matcher m = r.matcher(url + "/");
             if(m.find()) {
                 results[0] = m.group(1);
                 results[1] = m.group(2);
@@ -177,35 +170,35 @@ public class WebsiteRetrieval {
     /**
      * This method gets the 4 principal values (streamer's name, stream ID, timestamp and the duration)
      * from a Stream Charts stream URL.
-     * @param url           String value representing the Stream Charts stream URL.
+     * @param url String value representing the Stream Charts stream URL.
      * @return String[4]    String array containing the 4 principal values (streamer's name, stream ID,
      * timestamp of the start of the stream and the duration) in that respective order.
      * @throws IOException
      */
     private String[] getSCData(String url) throws IOException {
-        String[] results=new String[4];     //0: streamer's name; 1: Stream ID; 2: Timestamp; 3: Duration.
+        String[] results = new String[4];     //0: streamer's name; 1: Stream ID; 2: Timestamp; 3: Duration.
         String userID;
-        double duration=0.0;
+        double duration = 0.0;
         //Retrieve initial values:
-        String pattern="streamscharts\\.com\\/twitch\\/channels\\/([a-zA-Z0-9]*)\\/streams\\/(\\d*)\\/";
-        Pattern r=Pattern.compile(pattern);
-        Matcher m=r.matcher(url+"/");
-        if(m.find()){
-            results[0]=m.group(1);
-            results[1]=m.group(2);
+        String pattern = "streamscharts\\.com\\/twitch\\/channels\\/([a-zA-Z0-9]*)\\/streams\\/(\\d*)\\/";
+        Pattern r = Pattern.compile(pattern);
+        Matcher m = r.matcher(url + "/");
+        if(m.find()) {
+            results[0] = m.group(1);
+            results[1] = m.group(2);
         }
 
         //Retrieve user ID:
-        String idJSON=getJSON("https://api.twitch.tv/v5/users/?login="+results[2]+"&client_id=ohroxg880bxrq1izlrinohrz3k4vy6");
-        JSONObject joID=new JSONObject(idJSON);
-        JSONObject users=joID.getJSONObject("users");
-        JSONObject user=users.getJSONObject("0");
-        userID=user.getString("_id");
+        String idJSON = getJSON("https://api.twitch.tv/v5/users/?login=" + results[2] + "&client_id=ohroxg880bxrq1izlrinohrz3k4vy6");
+        JSONObject joID = new JSONObject(idJSON);
+        JSONObject users = joID.getJSONObject("users");
+        JSONObject user = users.getJSONObject("0");
+        userID = user.getString("_id");
 
         //Retrieve stream values:
-        String dataJSON=getJSON("https://alla.streamscharts.com/api/free/streaming/platforms/1/channels/"+userID+"/streams/"+results[2]+"/statuses");
-        JSONObject joD=new JSONObject(dataJSON);
-        JSONArray items=joD.getJSONArray("items");
+        String dataJSON = getJSON("https://alla.streamscharts.com/api/free/streaming/platforms/1/channels/" + userID + "/streams/" + results[2] + "/statuses");
+        JSONObject joD = new JSONObject(dataJSON);
+        JSONArray items = joD.getJSONArray("items");
         for(int i = 0; i < items.length(); i++) {
             JSONObject item = items.getJSONObject(i);
             if(i == 0) {
