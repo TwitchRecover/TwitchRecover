@@ -34,21 +34,55 @@ import java.net.HttpURLConnection;
  * necessary information from the Twitch analytics websites
  * Twitch recover supports.
  */
-public class WebsiteRetrieval{
+public class WebsiteRetrieval {
     //Core methods:
-//    public String[] getData(String url){
-//
-//    }
+
+    /**
+     * Core method which retrieves the 4 principal values (streamer's name, stream ID, timestamp, duration)
+     * of a stream and returns in a string array in that order.
+     *
+     * @param url URL to retrieve the values from.
+     * @return String[4]    String array containing the 4 principal values (streamer's name, stream ID,
+     * timestamp of the start of the stream and the duration) in that respective order. If all values of the
+     * array are null, the URL is invalid.
+     */
+    public String[] getData(String url) {
+        String[] results = new String[4];     //0: streamer's name; 1: Stream ID; 2: Timestamp; 3: Duration.
+        int source = checkURL(url);
+        if(source == -1) {         //Invalid URL.
+            return results;
+        } else if(source == 1) {     //Twitch Tracker URL.
+            try {
+                results = getTTData(url);
+            } catch(IOException ignored) {
+            }
+            return results;
+        } else if(source == 2) {     //Stream Charts URL.
+            try {
+                results = getSCData(url);
+            } catch(IOException ignored) {
+            }
+            return results;
+        } else if(source == 3) {     //Sully Gnome URL.
+            try {
+                results = getSGData(url);
+            } catch(IOException ignored) {
+            }
+            return results;
+        }
+        return results;
+    }
 
     /**
      * This method checks if a URL is a stream URL
      * from one of the supported analytics websites.
-     * @param url       URL to be checked.
+     *
+     * @param url URL to be checked.
      * @return int      Integer that is either -1 if the URL is invalid or
      * a value that represents which analytics service the stream link is from.
      */
-    private int checkURL(String url){
-        if(url.contains("twitchtracker.com/") && url.contains("/streams/")){
+    private int checkURL(String url) {
+        if(url.contains("twitchtracker.com/") && url.contains("/streams/")) {
             return 1;   //Twitch Tracker URL.
         } else if(url.contains("streamscharts.com/twitch/channels/") && url.contains("/streams/")){
             return 2;   //Streams Charts URL.
