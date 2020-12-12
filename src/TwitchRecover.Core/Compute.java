@@ -16,10 +16,74 @@
 
 package TwitchRecover.Core;
 
+import sun.plugin2.message.Message;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 /**
  * This class contains the fundamental methods of the core package
  * and the ones that compute the fundamental elements of the
  * core of Twitch Recover.
  */
 public class Compute {
+    /**
+     * Main method of the compute class which
+     * computes a VOD URL from given values.
+     * @param name          String value representing the streamer's name.
+     * @param streamID      A string representing the stream ID of a stream.
+     * @param timestamp     A string value representing the timestamp of the stream
+     * in standard timestamp form.
+     * @return String       String value representing the completed latter part of the URL.
+     */
+    public String URLCompute(String name, String streamID, String timestamp){
+        String baseString=name+"_"+streamID+"_"+getUNIX(timestamp);
+        String hash=hash(baseString);
+        String finalString=hash+"_"+baseString;
+        return "/"+finalString+"/chunked/index-dvr.m3u8";
+    }
+
+    /**
+     * This method gets the UNIX time from a time value in a standard
+     * timestamp format.
+     * @param ts        String value representing the timestamp.
+     * @return long     Long value which represents the UNIX timestamp.
+     */
+    private long getUNIX(String ts){
+        String time = ts + " UTC";
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss zzz");
+        Date date=null;
+        try{
+            df.parse(time);
+        }
+        catch(ParseException ignored){}
+        assert date != null;
+        return (long) date.getTime() / 1000;
+    }
+
+    /**
+     * This method computers the SHA1 hash of the base
+     * string computed in the URL compute method and
+     * returns the first 20 characters of the hash.
+     * @param baseString    Base string for which to compute the hash for.
+     * @return String       First 20 characters of the SHA1 hash of the given base string.
+     * @throws NoSuchAlgorithmException
+     */
+    private String hash(String baseString){
+        MessageDigest md= null;
+        try {
+            md = MessageDigest.getInstance("SHA1");
+        }
+        catch(NoSuchAlgorithmException ignored){}
+        byte[] result=md.digest(baseString.getBytes());
+        StringBuffer sb=new StringBuffer();
+        for(byte val: result){
+            sb.append(Integer.toString((val&0xff)+0x100, 16).substring(1));
+        }
+        String hash=sb.toString();
+        return hash.substring(0, 20);
+    }
 }
