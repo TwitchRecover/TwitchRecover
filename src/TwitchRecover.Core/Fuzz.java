@@ -19,6 +19,7 @@ package TwitchRecover.Core;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
@@ -110,9 +111,35 @@ public class Fuzz {
                 new URL(clip).openStream();
                 jfuzzRes.add(clip);
             }
-            catch(IOException ignored) {
-            }
+            catch(IOException ignored) {}
         }
         return jfuzzRes;
+    }
+
+    protected boolean checkURL(String url){
+        try {
+            URL uObj=new URL(url);
+            HttpURLConnection con = (HttpURLConnection) uObj.openConnection();
+            con.setRequestMethod("GET");
+            con.setRequestProperty("User-Agent", "Mozilla/5.0");
+            if(con.getResponseCode()==HttpURLConnection.HTTP_OK){
+                return true;
+            }
+            return false;
+        }
+        catch(IOException ignored) {
+            return false;
+        }
+    }
+
+    protected ArrayList<String> BFURLs(String name, long vodID, long timestamp){
+        ArrayList<String> results=new ArrayList<String>();
+        for(int i=0; i<60; i++){
+            String url=Compute.URLCompute(name, vodID, timestamp+i);
+            if(checkURL(url)){
+                results.add(url);
+            }
+        }
+        return results;
     }
 }
