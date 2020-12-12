@@ -30,7 +30,7 @@ public class Download {
      * @param fp String value which represents the given file path to be adjusted.
      * @return String   Adjusted file path.
      */
-    private String fpAdjust(String fp) {
+    private static String fpAdjust(String fp) {
         if(fp.indexOf('\\') != fp.length() - 1) {
             fp += "\\";
         }
@@ -43,7 +43,7 @@ public class Download {
      * @param url String value which represents the URL of the file to download.
      * @param fp  String value which represents the filepath of where to save the file.
      */
-    public void download(String url, String fp) {
+    protected static void download(String url, String fp) {
         try(BufferedInputStream is = new BufferedInputStream(new URL(url).openStream());
             FileOutputStream os = new FileOutputStream(fp)) {
             byte[] dataBuffer = new byte[1024];

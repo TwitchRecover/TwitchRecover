@@ -39,7 +39,7 @@ public class Fuzz {
      * @param cli      Boolean which represents whether the method calling this is the CLI or GUI version.
      * @return ArrayList<String>    String arraylist which holds all of the results of clips.
      */
-    public ArrayList<String> fuzz(long streamID, long duration, boolean wfuzz, boolean cli) {
+    public static ArrayList<String> fuzz(long streamID, long duration, boolean wfuzz, boolean cli) {
         ArrayList<String> results = new ArrayList<String>();
         int reps = (((int) duration) * 60) + 2000;
         if(wfuzz) {
@@ -58,7 +58,7 @@ public class Fuzz {
      * @param cli      Boolean which represents whether the method calling this is the CLI or GUI version.
      * @return ArrayList<String>    String arraylist which holds all of the results of clips.
      */
-    private ArrayList<String> wfuzz(long streamID, int reps, boolean cli) {
+    private static ArrayList<String> wfuzz(long streamID, int reps, boolean cli) {
         ArrayList<String> fuzzRes = new ArrayList<String>();
         String command = "wfuzz -o csv -z range,0-" + reps + " --hc 404 https://clips-media-assets2.twitch.tv/" + streamID + "-offset-FUZZ.mp4";
         try {
@@ -102,7 +102,7 @@ public class Fuzz {
      * @param reps     Integer value which represents the maximum range for a particular stream.
      * @return ArrayList<String>    String arraylist which holds all of the results of clips.
      */
-    private ArrayList<String> jFuzz(long streamID, int reps) {
+    private static ArrayList<String> jFuzz(long streamID, int reps) {
         ArrayList<String> jfuzzRes = new ArrayList<String>();
         String baseURL = "https://clips-media-assets2.twitch.tv/" + streamID + "-offset-";
         for(int i = 0; i < reps; i++) {
@@ -116,7 +116,7 @@ public class Fuzz {
         return jfuzzRes;
     }
 
-    protected boolean checkURL(String url){
+    protected static boolean checkURL(String url){
         try {
             URL uObj=new URL(url);
             HttpURLConnection con = (HttpURLConnection) uObj.openConnection();
@@ -132,7 +132,7 @@ public class Fuzz {
         }
     }
 
-    protected ArrayList<String> BFURLs(String name, long vodID, long timestamp){
+    protected static ArrayList<String> BFURLs(String name, long vodID, long timestamp){
         ArrayList<String> results=new ArrayList<String>();
         for(int i=0; i<60; i++){
             String url=Compute.URLCompute(name, vodID, timestamp+i);

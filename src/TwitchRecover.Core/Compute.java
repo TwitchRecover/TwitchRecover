@@ -39,13 +39,13 @@ public class Compute {
      * Main method of the compute class which
      * computes a VOD URL from given values.
      * @param name          String value representing the streamer's name.
-     * @param streamID      A string representing the stream ID of a stream.
-     * @param timestamp     A string value representing the timestamp of the stream
+     * @param streamID      A long representing the stream ID of a stream.
+     * @param timestamp     A long value representing the timestamp of the stream
      * in standard timestamp form.
      * @return String       String value representing the completed latter part of the URL.
      */
-    public String URLCompute(String name, String streamID, String timestamp){
-        String baseString=name+"_"+streamID+"_"+getUNIX(timestamp);
+    protected static String URLCompute(String name, long streamID, long timestamp){
+        String baseString=name+"_"+streamID+"_"+timestamp;
         String hash=hash(baseString);
         String finalString=hash+"_"+baseString;
         return "/"+finalString+"/chunked/index-dvr.m3u8";
@@ -77,7 +77,7 @@ public class Compute {
      * @return String       First 20 characters of the SHA1 hash of the given base string.
      * @throws NoSuchAlgorithmException
      */
-    private String hash(String baseString){
+    private static String hash(String baseString){
         MessageDigest md= null;
         try {
             md = MessageDigest.getInstance("SHA1");
@@ -92,7 +92,7 @@ public class Compute {
         return hash.substring(0, 20);
     }
 
-    public ArrayList<String> getDomains(){
+    public static ArrayList<String> getDomains(){
         ArrayList<String> domains=new ArrayList<String>();
         boolean added=false;
         try {

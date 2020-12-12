@@ -45,7 +45,7 @@ public class WebsiteRetrieval {
      * timestamp of the start of the stream and the duration) in that respective order. If all values of the
      * array are null, the URL is invalid.
      */
-    public String[] getData(String url) {
+    public static String[] getData(String url) {
         String[] results = new String[4];     //0: streamer's name; 1: Stream ID; 2: Timestamp; 3: Duration.
         int source = checkURL(url);
         if(source == -1) {         //Invalid URL.
@@ -75,7 +75,7 @@ public class WebsiteRetrieval {
      * @return int      Integer that is either -1 if the URL is invalid or
      * a value that represents which analytics service the stream link is from.
      */
-    private int checkURL(String url) {
+    private static int checkURL(String url) {
         if(url.contains("twitchtracker.com/") && url.contains("/streams/")) {
             return 1;   //Twitch Tracker URL.
         }
@@ -91,7 +91,7 @@ public class WebsiteRetrieval {
      * @return String   String response representing the JSON response of the URL.
      * @throws IOException
      */
-    private String getJSON(String url) throws IOException {
+    private static String getJSON(String url) throws IOException {
         String json = "";
         URL jsonFetch = new URL(url);
         HttpURLConnection httpcon = (HttpURLConnection) jsonFetch.openConnection();
@@ -121,7 +121,7 @@ public class WebsiteRetrieval {
      * timestamp of the start of the stream and the duration) in that respective order.
      * @throws IOException
      */
-    private String[] getTTData(String url) throws IOException {
+    private static String[] getTTData(String url) throws IOException {
         String[] results = new String[4];
         URL obj = new URL(url);
         HttpURLConnection httpcon = (HttpURLConnection) obj.openConnection();
@@ -174,7 +174,7 @@ public class WebsiteRetrieval {
      * timestamp of the start of the stream and the duration) in that respective order.
      * @throws IOException
      */
-    private String[] getSCData(String url) throws IOException {
+    private static String[] getSCData(String url) throws IOException {
         String[] results = new String[4];     //0: streamer's name; 1: Stream ID; 2: Timestamp; 3: Duration.
         String userID;
         double duration = 0.0;
