@@ -16,13 +16,18 @@
 
 package TwitchRecover.Core;
 
-import sun.plugin2.message.Message;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 /**
  * This class contains the fundamental methods of the core package
@@ -85,5 +90,44 @@ public class Compute {
         }
         String hash=sb.toString();
         return hash.substring(0, 20);
+    }
+
+    public ArrayList<String> getDomains(){
+        ArrayList<String> domains=new ArrayList<String>();
+        boolean backupAdded=false;
+        try {
+            URL dURL=new URL("https://raw.githubusercontent.com/TwitchRecover/TwitchRecover/main/domains.txt");
+            HttpURLConnection con=(HttpURLConnection) dURL.openConnection();
+            con.setRequestMethod("GET");
+            con.setRequestProperty("User-Agent", "Mozilla/5.0");
+            if(con.getResponseCode()==HttpURLConnection.HTTP_OK){
+                BufferedReader br=new BufferedReader(new InputStreamReader(con.getInputStream()));
+                String line = null;
+                while((line=br.readLine()) !=null){
+                    String response=line.toString();
+                    domains.add(response);
+                }
+            }
+            else{
+                backupAdded=true;
+                domains.add("https://vod-secure.twitch.tv");
+                domains.add("https://vod-metro.twitch.tv");
+                domains.add("https://d2e2de1etea730.cloudfront.net");
+                domains.add("https://dqrpb9wgowsf5.cloudfront.net");
+                domains.add("https://ds0h3roq6wcgc.cloudfront.net");
+                domains.add("https://dqrpb9wgowsf5.cloudfront.net");
+            }
+        }
+        catch(IOException e){
+            if(!backupAdded) {
+                domains.add("https://vod-secure.twitch.tv");
+                domains.add("https://vod-metro.twitch.tv");
+                domains.add("https://d2e2de1etea730.cloudfront.net");
+                domains.add("https://dqrpb9wgowsf5.cloudfront.net");
+                domains.add("https://ds0h3roq6wcgc.cloudfront.net");
+                domains.add("https://dqrpb9wgowsf5.cloudfront.net");
+            }
+        }
+        return domains;
     }
 }
