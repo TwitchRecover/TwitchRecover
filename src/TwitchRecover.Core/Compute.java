@@ -94,7 +94,7 @@ public class Compute {
 
     public ArrayList<String> getDomains(){
         ArrayList<String> domains=new ArrayList<String>();
-        boolean backupAdded=false;
+        boolean added=false;
         try {
             URL dURL=new URL("https://raw.githubusercontent.com/TwitchRecover/TwitchRecover/main/domains.txt");
             HttpURLConnection con=(HttpURLConnection) dURL.openConnection();
@@ -106,20 +106,13 @@ public class Compute {
                 while((line=br.readLine()) !=null){
                     String response=line.toString();
                     domains.add(response);
+                    added=true;
                 }
             }
-            else{
-                backupAdded=true;
-                domains.add("https://vod-secure.twitch.tv");
-                domains.add("https://vod-metro.twitch.tv");
-                domains.add("https://d2e2de1etea730.cloudfront.net");
-                domains.add("https://dqrpb9wgowsf5.cloudfront.net");
-                domains.add("https://ds0h3roq6wcgc.cloudfront.net");
-                domains.add("https://dqrpb9wgowsf5.cloudfront.net");
-            }
         }
-        catch(IOException e){
-            if(!backupAdded) {
+        catch(IOException ignored){}
+        finally{
+            if(!added){
                 domains.add("https://vod-secure.twitch.tv");
                 domains.add("https://vod-metro.twitch.tv");
                 domains.add("https://d2e2de1etea730.cloudfront.net");
