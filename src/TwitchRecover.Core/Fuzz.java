@@ -116,6 +116,11 @@ public class Fuzz {
         return jfuzzRes;
     }
 
+    /**
+     * This method gets all of the Twitch M3U8 VOD domains
+     * from the domains file of the Twitch Recover repository.
+     * @return ArrayList<String>    String arraylist representing all of the Twitch M3U8 VOD domains.
+     */
     private static ArrayList<String> getDomains(){
         ArrayList<String> domains=new ArrayList<String>();
         boolean added=false;
@@ -136,7 +141,7 @@ public class Fuzz {
         }
         catch(IOException ignored){}
         finally{
-            if(!added){
+            if(!added){     //To execute if the domains from the domains file were not added as a backup.
                 domains.add("https://vod-secure.twitch.tv");
                 domains.add("https://vod-metro.twitch.tv");
                 domains.add("https://d2e2de1etea730.cloudfront.net");
@@ -148,6 +153,13 @@ public class Fuzz {
         return domains;
     }
 
+    /**
+     * Checks if a URL is up by querying it
+     * and checking if it returns a 200 response code.
+     * @param url       URL to check.
+     * @return boolean  Boolean value which is true if querying the URL returns a
+     * 200 response code or false if otherwise.
+     */
     protected static boolean checkURL(String url){
         try {
             URL uObj=new URL(url);
@@ -164,6 +176,16 @@ public class Fuzz {
         }
     }
 
+    /**
+     * This method is responsible for brute forcing the
+     * VOD URLs based on a timestamp that is correct
+     * up to the minute.
+     * @param name                  String value which represents the streamer's name.
+     * @param streamID              Long value representing the stream ID.
+     * @param timestamp             Long value representing the UNIX timestamp of the minute in question.
+     * @return ArrayList<String>    String arraylist which represents the working
+     * VOD M3U8 URLs.
+     */
     protected static ArrayList<String> BFURLs(String name, long streamID, long timestamp){
         ArrayList<String> results=new ArrayList<String>();
         for(int i=0; i<60; i++){
@@ -178,6 +200,13 @@ public class Fuzz {
         return results;
     }
 
+    /**
+     * Checks each completed URL based on the given
+     * URL value and the domains.
+     * @param url                   String value representing the URL to verify.
+     * @return ArrayList<String>    String arraylist representing the
+     * working VOD M3U8 URLs.
+     */
     protected static ArrayList<String> verifyURL(String url){
         ArrayList<String> domains=getDomains();
         ArrayList<String> results=new ArrayList<String>();

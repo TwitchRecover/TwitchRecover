@@ -36,7 +36,7 @@ import java.util.Date;
  */
 public class Compute {
     /**
-     * Main method of the compute class which
+     * Method which
      * computes a VOD URL from given values.
      * @param name          String value representing the streamer's name.
      * @param streamID      A long representing the stream ID of a stream.
