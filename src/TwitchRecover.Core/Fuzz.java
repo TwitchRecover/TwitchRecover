@@ -116,6 +116,38 @@ public class Fuzz {
         return jfuzzRes;
     }
 
+    private static ArrayList<String> getDomains(){
+        ArrayList<String> domains=new ArrayList<String>();
+        boolean added=false;
+        try {
+            URL dURL=new URL("https://raw.githubusercontent.com/TwitchRecover/TwitchRecover/main/domains.txt");
+            HttpURLConnection con=(HttpURLConnection) dURL.openConnection();
+            con.setRequestMethod("GET");
+            con.setRequestProperty("User-Agent", "Mozilla/5.0");
+            if(con.getResponseCode()==HttpURLConnection.HTTP_OK){
+                BufferedReader br=new BufferedReader(new InputStreamReader(con.getInputStream()));
+                String line = null;
+                while((line=br.readLine()) !=null){
+                    String response=line.toString();
+                    domains.add(response);
+                    added=true;
+                }
+            }
+        }
+        catch(IOException ignored){}
+        finally{
+            if(!added){
+                domains.add("https://vod-secure.twitch.tv");
+                domains.add("https://vod-metro.twitch.tv");
+                domains.add("https://d2e2de1etea730.cloudfront.net");
+                domains.add("https://dqrpb9wgowsf5.cloudfront.net");
+                domains.add("https://ds0h3roq6wcgc.cloudfront.net");
+                domains.add("https://dqrpb9wgowsf5.cloudfront.net");
+            }
+        }
+        return domains;
+    }
+
     protected static boolean checkURL(String url){
         try {
             URL uObj=new URL(url);
@@ -132,12 +164,26 @@ public class Fuzz {
         }
     }
 
-    protected static ArrayList<String> BFURLs(String name, long vodID, long timestamp){
+    protected static ArrayList<String> BFURLs(String name, long streamID, long timestamp){
         ArrayList<String> results=new ArrayList<String>();
         for(int i=0; i<60; i++){
-            String url=Compute.URLCompute(name, vodID, timestamp+i);
+            String url=Compute.URLCompute(name, streamID, timestamp+i);
             if(checkURL(url)){
-                results.add(url);
+                ArrayList<String> vResults=verifyURL(url);
+                for(String u: vResults){
+                    results.add(u);
+                }
+            }
+        }
+        return results;
+    }
+
+    protected static ArrayList<String> verifyURL(String url){
+        ArrayList<String> domains=getDomains();
+        ArrayList<String> results=new ArrayList<String>();
+        for(String d: domains){
+            if(checkURL(d+url)){
+                results.add(d+url);
             }
         }
         return results;
