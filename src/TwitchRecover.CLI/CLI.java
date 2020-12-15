@@ -21,4 +21,22 @@ package TwitchRecover.CLI;
  * version of Twitch Recover.
  */
 public class CLI {
+    /**
+     * Core method of the CLI version of Twitch Recover.
+     * @param args_
+     */
+    public static void main(String[] args_){
+        new Thread(new Runnable(){
+            @Override
+            public synchronized void run(){
+                for(; ; ) {
+                    try {
+                        wait();
+                    }
+                    catch(InterruptedException ignored) {}
+                }
+            }
+        }).start();
+        CLIHandler.main();
+    }
 }

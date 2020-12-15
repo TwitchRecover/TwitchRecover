@@ -21,4 +21,10 @@ package TwitchRecover.CLI;
  * version of Twitch Recover.
  */
 public class CLIHandler {
+    /**
+     * Core method of the CLI handler.
+     */
+    protected static void main(){
+
+    }
 }
