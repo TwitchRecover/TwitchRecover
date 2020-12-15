@@ -64,7 +64,7 @@ public class CLIHandler {
             VODs.subVODDownload(url, fp);
         }
         else{
-            Download.download(url, fp);
+            VODs.vodDownload(url, fp);
         }
         System.out.print("\n\nFile has being succesfully downloaded!");
     }
