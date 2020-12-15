@@ -36,6 +36,21 @@ public class Prompts {
         );
     }
 
+    private static int getIntInput(int min, int max){
+        Scanner sc=new Scanner(System.in);
+        System.out.print("\nPlease enter the number of the option you want to select (number between " + min +"-" + max + " inclusive:\n");
+        int input=Integer.parseInt(sc.nextLine());
+        while(!(input>=min && input<=max)){
+            System.out.print(
+                      "\n\nINCORRECT INPUT"
+                    + "\nPLEASE ENTER THE NUMBER OF THE OPTION YOU WANT TO SELECT (number between " + max +"-" + min + " inclusive):\n"
+            );
+            input=Integer.parseInt(sc.nextLine());
+        }
+        sc.close();
+        return input;
+    }
+
     /**
      * This method prints the main menu
      * and returns the option the user selected.
