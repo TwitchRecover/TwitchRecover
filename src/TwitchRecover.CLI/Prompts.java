@@ -156,4 +156,32 @@ public class Prompts {
         sc.close();
         return fp;
     }
+
+    /**
+     * This method retrieves the URL to
+     * be downloaded.
+     * @param t         A vType enum which represents which video type is going to be downloaded.
+     * @return String   String value representing the URL to be downloaded.
+     */
+    protected static String getDURL(vType t){
+        Scanner sc=new Scanner(System.in);
+        System.out.print("\n\nPlease enter the URL of the " + t.text + " to download:\n");
+        String input=sc.nextLine();
+        sc.close();
+        return input;
+    }
+
+    /**
+     * This method retrieves the URL to
+     * be recovered.
+     * @param t     A vType enum which represents which video type is going to be downloaded.
+     * @return      A string value representing the URL to be recovered.
+     */
+    protected static String getRURL(vType t){
+        Scanner sc=new Scanner(System.in);
+        System.out.print("\n\nPlease enter the URL of the " + t.text + " to recover:\n");
+        String input=sc.nextLine();
+        sc.close();
+        return input;
+    }
 }
