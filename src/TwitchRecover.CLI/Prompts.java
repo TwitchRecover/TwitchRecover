@@ -141,7 +141,7 @@ public class Prompts {
         System.out.print("\n\nPlease enter the directory where you want the downloaded files to be saved:\n");
         String dir=sc.nextLine();
         sc.close();
-        return dir;
+        return fpAdjust(dir);
     }
 
     /**
@@ -154,7 +154,7 @@ public class Prompts {
         System.out.print("\n\nPlease enter the file path of the folder where you want the output file to be saved:\n");
         String fp=sc.nextLine();
         sc.close();
-        return fp;
+        return fpAdjust(fp);
     }
 
     /**
@@ -183,5 +183,19 @@ public class Prompts {
         String input=sc.nextLine();
         sc.close();
         return input;
+    }
+
+    /**
+     * This method adaps a file
+     * path to ensure that it is
+     * properly treated as a directory.
+     * @param fp        String value representing the file path to adjust.
+     * @return String   String value representing the adjusted file path.
+     */
+    private static String fpAdjust(String fp){
+        if(fp.indexOf("\\")!=fp.length()-1){
+            fp+="\\";
+        }
+        return fp;
     }
 }
