@@ -16,6 +16,8 @@
 
 package TwitchRecover.CLI;
 
+import TwitchRecover.Core.Download;
+import TwitchRecover.Core.VODs;
 /**
  * This is the handler for the entirety of the CLI
  * version of Twitch Recover.
@@ -25,6 +27,45 @@ public class CLIHandler {
      * Core method of the CLI handler.
      */
     protected static void main(){
+        Prompts.welcome();
+        boolean goAgane=true;
+        while(goAgane){
+            int mOption=Prompts.menu();
+            if(mOption<3 || mOption==5 || mOption==7){
+                videoDownload(mOption);
+            }
+        }
+    }
 
+    /**
+     * This method handles the downloading
+     * of videos for the CLI handler.
+     * @param option
+     */
+    private static void videoDownload(int option){
+        String url=null, fp=null;
+        if(option<3) {
+            url = Prompts.getDURL(vType.VOD);
+            fp = Prompts.getOutFP(vType.VOD);
+        }
+        else if(option==5){
+            url=Prompts.getDURL(vType.Highlight);
+            fp=Prompts.getDURL(vType.Highlight);
+        }
+        else{
+            url=Prompts.getDURL(vType.Clip);
+            fp=Prompts.getDURL(vType.Clip);
+        }
+        boolean isM3U8 = option == 2 || (url.substring(url.lastIndexOf("." + 1)).equalsIgnoreCase("m3u8"));
+        if(isM3U8 && option!=2){
+            Download.m3u8Download(url, fp);
+        }
+        else if(isM3U8 && option==2){
+            VODs.subVODDownload(url, fp);
+        }
+        else{
+            Download.download(url, fp);
+        }
+        System.out.print("\n\nFile has being succesfully downloaded!");
     }
 }
