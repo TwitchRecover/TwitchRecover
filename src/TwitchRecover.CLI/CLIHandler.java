@@ -17,7 +17,11 @@
 package TwitchRecover.CLI;
 
 import TwitchRecover.Core.Download;
+import TwitchRecover.Core.Highlights;
 import TwitchRecover.Core.VODs;
+
+import java.util.ArrayList;
+
 /**
  * This is the handler for the entirety of the CLI
  * version of Twitch Recover.
@@ -34,7 +38,23 @@ public class CLIHandler {
             if(mOption<3 || mOption==5 || mOption==7){
                 videoDownload(mOption);
             }
+            else if(mOption==3 || mOption==5){
+                videoRecover(mOption);
+            }
         }
+    }
+
+    private static void printResults(ArrayList<String> results){
+        System.out.print("\n\nResults:\n");
+        if(results.size()==0){
+            System.out.print("\nNO RESULTS FOUND");
+        }
+        else{
+            for(String s: results){
+                System.out.print("\n"+s);
+            }
+        }
+        //TODO: Add exports.
     }
 
     /**
@@ -45,16 +65,16 @@ public class CLIHandler {
     private static void videoDownload(int option){
         String url=null, fp=null;
         if(option<3) {
-            url = Prompts.getDURL(vType.VOD);
+            url = Prompts.getURL(vType.VOD, oType.Download);
             fp = Prompts.getOutFP(vType.VOD);
         }
         else if(option==5){
-            url=Prompts.getDURL(vType.Highlight);
-            fp=Prompts.getDURL(vType.Highlight);
+            url=Prompts.getURL(vType.Highlight, oType.Download);
+            fp=Prompts.getURL(vType.Highlight, oType.Download);
         }
         else{
-            url=Prompts.getDURL(vType.Clip);
-            fp=Prompts.getDURL(vType.Clip);
+            url=Prompts.getURL(vType.Clip, oType.Download);
+            fp=Prompts.getURL(vType.Clip, oType.Download);
         }
         boolean isM3U8 = option == 2 || (url.substring(url.lastIndexOf("." + 1)).equalsIgnoreCase("m3u8"));
         if(isM3U8 && option!=2){
@@ -67,5 +87,23 @@ public class CLIHandler {
             VODs.vodDownload(url, fp);
         }
         System.out.print("\n\nFile has being succesfully downloaded!");
+    }
+
+    private static void videoRecover(int option){
+        String url=null, fp=null;
+        ArrayList<String> results;
+        boolean repeat=true;
+        if(option==3){
+            while(repeat){
+                printResults(VODs.vodRecover(Prompts.VODRecovery()));
+                repeat=Prompts.repeat(vType.VOD, oType.Recover);
+            }
+        }
+        else {
+            while(repeat){
+                printResults(Highlights.recover(Prompts.getURL(vType.Highlight, oType.Recover)));
+                repeat=Prompts.repeat(vType.Highlight, oType.Recover);
+            }
+        }
     }
 }

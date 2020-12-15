@@ -206,4 +206,43 @@ public class Prompts {
         }
         return fp;
     }
+
+    /**
+     * This method retrieves either
+     * the manual values of the VOD to
+     * be recovered or the Twitch analytics URL.
+     * @return String[]     String array holding either the Twitch analytics URL or the manual values.
+     */
+    protected static String[] VODRecovery(){
+        String[] values;
+        VODRecoveryMenu();
+        if(getIntInput(1,2)==1){
+            values=new String[1];
+            values[0]=getURL(vType.VOD, oType.Recover);
+        }
+        else{
+            values=new String[3];
+            Scanner sc=new Scanner(System.in);
+            System.out.print("\n\nStreamer's username: ");
+            values[0]=sc.nextLine();
+            System.out.print("\nStream ID: ");
+            values[1]=sc.nextLine();
+            System.out.print("\nTimestamp of the start of the stream (in the YYYY-MM-DD HH:mm:ss format): ");
+            values[2]=sc.nextLine();
+        }
+        return values;
+    }
+
+    /**
+     * This method prints the VOD recovery menu
+     */
+    private static void VODRecoveryMenu(){
+        System.out.print(
+                "\n\nVOD Recovery:"
+                + "\nTo recover a VOD (time limit of maximum 60 days), you can either:"
+                + "\n1. Use a stream analytics link."
+                + "\n(Supports stream links from Twitch Tracker and Stream Charts)"
+                + "\n2. Input values manually."
+        );
+    }
 }
