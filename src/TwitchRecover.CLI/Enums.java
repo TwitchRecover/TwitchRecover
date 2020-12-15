@@ -31,3 +31,16 @@ enum vType{
         stream=s;
     }
 }
+
+/**
+ * This enum represents the operation type to handle.
+ */
+enum oType{
+    Recover("recover"),
+    Download("download");
+
+    String text;
+    oType(String t){
+        text=t;
+    }
+}

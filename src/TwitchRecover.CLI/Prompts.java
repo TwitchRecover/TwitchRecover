@@ -145,40 +145,52 @@ public class Prompts {
      * and adjusts it if necessary.
      * @return String   String value representing the output file path.
      */
-    protected static String getOutFP(vType t){
+    protected static String getOutFP(vType v){
         Scanner sc=new Scanner(System.in);
-        System.out.print("\n\nPlease enter the file path of the folder where you want the " + t + " to be saved:\n");
+        System.out.print("\n\nPlease enter the file path of the folder where you want the " + v + " to be saved:\n");
         String fp=sc.nextLine();
         sc.close();
         return fpAdjust(fp);
     }
 
     /**
-     * This method retrieves the URL to
-     * be downloaded.
-     * @param t         A vType enum which represents which video type is going to be downloaded.
-     * @return String   String value representing the URL to be downloaded.
+     * This method retrieves the URL for
+     * a particular operation.
+     * @param v         vType enum representing the video type of the operation.
+     * @param o         oType enum representing the operation type.
+     * @return String   String value representing the retrieved URL.
      */
-    protected static String getDURL(vType t){
+    protected static String getURL(vType v, oType o){
         Scanner sc=new Scanner(System.in);
-        System.out.print("\n\nPlease enter the URL of the " + t.text + " to download:\n");
+        System.out.print("\n\nPlease enter the URL of the " + v.text + " to " + o.text + ":\n");
         String input=sc.nextLine();
         sc.close();
         return input;
     }
 
     /**
-     * This method retrieves the URL to
-     * be recovered.
-     * @param t     A vType enum which represents which video type is going to be downloaded.
-     * @return      A string value representing the URL to be recovered.
+     * This method queries the user on
+     * whether or not they wish to repeat
+     * the operation they just completed.
+     * @param t         vType enum representing the video type to handle.
+     * @param o         oType enum representing the operation type to handle.
+     * @return boolean  Boolean value representing whether or not the user wishes to repeat the operation they just completed.
      */
-    protected static String getRURL(vType t){
+    protected static boolean repeat(vType v, oType o){
         Scanner sc=new Scanner(System.in);
-        System.out.print("\n\nPlease enter the " + t.stream + "URL of the " + t.text + " to recover:\n");
-        String input=sc.nextLine();
+        System.out.print(
+                  "\nDo you want to " + o.text + " another " + v.text + "?"
+                + "\nEnter y for yes and n for no: "
+        );
+        while(!(sc.nextLine().equalsIgnoreCase("y") || sc.nextLine().equalsIgnoreCase("n"))){
+            System.out.print(
+                      "\nINCORRECT INPUT"
+                    + "\nPlease enter either a 'y' or a 'n' corresponding to your desired selection: "
+            );
+        }
+        boolean result=sc.nextLine().equalsIgnoreCase("y");
         sc.close();
-        return input;
+        return result;
     }
 
     /**
