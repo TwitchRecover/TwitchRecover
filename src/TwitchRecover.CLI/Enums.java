@@ -21,8 +21,8 @@ package TwitchRecover.CLI;
  */
 enum vType{
     VOD("VOD"),
-    Highlight("Highlight"),
-    Clip("Clip");
+    Highlight("highlight"),
+    Clip("clip");
 
     String text;
     vType(String t){
