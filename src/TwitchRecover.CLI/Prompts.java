@@ -149,9 +149,9 @@ public class Prompts {
      * and adjusts it if necessary.
      * @return String   String value representing the output file path.
      */
-    protected static String getOutFP(){
+    protected static String getOutFP(vType t){
         Scanner sc=new Scanner(System.in);
-        System.out.print("\n\nPlease enter the file path of the folder where you want the output file to be saved:\n");
+        System.out.print("\n\nPlease enter the file path of the folder where you want the " + t + " to be saved:\n");
         String fp=sc.nextLine();
         sc.close();
         return fpAdjust(fp);
