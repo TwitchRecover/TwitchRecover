@@ -63,7 +63,8 @@ public class CLIHandler {
             }
         }
         if(Prompts.repeat(vType.Results, oType.Output)){
-            String fp=Prompts.getOutFP(vType.Results)+"TwitchRecover-"+FileIO.fp+".txt";
+            String fp=Prompts.getOutFP(vType.Results)+"TwitchRecover-"+FileIO.fn+".txt";
+            results.add(0, "Results generated using Twitch Recover. https://github.com/TwitchRecover/TwitchRecover");
             FileIO.write(results, fp);
         }
     }
