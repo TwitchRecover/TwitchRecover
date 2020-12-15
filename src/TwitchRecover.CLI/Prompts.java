@@ -59,17 +59,7 @@ public class Prompts {
     protected static int menu(){
         Scanner sc=new Scanner(System.in);
         menuPrinter();
-        System.out.print("\nPlease enter the number of the option you want to select (number between 1-9 inclusive:\n");
-        int input=Integer.parseInt(sc.nextLine());
-        while(!(input>0 && input<10)){
-            System.out.print(
-                      "\n\nINCORRECT INPUT"
-                    + "\nPLEASE ENTER THE NUMBER OF THE OPTION YOU WANT TO SELECT (number between 1-9 inclusive):\n"
-            );
-            input=Integer.parseInt(sc.nextLine());
-        }
-        sc.close();
-        return input;
+        return getIntInput(1,9);
     }
 
     /**
@@ -101,16 +91,7 @@ public class Prompts {
     protected static int massOptions(){
         Scanner sc=new Scanner(System.in);
         massMenu();
-        System.out.print("\nPlease enter the number of the option you want to select (number between 1-5 inclusive):\n");
-        int input=Integer.parseInt(sc.nextLine());
-        while(!(input>0 && input<6)){
-            System.out.print(
-                      "\n\nINCORRECT INPUT"
-                    + "\nPLEASE ENTER THE NUMBER OF THE OPTION YOU WANT TO SELECT (number between 1-5 inclusive):\n"
-            );
-        }
-        sc.close();
-        return input;
+        return getIntInput(1,5);
     }
 
     /**
@@ -194,7 +175,7 @@ public class Prompts {
      */
     protected static String getRURL(vType t){
         Scanner sc=new Scanner(System.in);
-        System.out.print("\n\nPlease enter the URL of the " + t.text + " to recover:\n");
+        System.out.print("\n\nPlease enter the " + t.stream + "URL of the " + t.text + " to recover:\n");
         String input=sc.nextLine();
         sc.close();
         return input;

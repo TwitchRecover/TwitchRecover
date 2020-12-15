@@ -20,12 +20,14 @@ package TwitchRecover.CLI;
  * This enum represents the video type to handle.
  */
 enum vType{
-    VOD("VOD"),
-    Highlight("highlight"),
-    Clip("clip");
+    VOD("VOD", "stream"),
+    Highlight("highlight", ""),
+    Clip("clip", "");
 
     String text;
-    vType(String t){
+    String stream;
+    vType(String t, String s){
         text=t;
+        stream=s;
     }
 }
