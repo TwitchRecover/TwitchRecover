@@ -22,7 +22,8 @@ package TwitchRecover.CLI;
 enum vType{
     VOD("VOD", "stream"),
     Highlight("highlight", ""),
-    Clip("clip", "");
+    Clip("clip", ""),
+    Results("results", "");
 
     String text;
     String stream;
@@ -37,7 +38,8 @@ enum vType{
  */
 enum oType{
     Recover("recover"),
-    Download("download");
+    Download("download"),
+    Output("export");
 
     String text;
     oType(String t){

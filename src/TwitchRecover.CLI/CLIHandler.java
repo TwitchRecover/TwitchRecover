@@ -17,10 +17,12 @@
 package TwitchRecover.CLI;
 
 import TwitchRecover.Core.Download;
+import TwitchRecover.Core.FileIO;
 import TwitchRecover.Core.Highlights;
 import TwitchRecover.Core.VODs;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
 /**
  * This is the handler for the entirety of the CLI
@@ -44,6 +46,12 @@ public class CLIHandler {
         }
     }
 
+    /**
+     * This method prints the results
+     * and also if the user desires,
+     * export the results to a file.
+     * @param results   String arraylist holding all of the results to be outputted.
+     */
     private static void printResults(ArrayList<String> results){
         System.out.print("\n\nResults:\n");
         if(results.size()==0){
@@ -54,13 +62,16 @@ public class CLIHandler {
                 System.out.print("\n"+s);
             }
         }
-        //TODO: Add exports.
+        if(Prompts.repeat(vType.Results, oType.Output)){
+            String fp=Prompts.getOutFP(vType.Results)+"TwitchRecover-"+FileIO.fp+".txt";
+            FileIO.write(results, fp);
+        }
     }
 
     /**
      * This method handles the downloading
      * of videos for the CLI handler.
-     * @param option
+     * @param option    Integer value representing the user's input.
      */
     private static void videoDownload(int option){
         String url=null, fp=null;
@@ -89,6 +100,11 @@ public class CLIHandler {
         System.out.print("\n\nFile has being succesfully downloaded!");
     }
 
+    /**
+     * This method handles the recovery
+     * for all videos for the CLI handler.
+     * @param option    Integer value representing the user's input.
+     */
     private static void videoRecover(int option){
         String url=null, fp=null;
         ArrayList<String> results;

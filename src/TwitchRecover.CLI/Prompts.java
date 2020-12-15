@@ -178,8 +178,12 @@ public class Prompts {
      */
     protected static boolean repeat(vType v, oType o){
         Scanner sc=new Scanner(System.in);
+        String midWord="another";
+        if(o==oType.Output){
+            midWord="the";
+        }
         System.out.print(
-                  "\nDo you want to " + o.text + " another " + v.text + "?"
+                  "\nDo you want to " + o.text + " " + midWord + " " + v.text + "?"
                 + "\nEnter y for yes and n for no: "
         );
         while(!(sc.nextLine().equalsIgnoreCase("y") || sc.nextLine().equalsIgnoreCase("n"))){
