@@ -16,9 +16,11 @@
 
 package TwitchRecover.Core.Downloader;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 
 /**
  * This class handles all of the file handling

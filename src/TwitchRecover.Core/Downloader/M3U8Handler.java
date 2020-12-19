@@ -7,14 +7,19 @@
  * You should have received a copy of the GNU General Public License along with this program. If not see http://www.gnu.org/licenses/ or write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-package TwitchRecover.Core.Enums;
+/*
+ * @author Daylam Tayari https://github.com/daylamtayari
+ * @version 2.0
+ * Github project home page: https://github.com/TwitchRecover
+ * Twitch Recover repository: https://github.com/TwitchRecover/TwitchRecover
+ */
 
-public enum Timeout {
-    CONNECT(60000),
-    READ(60000);
+package TwitchRecover.Core.Downloader;
 
-    public int time;    //Timeout time in milliseconds.
-    Timeout(int m){
-        time=m;
-    }
+/**
+ * This class handles all of the methods related
+ * to M3U8 processing for downloads.
+ */
+class M3U8Handler {
+
 }

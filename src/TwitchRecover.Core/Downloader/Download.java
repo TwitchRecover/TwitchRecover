@@ -42,6 +42,10 @@ public class Download {
         FileUtils.copyURLToFile(dURL, dFile, Timeout.CONNECT.time, Timeout.READ.time);
     }
 
+    public static void m3u8Download(String url, String fp){
+
+    }
+
     /**
      * This method creates a temporary download
      * from a URL.
