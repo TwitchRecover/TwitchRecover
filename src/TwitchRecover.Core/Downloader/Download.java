@@ -28,6 +28,19 @@ import java.net.URL;
  * and handles all of the downloads.
  */
 public class Download {
+    /**
+     * This method downloads a file from a
+     * given URL and downloads it at a given
+     * file path.
+     * @param url
+     * @param fp
+     * @throws IOException
+     */
+    public static void download(String url, String fp) throws IOException {
+        URL dURL=new URL(url);
+        File dFile=new File(fp);
+        FileUtils.copyURLToFile(dURL, dFile, Timeout.CONNECT.time, Timeout.READ.time);
+    }
 
     /**
      * This method creates a temporary download
