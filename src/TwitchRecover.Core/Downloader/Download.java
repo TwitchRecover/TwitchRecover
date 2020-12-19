@@ -74,8 +74,8 @@ public class Download {
         else if(prefix.length()<100){
             prefix="0"+prefix;
         }
-        File downloadedFile=File.createTempFile(FileHandler.TEMP_FOLDER_PATH+File.separator+prefix, "."+FilenameUtils.getExtension(dURL.getPath()));    //Creates the temp file.
-        downloadedFile.deleteOnExit();
+        File downloadedFile=File.createTempFile(prefix+"-", "."+FilenameUtils.getExtension(dURL.getPath()), new File(FileHandler.TEMP_FOLDER_PATH+File.separator));    //Creates the temp file.
+        downloadedFile.deleteOnExit();  //TODO: The deletion is currently not occuring, to fix.
         FileUtils.copyURLToFile(dURL, downloadedFile, Timeout.CONNECT.time, Timeout.READ.time);
         return downloadedFile;
     }
@@ -105,7 +105,7 @@ public class Download {
                     final int threadIndex=finalIndex;
                     final String threadItem=item;
                     try{
-                        File tempTS=tempDownload(threadItem);
+                        File tempTS=tempDownload(threadItem);   //TODO: Last chunk is not being downloaded, to fix.
                         segmentMap.put(threadIndex, tempTS);
                     }
                     catch(Exception ignored){}

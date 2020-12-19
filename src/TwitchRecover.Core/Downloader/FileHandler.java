@@ -16,11 +16,14 @@
 
 package TwitchRecover.Core.Downloader;
 
-import java.io.File;
-import java.io.IOException;
+import TwitchRecover.Core.Enums.FileExtensions;
+import lombok.Cleanup;
+import org.apache.commons.io.IOUtils;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.NavigableMap;
 
 /**
  * This class handles all of the file handling
@@ -36,5 +39,34 @@ class FileHandler {
      */
     protected static void createTempFolder() throws IOException {
         TEMP_FOLDER_PATH= Files.createTempDirectory("TwitchRecover-").toAbsolutePath();
+    }
+
+    /**
+     * This method merges all of the
+     * segmented files of the M3U8 playlist
+     * into a single file.
+     * @param segmentMap    Navigable map holding the index and file objects of all the segment files.
+     * @param fp            Final file path of the file.
+     */
+    protected static void mergeFile(NavigableMap<Integer, File> segmentMap, String fp){
+        File output=new File(fp+"."+ FileExtensions.TS);
+        segmentMap.forEach((key, segment) -> {
+            try{
+                fileMerger(segment, output);
+            }
+            catch(Exception ignored){}
+        });
+    }
+
+    /**
+     * Method which merges two files together.
+     * @param input     File to be merged.
+     * @param output    File to be merged into.
+     * @throws IOException
+     */
+    private static void fileMerger(File input, File output) throws IOException {
+        @Cleanup OutputStream os= new BufferedOutputStream(new FileOutputStream(output, true));
+        @Cleanup InputStream is=new BufferedInputStream(new FileInputStream(input));
+        IOUtils.copy(is, os);
     }
 }
