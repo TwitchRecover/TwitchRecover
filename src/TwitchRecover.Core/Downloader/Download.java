@@ -54,7 +54,8 @@ public class Download {
     public static void m3u8Download(String url, String fp) throws IOException {
         FileHandler.createTempFolder();
         ArrayList<String> chunks=M3U8Handler.getChunks(url);
-
+        NavigableMap<Integer, File> segmentMap=TSDownload(chunks);
+        FileHandler.mergeFile(segmentMap, fp);
     }
 
     /**
@@ -79,7 +80,14 @@ public class Download {
         return downloadedFile;
     }
 
-    private static NavigableMap<Integer, File> TSDownload(ArrayList<String> links, String fp){
+    /**
+     * This method downloads all of the segments
+     * of an M3U8 playlist and incorporates them all
+     * in a navigable map.
+     * @param links                         Arraylist holding all of the links to download.
+     * @return NavigableMap<Integer, File>  Navigable map holdding the index and file objects of each TS segment.
+     */
+    private static NavigableMap<Integer, File> TSDownload(ArrayList<String> links){
         NavigableMap<Integer, File> segmentMap=new TreeMap<>();
         Queue<String> downloadQueue=new ConcurrentLinkedQueue<>();
         for(String link: links){    //Adds all the links to the ressource queue.

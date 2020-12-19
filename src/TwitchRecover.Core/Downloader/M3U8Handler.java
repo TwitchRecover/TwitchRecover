@@ -52,10 +52,10 @@ class M3U8Handler {
         String line;
         while(sc.hasNextLine()){
             line=sc.nextLine();
-            if(line.contains("unmuted") && !line.contains("#")){
+            if(line.contains("unmuted") && !line.startsWith("#")){
                 chunks.add(baseURL+line.substring(0, line.indexOf("-")+1)+"muted.ts");
             }
-            else if(!line.contains("#")){
+            else if(!line.startsWith("#")){
                 chunks.add(baseURL+line);
             }
         }

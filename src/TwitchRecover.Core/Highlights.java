@@ -16,9 +16,15 @@
 
 package TwitchRecover.Core;
 
+import java.util.ArrayList;
+
 /**
  * This class handles the core elements
  * for highlights.
  */
 public class Highlights {
+    public static ArrayList<String> recover(String url){
+        ArrayList<String> results=new ArrayList<String>();
+        return results;
+    }
 }
