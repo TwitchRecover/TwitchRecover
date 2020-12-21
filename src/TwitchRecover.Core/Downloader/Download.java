@@ -42,14 +42,17 @@ public class Download {
      * This method downloads a file from a
      * given URL and downloads it at a given
      * file path.
-     * @param url
-     * @param fp
+     * @param url           String value representing the URL to download.
+     * @param fp            String value representing the complete file path of the file.
+     * @return String       String value representing the complete file path of where the file was downloaded.
      * @throws IOException
      */
-    public static void download(String url, String fp) throws IOException {
+    public static String download(String url, String fp) throws IOException {
+        String extension=url.substring(url.lastIndexOf("."));
         URL dURL=new URL(url);
-        File dFile=new File(fp);
+        File dFile=new File(fp+extension);
         FileUtils.copyURLToFile(dURL, dFile, Timeout.CONNECT.time, Timeout.READ.time);
+        return dFile.getAbsolutePath();
     }
 
     public static String m3u8Download(String url, String fp) throws IOException {
