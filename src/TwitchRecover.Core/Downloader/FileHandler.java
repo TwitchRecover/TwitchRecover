@@ -39,6 +39,8 @@ class FileHandler {
      */
     protected static void createTempFolder() throws IOException {
         TEMP_FOLDER_PATH= Files.createTempDirectory("TwitchRecover-").toAbsolutePath();
+        File tempDir=new File(String.valueOf(TEMP_FOLDER_PATH));
+        tempDir.deleteOnExit();
     }
 
     /**
@@ -48,7 +50,7 @@ class FileHandler {
      * @param segmentMap    Navigable map holding the index and file objects of all the segment files.
      * @param fp            Final file path of the file.
      */
-    protected static void mergeFile(NavigableMap<Integer, File> segmentMap, String fp){
+    protected static String mergeFile(NavigableMap<Integer, File> segmentMap, String fp){
         File output=new File(fp+"."+ FileExtensions.TS);
         segmentMap.forEach((key, segment) -> {
             try{
@@ -56,6 +58,7 @@ class FileHandler {
             }
             catch(Exception ignored){}
         });
+        return output.getAbsolutePath();
     }
 
     /**
@@ -68,5 +71,7 @@ class FileHandler {
         @Cleanup OutputStream os= new BufferedOutputStream(new FileOutputStream(output, true));
         @Cleanup InputStream is=new BufferedInputStream(new FileInputStream(input));
         IOUtils.copy(is, os);
+        is.close();
+        os.close();
     }
 }

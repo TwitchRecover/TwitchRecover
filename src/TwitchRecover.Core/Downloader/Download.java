@@ -37,6 +37,7 @@ import java.util.concurrent.TimeUnit;
  * and handles all of the downloads.
  */
 public class Download {
+    private static final int MAX_TRIES=5;
     /**
      * This method downloads a file from a
      * given URL and downloads it at a given
@@ -51,11 +52,11 @@ public class Download {
         FileUtils.copyURLToFile(dURL, dFile, Timeout.CONNECT.time, Timeout.READ.time);
     }
 
-    public static void m3u8Download(String url, String fp) throws IOException {
+    public static String m3u8Download(String url, String fp) throws IOException {
         FileHandler.createTempFolder();
         ArrayList<String> chunks=M3U8Handler.getChunks(url);
         NavigableMap<Integer, File> segmentMap=TSDownload(chunks);
-        FileHandler.mergeFile(segmentMap, fp);
+        return FileHandler.mergeFile(segmentMap, fp);
     }
 
     /**
@@ -68,14 +69,14 @@ public class Download {
     protected static File tempDownload(String url) throws IOException{
         URL dURL=new URL(url);
         String prefix=FilenameUtils.getBaseName(dURL.getPath());
-        if(prefix.length()<10){     //This has to be implemented since the prefix value of the createTempFile method
+        if(prefix.length()<2){     //This has to be implemented since the prefix value of the createTempFile method
             prefix="00"+prefix;     //which we use to create a temp file, has to be a minimum of 3 characters long.
         }
-        else if(prefix.length()<100){
+        else if(prefix.length()<3){
             prefix="0"+prefix;
         }
         File downloadedFile=File.createTempFile(prefix+"-", "."+FilenameUtils.getExtension(dURL.getPath()), new File(FileHandler.TEMP_FOLDER_PATH+File.separator));    //Creates the temp file.
-        downloadedFile.deleteOnExit();  //TODO: The deletion is currently not occuring, to fix.
+        downloadedFile.deleteOnExit();
         FileUtils.copyURLToFile(dURL, downloadedFile, Timeout.CONNECT.time, Timeout.READ.time);
         return downloadedFile;
     }
@@ -100,15 +101,19 @@ public class Download {
             String item=downloadQueue.poll();
             final int finalIndex=index;
             downloadTPE.execute(new Runnable() {
+                int currentTries=1;
                 @Override
                 public void run() {
-                    final int threadIndex=finalIndex;
-                    final String threadItem=item;
-                    try{
-                        File tempTS=tempDownload(threadItem);   //TODO: Last chunk is not being downloaded, to fix.
-                        segmentMap.put(threadIndex, tempTS);
+                    while(currentTries<=MAX_TRIES) {
+                        final int threadIndex = finalIndex;
+                        final String threadItem = item;
+                        try {
+                            File tempTS = tempDownload(threadItem);
+                            segmentMap.put(threadIndex, tempTS);
+                            break;
+                        }
+                        catch(Exception ignored) {}
                     }
-                    catch(Exception ignored){}
                 }
             });
         }
@@ -116,7 +121,9 @@ public class Download {
         try{
             downloadTPE.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
         }
-        catch(Exception ignored){}
+        catch(Exception e){
+            Thread.currentThread().interrupt();
+        }
         return segmentMap;
     }
 }

@@ -59,6 +59,7 @@ class M3U8Handler {
                 chunks.add(baseURL+line);
             }
         }
+        sc.close();
         return chunks;
     }
 }
