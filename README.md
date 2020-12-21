@@ -2,7 +2,8 @@
 <a href="https://cash.app/$daylamtayari"><img src="https://img.shields.io/badge//$daylamtayari-%2300C244.svg?&style=for-the-badge&logo=Cash-App&logoColor=white&labelColor=black"></a> 
 <a href="https://www.blockchain.com/btc/address/15KcKrsqW6DQdyZPrgRXXmsKkyyZzHAQVX"><img src="https://img.shields.io/badge/15KcKrsqW6DQdyZPrgRXXmsKkyyZzHAQVX-%23F7931A.svg?&style=for-the-badge&logo=bitcoin&logoColor=white&labelColor=black"></a>
 
-## Notice: The 2.0 version with a GUI, ton of extra features from clips recovery to VOD downloads, clip downloads and much more is releasing early this week!
+### Notice: The 2.0 version with a GUI, ton of extra features from clips recovery to VOD downloads, clip downloads and much more is releasing in alpha between Christmas and New Years. Final version coming out first week of January.  
+### Features of the 2.0 are: getting the live link of a stream; downloading a stream live; downloading VODs; downloading sub-only VODs; recover VODs; download highlights; recover highlights (unconfirmed); download a clip; recover ALL clips from any stream of all time; mass recover and mass download options.  
 
 # Twitch Recover
 
