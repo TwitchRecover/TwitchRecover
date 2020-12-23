@@ -38,23 +38,8 @@ public class API {
      * @return Feeds    Feeds object holding the list of live feeds and corresponding qualities.
      */
     protected static Feeds getLiveFeeds(String channel){
-        String[] auth=getToken(channel);
-        ArrayList<String> responseContents=new ArrayList<String>();
-        try{
-            CloseableHttpClient httpClient=HttpClients.createDefault();
-            HttpGet get=new HttpGet("");    //TODO: Configure M3U8 fetch URL.
-            get.addHeader("User-Agent", "Mozilla/5.0");
-            //TODO: Add any other necessary headers.
-            CloseableHttpResponse httpResponse=httpClient.execute(get);
-            if(httpResponse.getStatusLine().getStatusCode()==200){
-                BufferedReader br=new BufferedReader(new InputStreamReader(httpResponse.getEntity()));.getContent()));
-                String line;
-                while((line=br.readLine())!=null){
-                    responseContents.add(line);
-                }
-            }
-        }
-        catch(Exception ignored){}
+        String[] auth=getLiveToken(channel);    //0: Token; 1: Signature.
+        ArrayList<String> responseContents=getReq("");  //TODO: Add the proper stream request URL.
         return parseFeeds(responseContents);
     }
 
@@ -93,5 +78,34 @@ public class API {
             }
         }
         return feeds;
+    }
+
+    /**
+     * This method performs a get request of a
+     * specific given URL (which has to be a
+     * Twitch API URL that is setup in at least
+     * V5 on the backend.
+     * @param url                   String value representing the URL to perform the get request on.
+     * @return ArrayList<String>    String arraylist holding the entire response from the get request, each line representing an entry.
+     */
+    private static ArrayList<String> getReq(String url){
+        ArrayList<String> responseContents=new ArrayList<String>();
+        try{
+            CloseableHttpClient httpClient=HttpClients.creteDefault();
+            HttpGet httpget=new HttpGet(url);
+            httpget.addHeader("User-Agent", "Mozilla/5.0");
+            httpget.addHeader("Accept", "application/vnd.twitchtv.v5+json");
+            httpget.addHeader("Client-ID", "kimne78kx3ncx6brgo4mv6wki5h1ko");   //Web client client ID (check out my explanation of Twitch's video system for more details).
+            CloseableHttpResponse httpResponse=httpClient.execute(httpget);
+            if(httpResponse.getStatusLine().getStatusCode()==200){
+                BufferedReader br=new BufferedReader(new InputStreamReader(httpResponse.getEntity()));.getContent()));
+                String line;
+                while ((line = br.readLine()) != null) {
+                    responseContents.add(line);
+                }
+            }
+        }
+        catch(Exception ignored){}
+        return responseContents;
     }
 }
