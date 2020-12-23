@@ -111,6 +111,23 @@ public class Feeds {
     }
 
     /**
+     * An accessor that returns the feed url
+     * that corresponds to a particular
+     * given quality.
+     * @param q         Quality enum for which to get the corresponding feed url.
+     * @return String   String value representing the feed url that corresponds to
+     * the given quality or is null if the quality enum does not exist in the Feeds object.
+     */
+    public String getFeedQual(Quality q){
+       for(int i=0; i<qualities.size(); i++){
+           if(qualities.get(i)==q){
+               return feeds.get(i);
+           }
+       }
+       return null;     //If this point it reaches it means the quality wasn't present in the qualities list.
+    }
+
+    /**
      * An accessor for the qualiies
      * arraylist which returns the Quality
      * enum located at a particular enum.
@@ -121,6 +138,22 @@ public class Feeds {
         return qualities.get(i);
     }
 
+    /**
+     * An accessor that returns the quality
+     * enum that corresponds to the quality
+     * of a given feed URL.
+     * @param feed      String value representing the feed value to find the corresponding quality of.
+     * @return Quality  Quality enum which corresponds to the given feed URL
+     * or is null if the feed URL does not exist in this Feeds object.
+     */
+    public Quality getQualityFeed(String feed){
+        for(int i=0; i<feeds.size(); i++){
+            if(feeds.get(i).equals(feed)){
+                return qualities.get(i);
+            }
+        }
+        return null;    //If it reaches this point, the feed url does not exist in this feed object.
+    }
     /**
      * An accessor for the feeds arraylist
      * which returns the entire list of feeds.
