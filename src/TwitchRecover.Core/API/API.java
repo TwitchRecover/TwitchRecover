@@ -14,11 +14,12 @@
  * Twitch Recover repository: https://github.com/TwitchRecover/TwitchRecover
  */
 
-package TwitchRecover.Core;
+package TwitchRecover.Core.API;
 
 /**
  * This class handles all of the
  * API calls and retrievals.
  */
 public class API {
+    
 }
