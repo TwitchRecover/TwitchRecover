@@ -14,36 +14,13 @@
  * Twitch Recover repository: https://github.com/TwitchRecover/TwitchRecover
  */
 
-package TwitchRecover.CLI;
+package TwitchRecover.Core;
 
 /**
- * This enum represents the video type to handle.
+ * This class handles the retrieval
+ * and downloading of live streams.
+ * It is the home of the live options.
  */
-enum vType{
-    VOD("VOD", "stream"),
-    Highlight("highlight", ""),
-    Clip("clip", ""),
-    Stream("", ""),
-    Results("results", "");
+public class Live {
 
-    String text;
-    String stream;
-    vType(String t, String s){
-        text=t;
-        stream=s;
-    }
-}
-
-/**
- * This enum represents the operation type to handle.
- */
-enum oType{
-    Recover("recover"),
-    Download("download"),
-    Output("export");
-
-    String text;
-    oType(String t){
-        text=t;
-    }
 }
