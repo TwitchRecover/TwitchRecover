@@ -20,7 +20,7 @@ Disclaimer: VODs are only kept on Twitch servers for 60 days but in some rare ca
 <break/>  
 
 ### [Graphical (GUI) Version (WIP, coming soon)]()
-### [Command Line Version](https://github.com/TwitchRecover/TwitchRecover/releases/download/1.1/TwitchRecover-CLI-v1.2.exe)
+### [Command Line Version](https://github.com/TwitchRecover/TwitchRecover/releases/download/1.2/TwitchRecover-CLI-v1.2.exe)
 
 ## Installation:
 1. Download the exe file for your desired version.
