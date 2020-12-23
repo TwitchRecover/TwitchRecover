@@ -37,9 +37,23 @@ public class API {
      * @param channel   String value representing the channel name to get the live feeds of.
      * @return Feeds    Feeds object holding the list of live feeds and corresponding qualities.
      */
-    protected static Feeds getLiveFeeds(String channel){
+    public static Feeds getLiveFeeds(String channel){
         String[] auth=getLiveToken(channel);    //0: Token; 1: Signature.
         ArrayList<String> responseContents=getReq("");  //TODO: Add the proper stream request URL.
+        return parseFeeds(responseContents);
+    }
+
+    /**
+     * This method gets the list of feeds
+     * of a VOD that is still up from the
+     * VOD ID.
+     * This is NOT to be used for sub-only VODs.
+     * @param VODID     Long value representing the VOD ID.
+     * @return Feeds    Feeds object holding the list of VOD feeds and their corresponding qualities.
+     */
+    public static Feeds getVODFeeds(long VODID){
+        String[] auth=getVODToken(long VODID);  //0: Token; 1: Signature.
+        ArrayList<String> responseContents=getReq("https://usher.ttvnw.net/vod/"+VODID+".m3u8?nauthsig"+auth[1]+"&nauth="+auth[0]+"&allow_source=true&player=twitchweb&allow_spectre=true&allow_audio_only=true");
         return parseFeeds(responseContents);
     }
 
