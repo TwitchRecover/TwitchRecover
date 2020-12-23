@@ -70,6 +70,18 @@ public class Feeds {
     }
 
     /**
+     * Mutator for both the feeds and qualities arraylists,
+     * adding an entry to both arraylists at one particular index.
+     * @param f     A string value which represents a feed URL to be added to the feeds list.
+     * @param q     A quality enum which represents a quality to be added to the qualities list.
+     * @param i     An integer value representing the index at where to place the entry.
+     */
+    public void addEntryPos(String f, Quality q, int i){
+        feeds.add(i, f);
+        qualities.add(i, q);
+    }
+
+    /**
      * Mutator for the feeds arraylist whcih adds
      * the given string value to the feeds arraylist.
      * @param f     A string value which represents a feed URL to be added to the feeds list.
@@ -121,7 +133,7 @@ public class Feeds {
     /**
      * An accessor for the qualities arraylist
      * which returns the entire list of qualities.
-     * @return ArrayList<Quality>   Quality arraylist whhich represents the entire qualities arraylist.
+     * @return ArrayList<Quality>   Quality arraylist which represents the entire qualities arraylist.
      */
     public ArrayList<Quality> getQualities(){
         return qualities;
