@@ -16,6 +16,7 @@
 
 package TwitchRecover.Core;
 
+import TwitchRecover.Core.Enums.FileExtensions;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -62,5 +63,18 @@ public class FileIO {
         }
         catch(IOException ignored){}
         return contents;
+    }
+
+    /**
+     * This method checks if a file
+     * currently exists at the specific
+     * location.
+     * @param fp        String value representing the complete file path to check for (excluding file extension).
+     * @param fe        FileExtensions enum which represents the anticipated file extension of the file.
+     * @return boolean  Boolean value representing whether or not a file alredy exists at that location or not.
+     */
+    public static boolean checkFileExistence(String fp, FileExtensions fe){
+        File location=new File(fp+fe);
+        return location.exists();
     }
 }
