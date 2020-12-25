@@ -22,9 +22,16 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import TwitchRecover.Core.Compute;
 import TwitchRecover.Core.Enums.Quality;
+import TwitchRecover.Core.Feeds;
+import TwitchRecover.Core.Fuzz;
+import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 /**
  * This class handles all of the
@@ -56,6 +63,53 @@ public class API {
         String[] auth=getVODToken(long VODID);  //0: Token; 1: Signature.
         ArrayList<String> responseContents=getReq("https://usher.ttvnw.net/vod/"+VODID+".m3u8?nauthsig"+auth[1]+"&nauth="+auth[0]+"&allow_source=true&player=twitchweb&allow_spectre=true&allow_audio_only=true");
         return parseFeeds(responseContents);
+    }
+
+    public static Feeds getSubVODFeeds(long VODID){
+        Feeds feeds=new Feeds();
+        //Get the JSON response of the VOD:
+        String response="";
+        try{
+            CloseableHttpClient httpClient=HttpClients.createDefault();
+            HttpGet httpget=new HttpGet("https://api.twitch.tv/kraken/videos/"+VODID);
+            httpget.addHeader("User-Agent", "Mozilla/5.0");
+            httpget.addHeader("Accept", "application/vnd.twitchtv.v5+json");
+            httpget.addHeader("Client-ID", "kimne78kx3ncx6brgo4mv6wki5h1ko");
+            CloseableHttpResponse httpResponse=httpClient.execute(httpget);
+            if(httpResponse.getStatusLine().getStatusCode()==200){
+                BufferedReader br=new BufferedReader(new InputStreamReader(httpResponse.getEntity().getContent()));
+                String line;
+                while ((line = br.readLine()) != null) {
+                    response+=line;
+                }
+                br.close();
+            }
+        }
+        catch (Exception ignored){}
+        //Parse the JSON response:
+        JSONParser parse=new JSONParser();
+        JSONObject jObj= null;
+        try {
+            jObj = (JSONObject) parse.parse(response);
+        }
+        catch (ParseException ignored){}
+        String previewsURL=jObj.get("seek_previews_url").toString();   //Previews URL which is used to get the core of the VOD URL.
+        JSONArray resolutions=(JSONArray) jObj.get("resolutions");      //Get the list of resolutions.
+        JSONArray fps=(JSONArray) jObj.get("fps");      //Get the list of FPS that correspond to each resolution.
+        //Parse the previews URL to get the core of the VOD URL using regex:
+        String core=Compute.singleRegex("https:\\/\\/[a-z0-9]*.cloudfront.net\\/([a-z0-9_]*)\\/storyboards\\/[0-9]*-info.json", previewsURL);
+        //Get the full base URL of the VOD:
+        String baseURL=Fuzz.verifyURL("/"+core+"/chunked/index-dvr.m3u8").get(0);
+        //Modify the base URL to allow for the implementation of resolutions:
+        baseURL=Compute.singleRegex("([a-z0-9-:\\/]*.[a-z]*.[a-z]*\\/[a-z0-9_]*\\/)chunked\\/index-dvr.m3u8", baseURL);
+        //Go through the array, get the quality from the resolution and FPS and add them to the Feeds object.
+        String suffix="/index-dvr.m3u8";
+        feeds.addEntry(baseURL+"chunked"+suffix, Quality.Source);
+        for(int i=resolutions.size()-2; i==0; i--){
+            Quality qual=Quality.getQualityRF(((JSONObject) resolutions.get(i)).toString(), Double.valueOf(((JSONObject) fps.get(i)).toString()));
+            feeds.addEntry(baseURL+qual.video+suffix, qual);
+        }
+        return feeds;
     }
 
     /**
