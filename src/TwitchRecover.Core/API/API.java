@@ -20,6 +20,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import TwitchRecover.Core.Compute;
 import TwitchRecover.Core.Enums.Quality;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -76,18 +77,11 @@ public class API {
                     Pattern p=Pattern.compile(pattern);
                     Matcher m=p.matcher(response.get(i-2));
                     if(m.find()){
-                        feeds.addEntryPos(response.get(i), Quality.getQuality(m.group(1)), 1);
+                        feeds.addEntryPos(response.get(i), Quality.getQualityV(m.group(1)), 1);
                     }
                 }
                 else{
-                    String pattern="#EXT-X-MEDIA:TYPE=VIDEO,GROUP-ID=\"([\\d]*p[36]0)\",NAME=\"([0-9p]*)\",AUTOSELECT=[\"YES\"||\"NO\"]*,DEFAULT=[\"YES\"||\"NO\"]*";
-                    Pattern p=Pattern.compile(pattern);
-                    Matcher m=p.matcher(response.get(i-2));
-                    String quality="";
-                    if(m.find()){
-                        quality=m.group(1);
-                    }
-                    feeds.addEntry(response.get(i), Quality.getQuality(quality));
+                    feeds.addEntry(response.get(i), Quality.getQualityV(Compute.singleRegex("#EXT-X-MEDIA:TYPE=VIDEO,GROUP-ID=\"([\\d]*p[36]0)\",NAME=\"([0-9p]*)\",AUTOSELECT=[\"YES\"||\"NO\"]*,DEFAULT=[\"YES\"||\"NO\"]*", response.get(i-2));));
                 }
             }
         }
@@ -117,6 +111,7 @@ public class API {
                 while ((line = br.readLine()) != null) {
                     responseContents.add(line);
                 }
+                br.close();
             }
         }
         catch(Exception ignored){}

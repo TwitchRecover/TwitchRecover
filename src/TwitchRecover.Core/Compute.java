@@ -29,6 +29,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  * This class contains the fundamental methods of the core package
  * and the ones that compute the fundamental elements of the
@@ -90,5 +93,24 @@ public class Compute {
         }
         String hash=sb.toString();
         return hash.substring(0, 20);
+    }
+
+    /**
+     * This method computes the regex of a
+     * given value and returns the value of
+     * the first group, or if the pattern
+     * did not match the given value, it
+     * returns null.
+     * @param pattern   String value representing the regex pattern to compile.
+     * @param value     String value representing the value to apply the regex pattern to.
+     * @return String   String value representing the first regex group or null if the regex did not compile.
+     */
+    public static String singleRegex(String pattern, String value){
+        Pattern p=Pattern.compile(pattern);
+        Matcher m=p.matcher(value);
+        if(m.find()){
+            return m.group(1);
+        }
+        return null;
     }
 }
