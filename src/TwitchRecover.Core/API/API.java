@@ -65,6 +65,13 @@ public class API {
         return parseFeeds(responseContents);
     }
 
+    /**
+     * This method retrieves the M3U8 feeds for
+     * sub-only VODs by utilising values provided
+     * in the public VOD metadata API.
+     * @param VODID     Long value representing the VOD ID to retrieve the feeds for.
+     * @return Feeds    Feeds object holding all of the feed URLs and their respective qualities.
+     */
     public static Feeds getSubVODFeeds(long VODID){
         Feeds feeds=new Feeds();
         //Get the JSON response of the VOD:
