@@ -81,7 +81,7 @@ public class API {
                     }
                 }
                 else{
-                    feeds.addEntry(response.get(i), Quality.getQualityV(Compute.singleRegex("#EXT-X-MEDIA:TYPE=VIDEO,GROUP-ID=\"([\\d]*p[36]0)\",NAME=\"([0-9p]*)\",AUTOSELECT=[\"YES\"||\"NO\"]*,DEFAULT=[\"YES\"||\"NO\"]*", response.get(i-2));));
+                    feeds.addEntry(response.get(i), Quality.getQualityV(Compute.singleRegex("#EXT-X-MEDIA:TYPE=VIDEO,GROUP-ID=\"([\\d]*p[36]0)\",NAME=\"([0-9p]*)\",AUTOSELECT=[\"YES\"||\"NO\"]*,DEFAULT=[\"YES\"||\"NO\"]*", response.get(i-2))));
                 }
             }
         }
@@ -99,14 +99,14 @@ public class API {
     private static ArrayList<String> getReq(String url){
         ArrayList<String> responseContents=new ArrayList<String>();
         try{
-            CloseableHttpClient httpClient=HttpClients.creteDefault();
+            CloseableHttpClient httpClient=HttpClients.createDefault();
             HttpGet httpget=new HttpGet(url);
             httpget.addHeader("User-Agent", "Mozilla/5.0");
             httpget.addHeader("Accept", "application/vnd.twitchtv.v5+json");
             httpget.addHeader("Client-ID", "kimne78kx3ncx6brgo4mv6wki5h1ko");   //Web client client ID (check out my explanation of Twitch's video system for more details).
             CloseableHttpResponse httpResponse=httpClient.execute(httpget);
             if(httpResponse.getStatusLine().getStatusCode()==200){
-                BufferedReader br=new BufferedReader(new InputStreamReader(httpResponse.getEntity()));.getContent()));
+                BufferedReader br=new BufferedReader(new InputStreamReader(httpResponse.getEntity().getContent()));
                 String line;
                 while ((line = br.readLine()) != null) {
                     responseContents.add(line);

@@ -207,7 +207,7 @@ public class Fuzz {
      * @return ArrayList<String>    String arraylist representing the
      * working VOD M3U8 URLs.
      */
-    protected static ArrayList<String> verifyURL(String url){
+    public static ArrayList<String> verifyURL(String url){
         ArrayList<String> domains=getDomains();
         ArrayList<String> results=new ArrayList<String>();
         for(String d: domains){
