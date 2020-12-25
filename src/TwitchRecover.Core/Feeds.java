@@ -14,7 +14,7 @@
  * Twitch Recover repository: https://github.com/TwitchRecover/TwitchRecover
  */
 
-package TwitchRecover.Core.API;
+package TwitchRecover.Core;
 import TwitchRecover.Core.Enums.Quality;
 import java.util.ArrayList;
 
