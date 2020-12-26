@@ -16,10 +16,30 @@
 
 package TwitchRecover.Core;
 
+import TwitchRecover.Core.Enums.FileExtensions;
+
 /**
- * This class handles the core elements
- * for VODs.
+ * This VOD object holds
+ * all of the elements and
+ * methods necessary to process
+ * a VOD.
  */
 public class VOD {
+    private boolean subOnly;    //Boolean value representing whether or not a VOD is sub-only.
+    private boolean isDeleted;  //Boolean value representing whether or not a VOD is still up.
+    private Feeds feeds;        //Feeds object corresponding to the VOD.
+    private FileExtensions fe;  //Desired output file extension.
+    private long VODID;         //VOD ID of a VOD if it is still up.
 
+    /**
+     * The constructor of a
+     * VOD object which initialises
+     * two boolean values based on given inputs.
+     * @param subOnly       Boolean value representing whether or not the VOD is a sub-only VOD.
+     * @param isDeleted     Boolean value representing whether or not the VOD has being deleted or not.
+     */
+    public VOD(boolean subOnly, boolean isDeleted){
+        this.subOnly=subOnly;
+        this.isDeleted=isDeleted;
+    }
 }
