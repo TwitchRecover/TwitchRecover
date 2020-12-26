@@ -16,7 +16,7 @@
 
 package TwitchRecover.Core;
 
-import TwitchRecover.Core.Enums.FileExtensions;
+import TwitchRecover.Core.Enums.FileExtension;
 
 /**
  * This VOD object holds
@@ -28,8 +28,9 @@ public class VOD {
     private boolean subOnly;    //Boolean value representing whether or not a VOD is sub-only.
     private boolean isDeleted;  //Boolean value representing whether or not a VOD is still up.
     private Feeds feeds;        //Feeds object corresponding to the VOD.
-    private FileExtensions fe;  //Desired output file extension.
+    private FileExtension fe;   //Desired output file extension.
     private long VODID;         //VOD ID of a VOD if it is still up.
+    private String[] vodInfo;   //String array containing the VOD info such as streamer, timestamp, etc.
 
     /**
      * The constructor of a
@@ -41,5 +42,44 @@ public class VOD {
     public VOD(boolean subOnly, boolean isDeleted){
         this.subOnly=subOnly;
         this.isDeleted=isDeleted;
+    }
+
+    /**
+     * Accessor for the Feeds
+     * object of the VOD object.
+     * @return Feeds    Feeds object of the VOD object.
+     */
+    public Feeds getFeeds(){
+        return feeds;
+    }
+
+    /**
+     * Mutator for the
+     * VODID variable.
+     * @param VODID     Long value which represents the VODID of the VOD.
+     */
+    public void setID(long VODID){
+        this.VODID=VODID;
+    }
+
+    /**
+     * Mutator for the file extension
+     * enum which represents the user's
+     * desired file output format.
+     * @param fe    A FileExtensions enum which represents the user's desired output file extension.
+     */
+    public void setFE(FileExtension fe){
+        this.fe=fe;
+    }
+
+    /**
+     * Mutator for the VOD info
+     * string array which contains
+     * all of the information about a
+     * VOD in order to compute the base URL.
+     * @param info      String array containing the information about the VOD.
+     */
+    public void setVODInfo(String[] info){
+        vodInfo=info;
     }
 }
