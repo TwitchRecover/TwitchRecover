@@ -20,6 +20,6 @@ package TwitchRecover.Core;
  * This class handles the core elements
  * for VODs.
  */
-public class VODs {
+public class VOD {
 
 }

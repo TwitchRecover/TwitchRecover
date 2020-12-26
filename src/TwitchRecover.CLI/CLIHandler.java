@@ -19,10 +19,9 @@ package TwitchRecover.CLI;
 import TwitchRecover.Core.Download;
 import TwitchRecover.Core.FileIO;
 import TwitchRecover.Core.Highlights;
-import TwitchRecover.Core.VODs;
+import TwitchRecover.Core.VOD;
 
 import java.util.ArrayList;
-import java.util.Scanner;
 
 /**
  * This is the handler for the entirety of the CLI
@@ -93,10 +92,10 @@ public class CLIHandler {
             Download.m3u8Download(url, fp);
         }
         else if(isM3U8 && option==2){
-            VODs.subVODDownload(url, fp);
+            VOD.subVODDownload(url, fp);
         }
         else{
-            VODs.vodDownload(url, fp);
+            VOD.vodDownload(url, fp);
         }
         System.out.print("\n\nFile has being succesfully downloaded!");
     }
@@ -112,7 +111,7 @@ public class CLIHandler {
         boolean repeat=true;
         if(option==3){
             while(repeat){
-                printResults(VODs.vodRecover(Prompts.VODRecovery()));
+                printResults(VOD.vodRecover(Prompts.VODRecovery()));
                 repeat=Prompts.repeat(vType.VOD, oType.Recover);
             }
         }
