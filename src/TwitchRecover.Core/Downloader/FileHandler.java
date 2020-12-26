@@ -16,13 +16,12 @@
 
 package TwitchRecover.Core.Downloader;
 
-import TwitchRecover.Core.Enums.FileExtensions;
+import TwitchRecover.Core.Enums.FileExtension;
 import lombok.Cleanup;
 import org.apache.commons.io.IOUtils;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.NavigableMap;
 
 /**
@@ -51,7 +50,7 @@ class FileHandler {
      * @param fp            Final file path of the file.
      */
     protected static String mergeFile(NavigableMap<Integer, File> segmentMap, String fp){
-        File output=new File(fp+"."+ FileExtensions.TS);
+        File output=new File(fp+"."+ FileExtension.TS);
         segmentMap.forEach((key, segment) -> {
             try{
                 fileMerger(segment, output);

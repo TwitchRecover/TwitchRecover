@@ -16,7 +16,6 @@
 
 package TwitchRecover.Core.Downloader;
 
-import TwitchRecover.Core.Enums.FileExtensions;
 import TwitchRecover.Core.Enums.Timeout;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;

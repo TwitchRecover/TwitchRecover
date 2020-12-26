@@ -13,13 +13,13 @@ package TwitchRecover.Core.Enums;
  * File extension enum which represents all
  * of the file extensions that are handled.
  */
-public enum FileExtensions {
+public enum FileExtension {
     M3U8(".m3u8"),
     TS(".ts"),
     MP4(".mp4");
 
     String fileExtension;
-    FileExtensions(String fe){
+    FileExtension(String fe){
         fileExtension=fe;
     }
 }
