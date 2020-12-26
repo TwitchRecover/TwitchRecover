@@ -16,7 +16,9 @@
 
 package TwitchRecover.Core;
 
+import TwitchRecover.Core.API.API;
 import TwitchRecover.Core.Enums.FileExtension;
+import java.util.ArrayList;
 
 /**
  * This VOD object holds
@@ -25,12 +27,13 @@ import TwitchRecover.Core.Enums.FileExtension;
  * a VOD.
  */
 public class VOD {
-    private boolean subOnly;    //Boolean value representing whether or not a VOD is sub-only.
-    private boolean isDeleted;  //Boolean value representing whether or not a VOD is still up.
-    private Feeds feeds;        //Feeds object corresponding to the VOD.
-    private FileExtension fe;   //Desired output file extension.
-    private long VODID;         //VOD ID of a VOD if it is still up.
-    private String[] vodInfo;   //String array containing the VOD info such as streamer, timestamp, etc.
+    private boolean subOnly;                    //Boolean value representing whether or not a VOD is sub-only.
+    private boolean isDeleted;                  //Boolean value representing whether or not a VOD is still up.
+    private Feeds feeds;                        //Feeds object corresponding to the VOD.
+    private FileExtension fe;                   //Desired output file extension.
+    private long VODID;                         //VOD ID of a VOD if it is still up.
+    private String[] vodInfo;                   //String array containing the VOD info such as streamer, timestamp, etc.
+    private ArrayList<String> retrievedURLs;    //Arraylist containing all of the VOD 'chunked' M3U8s of a particular VOD.
 
     /**
      * The constructor of a
@@ -42,6 +45,32 @@ public class VOD {
     public VOD(boolean subOnly, boolean isDeleted){
         this.subOnly=subOnly;
         this.isDeleted=isDeleted;
+    }
+
+    /**
+     * This method gets the corresponding
+     * Feeds object to a given VOD ID.
+     * @return Feeds    Feeds object corresponding to the VOD of the VOD ID.
+     */
+    public Feeds getVODFeeds(){
+        if(!subOnly){
+            feeds= API.getVODFeeds(VODID);
+        }
+        else{
+            feeds=API.getSubVODFeeds(VODID);
+        }
+        return feeds;
+    }
+
+    /**
+     * Accessor for a single particular
+     * feed of the Feeds object based
+     * on a given integer ID.
+     * @param id        Integer value representing the list value of the feed to fetch.
+     * @return String   Feed URL corresponding to the given ID.
+     */
+    public String getFeed(int id){
+        return feeds.getFeed(id-1);
     }
 
     /**
