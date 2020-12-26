@@ -175,6 +175,31 @@ public class API {
     }
 
     /**
+     * This method retrieves the
+     * token and signature values
+     * for a VOD.
+     * @param VODID     Long value representing the VOD ID to get the token and signature for.
+     * @return String[] String array holding the token in the first position and the signature in the second position.
+     * String[2]: 0: Token; 1: Signature.
+     */
+    private static String[] getVODToken(long VODID){
+        String[] results=new String[2];
+        //GET Request and parse JSON:
+        ArrayList<String> responseContents=getReq("https://api.twitch.tv/api/vods/"+VODID+"/access_token");
+        JSONParser parse=new JSONParser();
+        JSONObject jObj=null;
+        try{
+            jObj=(JSONObject) parse.parse(responseContents.get(0));
+        }
+        catch(ParseException ignored){}
+        String token=jObj.get("token").toString();
+        results[1]=jObj.get("sig").toString();
+        //Remove back slashes from the token:
+        results[0]=token.replace("\\", "");
+        return results;
+    }
+
+    /**
      * This method performs a get request of a
      * specific given URL (which has to be a
      * Twitch API URL that is setup in at least
