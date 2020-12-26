@@ -47,7 +47,7 @@ public class API {
      */
     public static Feeds getLiveFeeds(String channel){
         String[] auth=getLiveToken(channel);    //0: Token; 1: Signature.
-        ArrayList<String> responseContents=getReq("");  //TODO: Add the proper stream request URL.
+        ArrayList<String> responseContents=getReq("https://usher.ttvnw.net/api/channel/hls/"+channel+".m3u8?sig="+auth[1]+"&token="+auth[0]);
         return parseFeeds(responseContents);
     }
 
@@ -60,7 +60,7 @@ public class API {
      * @return Feeds    Feeds object holding the list of VOD feeds and their corresponding qualities.
      */
     public static Feeds getVODFeeds(long VODID){
-        String[] auth=getVODToken(long VODID);  //0: Token; 1: Signature.
+        String[] auth=getVODToken(VODID);  //0: Token; 1: Signature.
         ArrayList<String> responseContents=getReq("https://usher.ttvnw.net/vod/"+VODID+".m3u8?nauthsig"+auth[1]+"&nauth="+auth[0]+"&allow_source=true&player=twitchweb&allow_spectre=true&allow_audio_only=true");
         return parseFeeds(responseContents);
     }
@@ -159,7 +159,7 @@ public class API {
      */
     private static String[] getLiveToken(String channel){
         String[] results=new String[2];
-        //GET request and parse JSON.
+        //GET request and parse JSON:
         ArrayList<String> responseContents=getReq("https://api.twitch.tv/api/channels/"+channel+"/access_token");
         JSONParser parse=new JSONParser();
         JSONObject jObj=null;
