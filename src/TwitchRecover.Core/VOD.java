@@ -33,18 +33,54 @@ public class VOD {
     private FileExtension fe;                   //Desired output file extension.
     private long VODID;                         //VOD ID of a VOD if it is still up.
     private String[] vodInfo;                   //String array containing the VOD info such as streamer, timestamp, etc.
+    //0: Channel name; 1: Stream ID; 2. Timestamp of the start of the stream; 3: Brute force boolean.
     private ArrayList<String> retrievedURLs;    //Arraylist containing all of the VOD 'chunked' M3U8s of a particular VOD.
 
     /**
      * The constructor of a
      * VOD object which initialises
-     * two boolean values based on given inputs.
+     * two boolean values based on given inputs
+     * and if necessary initialises the vodInfo
+     * string array.
      * @param subOnly       Boolean value representing whether or not the VOD is a sub-only VOD.
      * @param isDeleted     Boolean value representing whether or not the VOD has being deleted or not.
      */
     public VOD(boolean subOnly, boolean isDeleted){
         this.subOnly=subOnly;
         this.isDeleted=isDeleted;
+        if(isDeleted){
+            vodInfo=new String[4];
+        }
+    }
+
+    /**
+     * This method gets an arraylist
+     * of chunked (source quality)
+     * VOD feeds from given information.
+     * @return ArrayList<String>    String arraylist containing all of the source VOD feeds.
+     */
+    public ArrayList<String> retrieveVOD(){
+        retrievedURLs=VODRetrieval.retrieveVOD(vodInfo[0], vodInfo[1], vodInfo[2], Boolean.parseBoolean(vodInfo[3]));
+        return retrievedURLs;
+    }
+
+    /**
+     * This method retrieves the list of
+     * all possible feeds for a deleted VOD.
+     * @return Feeds    Feeds object containing all possible feeds of a deleted VOD.
+     */
+    public Feeds retrieveVODFeeds(){
+        return VODRetrieval.retrieveVODFeeds(retrievedURLs.get(0));
+    }
+
+    /**
+     * This method uses a website analytics
+     * link to get all the values of
+     * the vodInfo array.
+     * @param url   String value representing a website analytics URL.
+     */
+    public void retrieveVODURL(String url){
+        vodInfo=WebsiteRetrieval.getData(url);
     }
 
     /**
@@ -83,6 +119,15 @@ public class VOD {
     }
 
     /**
+     * Accessor for the retrievedURLs
+     * arraylist.
+     * @return ArrayList<String>    The retrievedURLs string arraylist.
+     */
+    public ArrayList<String> getRetrievedURLs(){
+        return retrievedURLs;
+    }
+
+    /**
      * Mutator for the
      * VODID variable.
      * @param VODID     Long value which represents the VODID of the VOD.
@@ -110,5 +155,41 @@ public class VOD {
      */
     public void setVODInfo(String[] info){
         vodInfo=info;
+    }
+
+    /**
+     * Mutator for the channel name
+     * value of the vodInfo array.
+     * @param channel   String value representing the channel the VOD is from.
+     */
+    public void setChannel(String channel){
+        vodInfo[0]=channel;
+    }
+
+    /**
+     * Mutator for the stream ID
+     * value of the vodInfo array.
+     * @param streamID  String value representing the stream ID of the stream of the VOD.
+     */
+    public void setStreamID(String streamID){
+        vodInfo[1]=streamID;
+    }
+
+    /**
+     * Mutator for the timestamp
+     * value of the vodInfo array.
+     * @param timestamp     String value representing the timestamp of the start of the VOD in 'YYYY-MM-DD HH:mm:ss' format.
+     */
+    public void setTimestamp(String timestamp){
+        vodInfo[2]=timestamp;
+    }
+
+    /**
+     * Mutator for the brute force
+     * value of the vodInfo array.
+     * @param bf    Boolean value representing whether or not the VOD start timestamp is to the second or to the minute.
+     */
+    public void setBF(boolean bf){
+        vodInfo[3]=String.valueOf(bf);
     }
 }
