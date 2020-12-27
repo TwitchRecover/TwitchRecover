@@ -16,6 +16,7 @@
 
 package TwitchRecover.Core;
 
+import TwitchRecover.Core.Enums.ContentType;
 import TwitchRecover.Core.Enums.FileExtension;
 import java.io.File;
 import java.io.FileWriter;
@@ -76,5 +77,17 @@ public class FileIO {
     public static boolean checkFileExistence(String fp, FileExtension fe){
         File location=new File(fp+fe);
         return location.exists();
+    }
+
+    /**
+     * This method computes the file name for a
+     * content to be downloaded from the given
+     * ID and content type.
+     * @param ct        Content type enum representing the content type of the content in question.
+     * @param id        String value representing the ID (clip slug, VOD ID, etc.) of the content.
+     * @return String   String value representing the compute file name (excluding file extension).
+     */
+    public static String computeFN(ContentType ct, String id){
+        return "TwitchRecover-"+ct.toString()+"-"+id;
     }
 }

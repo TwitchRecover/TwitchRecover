@@ -18,7 +18,7 @@ public enum FileExtension {
     TS(".ts"),
     MP4(".mp4");
 
-    String fileExtension;
+    public String fileExtension;
     FileExtension(String fe){
         fileExtension=fe;
     }
