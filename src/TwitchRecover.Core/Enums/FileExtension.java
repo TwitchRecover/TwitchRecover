@@ -16,6 +16,7 @@ package TwitchRecover.Core.Enums;
 public enum FileExtension {
     M3U8(".m3u8"),
     TS(".ts"),
+    MPEG(".mpeg"),
     MP4(".mp4");
 
     public String fileExtension;
