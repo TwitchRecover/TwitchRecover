@@ -83,10 +83,11 @@ public class Prompts {
                 + "\n9. 'Unmute' a VOD/highlight (be able to view the muted segments of the M3U8)."
                 + "\n\nClips:"
                 + "\n10. Download a clip."
-                + "\n11. Recover ALL clips from a stream - NO time limit."
+                + "\n11. Retrieve permanent link of a clip - never deleted."
+                + "\n12. Recover ALL clips from a stream - NO time limit."
                 + "\n\nMass options:"
-                + "\n12. Mass download options."
-                + "\n13. Mass recover options."
+                + "\n13. Mass download options."
+                + "\n14. Mass recover options."
         );
     }
 
