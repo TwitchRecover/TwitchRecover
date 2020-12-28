@@ -4,6 +4,7 @@
 
 ### Notice: The 2.0 version with a GUI, ton of extra features from clips recovery to VOD downloads, clip downloads and much more is releasing in alpha between Christmas and New Years. Final version coming out first week of January.  
 ### Features of the 2.0 are: getting the live link of a stream; downloading a stream live; downloading VODs; downloading sub-only VODs; recover VODs; download highlights; recover highlights (unconfirmed); download a clip; recover ALL clips from any stream of all time; mass recover and mass download options.  
+### Check 2.0 progress here: https://github.com/TwitchRecover/TwitchRecover/projects/3  
 
 # Twitch Recover
 
