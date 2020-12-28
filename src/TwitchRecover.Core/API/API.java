@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import TwitchRecover.Core.Compute;
+import TwitchRecover.Core.Enums.FileExtension;
 import TwitchRecover.Core.Enums.Quality;
 import TwitchRecover.Core.Feeds;
 import TwitchRecover.Core.Fuzz;
@@ -117,6 +118,46 @@ public class API {
             feeds.addEntry(baseURL+qual.video+suffix, qual);
         }
         return feeds;
+    }
+
+    /**
+     * This method returns the
+     * permanent clip link of a
+     * clip from a given slug.
+     * @param slug      String value representing the clip's slug.
+     * @return String   String value representing the permanent link of the clip.
+     */
+    public static String getClipLink(String slug){
+        String response="";
+        //API Query:
+        try{
+            CloseableHttpClient httpClient=HttpClients.createDefault();
+            HttpGet httpget=new HttpGet("https://api.twitch.tv/kraken/clips/"+slug);
+            httpget.addHeader("User-Agent", "Mozilla/5.0");
+            httpget.addHeader("Accept", "application/vnd.twitchtv.v5+json");
+            httpget.addHeader("Client-ID", "ohroxg880bxrq1izlrinohrz3k4vy6");
+            CloseableHttpResponse httpResponse=httpClient.execute(httpget);
+            if(httpResponse.getStatusLine().getStatusCode()==200){
+                BufferedReader br=new BufferedReader(new InputStreamReader(httpResponse.getEntity().getContent()));
+                String line;
+                while((line=br.readLine())!=null){
+                    response+=line;
+                }
+                br.close();
+            }
+        }
+        catch(Exception ignored){}
+        //Parse JSON:
+        JSONParser parse=new JSONParser();
+        JSONObject jObj=null;
+        try{
+            jObj=(JSONObject) parse.parse(response);
+        }
+        catch(ParseException ignored){}
+        String streamID=jObj.get("broadcast_id").toString();
+        JSONArray vod=(JSONArray) jObj.get("vod");
+        int offset=Integer.valueOf(vod.get(2).toString())+26;
+        return "https://clips-media-assets2.twitch.tv/"+streamID+"-offset-"+offset+ FileExtension.MP4;
     }
 
     /**
