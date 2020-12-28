@@ -17,10 +17,20 @@
 package TwitchRecover.Core;
 
 /**
- * This class handles the retrieval
- * and downloading of live streams.
- * It is the home of the live options.
+ * The object class for
+ * the handling of live streams.
  */
 public class Live {
+    private String channel;     //String value representing the channel to process.
+    private Feeds feeds;        //Feeds object containing all of the various feeds of a stream.
+    private String fp;          //String value representing the user's desired download file path.
+    private String fn;          //String value representing the file name of the output file.
 
+    /**
+     * Constructor for the live
+     * object which simply
+     * instantiates the live object.
+     */
+    public Live(){
+    }
 }
