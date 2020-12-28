@@ -17,6 +17,7 @@
 package TwitchRecover.Core;
 
 import TwitchRecover.Core.API.API;
+import TwitchRecover.Core.API.VODsAPI;
 import TwitchRecover.Core.Downloader.Download;
 import TwitchRecover.Core.Enums.ContentType;
 import TwitchRecover.Core.Enums.FileExtension;
@@ -118,10 +119,10 @@ public class VOD {
      */
     public Feeds getVODFeeds(){
         if(!subOnly){
-            feeds= API.getVODFeeds(VODID);
+            feeds=VODsAPI.getVODFeeds(VODID);
         }
         else{
-            feeds=API.getSubVODFeeds(VODID);
+            feeds=VODsAPI.getSubVODFeeds(VODID);
         }
         return feeds;
     }
