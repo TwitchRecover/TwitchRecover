@@ -40,4 +40,52 @@ public class Clips {
      */
     public Clips(){
     }
+
+    /**
+     * Accessor for the URL variable.
+     * @return String   String value representing the permanent URL of a clip.
+     */
+    public String getURL(){
+        return url;
+    }
+
+    /**
+     * Mutator for the wfuzz boolean.
+     * @param wfuzz  Boolean value representing whether or not a user has Wfuzz installed.
+     */
+    public void setWfuzz(boolean wfuzz){
+        this.wfuzz=wfuzz;
+    }
+
+    /**
+     * Mutator for the streamID variable.
+     * @param streamID  Long value representing the stream ID.
+     */
+    public void setStreamID(long streamID){
+        this.streamID=streamID;
+    }
+
+    /**
+     * Mutator for the duration variable.
+     * @param duration  Long value representing the duration of the stream in seconds.
+     */
+    public void setDuration(long duration){
+        this.duration=duration;
+    }
+
+    /**
+     * Mutator for the output file path.
+     * @param fp    User inputted output file path.
+     */
+    public void setFP(String fp){
+        this.fp=FileIO.adjustFP(fp);
+    }
+
+    /**
+     * Mutator for the clip URL variable.
+     * @param url   String value representing the MP4 URL of the clip.
+     */
+    public void setURL(String url){
+        this.url=url;
+    }
 }
