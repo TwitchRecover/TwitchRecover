@@ -26,7 +26,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 /**
- * This VOD object holds
+ * The VOD object holds
  * all of the elements and
  * methods necessary to process
  * a VOD.

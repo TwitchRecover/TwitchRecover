@@ -180,7 +180,7 @@ public class Prompts {
      * This method queries the user on
      * whether or not they wish to repeat
      * the operation they just completed.
-     * @param t         vType enum representing the video type to handle.
+     * @param v         vType enum representing the video type to handle.
      * @param o         oType enum representing the operation type to handle.
      * @return boolean  Boolean value representing whether or not the user wishes to repeat the operation they just completed.
      */

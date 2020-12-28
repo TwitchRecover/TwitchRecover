@@ -39,11 +39,11 @@ public class Fuzz {
      * @param cli      Boolean which represents whether the method calling this is the CLI or GUI version.
      * @return ArrayList<String>    String arraylist which holds all of the results of clips.
      */
-    public static ArrayList<String> fuzz(long streamID, long duration, boolean wfuzz, boolean cli) {
+    public static ArrayList<String> fuzz(long streamID, long duration, boolean wfuzz) {
         ArrayList<String> results = new ArrayList<String>();
         int reps = (((int) duration) * 60) + 2000;
         if(wfuzz) {
-            results = wfuzz(streamID, reps, cli);
+            results = wfuzz(streamID, reps);
         }
         else {
             results = jFuzz(streamID, reps);
@@ -58,7 +58,7 @@ public class Fuzz {
      * @param cli      Boolean which represents whether the method calling this is the CLI or GUI version.
      * @return ArrayList<String>    String arraylist which holds all of the results of clips.
      */
-    private static ArrayList<String> wfuzz(long streamID, int reps, boolean cli) {
+    private static ArrayList<String> wfuzz(long streamID, int reps) {
         ArrayList<String> fuzzRes = new ArrayList<String>();
         String command = "wfuzz -o csv -z range,0-" + reps + " --hc 404 https://clips-media-assets2.twitch.tv/" + streamID + "-offset-FUZZ.mp4";
         try {
@@ -73,7 +73,7 @@ public class Fuzz {
                 if(atResults) {
                     Matcher wm = wp.matcher(line);
                     if(wm.find()) {
-                        if(Integer.valueOf(wm.group(1)) % 900 == 0 && cli) {
+                        if(Integer.valueOf(wm.group(1)) % 900 == 0 && true) {   //TODO: Fix the CLI boolean usage.
                             quarters++;
                             System.out.print("\n" + (quarters / 4) + " hours into the VOD. " + found + " clips found so far. Continuing to find clips.");
                         }
