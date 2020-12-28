@@ -91,6 +91,17 @@ public class VOD {
             //TODO: Insert converter method call.
         }
     }
+
+    /**
+     * This method exports the results
+     * of the retrieved URLs.
+     */
+    public void exportResults(){
+        computeFN();
+        fFP=fp+fn+FileExtension.TXT.fileExtension;
+        FileIO.write(retrievedURLs, fFP);
+    }
+
     /**
      * This method gets an arraylist
      * of chunked (source quality)

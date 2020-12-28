@@ -134,6 +134,16 @@ public class Highlights {
     }
 
     /**
+     * This method exports the results
+     * of the retrieved URLs.
+     */
+    public void exportResults(){
+        computeFN();
+        fFP=fp+fn+FileExtension.TXT.fileExtension;
+        FileIO.write(retrievedURLs, fFP);
+    }
+
+    /**
      * This method gets the corresponding
      * Feeds object to a given highlight ID.
      * @return Feeds    Feeds object corresponding to the highlight.

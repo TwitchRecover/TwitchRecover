@@ -63,14 +63,21 @@ public class Clips {
         catch(Exception ignored){}
     }
 
+    /**
+     * This method recovers all
+     * of the clip URLs of a particular
+     * stream (fuzzing the possibilities).
+     */
     public void recover(){
         results=Fuzz.fuzz(streamID, duration, wfuzz);
     }
 
+    /**
+     * This method exports the results
+     * of the retrieved URLs.
+     */
     public void exportResults(){
         computeFN();
-        results.add(0, "Clip results generated using Twitch Recover - https://github.com/twitchrecover/twitchrecover");
-        results.add(1, "Please consider donating if this has been useful for you - https://paypal.me/daylamtayari");
         fFP=fp+fn+FileExtension.TXT.fileExtension;
         FileIO.write(results, fFP);
     }

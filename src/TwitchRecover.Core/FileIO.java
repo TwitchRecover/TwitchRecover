@@ -103,4 +103,15 @@ public class FileIO {
     protected static String computeFN(ContentType ct, String id){
         return "TwitchRecover-"+ct.toString()+"-"+id;
     }
+
+    /**
+     * This method exports the results of retrieved URLs.
+     * @param results   String arraylist containing all of the results to be exported.
+     * @param fp        String value representing the complete final file path of the output file.
+     */
+    protected static void exportResults(ArrayList<String> results, String fp){
+        results.add(0, "Results generated using Twitch Recover - https://github.com/twitchrecover/twitchrecover");
+        results.add(1, "Please consider donating if this has been useful for you - https://paypal.me/daylamtayari");
+        write(results, fp);
+    }
 }
