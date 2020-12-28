@@ -16,6 +16,8 @@
 
 package TwitchRecover.Core;
 
+import TwitchRecover.Core.Enums.ContentType;
+
 /**
  * The object class for
  * the handling of live streams.
@@ -32,5 +34,45 @@ public class Live {
      * instantiates the live object.
      */
     public Live(){
+    }
+
+    /**
+     * This  method computes the
+     * file name of the output file.
+     */
+    private void computeFN(){
+        fn=FileIO.computeFN(ContentType.Stream, channel);
+    }
+
+    /**
+     * Accessor for the channel variable.
+     * @return String   String value representing the channel to process.
+     */
+    public String getChannel(){
+        return channel;
+    }
+
+    /**
+     * Mutator for the feeds variable.
+     * @return Feeds    Feeds object containing all of the feeds of the stream.
+     */
+    public Feeds getFeeds(){
+        return feeds;
+    }
+
+    /**
+     * Mutator for the channel variable.
+     * @param channel   String value representing the channel to process.
+     */
+    public void setChannel(String channel){
+        this.channel=channel;
+    }
+
+    /**
+     * Mutator for the file path variable.
+     * @param fp    String value representing the desired output file path.
+     */
+    public void setFP(String fp){
+        this.fp=FileIO.adjustFP(fp);
     }
 }
