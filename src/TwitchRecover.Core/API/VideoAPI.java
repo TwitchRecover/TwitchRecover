@@ -100,8 +100,16 @@ public class VideoAPI {
         //Go through the array, get the quality from the resolution and FPS and add them to the Feeds object.
         String suffix="/index-dvr.m3u8";
         feeds.addEntry(baseURL+"chunked"+suffix, Quality.Source);
+        Double fpsVal;
         for(int i=resolutions.size()-2; i==0; i--){
-            Quality qual=Quality.getQualityRF(((JSONObject) resolutions.get(i)).toString(), Double.valueOf(((JSONObject) fps.get(i)).toString()));
+            fpsVal=Double.valueOf(((JSONObject) fps.get(i)).toString());
+            if(fpsVal>=25 && fpsVal<=35){
+                fpsVal=30.000;
+            }
+            else if(fpsVal>=55 && fpsVal<=65){
+                fpsVal=60.000;
+            }
+            Quality qual=Quality.getQualityRF(((JSONObject) resolutions.get(i)).toString(), fpsVal);
             feeds.addEntry(baseURL+qual.video+suffix, qual);
         }
         return feeds;
