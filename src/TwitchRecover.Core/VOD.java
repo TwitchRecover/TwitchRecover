@@ -17,7 +17,11 @@
 package TwitchRecover.Core;
 
 import TwitchRecover.Core.API.API;
+import TwitchRecover.Core.Downloader.Download;
+import TwitchRecover.Core.Enums.ContentType;
 import TwitchRecover.Core.Enums.FileExtension;
+
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -35,6 +39,8 @@ public class VOD {
     private String[] vodInfo;                   //String array containing the VOD info such as streamer, timestamp, etc.
     //0: Channel name; 1: Stream ID; 2. Timestamp of the start of the stream; 3: Brute force boolean.
     private ArrayList<String> retrievedURLs;    //Arraylist containing all of the VOD 'chunked' M3U8s of a particular VOD.
+    private String fp;                          //String value represnting the file path of the output file.
+    private String fn;                          //String value representing the file name of the output file.
 
     /**
      * The constructor of a
@@ -53,6 +59,28 @@ public class VOD {
         }
     }
 
+    /**
+     * This method processes the downloading of a
+     * VOD.
+     * @param fe    FileExtension enum representing the desired output file extension.
+     * @param feed  String value representing the desired feed to download.
+     */
+    public void downloadVOD(FileExtension fe, String feed){
+        computeFN();
+        if(fe==FileExtension.TS || fe==FileExtension.MPEG){
+            try {
+                Download.m3u8Download(feed, fp+fn+fe.fileExtension);
+            }
+            catch (IOException ignored){}
+        }
+        else{
+            try{
+                Download.m3u8Download(feed, fp+fn+"-TEST"+fe.fileExtension);
+            }
+            catch(Exception ignored){}
+            //TODO: Insert converter method call.
+        }
+    }
     /**
      * This method gets an arraylist
      * of chunked (source quality)
@@ -191,5 +219,28 @@ public class VOD {
      */
     public void setBF(boolean bf){
         vodInfo[3]=String.valueOf(bf);
+    }
+
+    /**
+     * This method sets the file path
+     * by first adjusting the user
+     * inputted file path.
+     * @param fp    User inputted file path.
+     */
+    public void setFP(String fp){
+        this.fp=FileIO.adjustFP(fp);
+    }
+
+    /**
+     * This method computes the file name
+     * based on what info was provided.
+     */
+    private void computeFN(){
+        if(vodInfo==null){
+            fn=FileIO.computeFN(ContentType.VOD, feeds.getFeed(0));
+        }
+        else{
+            fn=FileIO.computeFN(ContentType.VOD, vodInfo[1]);
+        }
     }
 }
