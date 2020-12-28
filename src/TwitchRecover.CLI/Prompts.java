@@ -81,13 +81,15 @@ public class Prompts {
                 + "\n\nVideos:"
                 + "\n8. Check if a VOD/highlight has muted segments."
                 + "\n9. 'Unmute' a VOD/highlight (be able to view the muted segments of the M3U8)."
+                + "\n10. Download an M3U8 file."
+                + "\n11. Convert a TS file to MP4."
                 + "\n\nClips:"
-                + "\n10. Download a clip."
-                + "\n11. Retrieve permanent link of a clip - never deleted."
-                + "\n12. Recover ALL clips from a stream - NO time limit."
+                + "\n12. Download a clip."
+                + "\n13. Retrieve permanent link of a clip - never deleted."
+                + "\n14. Recover ALL clips from a stream - NO time limit."
                 + "\n\nMass options:"
-                + "\n13. Mass download options."
-                + "\n14. Mass recover options."
+                + "\n15. Mass recover options."
+                + "\n16. Mass download options."
         );
     }
 
