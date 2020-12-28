@@ -67,6 +67,19 @@ public class FileIO {
     }
 
     /**
+     * This method adjusts a user
+     * inputted file path.
+     * @param fp        File path inputted by the user, to be adjusted.
+     * @return String   String value representing the adjusted file path.
+     */
+    protected static String adjustFP(String fp){
+        if(fp.indexOf('\\')!=fp.length()-1){
+            fp+="\\";
+        }
+        return fp;
+    }
+
+    /**
      * This method checks if a file
      * currently exists at the specific
      * location.
@@ -87,7 +100,7 @@ public class FileIO {
      * @param id        String value representing the ID (clip slug, VOD ID, etc.) of the content.
      * @return String   String value representing the compute file name (excluding file extension).
      */
-    public static String computeFN(ContentType ct, String id){
+    protected static String computeFN(ContentType ct, String id){
         return "TwitchRecover-"+ct.toString()+"-"+id;
     }
 }
