@@ -16,6 +16,8 @@
 
 package TwitchRecover.Core;
 
+import TwitchRecover.Core.API.ClipsAPI;
+
 /**
  * The Clips object holds
  * all of the elements and
@@ -39,6 +41,31 @@ public class Clips {
      * object.
      */
     public Clips(){
+    }
+
+    /**
+     * This method retrieves
+     * the permanent URL of a
+     * clip and saves it to the
+     * URL variable.
+     * @param url       String value representing the Twitch URL of the clip.
+     * @return String   String value representing the permanent URL of the clip.
+     */
+    public String retrieveURL(String url){
+        slug=parseSlug(url);
+        this.url= ClipsAPI.getClipLink(slug);
+        return this.url;
+    }
+
+    /**
+     * This method parses a
+     * given clip URL and returns
+     * the slug value from it.
+     * @param url       String value representing the Twitch URL of the clip.
+     * @return String   String value representing the slug of the clip.
+     */
+    private String parseSlug(String url){
+        return Compute.singleRegex("clips.twitch.tv\\/([a-zA-Z]*)", url);
     }
 
     /**
