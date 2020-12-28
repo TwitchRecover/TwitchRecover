@@ -72,7 +72,7 @@ public class FileIO {
      * @param fp        File path inputted by the user, to be adjusted.
      * @return String   String value representing the adjusted file path.
      */
-    protected static String adjustFP(String fp){
+    public static String adjustFP(String fp){
         if(fp.indexOf('\\')!=fp.length()-1){
             fp+="\\";
         }
@@ -100,7 +100,7 @@ public class FileIO {
      * @param id        String value representing the ID (clip slug, VOD ID, etc.) of the content.
      * @return String   String value representing the compute file name (excluding file extension).
      */
-    protected static String computeFN(ContentType ct, String id){
+    public static String computeFN(ContentType ct, String id){
         return "TwitchRecover-"+ct.toString()+"-"+id;
     }
 
@@ -109,9 +109,9 @@ public class FileIO {
      * @param results   String arraylist containing all of the results to be exported.
      * @param fp        String value representing the complete final file path of the output file.
      */
-    protected static void exportResults(ArrayList<String> results, String fp){
-        results.add(0, "Results generated using Twitch Recover - https://github.com/twitchrecover/twitchrecover");
-        results.add(1, "Please consider donating if this has been useful for you - https://paypal.me/daylamtayari");
+    public static void exportResults(ArrayList<String> results, String fp){
+        results.add(0, "# Results generated using Twitch Recover - https://github.com/twitchrecover/twitchrecover");
+        results.add(1, "# Please consider donating if this has been useful for you - https://paypal.me/daylamtayari");
         write(results, fp);
     }
 
