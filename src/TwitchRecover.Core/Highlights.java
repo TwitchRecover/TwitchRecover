@@ -20,6 +20,8 @@ import TwitchRecover.Core.API.VideoAPI;
 import TwitchRecover.Core.Downloader.Download;
 import TwitchRecover.Core.Enums.ContentType;
 import TwitchRecover.Core.Enums.FileExtension;
+import TwitchRecover.Core.Enums.Quality;
+
 import java.util.ArrayList;
 
 /**
@@ -34,7 +36,7 @@ public class Highlights {
     private FileExtension fe;                   //Desired output file extension.
     private long highlightID;                   //Highlight ID of the highlight if it is still up.
     private String[] highlightInfo;             //String array containing the VOD info such as streamer, timestamp, etc.
-    //0: Channel name; 1: Stream ID; 2. Timestamp of the start of the stream..
+    //0: Channel name; 1: Stream ID; 2. Timestamp of the start of the stream.
     private ArrayList<String> retrievedURLs;    //Arraylist containing all of the highlight's 'chunked' M3U8s of a particular VOD.
     private String fp;                          //String value represnting the file path of the output file.
     private String fn;                          //String value representing the file name of the output file.
@@ -47,7 +49,7 @@ public class Highlights {
     public Highlights(boolean isDeleted){
         this.isDeleted=isDeleted;
         if(isDeleted){
-            highlightInfo=new String[3];
+            highlightInfo=new String[4];
         }
     }
 
@@ -89,7 +91,13 @@ public class Highlights {
      * @return ArrayList<String>    String arraylist containing all of the source highlight feeds.
      */
     public ArrayList<String> retrieveHighlights(){
-        retrievedURLs=VODRetrieval.retrieveVOD(highlightInfo[0], highlightInfo[1], highlightInfo[2], false);
+        long timestamp=Compute.getUNIX(highlightInfo[2]);
+        long streamID=Long.parseLong(highlightInfo[1]);
+        String url=Compute.URLCompute(highlightInfo[0], streamID, timestamp);
+        //Adapt URL to a highlight M3U8 URL.
+        url=url.substring(0, url.indexOf("index-dvr.m3u8"));
+        url+="highlight-"+highlightID+FileExtension.M3U8;
+        retrievedURLs=Fuzz.verifyURL(url);
         return retrievedURLs;
     }
 
@@ -99,7 +107,12 @@ public class Highlights {
      * @return Feeds    Feeds object containing all possible feeds of a deleted highlight.
      */
     public Feeds retrieveHighlightFeeds(){
-        feeds=VODRetrieval.retrieveVODFeeds(retrievedURLs.get(0));
+        String coreURL=Compute.singleRegex("(https:\\/\\/[a-z0-9]*.[a-z_]*.[net||com]*\\/[a-z0-9]*\\/)chunked\\/highlight-[0-9]*.m3u8", retrievedURLs.get(0));
+        for(Quality quality: Quality.values()){
+            if(Fuzz.checkURL(coreURL+quality.video+"/highlight-"+highlightID+FileExtension.M3U8)){
+                feeds.addEntry(coreURL+quality.video+"/highlight-"+highlightID+FileExtension.M3U8, quality);
+            }
+        }
         return feeds;
     }
 
@@ -122,6 +135,8 @@ public class Highlights {
      * Feeds object to a given highlight ID.
      * @return Feeds    Feeds object corresponding to the highlight.
      */
+
+
     public Feeds getHighlightFeeds(){
         feeds=VideoAPI.getVODFeeds(highlightID);
         return feeds;
