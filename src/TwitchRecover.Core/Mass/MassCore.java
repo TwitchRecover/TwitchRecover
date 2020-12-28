@@ -17,8 +17,8 @@
 package TwitchRecover.Core.Mass;
 
 /**
- * This object class handles all of the
- * mass download operations.
+ * This class handles all of the core elements
+ * for mass recovery/downloading.
  */
-public class MassDownload {
+public class MassCore {
 }

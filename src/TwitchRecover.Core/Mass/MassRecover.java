@@ -17,7 +17,7 @@
 package TwitchRecover.Core.Mass;
 
 /**
- * This class handles all
+ * This object class handles all
  * of the mass recovery options.
  */
 public class MassRecover {
