@@ -67,6 +67,13 @@ public class VOD {
      */
     public void downloadVOD(FileExtension fe, String feed){
         computeFN();
+        if(vodInfo==null){
+            getVODFeeds();
+        }
+        else{
+            retrieveVOD();
+            retrieveVODFeeds();
+        }
         if(fe==FileExtension.TS || fe==FileExtension.MPEG){
             try {
                 Download.m3u8Download(feed, fp+fn+fe.fileExtension);
@@ -98,7 +105,8 @@ public class VOD {
      * @return Feeds    Feeds object containing all possible feeds of a deleted VOD.
      */
     public Feeds retrieveVODFeeds(){
-        return VODRetrieval.retrieveVODFeeds(retrievedURLs.get(0));
+        feeds=VODRetrieval.retrieveVODFeeds(retrievedURLs.get(0));
+        return feeds;
     }
 
     /**

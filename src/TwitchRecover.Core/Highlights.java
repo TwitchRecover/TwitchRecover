@@ -60,6 +60,13 @@ public class Highlights {
      */
     public void downloadHighlight(FileExtension fe, String feed){
         computeFN();
+        if(highlightInfo==null){
+            getHighlightFeeds();
+        }
+        else{
+            retrieveHighlights();
+            retrieveHighlightFeeds();
+        }
         if(fe==FileExtension.TS || fe==FileExtension.MPEG){
             try{
                 Download.m3u8Download(feed, fp+fn+fe.fileExtension);
@@ -73,6 +80,27 @@ public class Highlights {
             catch(Exception ignored){}
             //TODO: Insert converter method call.
         }
+    }
+
+    /**
+     * This method gets an arraylist of
+     * chunked highlight M3U8 feeds from
+     * given information.
+     * @return ArrayList<String>    String arraylist containing all of the source highlight feeds.
+     */
+    public ArrayList<String> retrieveHighlights(){
+        retrievedURLs=VODRetrieval.retrieveVOD(highlightInfo[0], highlightInfo[1], highlightInfo[2], false);
+        return retrievedURLs;
+    }
+
+    /**
+     * This method retrieves the list of
+     * all possible feeds for a deleted highlight.
+     * @return Feeds    Feeds object containing all possible feeds of a deleted highlight.
+     */
+    public Feeds retrieveHighlightFeeds(){
+        feeds=VODRetrieval.retrieveVODFeeds(retrievedURLs.get(0));
+        return feeds;
     }
 
     /**
@@ -95,7 +123,7 @@ public class Highlights {
      * @return Feeds    Feeds object corresponding to the highlight.
      */
     public Feeds getHighlightFeeds(){
-        feeds= VideoAPI.getVODFeeds(highlightID);
+        feeds=VideoAPI.getVODFeeds(highlightID);
         return feeds;
     }
 
