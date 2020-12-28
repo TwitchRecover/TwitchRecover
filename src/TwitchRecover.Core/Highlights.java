@@ -40,6 +40,7 @@ public class Highlights {
     private ArrayList<String> retrievedURLs;    //Arraylist containing all of the highlight's 'chunked' M3U8s of a particular VOD.
     private String fp;                          //String value represnting the file path of the output file.
     private String fn;                          //String value representing the file name of the output file.
+    private String fFP;                         //String value which represents the final file path of the downloaded object.
 
     /**
      * The constructor of the
@@ -70,12 +71,14 @@ public class Highlights {
             retrieveHighlightFeeds();
         }
         if(fe==FileExtension.TS || fe==FileExtension.MPEG){
+            fFP=fp+fn+fe.fileExtension;
             try{
-                Download.m3u8Download(feed, fp+fn+fe.fileExtension);
+                Download.m3u8Download(feed, fFP);
             }
             catch(Exception ignored){}
         }
         else{
+            fFP=fp+fn+fe.fileExtension;
             try{
                 Download.m3u8Download(feed, fp+fn+"-TEMP"+fe.fileExtension);
             }
@@ -159,6 +162,14 @@ public class Highlights {
      */
     public Feeds getFeeds(){
         return feeds;
+    }
+
+    /**
+     * Accessor for the fFP variable.
+     * @return String   String value representing the final and complete file path of the outputted object.
+     */
+    public String getFFP(){
+        return fFP;
     }
 
     /**

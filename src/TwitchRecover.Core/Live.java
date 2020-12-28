@@ -28,6 +28,7 @@ public class Live {
     private Feeds feeds;        //Feeds object containing all of the various feeds of a stream.
     private String fp;          //String value representing the user's desired download file path.
     private String fn;          //String value representing the file name of the output file.
+    private String fFP;         //String value which represents the final file path of the downloaded object.
 
     /**
      * Constructor for the live
@@ -74,6 +75,14 @@ public class Live {
      */
     public Feeds getFeeds(){
         return feeds;
+    }
+
+    /**
+     * Accessor for the fFP variable.
+     * @return String   String value representing the final file path of the outputted object.
+     */
+    public String getFFP(){
+        return fFP;
     }
 
     /**

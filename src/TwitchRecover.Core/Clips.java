@@ -38,6 +38,7 @@ public class Clips {
     private String fp;                  //String value representing the file path of the downloaded clip.
     private String fn;                  //String value representing the file name of the downloaded clip.
     private ArrayList<String> results;  //String arraylist containing all of the fuzz results;
+    private String fFP;                 //String value which represents the final file path of the downloaded object.
 
     /**
      * The constructor of a
@@ -55,8 +56,9 @@ public class Clips {
      */
     public void download(){
         computeFN();
+        fFP=fp+fn+FileExtension.MP4.fileExtension;
         try{
-            Download.download(url, fp+fn+FileExtension.MP4.fileExtension);
+            Download.download(url, fFP);
         }
         catch(Exception ignored){}
     }
@@ -69,7 +71,8 @@ public class Clips {
         computeFN();
         results.add(0, "Clip results generated using Twitch Recover - https://github.com/twitchrecover/twitchrecover");
         results.add(1, "Please consider donating if this has been useful for you - https://paypal.me/daylamtayari");
-        FileIO.write(results, fp+fn+FileExtension.TXT.fileExtension);
+        fFP=fp+fn+FileExtension.TXT.fileExtension;
+        FileIO.write(results, fFP);
     }
 
     /**
@@ -111,6 +114,14 @@ public class Clips {
      */
     public ArrayList<String> getResults(){
         return results;
+    }
+
+    /**
+     * Accessor for the fFP variable.
+     * @return String   String value representing the final file path of the outputted object.
+     */
+    public String getFFP(){
+        return fFP;
     }
 
     /**
