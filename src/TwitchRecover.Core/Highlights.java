@@ -16,6 +16,7 @@
 
 package TwitchRecover.Core;
 
+import TwitchRecover.Core.API.VideoAPI;
 import TwitchRecover.Core.Downloader.Download;
 import TwitchRecover.Core.Enums.ContentType;
 import TwitchRecover.Core.Enums.FileExtension;
@@ -86,5 +87,103 @@ public class Highlights {
         else{
             fn=FileIO.computeFN(ContentType.Highlight, highlightInfo[1]);
         }
+    }
+
+    /**
+     * This method gets the corresponding
+     * Feeds object to a given highlight ID.
+     * @return Feeds    Feeds object corresponding to the highlight.
+     */
+    public Feeds getHighlightFeeds(){
+        feeds= VideoAPI.getVODFeeds(highlightID);
+        return feeds;
+    }
+
+    /**
+     * Accessor for a particular
+     * feed from its incremental ID.
+     * @param id        Integer value representing the incremental ID of the feed in question.
+     * @return String   String value representing the corresponding feed URL.
+     */
+    public String getFeed(int id){
+        return feeds.getFeed(id);
+    }
+
+    /**
+     * An accessor for the local
+     * Feeds object.
+     * @return Feeds    Feeds object of the Highlights object.
+     */
+    public Feeds getFeeds(){
+        return feeds;
+    }
+
+    /**
+     * Accessor for the retrievedURLs
+     * arraylist.
+     * @return ArrayList<String>    String arraylist containing all of the retrieved arraylists.
+     */
+    public ArrayList<String> getRetrievedURLs(){
+        return retrievedURLs;
+    }
+
+    /**
+     * Mutator for the highlight ID variable.
+     * @param highlightID   Long value representing the ID of the highlight in question.
+     */
+    public void setID(long highlightID){
+        this.highlightID=highlightID;
+    }
+
+    /**
+     * Mutator for the fe variable.
+     * @param fe    FileExtension enum representing the user's desired output file.
+     */
+    public void setFE(FileExtension fe){
+        this.fe=fe;
+    }
+
+    /**
+     * Mutator for the entirety
+     * of the highlightInfo array.
+     * @param info  String array representing the highlight info array.
+     */
+    public void setHighlightInfo(String[] info){
+        highlightInfo=info;
+    }
+
+    /**
+     * Mutator for the channel name value.
+     * @param channel   String value representing the channel name of the highlight.
+     */
+    public void setChannel(String channel){
+        highlightInfo[0]=channel;
+    }
+
+    /**
+     * Mutator for the highlight unique ID.
+     * @param highlightID   String value representing the highlight unique ID.
+     */
+    public void setHighlightID(String highlightID){
+        highlightInfo[1]=highlightID;
+    }
+
+    /**
+     * Mutator for the timestamp
+     * value of the highlightInfo array.
+     * @param timestamp     String value representing the timestamp of the start of the VOD in 'YYYY-MM-DD HH:mm:ss' format.
+     */
+    public void setTimestamp(String timestamp){
+        highlightInfo[2]=timestamp;
+    }
+
+    /**
+     * This method sets the file path
+     * by first adjusting the user
+     * inputted file path.
+     * @param fp    User inputted file path.
+     */
+    public void setFP(String fp){
+        this.fp=FileIO.adjustFP(fp);
     }
 }

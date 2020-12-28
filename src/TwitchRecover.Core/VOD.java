@@ -237,7 +237,7 @@ public class VOD {
      */
     private void computeFN(){
         if(vodInfo==null){
-            fn=FileIO.computeFN(ContentType.VOD, feeds.getFeed(0));
+            fn=FileIO.computeFN(ContentType.VOD, String.valueOf(VODID));
         }
         else{
             fn=FileIO.computeFN(ContentType.VOD, vodInfo[1]);
