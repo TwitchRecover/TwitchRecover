@@ -38,7 +38,7 @@ import java.util.ArrayList;
  * of the API methods directly
  * related to VODs.
  */
-public class VODsAPI {
+public class VideoAPI {
     /**
      * This method gets the list of feeds
      * of a VOD that is still up from the
