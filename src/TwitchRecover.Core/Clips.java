@@ -56,7 +56,7 @@ public class Clips {
     public void download(){
         computeFN();
         try{
-            Download.download(url, fp+fn+FileExtension.MP4);
+            Download.download(url, fp+fn+FileExtension.MP4.fileExtension);
         }
         catch(Exception ignored){}
     }
@@ -69,7 +69,7 @@ public class Clips {
         computeFN();
         results.add(0, "Clip results generated using Twitch Recover - https://github.com/twitchrecover/twitchrecover");
         results.add(1, "Please consider donating if this has been useful for you - https://paypal.me/daylamtayari");
-        FileIO.write(results, fp+fn+FileExtension.TXT);
+        FileIO.write(results, fp+fn+FileExtension.TXT.fileExtension);
     }
 
     /**

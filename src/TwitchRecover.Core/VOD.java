@@ -75,7 +75,7 @@ public class VOD {
         }
         else{
             try{
-                Download.m3u8Download(feed, fp+fn+"-TEST"+fe.fileExtension);
+                Download.m3u8Download(feed, fp+fn+"-TEMP"+fe.fileExtension);
             }
             catch(Exception ignored){}
             //TODO: Insert converter method call.
