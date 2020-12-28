@@ -16,15 +16,35 @@
 
 package TwitchRecover.Core;
 
+import TwitchRecover.Core.Enums.FileExtension;
 import java.util.ArrayList;
 
 /**
- * This class handles the core elements
- * for highlights.
+ * The Highlights object
+ * holds all of the elements
+ * and methods necessary to
+ * process a highlight.
  */
 public class Highlights {
-    public static ArrayList<String> recover(String url){
-        ArrayList<String> results=new ArrayList<String>();
-        return results;
+    private boolean isDeleted;                  //Boolean value representing whether or not the highlight is still up.
+    private Feeds feeds;                        //Feeds object corresponding to the highlight.
+    private FileExtension fe;                   //Desired output file extension.
+    private long highlightID;                   //Highlight ID of the highlight if it is still up.
+    private String[] highlightInfo;             //String array containing the VOD info such as streamer, timestamp, etc.
+    //0: Channel name; 1: Stream ID; 2. Timestamp of the start of the stream..
+    private ArrayList<String> retrievedURLs;    //Arraylist containing all of the highlight's 'chunked' M3U8s of a particular VOD.
+    private String fp;                          //String value represnting the file path of the output file.
+    private String fn;                          //String value representing the file name of the output file.
+
+    /**
+     * The constructor of the
+     * highlights object.
+     * @param isDeleted     Boolean value representing whether or not the highlight is deleted.
+     */
+    public Highlights(boolean isDeleted){
+        this.isDeleted=isDeleted;
+        if(isDeleted){
+            highlightInfo=new String[3];
+        }
     }
 }
