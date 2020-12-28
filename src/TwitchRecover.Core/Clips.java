@@ -115,4 +115,14 @@ public class Clips {
     public void setURL(String url){
         this.url=url;
     }
+
+    /**
+     * This mutator sets the slug
+     * variable from a given
+     * Twitch clip URL.
+     * @param url   String value representing a Twitch clip URL.
+     */
+    public void setSlug(String url){
+        slug=parseSlug(url);
+    }
 }
