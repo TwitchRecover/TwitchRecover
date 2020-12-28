@@ -51,4 +51,55 @@ public enum Quality {
         resolution=r;
         fps=f;
     }
+
+    /**
+     * This method searches through
+     * the quality enum for the quality
+     * enum which matches a given
+     * video value.
+     * @param qual      String value representing the video quality to search for.
+     * @return Quality  Quality enum which matches the inputted string video value, or null if none were found.
+     */
+    public static Quality getQualityV(String qual){
+        for(Quality quality: Quality.values()){
+            if(quality.video.equals(qual)){
+                return quality;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * This method searches through the
+     * quality enum for the quality enum
+     * which matches a given resolution.
+     * @param resolution    String value representing the resolution value to search for.
+     * @return Quality      Quality enum which matches the inputted resolution value, or null if none is found.
+     */
+    public static Quality getQualityR(String resolution){
+        for(Quality quality: Quality.values()){
+            if(quality.resolution.equals(resolution)){
+                return quality;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * This method searches through the
+     * quality enum for the quality enum
+     * which matches a given resolution
+     * and FPS value.
+     * @param resolution    String value representing a resolution value to search for.
+     * @param fps           Double value representing an FPS value to search for.
+     * @return Quality      Quality enum which matches the given resolution and FPS values, or null if none was found.
+     */
+    public static Quality getQualityRF(String resolution, double fps){
+        for(Quality quality: Quality.values()){
+            if(quality.resolution.equals(resolution) && quality.fps==fps){
+                return quality;
+            }
+        }
+        return null;
+    }
 }
