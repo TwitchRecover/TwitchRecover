@@ -16,6 +16,7 @@
 
 package TwitchRecover.Core;
 
+import TwitchRecover.Core.API.LiveAPI;
 import TwitchRecover.Core.Enums.ContentType;
 
 /**
@@ -34,6 +35,21 @@ public class Live {
      * instantiates the live object.
      */
     public Live(){
+    }
+
+    /**
+     * Method which retrieves
+     * all of the live feeds
+     * of a channel.
+     * @return Feeds    Feeds object containing all of the feeds of the live stream.
+     */
+    public Feeds retrieveFeeds(){
+        feeds= LiveAPI.getLiveFeeds(channel);
+        return feeds;
+    }
+
+    public void download(String feed){
+        //TODO: Insert live stream downloading components using youtube-dl and FFMPEG.
     }
 
     /**
@@ -58,6 +74,16 @@ public class Live {
      */
     public Feeds getFeeds(){
         return feeds;
+    }
+
+    /**
+     * Accessor to retrieve one
+     * particular feed.
+     * @param id        Integer value representing the list value of the feed to retrieve.
+     * @return String   String value representing the desired feed URL.
+     */
+    public String getFeed(int id){
+        return feeds.getFeed(id);
     }
 
     /**
