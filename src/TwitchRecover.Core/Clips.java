@@ -79,7 +79,7 @@ public class Clips {
     public void exportResults(){
         computeFN();
         fFP=fp+fn+FileExtension.TXT.fileExtension;
-        FileIO.write(results, fFP);
+        FileIO.exportResults(results, fFP);
     }
 
     /**

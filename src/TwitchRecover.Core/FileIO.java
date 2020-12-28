@@ -114,4 +114,20 @@ public class FileIO {
         results.add(1, "Please consider donating if this has been useful for you - https://paypal.me/daylamtayari");
         write(results, fp);
     }
+
+    /**
+     * This method exports all
+     * of the feeds of a feed
+     * object to a file.
+     * @param feeds     Feeds object to export.
+     * @param fp        String value representing the complete file path of the file to output.
+     */
+    protected static void exportFeeds(Feeds feeds, String fp){
+        ArrayList<String> results=new ArrayList<String>();
+        for(int i=0; i<feeds.getFeeds().size(); i++){
+            results.add("# Quality: "+feeds.getQuality(i).text);
+            results.add(feeds.getFeed(i));
+        }
+        exportResults(results, fp);
+    }
 }

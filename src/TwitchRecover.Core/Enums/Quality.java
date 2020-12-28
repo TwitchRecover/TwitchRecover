@@ -41,7 +41,7 @@ public enum Quality {
     LHD60("160p60fps", "160p60", "284x160", 60.000),
     LHD("160p30fps", "160p30", "284x160", 30.000);
 
-    String text;
+    public String text;
     public String video;
     String resolution;
     double fps;

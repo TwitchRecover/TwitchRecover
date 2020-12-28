@@ -140,7 +140,17 @@ public class Highlights {
     public void exportResults(){
         computeFN();
         fFP=fp+fn+FileExtension.TXT.fileExtension;
-        FileIO.write(retrievedURLs, fFP);
+        FileIO.exportResults(retrievedURLs, fFP);
+    }
+
+    /**
+     * This method exports the feeds
+     * object of the object class.
+     */
+    public void exportFeed(){
+        computeFN();
+        fFP=fp+fn+FileExtension.TXT.fileExtension;
+        FileIO.exportFeeds(feeds, fFP);
     }
 
     /**

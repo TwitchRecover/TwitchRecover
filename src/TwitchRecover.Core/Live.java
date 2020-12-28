@@ -18,6 +18,7 @@ package TwitchRecover.Core;
 
 import TwitchRecover.Core.API.LiveAPI;
 import TwitchRecover.Core.Enums.ContentType;
+import TwitchRecover.Core.Enums.FileExtension;
 
 /**
  * The object class for
@@ -51,6 +52,16 @@ public class Live {
 
     public void download(String feed){
         //TODO: Insert live stream downloading components using youtube-dl and FFMPEG.
+    }
+
+    /**
+     * This method exports the feeds
+     * object of the object class.
+     */
+    public void exportFeed(){
+        computeFN();
+        fFP=fp+fn+ FileExtension.TXT.fileExtension;
+        FileIO.exportFeeds(feeds, fFP);
     }
 
     /**
