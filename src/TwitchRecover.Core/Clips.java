@@ -17,9 +17,27 @@
 package TwitchRecover.Core;
 
 /**
- * Clips class which handles everything related to
- * clips directly from the GUI and CLI packages.
+ * The Clips object holds
+ * all of the elements and
+ * methods necessary to process
+ * a Twitch clip.
  */
 public class Clips {
+    private boolean wfuzz;      //Boolean value representing whether or not the user has wfuzz installed or not.
+    private long streamID;      //Long value representing the stream ID to fetch the clips from.
+    private long duration;      //Long value representing the duration of the stream.
+    private String slug;        //String value representing the slug of the clip.
+    private String url;         //String value representing the permanent URL of the clip.
+    private String fp;          //String value representing the file path of the downloaded clip.
+    private String fn;          //String value representing the file name of the downloaded clip.
 
+    /**
+     * The constructor of a
+     * Clips object which does
+     * nothing other than
+     * simply instantiate the
+     * object.
+     */
+    public Clips(){
+    }
 }
