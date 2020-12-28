@@ -21,6 +21,8 @@ import TwitchRecover.Core.Downloader.Download;
 import TwitchRecover.Core.Enums.ContentType;
 import TwitchRecover.Core.Enums.FileExtension;
 
+import java.util.ArrayList;
+
 /**
  * The Clips object holds
  * all of the elements and
@@ -28,13 +30,14 @@ import TwitchRecover.Core.Enums.FileExtension;
  * a Twitch clip.
  */
 public class Clips {
-    private boolean wfuzz;      //Boolean value representing whether or not the user has wfuzz installed or not.
-    private long streamID;      //Long value representing the stream ID to fetch the clips from.
-    private long duration;      //Long value representing the duration of the stream.
-    private String slug;        //String value representing the slug of the clip.
-    private String url;         //String value representing the permanent URL of the clip.
-    private String fp;          //String value representing the file path of the downloaded clip.
-    private String fn;          //String value representing the file name of the downloaded clip.
+    private boolean wfuzz;              //Boolean value representing whether or not the user has wfuzz installed or not.
+    private long streamID;              //Long value representing the stream ID to fetch the clips from.
+    private long duration;              //Long value representing the duration of the stream.
+    private String slug;                //String value representing the slug of the clip.
+    private String url;                 //String value representing the permanent URL of the clip.
+    private String fp;                  //String value representing the file path of the downloaded clip.
+    private String fn;                  //String value representing the file name of the downloaded clip.
+    private ArrayList<String> results;  //String arraylist containing all of the fuzz results;
 
     /**
      * The constructor of a
@@ -53,9 +56,20 @@ public class Clips {
     public void download(){
         computeFN();
         try{
-            Download.download(url, fp+fn);
+            Download.download(url, fp+fn+FileExtension.MP4);
         }
         catch(Exception ignored){}
+    }
+
+    public void recover(){
+        results=Fuzz.fuzz(streamID, duration, wfuzz);
+    }
+
+    public void exportResults(){
+        computeFN();
+        results.add(0, "Clip results generated using Twitch Recover - https://github.com/twitchrecover/twitchrecover");
+        results.add(1, "Please consider donating if this has been useful for you - https://paypal.me/daylamtayari");
+        FileIO.write(results, fp+fn+FileExtension.TXT);
     }
 
     /**
@@ -89,6 +103,14 @@ public class Clips {
      */
     public String getURL(){
         return url;
+    }
+
+    /**
+     * Accessor for the results arraylist.
+     * @return ArrayList<String>    String arraylist containing all of the results of a fuzz.
+     */
+    public ArrayList<String> getResults(){
+        return results;
     }
 
     /**
@@ -160,10 +182,10 @@ public class Clips {
      */
     private void computeFN(){
         if(slug==null){
-            fn=FileIO.computeFN(ContentType.Clip, String.valueOf(streamID))+FileExtension.MP4;
+            fn=FileIO.computeFN(ContentType.Clip, String.valueOf(streamID));
         }
         else{
-            fn= FileIO.computeFN(ContentType.Clip, slug)+FileExtension.MP4;
+            fn= FileIO.computeFN(ContentType.Clip, slug);
         }
     }
 }
