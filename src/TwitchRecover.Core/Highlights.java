@@ -16,6 +16,8 @@
 
 package TwitchRecover.Core;
 
+import TwitchRecover.Core.Downloader.Download;
+import TwitchRecover.Core.Enums.ContentType;
 import TwitchRecover.Core.Enums.FileExtension;
 import java.util.ArrayList;
 
@@ -45,6 +47,44 @@ public class Highlights {
         this.isDeleted=isDeleted;
         if(isDeleted){
             highlightInfo=new String[3];
+        }
+    }
+
+    /**
+     * This method processes
+     * the downloading of a
+     * highlight.
+     * @param fe        FileExtension enum representing the desired output file extension.
+     * @param feed      String value representing the M3U8 feed to download.
+     */
+    public void downloadHighlight(FileExtension fe, String feed){
+        computeFN();
+        if(fe==FileExtension.TS || fe==FileExtension.MPEG){
+            try{
+                Download.m3u8Download(feed, fp+fn+fe.fileExtension);
+            }
+            catch(Exception ignored){}
+        }
+        else{
+            try{
+                Download.m3u8Download(feed, fp+fn+"-TEMP"+fe.fileExtension);
+            }
+            catch(Exception ignored){}
+            //TODO: Insert converter method call.
+        }
+    }
+
+    /**
+     * This method computes the
+     * file name based on the
+     * highlight's information.
+     */
+    private void computeFN(){
+        if(highlightInfo==null){
+            fn=FileIO.computeFN(ContentType.Highlight, String.valueOf(highlightID));
+        }
+        else{
+            fn=FileIO.computeFN(ContentType.Highlight, highlightInfo[1]);
         }
     }
 }
