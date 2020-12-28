@@ -16,9 +16,27 @@
 
 package TwitchRecover.Core.Mass;
 
+import TwitchRecover.Core.Enums.ContentType;
+import java.util.ArrayList;
+
 /**
  * This object class handles all
  * of the mass recovery options.
  */
 public class MassRecover {
+    private ArrayList<String> read;         //String arraylist containing all of the lines of the file path to read.
+    private ContentType ct;                 //Content type of the mass recovery.
+    private ArrayList<String> results;      //String arraylist containing all of the results to be printed.
+    private String rFP;                     //String value representing the complete file path of the file to read.
+    private String fp;                      //String value representing the file path of the file to read.
+    private String fn;                      //File name of the output file containing the results.
+
+    /**
+     * Constructor of the
+     * MassRecover object
+     * which instantiates
+     * the object.
+     */
+    public MassRecover(){
+    }
 }
