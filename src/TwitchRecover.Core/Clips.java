@@ -17,6 +17,9 @@
 package TwitchRecover.Core;
 
 import TwitchRecover.Core.API.ClipsAPI;
+import TwitchRecover.Core.Downloader.Download;
+import TwitchRecover.Core.Enums.ContentType;
+import TwitchRecover.Core.Enums.FileExtension;
 
 /**
  * The Clips object holds
@@ -41,6 +44,18 @@ public class Clips {
      * object.
      */
     public Clips(){
+    }
+
+    /**
+     * This method downloads a
+     * clip.
+     */
+    public void download(){
+        computeFN();
+        try{
+            Download.download(url, fp+fn);
+        }
+        catch(Exception ignored){}
     }
 
     /**
@@ -101,6 +116,18 @@ public class Clips {
     }
 
     /**
+     * This mutator sets the values
+     * for both the stream ID
+     * and duration values.
+     * @param streamID  Long value representing the stream ID of the stream in question.
+     * @param duration  Long value representing duration of the stream in seconds.
+     */
+    public void setValues(long streamID, long duration){
+        setStreamID(streamID);
+        setDuration(duration);
+    }
+
+    /**
      * Mutator for the output file path.
      * @param fp    User inputted output file path.
      */
@@ -124,5 +151,19 @@ public class Clips {
      */
     public void setSlug(String url){
         slug=parseSlug(url);
+    }
+
+    /**
+     * This method computes
+     * the output file name
+     * for a downloaded clip.
+     */
+    private void computeFN(){
+        if(slug==null){
+            fn=FileIO.computeFN(ContentType.Clip, String.valueOf(streamID))+FileExtension.MP4;
+        }
+        else{
+            fn= FileIO.computeFN(ContentType.Clip, slug)+FileExtension.MP4;
+        }
     }
 }
