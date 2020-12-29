@@ -96,7 +96,10 @@ public class MassRecover {
      */
     private void processVODs(){
         for(String line: read){
-            processVOD(line);   //TODO: Make asynchronous.
+            Thread thread=new Thread(()->{
+                processVOD(line);
+            });
+           thread.start();
         }
     }
 
@@ -120,7 +123,10 @@ public class MassRecover {
      */
     private void processStreams(){
         for(String line: read){
-            processStream(line);    //TODO: Make asynchronous.
+            Thread thread=new Thread(()-> {
+                processStream(line);
+            });
+            thread.start();
         }
     }
 
@@ -151,7 +157,10 @@ public class MassRecover {
      */
     private void processClips(){
         for(String line: read){
-            processClip(line);  //TODO: Make asynchronous.
+            Thread thread=new Thread(() ->{
+                processClip(line);
+            });
+            thread.start();
         }
     }
 
@@ -172,7 +181,7 @@ public class MassRecover {
      * output file.
      */
     private void computeFN(){
-        fn=FileIO.computeFN(ct, "Mass-"+Math.random()*1000);    //TODO: Use the Java M3U8 downloader method call for random long value, should be a long.
+        fn=FileIO.computeFN(ct, "Mass-"+Math.random()*1000);
     }
 
     /**
