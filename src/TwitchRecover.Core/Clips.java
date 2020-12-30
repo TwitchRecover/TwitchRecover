@@ -140,6 +140,16 @@ public class Clips {
     }
 
     /**
+     * This method gets the complete file
+     * path for an MP4 clip link to download.
+     * @return String   String value representing the complete file path.
+     */
+    public String getDFP(){
+        computeFN();
+        return fp+fn+FileExtension.MP4.fileExtension;
+    }
+
+    /**
      * Mutator for the wfuzz boolean.
      * @param wfuzz  Boolean value representing whether or not a user has Wfuzz installed.
      */

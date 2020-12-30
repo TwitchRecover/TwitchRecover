@@ -16,8 +16,14 @@
 
 package TwitchRecover.Core.Mass;
 
+import TwitchRecover.Core.Clips;
+import TwitchRecover.Core.FileIO;
+import TwitchRecover.Core.Highlights;
+import TwitchRecover.Core.VOD;
+import TwitchRecover.Core.Downloader.Download;
 import TwitchRecover.Core.Enums.ContentType;
-
+import TwitchRecover.Core.Enums.FileExtension;
+import java.io.IOException;
 import java.util.ArrayList;
 /**
  * This object class handles all of the
@@ -28,13 +34,162 @@ public class MassDownload {
     private ContentType ct;                 //Content type of the mass download.
     private String rFP;                     //String value representing the complete file path of the file to read.
     private String fp;                      //String value representing the file path of the file to read.
-    private String fn;                      //File name of the output file containing the results.
-    private String fFP;                     //String value which represents the final file path of the downloaded object.
+    private FileExtension fe;               //FileExtension enum representing the user's desired output file extension.
 
     /**
      * Constructor of the MassDownload
      * object which instantiates the object.
      */
     public MassDownload(){
+    }
+
+    /**
+     * This is the core downloader
+     * method for mass downloads objects.
+     */
+    public void download(){
+        read();
+        if(ct==ContentType.Clip){
+            downloadClips();
+        }
+        else if(ct==ContentType.Highlight){
+            downloadHighlights();
+        }
+        else if(ct==ContentType.VOD){
+            downloadVODs();
+        }
+        else{
+            downloadSubVODs();
+        }
+    }
+
+    /**
+     * This method reads a file and
+     * parses the response.
+     */
+    private void read(){
+        read=MassCore.parseRead(FileIO.read(rFP));
+    }
+
+    /**
+     * This method downloads a series
+     * of VODs.
+     */
+    private void downloadVODs(){
+        for(String line: read){
+            Thread thread=new Thread(() ->{
+               downloadVOD(line);
+            });
+            thread.start();
+        }
+    }
+
+    /**
+     * This method downloads a VOD
+     * from a given feed URL.
+     * @param url   String value representing the feed URL to download.
+     */
+    private void downloadVOD(String url){
+        VOD vod=new VOD(false, false);
+        vod.setFP(fp);
+        vod.retrieveID(url);
+        String feed=vod.getFeed(1);
+        vod.downloadVOD(fe, feed);
+    }
+
+    /**
+     * This method downloads a
+     * series of sub-only VODs.
+     */
+    private void downloadSubVODs(){
+        for(String line: read){
+            Thread thread=new Thread(() ->{
+                downloadSubVOD(line);
+            });
+            thread.start();
+        }
+    }
+
+    /**
+     * This method downloads
+     * a sub-only VOD from
+     * a given URL.
+     * @param url   String value representing the feed URL to download.
+     */
+    private void downloadSubVOD(String url){
+        VOD vod=new VOD(true, false);
+        vod.setFP(fp);
+        vod.retrieveID(url);
+        String feed=vod.getFeed(1);
+        vod.downloadVOD(fe, feed);
+    }
+
+    /**
+     * This method downloads a series
+     * of highlights.
+     */
+    private void downloadHighlights(){
+        for(String line: read){
+            Thread thread=new Thread(() ->{
+                downloadHighlight(line);
+            });
+            thread.start();
+        }
+    }
+
+    /**
+     * This method downloads a highlight.
+     * @param url   String value representing the Twitch URL of the highlight to download.
+     */
+    private void downloadHighlight(String url){
+        Highlights highlight=new Highlights(false);
+        highlight.retrieveID(url);
+        highlight.setFP(fp);
+        String feed= highlight.getFeed(1);
+        highlight.downloadHighlight(fe, feed);
+    }
+
+    /**
+     * This method downloads a
+     * series of clips.
+     */
+    private void downloadClips(){
+        for(String line: read){
+            Thread thread=new Thread(() ->{
+                downloadClip(line);
+            });
+            thread.start();
+        }
+    }
+
+    /**
+     * This method downloads an individual
+     * clip from either the MP4 link or the
+     * Twitch clip link.
+     * @param url   String value representing either the Twitch clip link or the MP4 link.
+     */
+    private void downloadClip(String url){
+        Clips clip=new Clips();
+        clip.setFP(fp);
+        if(url.lastIndexOf(".mp4")==url.length()-5){
+            clip.setSlug(String.valueOf(Math.random()*1000));
+            String ffp=clip.getDFP();
+            try {
+                Download.download(url, ffp);
+            }
+            catch(Exception ignored){}
+        }
+        else{
+            clip.setSlug(url);
+            clip.download();
+        }
+    }
+
+    /**
+     * Mutator for the fe variable.
+     * @param fe    FileExtension enum which represents the user's desired file output file extension.
+     */
+    public void setFE(FileExtension fe){
+        this.fe=fe;
     }
 }

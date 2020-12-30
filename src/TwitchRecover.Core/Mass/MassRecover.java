@@ -54,7 +54,7 @@ public class MassRecover {
      * remove any comment lines.
      */
     private void read(){
-        read=MassCore.parseRead(FileIO.read(fp));
+        read=MassCore.parseRead(FileIO.read(rFP));
     }
 
     /**
@@ -112,7 +112,7 @@ public class MassRecover {
     private void processVOD(String url){
         VOD vod=new VOD(false, true);
         vod.setVODInfo(WebsiteRetrieval.getData(url));
-        results.add(vod.retrieveVOD().get(0));
+        results.add(vod.getFeed(1));
     }
 
     /**
@@ -198,5 +198,13 @@ public class MassRecover {
      */
     public void setFP(String fp){
         this.fp=FileIO.adjustFP(fp);
+    }
+
+    /**
+     * Mutator for the rFP variable.
+     * @param fp    String value representing the complete file path of the file to read.
+     */
+    public void setRFP(String fp){
+        rFP=fp;
     }
 }
