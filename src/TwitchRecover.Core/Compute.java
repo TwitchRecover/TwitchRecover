@@ -107,7 +107,7 @@ public class Compute {
      */
     public static String singleRegex(String pattern, String value){
         Pattern p=Pattern.compile(pattern);
-        Matcher m=p.matcher(value);
+        Matcher m=p.matcher(value.toLowerCase());
         if(m.find()){
             return m.group(1);
         }
