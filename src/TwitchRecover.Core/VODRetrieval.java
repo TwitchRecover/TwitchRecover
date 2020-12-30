@@ -65,4 +65,21 @@ public class VODRetrieval {
         }
         return feeds;
     }
+
+    /**
+     * This method retrieves the VODID
+     * from a complete VOD link.
+     * @param url   Twitch VOD link (or raw ID) of a VOD.
+     */
+    public static Long retrieveID(String url){
+        if(Compute.singleRegex("(twitch.tv\\/[a-z0-9]*\\/v\\[0-9]*)", url)!=null){
+            return Long.parseLong(Compute.singleRegex("twitch.tv\\/[a-zA-Z0-9]*\\/v\\/([0-9]*)", url));
+        }
+        else if(Compute.singleRegex("(twitch.tv\\/[a-z0-9]*\\/videos\\/[0-9]*)", url)!=null){
+            return Long.parseLong(Compute.singleRegex("twitch.tv\\/[a-z0-9]*\\/videos\\/([0-9]*)", url));
+        }
+        else{
+            return Long.parseLong(url);
+        }
+    }
 }

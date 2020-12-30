@@ -252,6 +252,15 @@ public class Highlights {
     }
 
     /**
+     * This method retrieves the highlight
+     * ID from a given Twitch highlight URL.
+     * @param url   String value representing the Twitch highlight URL.
+     */
+    public void retrieveID(String url){
+        highlightID=VODRetrieval.retrieveID(url);
+    }
+
+    /**
      * This method sets the file path
      * by first adjusting the user
      * inputted file path.
