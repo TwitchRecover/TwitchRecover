@@ -39,7 +39,8 @@ public enum Quality {
     SHD260("360p60fps", "360p60", "640x360", 60.000),
     SHD2("360p30fps", "360p30", "640x360", 30.000),
     LHD60("160p60fps", "160p60", "284x160", 60.000),
-    LHD("160p30fps", "160p30", "284x160", 30.000);
+    LHD("160p30fps", "160p30", "284x160", 30.000),
+    AUDIO("audio", "audio_only", "0x0", 0.000);
 
     public String text;
     public String video;
