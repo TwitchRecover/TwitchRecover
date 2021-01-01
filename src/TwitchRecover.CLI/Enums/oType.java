@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Daylam Tayari <daylam@tayari.gg>
+ * Copyright (c) 2021 Daylam Tayari <daylam@tayari.gg>
  *
  * This library is free software. You can redistribute it and/or modify it under the terms of the GNU General Public License version 3 as published by the Free Software Foundation.
  * This program is distributed in the that it will be use, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
@@ -14,35 +14,17 @@
  * Twitch Recover repository: https://github.com/TwitchRecover/TwitchRecover
  */
 
-package TwitchRecover.CLI;
-
-/**
- * This enum represents the video type to handle.
- */
-enum vType{
-    VOD("VOD", "stream"),
-    Highlight("highlight", ""),
-    Clip("clip", ""),
-    Stream("", ""),
-    Results("results", "");
-
-    String text;
-    String stream;
-    vType(String t, String s){
-        text=t;
-        stream=s;
-    }
-}
+package TwitchRecover.CLI.Enums;
 
 /**
  * This enum represents the operation type to handle.
  */
-enum oType{
+public enum oType{
     Recover("recover"),
     Download("download"),
     Output("export");
 
-    String text;
+    public String text;
     oType(String t){
         text=t;
     }

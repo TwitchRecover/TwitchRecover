@@ -16,6 +16,9 @@
 
 package TwitchRecover.CLI.Prompts;
 
+import TwitchRecover.CLI.Enums.oType;
+import TwitchRecover.CLI.Enums.vType;
+
 import java.util.Scanner;
 
 /**
@@ -27,7 +30,7 @@ public class PromptsCore {
     /**
      * This prints the welcome prompt.
      */
-    protected static void welcome(){
+    public static void welcome(){
         System.out.print(
                   "\nWelcome to Twitch Recover!"
                 + "\nThe number one Twitch recovery tool created by Daylam Tayari (https://github.com/daylamtayari)"
@@ -56,7 +59,7 @@ public class PromptsCore {
      * and returns the option the user selected.
      * @return int  Integer value representing the option that the user selected.
      */
-    protected static int menu(){
+    public static int menu(){
         Scanner sc=new Scanner(System.in);
         menuPrinter();
         return getIntInput(1,9);
@@ -156,7 +159,7 @@ public class PromptsCore {
      * and adjusts it if necessary.
      * @return String   String value representing the output file path.
      */
-    protected static String getOutFP(vType v){
+    public static String getOutFP(vType v){
         Scanner sc=new Scanner(System.in);
         System.out.print("\n\nPlease enter the file path of the folder where you want the " + v + " to be saved:\n");
         String fp=sc.nextLine();
@@ -171,7 +174,7 @@ public class PromptsCore {
      * @param o         oType enum representing the operation type.
      * @return String   String value representing the retrieved URL.
      */
-    protected static String getURL(vType v, oType o){
+    public static String getURL(vType v, oType o){
         Scanner sc=new Scanner(System.in);
         System.out.print("\n\nPlease enter the URL of the " + v.text + " to " + o.text + ":\n");
         String input=sc.nextLine();
@@ -187,7 +190,7 @@ public class PromptsCore {
      * @param o         oType enum representing the operation type to handle.
      * @return boolean  Boolean value representing whether or not the user wishes to repeat the operation they just completed.
      */
-    protected static boolean repeat(vType v, oType o){
+    public static boolean repeat(vType v, oType o){
         Scanner sc=new Scanner(System.in);
         String midWord="another";
         if(o==oType.Output){
