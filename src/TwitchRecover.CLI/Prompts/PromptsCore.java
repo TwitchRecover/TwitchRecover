@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Daylam Tayari <daylam@tayari.gg>
+ * Copyright (c) 2021 Daylam Tayari <daylam@tayari.gg>
  *
  * This library is free software. You can redistribute it and/or modify it under the terms of the GNU General Public License version 3 as published by the Free Software Foundation.
  * This program is distributed in the that it will be use, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
@@ -14,7 +14,7 @@
  * Twitch Recover repository: https://github.com/TwitchRecover/TwitchRecover
  */
 
-package TwitchRecover.CLI;
+package TwitchRecover.CLI.Prompts;
 
 import java.util.Scanner;
 
@@ -23,7 +23,7 @@ import java.util.Scanner;
  * and the prompt handlers for the
  * CLI version of the program.
  */
-public class Prompts {
+public class PromptsCore {
     /**
      * This prints the welcome prompt.
      */
@@ -73,23 +73,24 @@ public class Prompts {
                 + "\n2. Download a stream live."
                 + "\n\nVODs:"
                 + "\n3. Download a VOD."
-                + "\n4. Download a sub-only VOD (you do NOT need to be subbed)."
-                + "\n5. Recover a VOD - 60 days maximum (can be less in rare cases)."
+                          +"\n4. Get the link to a VOD (including sub-only)"
+                + "\n5. Download a sub-only VOD (you do NOT need to be subbed)."
+                + "\n6. Recover a VOD - 60 days maximum (can be less in rare cases)."
                 + "\n\nHighlights:"
-                + "\n6. Download a highlight."
-                + "\n7. Recover a highlight."
+                + "\n7. Download a highlight."
+                + "\n8. Recover a highlight."
                 + "\n\nVideos:"
-                + "\n8. Check if a VOD/highlight has muted segments."
-                + "\n9. 'Unmute' a VOD/highlight (be able to view the muted segments of the M3U8)."
-                + "\n10. Download an M3U8 file."
-                + "\n11. Convert a TS file to MP4."
+                + "\n9. Check if a VOD/highlight has muted segments."
+                + "\n10. 'Unmute' a VOD/highlight (be able to view the muted segments of the M3U8)."
+                + "\n11. Download an M3U8 file."
+                + "\n12. Convert a TS file to MP4."
                 + "\n\nClips:"
-                + "\n12. Download a clip."
-                + "\n13. Retrieve permanent link of a clip - never deleted."
-                + "\n14. Recover ALL clips from a stream - NO time limit."
+                + "\n13. Download a clip."
+                + "\n14. Retrieve permanent link of a clip - never deleted."
+                + "\n15. Recover ALL clips from a stream - NO time limit."
                 + "\n\nMass options:"
-                + "\n15. Mass recover options."
-                + "\n16. Mass download options."
+                + "\n16. Mass recover options."
+                + "\n17. Mass download options."
         );
     }
 
