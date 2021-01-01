@@ -26,9 +26,9 @@ import java.io.File;
  * another file extension.
  */
 public class Converter {
-    private String ogFP;
-    private FileExtension fe;
-    private String rawFP;
+    private String ogFP;            //String value representing the original file path.
+    private FileExtension fe;       //FileExtension enum which represents the desired output file extension.
+    private String rawFP;           //String value representing the raw file path without the current file extension.
 
     /**
      * Constructor for the Converter object.

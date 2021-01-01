@@ -16,6 +16,7 @@
 
 package TwitchRecover.CLI.Handlers;
 
+import TwitchRecover.Core.Compute;
 /**
  * ClipHandler object class which
  * handles a clip prompt.
@@ -29,5 +30,25 @@ public class ClipHandler {
 
     private void DownloadClip(){
 
+    }
+
+    /**
+     * This method checks whether a
+     * given URL is indeed a clip URL.
+     * @param url   String value representing the URL
+     * @return boolean  Boolean value which returns true if the value is indeed a proper
+     * clip URL and false if otherwise.
+     */
+    private boolean checkClipURL(String url){
+        if(url.contains("clips.twitch.tv")){
+            return !Compute.checkNullString(Compute.singleRegex("(clips.twitch.tv/[a-zA-Z]*)", url));
+        }
+        else if(url.contains("twitch.tv/clips")){
+            return !Compute.checkNullString(Compute.singleRegex("(twitch.tv/clips/[a-zA-Z]*)", url));
+        }
+        else if(url.contains("clips-media-assets2.twitch.tv")){
+            return !Compute.checkNullString(Compute.singleRegex("(clips-media-assets2.twitch.tv\\/[0-9]*-offset-[0-9]*.mp4)", url));
+        }
+        return false;
     }
 }
