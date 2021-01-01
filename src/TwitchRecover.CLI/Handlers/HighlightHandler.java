@@ -14,16 +14,16 @@
  * Twitch Recover repository: https://github.com/TwitchRecover/TwitchRecover
  */
 
-package TwitchRecover.CLI.Prompts;
+package TwitchRecover.CLI.Handlers;
 
 /**
- * ClipPrompts object class which
- * handles a clip prompt.
+ * HighlightHandler object class which
+ * handles the highlight prompts.
  */
-public class ClipPrompts {
-    private int option;     //Integer value representing the user's desired option.
+public class HighlightHandler {
+    private int option;     //Integer value representing the user's selected option.
 
-    public ClipPrompts(int option){
+    public HighlightHandler(int option){
         this.option=option;
     }
 }

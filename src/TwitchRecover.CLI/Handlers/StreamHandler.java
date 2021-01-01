@@ -14,16 +14,16 @@
  * Twitch Recover repository: https://github.com/TwitchRecover/TwitchRecover
  */
 
-package TwitchRecover.CLI.Prompts;
+package TwitchRecover.CLI.Handlers;
 
 /**
- * StreamPrompts object class which
+ * StreamHandler object class which
  * handles stream prompts;
  */
-public class StreamPrompts {
+public class StreamHandler {
     private int option;     //Integer value which represents the user's selected option.
 
-    public StreamPrompts(int option){
+    public StreamHandler(int option){
         this.option=option;
     }
 }

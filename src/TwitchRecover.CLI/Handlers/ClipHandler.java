@@ -14,16 +14,20 @@
  * Twitch Recover repository: https://github.com/TwitchRecover/TwitchRecover
  */
 
-package TwitchRecover.CLI.Prompts;
+package TwitchRecover.CLI.Handlers;
 
 /**
- * MassPrompts object class which
- * handles mass prompts.
+ * ClipHandler object class which
+ * handles a clip prompt.
  */
-public class MassPrompts {
-    private int option;     //Integer value which represents the user's selected option.
+public class ClipHandler {
+    private int option;     //Integer value representing the user's desired option.
 
-    public MassPrompts(int option){
+    public ClipHandler(int option){
         this.option=option;
+    }
+
+    private void DownloadClip(){
+
     }
 }

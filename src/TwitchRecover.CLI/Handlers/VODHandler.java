@@ -14,16 +14,16 @@
  * Twitch Recover repository: https://github.com/TwitchRecover/TwitchRecover
  */
 
-package TwitchRecover.CLI.Prompts;
+package TwitchRecover.CLI.Handlers;
 
 /**
- * VideoPrompts object class which
- * handles video prompts.
+ * VODHandler object class which
+ * handles a VOD prompt.
  */
-public class VideoPrompts {
-    private int option;     //Integer value representing the user's selected option;
+public class VODHandler {
+    private int option;     //Integer value representing the user's desired option.
 
-    public VideoPrompts(int option){
+    public VODHandler(int option){
         this.option=option;
     }
 }

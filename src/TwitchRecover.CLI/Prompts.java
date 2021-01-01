@@ -14,7 +14,7 @@
  * Twitch Recover repository: https://github.com/TwitchRecover/TwitchRecover
  */
 
-package TwitchRecover.CLI.Prompts;
+package TwitchRecover.CLI;
 
 import TwitchRecover.CLI.Enums.oType;
 import TwitchRecover.CLI.Enums.vType;
@@ -26,7 +26,7 @@ import java.util.Scanner;
  * and the prompt handlers for the
  * CLI version of the program.
  */
-public class PromptsCore {
+public class Prompts {
     /**
      * This prints the welcome prompt.
      */

@@ -14,16 +14,16 @@
  * Twitch Recover repository: https://github.com/TwitchRecover/TwitchRecover
  */
 
-package TwitchRecover.CLI.Prompts;
+package TwitchRecover.CLI.Handlers;
 
 /**
- * HighlightPrompts object class which
- * handles the highlight prompts.
+ * MassHandler object class which
+ * handles mass prompts.
  */
-public class HighlightPrompts {
-    private int option;     //Integer value representing the user's selected option.
+public class MassHandler {
+    private int option;     //Integer value which represents the user's selected option.
 
-    public HighlightPrompts(int option){
+    public MassHandler(int option){
         this.option=option;
     }
 }

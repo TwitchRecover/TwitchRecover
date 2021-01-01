@@ -19,7 +19,6 @@ package TwitchRecover.CLI;
 //import TwitchRecover.Core.Download;
 import TwitchRecover.CLI.Enums.oType;
 import TwitchRecover.CLI.Enums.vType;
-import TwitchRecover.CLI.Prompts.PromptsCore;
 import TwitchRecover.Core.FileIO;
 
 import java.util.ArrayList;
@@ -33,10 +32,10 @@ public class CLIHandler {
      * Core method of the CLI handler.
      */
     protected static void main(){
-        PromptsCore.welcome();
+        Prompts.welcome();
         boolean goAgane=true;
         while(goAgane){
-            int mOption= PromptsCore.menu();
+            int mOption= Prompts.menu();
             if(mOption<3 || mOption==5 || mOption==7){
                 videoDownload(mOption);
             }
@@ -62,8 +61,8 @@ public class CLIHandler {
                 System.out.print("\n"+s);
             }
         }
-        if(PromptsCore.repeat(vType.Results, oType.Output)){
-            String fp= PromptsCore.getOutFP(vType.Results)+"TwitchRecover-"+FileIO.fn+".txt";
+        if(Prompts.repeat(vType.Results, oType.Output)){
+            String fp= Prompts.getOutFP(vType.Results)+"TwitchRecover-"+FileIO.fn+".txt";
             results.add(0, "Results generated using Twitch Recover. https://github.com/TwitchRecover/TwitchRecover");
             FileIO.write(results, fp);
         }
@@ -77,16 +76,16 @@ public class CLIHandler {
     private static void videoDownload(int option){
         String url=null, fp=null;
         if(option<3) {
-            url = PromptsCore.getURL(vType.VOD, oType.Download);
-            fp = PromptsCore.getOutFP(vType.VOD);
+            url = Prompts.getURL(vType.VOD, oType.Download);
+            fp = Prompts.getOutFP(vType.VOD);
         }
         else if(option==5){
-            url= PromptsCore.getURL(vType.Highlight, oType.Download);
-            fp= PromptsCore.getURL(vType.Highlight, oType.Download);
+            url= Prompts.getURL(vType.Highlight, oType.Download);
+            fp= Prompts.getURL(vType.Highlight, oType.Download);
         }
         else{
-            url= PromptsCore.getURL(vType.Clip, oType.Download);
-            fp= PromptsCore.getURL(vType.Clip, oType.Download);
+            url= Prompts.getURL(vType.Clip, oType.Download);
+            fp= Prompts.getURL(vType.Clip, oType.Download);
         }
         boolean isM3U8 = option == 2 || (url.substring(url.lastIndexOf("." + 1)).equalsIgnoreCase("m3u8"));
         if(isM3U8 && option!=2){
@@ -113,13 +112,13 @@ public class CLIHandler {
         if(option==3){
             while(repeat){
                //printResults(VOD.vodRecover(Prompts.VODRecovery()));
-                repeat= PromptsCore.repeat(vType.VOD, oType.Recover);
+                repeat= Prompts.repeat(vType.VOD, oType.Recover);
             }
         }
         else {
             while(repeat){
                 //printResults(Highlights.recover(Prompts.getURL(vType.Highlight, oType.Recover)));
-                repeat= PromptsCore.repeat(vType.Highlight, oType.Recover);
+                repeat= Prompts.repeat(vType.Highlight, oType.Recover);
             }
         }
     }
