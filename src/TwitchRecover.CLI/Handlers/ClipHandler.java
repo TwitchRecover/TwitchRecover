@@ -16,7 +16,10 @@
 
 package TwitchRecover.CLI.Handlers;
 
+import TwitchRecover.Core.Clips;
 import TwitchRecover.Core.Compute;
+
+import java.util.Scanner;
 /**
  * ClipHandler object class which
  * handles a clip prompt.
@@ -28,8 +31,40 @@ public class ClipHandler {
         this.option=option;
     }
 
+    /**
+     * This method downloads a clip
+     * from a user inputted URL.
+     */
     private void DownloadClip(){
-
+        Scanner sc=new Scanner(System.in);
+        System.out.print(
+                  "\nClip downloading:"
+                + "\nPlease enter the link of the clip to download: "
+        );
+        String clipURL=sc.nextLine();
+        while(!checkClipURL(clipURL)){
+            System.out.print(
+                      "\n\nERROR: Invalid Twitch clip link."
+                    + "\nThe link must be a Twitch clip link or a Twitch server clip link."
+                    + "\nPlease enter the link of the clip to download: "
+            );
+            clipURL=sc.nextLine();
+        }
+        Clips clip=new Clips();
+        System.out.print(
+                  "\nPlease enter the FILE PATH of where you want the clip saved:"
+                + "\nFile path: "
+        );
+        clip.setFP(sc.nextLine());
+        sc.close();
+        if(clipURL.substring(clipURL.lastIndexOf(".")).equals(".mp4")){
+            clip.setURL(clipURL);
+            clip.download();
+        }
+        else{
+            clip.setSlug(clipURL);
+            clip.downloadSlug();
+        }
     }
 
     /**
@@ -49,6 +84,8 @@ public class ClipHandler {
         else if(url.contains("clips-media-assets2.twitch.tv")){
             return !Compute.checkNullString(Compute.singleRegex("(clips-media-assets2.twitch.tv\\/[0-9]*-offset-[0-9]*.mp4)", url));
         }
-        return false;
+        else{
+            return !Compute.checkNullString(Compute.singleRegex("([a-z]*)", url));
+        }
     }
 }
