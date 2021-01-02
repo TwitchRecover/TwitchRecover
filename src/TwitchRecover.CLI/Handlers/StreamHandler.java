@@ -27,8 +27,20 @@ import java.util.Scanner;
 public class StreamHandler {
     private int option;     //Integer value which represents the user's selected option.
 
+    /**
+     * Constructor and main method
+     * of the StreamHandler
+     * object class.
+     * @param option    Integer value representing the user's selected option.
+     */
     public StreamHandler(int option){
         this.option=option;
+        if(option==1){
+            retrieve();
+        }
+        else{
+            download();
+        }
     }
 
     /**
