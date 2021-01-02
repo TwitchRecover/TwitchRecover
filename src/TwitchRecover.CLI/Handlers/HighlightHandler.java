@@ -16,6 +16,13 @@
 
 package TwitchRecover.CLI.Handlers;
 
+import TwitchRecover.Core.Enums.FileExtension;
+import TwitchRecover.Core.Enums.Quality;
+import TwitchRecover.Core.Feeds;
+import TwitchRecover.Core.Highlights;
+
+import java.util.Scanner;
+
 /**
  * HighlightHandler object class which
  * handles the highlight prompts.
@@ -25,5 +32,40 @@ public class HighlightHandler {
 
     public HighlightHandler(int option){
         this.option=option;
+
+    }
+
+    /**
+     * This method processes the downloading of a
+     * highlight.
+     */
+    private void download(){
+        Scanner sc=new Scanner(System.in);
+        System.out.print(
+                  "\n\nHighlight downloading:"
+                + "\nPlease enter the link of the highlight to download: "
+        );
+        String highlightURL=sc.nextLine();
+        while(!CoreHandler.isVideo(highlightURL)){
+            System.out.print(
+                      "\n\nERROR: Invalid highlight link."
+                    + "\nPlease enter a valid highlight URL."
+            );
+            highlightURL=sc.nextLine();
+        }
+        Highlights highlight=new Highlights(false);
+        highlight.retrieveID(highlightURL);
+        Feeds feeds=highlight.retrieveHighlightFeeds();
+        System.out.print("\n\nQualities available:");
+        int i=1;
+        for(Quality qual: feeds.getQualities()){
+            System.out.print("\n"+i+" "+qual.text);
+            i++;
+        }
+        System.out.print("\nPlease enter the desired quality you want to download: ");
+        int quality=Integer.parseInt(sc.nextLine());    //TODO: Add quality selection checker.
+        FileExtension fe=CoreHandler.userFE();
+        highlight.downloadHighlight(fe, feeds.getFeed(quality));
+        System.out.print("\nFile downloaded at: " + highlight.getFFP());
     }
 }
