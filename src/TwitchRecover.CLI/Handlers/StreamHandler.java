@@ -16,6 +16,10 @@
 
 package TwitchRecover.CLI.Handlers;
 
+import TwitchRecover.Core.Feeds;
+import TwitchRecover.Core.Live;
+
+import java.util.Scanner;
 /**
  * StreamHandler object class which
  * handles stream prompts;
@@ -25,5 +29,23 @@ public class StreamHandler {
 
     public StreamHandler(int option){
         this.option=option;
+    }
+
+    /**
+     * This method prompts and handles
+     * the retrieval of live stream links.
+     */
+    private void retrieve(){
+        Scanner sc=new Scanner(System.in);
+        Live live=new Live();
+        System.out.print(
+                  "\n\nLive stream link retrieval:"
+                + "\nEnter the channel name: "
+        );
+        live.setChannel(sc.nextLine());
+        sc.close();
+        Feeds feeds=live.retrieveFeeds();
+        int quality=CoreHandler.selectFeeds(feeds);
+        System.out.print("M3U8 URL: "+live.getFeed(quality));
     }
 }
