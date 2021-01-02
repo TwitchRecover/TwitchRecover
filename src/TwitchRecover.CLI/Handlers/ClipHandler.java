@@ -88,4 +88,30 @@ public class ClipHandler {
             return !Compute.checkNullString(Compute.singleRegex("([a-z]*)", url));
         }
     }
+
+    /**
+     * This method retrieves the permanent
+     * link of a clip.
+     */
+    private void retrievePerma(){
+        Scanner sc=new Scanner(System.in);
+        System.out.print(
+                  "\n\nPermanent link retrieval:"
+                + "\nPlease enter the link of the Twitch clip to get the permanent link for: "
+        );
+        String clipURL=sc.nextLine();
+        while(!checkClipURL(clipURL) && !clipURL.contains("clips-media-assets2.twitch.tv") && clipURL.toLowerCase().contains("twitch.tv")){
+            System.out.print(
+                      "\n\nERROR: Invalid link."
+                    + "\nPlease enter the link of a Twitch clip, a clips.twitch.tv/... or twitch.tv/clips/... URL."
+                    + "\nEnter link: "
+            );
+            clipURL=sc.nextLine();
+        }
+        Clips clip=new Clips();
+        String permaLink=clip.retrieveURL(clipURL);
+        System.out.print(
+                  "\n\nPermanent clip link: " + permaLink + "."
+        );
+    }
 }
