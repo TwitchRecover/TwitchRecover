@@ -31,9 +31,19 @@ import java.util.Scanner;
 public class HighlightHandler {
     private int option;     //Integer value representing the user's selected option.
 
+    /**
+     * Constructor and main handler
+     * of the HighlightHandler object class.
+     * @param option    Integer value that represents the user's selected option.
+     */
     public HighlightHandler(int option){
         this.option=option;
-
+        if(option==7){
+            download();
+        }
+        else{
+            recover();
+        }
     }
 
     /**
