@@ -18,6 +18,8 @@ package TwitchRecover.CLI.Handlers;
 
 import TwitchRecover.Core.Compute;
 import TwitchRecover.Core.Enums.FileExtension;
+import TwitchRecover.Core.Enums.Quality;
+import TwitchRecover.Core.Feeds;
 
 import java.util.Scanner;
 
@@ -79,5 +81,19 @@ public class CoreHandler {
         else{
             return FileExtension.AVI;
         }
+    }
+
+    protected static int selectFeeds(Feeds feeds){
+        Scanner scF=new Scanner(System.in);
+        System.out.print("\n\nQualities available:");
+        int i=1;
+        for(Quality qual: feeds.getQualities()){
+            System.out.print("\n"+i+" "+qual.text);
+            i++;
+        }
+        System.out.print("\nPlease enter the desired quality you want to download: ");
+        String selection=scF.nextLine();
+        scF.close();
+        return Integer.parseInt(selection);
     }
 }

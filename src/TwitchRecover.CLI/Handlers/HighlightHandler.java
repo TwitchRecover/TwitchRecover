@@ -17,11 +17,9 @@
 package TwitchRecover.CLI.Handlers;
 
 import TwitchRecover.Core.Enums.FileExtension;
-import TwitchRecover.Core.Enums.Quality;
 import TwitchRecover.Core.Feeds;
 import TwitchRecover.Core.Highlights;
 
-import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -67,14 +65,7 @@ public class HighlightHandler {
         Highlights highlight=new Highlights(false);
         highlight.retrieveID(highlightURL);
         Feeds feeds=highlight.retrieveHighlightFeeds();
-        System.out.print("\n\nQualities available:");
-        int i=1;
-        for(Quality qual: feeds.getQualities()){
-            System.out.print("\n"+i+" "+qual.text);
-            i++;
-        }
-        System.out.print("\nPlease enter the desired quality you want to download: ");
-        int quality=Integer.parseInt(sc.nextLine());    //TODO: Add quality selection checker.
+        int quality=CoreHandler.selectFeeds(feeds);
         FileExtension fe=CoreHandler.userFE();
         highlight.downloadHighlight(fe, feeds.getFeed(quality));
         sc.close();
@@ -100,11 +91,8 @@ public class HighlightHandler {
         highlight.setID(Long.parseLong(sc.nextLine()));
         System.out.print("\nTimestamp (YYYY-MM-DD HH:mm:ss format): ");
         highlight.setTimestamp(sc.nextLine());
-        //TODO: ALlow feed retrieval for the 2.0b release.
-        ArrayList<String> results=highlight.retrieveHighlights();
-        System.out.print("\nResults:");
-        for(String feeds: results){
-            System.out.print("\n"+feeds);
-        }
+        highlight.retrieveHighlights();
+        int quality=CoreHandler.selectFeeds(highlight.retrieveHighlightFeeds());
+        System.out.print("\n\nM3U8 link: "+highlight.getFeed(quality));
     }
 }
