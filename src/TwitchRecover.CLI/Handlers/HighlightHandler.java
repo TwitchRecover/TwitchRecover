@@ -21,6 +21,7 @@ import TwitchRecover.Core.Enums.Quality;
 import TwitchRecover.Core.Feeds;
 import TwitchRecover.Core.Highlights;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -68,5 +69,32 @@ public class HighlightHandler {
         highlight.downloadHighlight(fe, feeds.getFeed(quality));
         sc.close();
         System.out.print("\nFile downloaded at: " + highlight.getFFP());
+    }
+
+    /**
+     * This method processes and handles
+     * the recovery of a highlight.
+     */
+    private void recover(){
+        Scanner sc=new Scanner(System.in);
+        Highlights highlight=new Highlights(true);
+        System.out.print(
+                  "\n\nHighlight recovery:"
+                + "\nPlease enter the exact details about the highlight in order to retrieve it:"
+                + "\nChannel name: "
+        );
+        highlight.setChannel(sc.nextLine());
+        System.out.print("\nStream ID: ");
+        highlight.setStreamID(sc.nextLine());
+        System.out.print("\nHighlight ID: ");
+        highlight.setID(Long.parseLong(sc.nextLine()));
+        System.out.print("\nTimestamp (YYYY-MM-DD HH:mm:ss format): ");
+        highlight.setTimestamp(sc.nextLine());
+        //TODO: ALlow feed retrieval for the 2.0b release.
+        ArrayList<String> results=highlight.retrieveHighlights();
+        System.out.print("\nResults:");
+        for(String feeds: results){
+            System.out.print("\n"+feeds);
+        }
     }
 }

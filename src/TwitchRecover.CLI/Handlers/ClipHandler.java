@@ -128,7 +128,7 @@ public class ClipHandler {
         Clips clip=new Clips();
         String permaLink=clip.retrieveURL(clipURL);
         System.out.print(
-                  "\n\nPermanent clip link: " + permaLink + "."
+                  "\n\nPermanent clip link: " + permaLink
         );
     }
 

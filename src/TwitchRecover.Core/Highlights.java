@@ -61,9 +61,9 @@ public class Highlights {
      * @param fe        FileExtension enum representing the desired output file extension.
      * @param feed      String value representing the M3U8 feed to download.
      */
-    public void downloadHighlight(FileExtension fe, String feed){
+    public void downloadHighlight(FileExtension fe, String feed){   //TODO: Fix this method for beta.
         computeFN();
-        if(highlightInfo==null){
+        if(isDeleted){
             getHighlightFeeds();
         }
         else{
@@ -226,10 +226,10 @@ public class Highlights {
 
     /**
      * Mutator for the highlight unique ID.
-     * @param highlightID   String value representing the highlight unique ID.
+     * @param streamID   String value representing the stream unique ID.
      */
-    public void setHighlightID(String highlightID){
-        highlightInfo[1]=highlightID;
+    public void setStreamID(String streamID){
+        highlightInfo[1]=streamID;
     }
 
     /**
