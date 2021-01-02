@@ -29,15 +29,29 @@ import java.util.Scanner;
 public class ClipHandler {
     private int option;     //Integer value representing the user's desired option.
 
+    /**
+     * Constructor and main method of
+     * the clip handler object class.
+     * @param option    Integer value representing the user's selected option.
+     */
     public ClipHandler(int option){
         this.option=option;
+        if(option==13){
+            downloadClip();
+        }
+        else if(option==14){
+            retrievePerma();
+        }
+        else{
+            recoverClips();
+        }
     }
 
     /**
      * This method downloads a clip
      * from a user inputted URL.
      */
-    private void DownloadClip(){
+    private void downloadClip(){
         Scanner sc=new Scanner(System.in);
         System.out.print(
                   "\nClip downloading:"
