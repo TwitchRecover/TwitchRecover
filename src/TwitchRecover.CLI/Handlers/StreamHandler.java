@@ -48,4 +48,24 @@ public class StreamHandler {
         int quality=CoreHandler.selectFeeds(feeds);
         System.out.print("M3U8 URL: "+live.getFeed(quality));
     }
+
+    /**
+     * This method prompts and
+     * handles the downloading of
+     * a live stream.
+     */
+    private void download(){
+        Scanner sc=new Scanner(System.in);
+        Live live=new Live();
+        System.out.print(
+                  "\n\nLive stream downloading:"
+                + "\nEnter the channel name: "
+        );
+        live.setChannel(sc.nextLine());
+        sc.close();
+        Feeds feeds=live.retrieveFeeds();
+        int quality=CoreHandler.selectFeeds(feeds);
+        System.out.print("\nDownloading stream...");
+        live.download(feeds.getFeed(quality));
+    }
 }
