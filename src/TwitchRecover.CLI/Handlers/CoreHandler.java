@@ -16,9 +16,68 @@
 
 package TwitchRecover.CLI.Handlers;
 
+import TwitchRecover.Core.Compute;
+import TwitchRecover.Core.Enums.FileExtension;
+
+import java.util.Scanner;
+
 /**
  * This class handles the elements which
  * are common to at least 2 handler classes.
  */
 public class CoreHandler {
+    /**
+     * This method checks whether or
+     * not a specific link is a Twitch
+     * video link.
+     * @param url       String value representing the URL value to check.
+     * @return boolean  Boolean value which is true if the URL is indeed a Twitch video link and false otherwise.
+     */
+    protected static boolean isVideo(String url){
+        return Compute.singleRegex("(twitch.tv/[0-9]*)", url)!=null;
+    }
+
+    /**
+     * This method offers a list of file
+     * extensions for an output file
+     * for the user to select for the
+     * output file.
+     * @return FileExtension    FileExtension enum which represents the file extension the value wants the output file to be.
+     */
+    protected static FileExtension userFE(){
+        Scanner feSC=new Scanner(System.in);
+        System.out.print(
+                  "\n\nPlease enter the file extension of the desired output file:"
+                + "\n1. TS."
+                + "\n2. MPEG."
+                + "\n3. MP4."
+                + "\n4. MOV."
+                + "\n5. AVI."
+                + "\nPlease enter your desired file extension: "
+        );
+        int selection=Integer.parseInt(feSC.nextLine());
+        while(!(selection>0 && selection<=5)){
+            System.out.print(
+                      "\n\nERROR: Invalid input!"
+                    + "\nPlease enter a valid number input: "
+            );
+            selection=Integer.parseInt(feSC.nextLine());
+        }
+        feSC.close();
+        if(selection==1){
+            return FileExtension.TS;
+        }
+        else if(selection==2){
+            return FileExtension.MPEG;
+        }
+        else if(selection==3){
+            return FileExtension.MP4;
+        }
+        else if(selection==4){
+            return FileExtension.MOV;
+        }
+        else{
+            return FileExtension.AVI;
+        }
+    }
 }

@@ -66,6 +66,7 @@ public class HighlightHandler {
         int quality=Integer.parseInt(sc.nextLine());    //TODO: Add quality selection checker.
         FileExtension fe=CoreHandler.userFE();
         highlight.downloadHighlight(fe, feeds.getFeed(quality));
+        sc.close();
         System.out.print("\nFile downloaded at: " + highlight.getFFP());
     }
 }
