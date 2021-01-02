@@ -18,7 +18,9 @@ package TwitchRecover.CLI.Handlers;
 
 import TwitchRecover.Core.Clips;
 import TwitchRecover.Core.Compute;
+import TwitchRecover.Core.WebsiteRetrieval;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 /**
  * ClipHandler object class which
@@ -108,10 +110,73 @@ public class ClipHandler {
             );
             clipURL=sc.nextLine();
         }
+        sc.close();
         Clips clip=new Clips();
         String permaLink=clip.retrieveURL(clipURL);
         System.out.print(
                   "\n\nPermanent clip link: " + permaLink + "."
         );
+    }
+
+    /**
+     * This method processes the prompting
+     * and handling for clip recovery.
+     */
+    private void recoverClips(){
+        Scanner sc=new Scanner(System.in);
+        System.out.print(
+                  "\n\nClip Recovery:"
+                + "\nDISCLAIMER: Please install and use Wfuzz. Otherwise, recovery will be EXTREMELY, EXTREMELY slow."
+                + "\nInstructions to install Wfuzz are available here: https://github.com/TwitchRecover/TwitchRecover/wiki/Wfuzz-Integration"
+                + "\n\n1. Input stream information manually."
+                + "\n2. Input the stream link from a Twitch analytics website (Twitch Tracker or Streamscharts)."
+                + "\nPlease enter your desired option, 1 or 2: "
+        );
+        int sourceInput=Integer.parseInt(sc.nextLine());
+        while(!(sourceInput==1 || sourceInput==2)){
+            System.out.print(
+                      "\nInvalid input."
+                    + "\nPlease enter either '1' or '2' based on your desired selection: "
+            );
+            sourceInput=Integer.parseInt(sc.nextLine());
+        }
+        Clips clip=new Clips();
+        if(sourceInput==1){
+            System.out.print("\nPlease input the stream ID: ");
+            clip.setStreamID(Long.parseLong(sc.nextLine()));
+            System.out.print("\nPlease input the stream duration in minutes: ");
+            clip.setDuration((Long.parseLong(sc.nextLine())*60));
+        }
+        else{
+            System.out.print("\nPlease input the stream link from an analytics website (Twitch Tracker or Streamscharts): ");
+            String[] data= WebsiteRetrieval.getData(sc.nextLine());
+            clip.setValues(Long.parseLong(data[1]), Long.parseLong(data[3]));
+        }
+        System.out.print(
+                  "\nPlease enter y if you have Wfuzz installed and n if not: "
+        );
+        String wfuzz=sc.nextLine();
+        while(!(wfuzz.equals("y") || wfuzz.equals("n"))){
+            System.out.print(
+                      "\n\nERROR: Incorrect input."
+                    + "\nPlease enter 'y' if you have Wfuzz installed or 'n' if not: "
+            );
+            wfuzz=sc.nextLine();
+        }
+        clip.setWfuzz(wfuzz.equals("y"));
+        System.out.print("\nRecovering clips...");
+        clip.recover();
+        ArrayList<String> results=clip.getResults();
+        System.out.print("\n\nResults: ");
+        for(String result: results){
+            System.out.print("\n"+result);
+        }
+        System.out.print("\n\nDo you wish to export the results ('y' for yes, 'n' for no)?: "); //TODO: Add boolean checker for beta and final release.
+        if(sc.nextLine().equals("y")){
+            System.out.print("\nPlease input the file path where to export the results: ");
+            clip.setFP(sc.nextLine());
+            clip.exportResults();
+        }
+        sc.close();
     }
 }
