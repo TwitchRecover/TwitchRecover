@@ -79,7 +79,7 @@ public class Prompts {
                   "\n\nMenu:"
                 + "\nStreams:"
                 + "\n1. Get a live stream link (get the M3U8 stream link of a live stream)."
-                + "\n2. Download a stream live."
+                + "\n2. Download a stream live. (Currently unavailable, coming in the beta)"
                 + "\n\nVODs:"
                 + "\n3. Get the link to a VOD (including sub-only)."
                 + "\n4. Download a VOD (including sub-only)."
