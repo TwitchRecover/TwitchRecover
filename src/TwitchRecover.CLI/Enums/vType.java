@@ -16,7 +16,9 @@ public enum vType {
     VOD("VOD", "stream"),
     Highlight("highlight", ""),
     Clip("clip", ""),
-    Stream("", ""),
+    Stream("stream", ""),
+    Video("", ""),
+    Mass("", ""),
     Results("results", "");
 
     public String text;

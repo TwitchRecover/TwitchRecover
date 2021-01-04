@@ -21,7 +21,11 @@ package TwitchRecover.CLI.Enums;
  */
 public enum oType{
     Recover("recover"),
+    Retrieve("retrieve"),
     Download("download"),
+    Convert("convert"),
+    Check("check"),
+    Unmute("unmute"),
     Output("export");
 
     public String text;
