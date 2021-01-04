@@ -36,7 +36,10 @@ public class HighlightHandler {
      */
     public HighlightHandler(int option){
         this.option=option;
-        if(option==7){
+        if(option==6){
+            retrieve();
+        }
+        else if(option==7){
             download();
         }
         else{
