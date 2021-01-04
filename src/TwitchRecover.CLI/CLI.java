@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Daylam Tayari <daylam@tayari.gg>
+ * Copyright (c) 2021 Daylam Tayari <daylam@tayari.gg>
  *
  * This library is free software. You can redistribute it and/or modify it under the terms of the GNU General Public License version 3 as published by the Free Software Foundation.
  * This program is distributed in the that it will be use, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
@@ -23,9 +23,9 @@ package TwitchRecover.CLI;
 public class CLI {
     /**
      * Core method of the CLI version of Twitch Recover.
-     * @param args_
+     * @param args
      */
-    public static void main(String[] args_){
+    public static void main(String[] args){
         new Thread(new Runnable(){
             @Override
             public synchronized void run(){

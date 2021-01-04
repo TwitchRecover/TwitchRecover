@@ -19,6 +19,13 @@ package TwitchRecover.CLI;
 //import TwitchRecover.Core.Download;
 import TwitchRecover.CLI.Enums.oType;
 import TwitchRecover.CLI.Enums.vType;
+import TwitchRecover.CLI.Handlers.ClipHandler;
+import TwitchRecover.CLI.Handlers.HighlightHandler;
+import TwitchRecover.CLI.Handlers.MassHandler;
+import TwitchRecover.CLI.Handlers.StreamHandler;
+import TwitchRecover.CLI.Handlers.VODHandler;
+import TwitchRecover.CLI.Handlers.VideoHandler;
+import TwitchRecover.CLI.Prompts;
 import TwitchRecover.Core.FileIO;
 
 import java.util.ArrayList;
@@ -32,94 +39,70 @@ public class CLIHandler {
      * Core method of the CLI handler.
      */
     protected static void main(){
+        Prompts.alphaDisclaimer();
+        System.out.print("\n"); //TODO: To remove for the final version.
         Prompts.welcome();
         boolean goAgane=true;
+        boolean repeat=false;
         while(goAgane){
-            int mOption= Prompts.menu();
-            if(mOption<3 || mOption==5 || mOption==7){
-                videoDownload(mOption);
+            if(repeat){
+                Prompts.clearConsole();
+                Prompts.repeatWelcome();
             }
-            else if(mOption==3 || mOption==5){
-                videoRecover(mOption);
+            int mOption=Prompts.menu();
+            boolean agane=true;
+            oType op;
+            vType vt;
+            while(agane) {
+                //Call the coordinating handler object and set the vType enum variable.
+                if(mOption <= 2) {      //Stream:
+                    StreamHandler sh = new StreamHandler(mOption);
+                    vt=vType.Stream;
+                }
+                else if(mOption <= 5) {     //VOD:
+                    VODHandler vh = new VODHandler(mOption);
+                    vt=vType.VOD;
+                }
+                else if(mOption <= 7) {     //Highlight:
+                    HighlightHandler hh = new HighlightHandler(mOption);
+                    vt=vType.Highlight;
+                }
+                else if(mOption <= 11) {    //Video:
+                    VideoHandler vh = new VideoHandler(mOption);
+                    vt=vType.Video;
+                }
+                else if(mOption <= 14) {    //Clip:
+                    ClipHandler ch = new ClipHandler(mOption);
+                    vt=vType.Clip;
+                }
+                else {      //Mass recovery options:
+                    MassHandler mh = new MassHandler(mOption);
+                    vt=vType.Mass;
+                }
+                //Set the oType enum variable correctly matching to the operation:
+                if(mOption==1 || mOption==3 || mOption==6 || mOption==13){
+                    op=oType.Retrieve;
+                }
+                else if(mOption==2 || mOption==4 || mOption==7 || mOption==11 || mOption==14 || mOption==17){
+                    op=oType.Download;
+                }
+                else if(mOption==5 || mOption==8 || mOption==15 || mOption==16){
+                    op=oType.Recover;
+                }
+                else if(mOption==9){
+                    op=oType.Check;
+                }
+                else if(mOption==10){
+                    op=oType.Unmute;
+                }
+                else{
+                    op=oType.Convert;
+                }
+                //Repeat option prompt:
+                agane=Prompts.repeat(vt, op);
             }
+            Prompts.goAgane();
         }
-    }
-
-    /**
-     * This method prints the results
-     * and also if the user desires,
-     * export the results to a file.
-     * @param results   String arraylist holding all of the results to be outputted.
-     */
-    private static void printResults(ArrayList<String> results){
-        System.out.print("\n\nResults:\n");
-        if(results.size()==0){
-            System.out.print("\nNO RESULTS FOUND");
-        }
-        else{
-            for(String s: results){
-                System.out.print("\n"+s);
-            }
-        }
-        if(Prompts.repeat(vType.Results, oType.Output)){
-            String fp= Prompts.getOutFP(vType.Results)+"TwitchRecover-"+FileIO.fn+".txt";
-            results.add(0, "Results generated using Twitch Recover. https://github.com/TwitchRecover/TwitchRecover");
-            FileIO.write(results, fp);
-        }
-    }
-
-    /**
-     * This method handles the downloading
-     * of videos for the CLI handler.
-     * @param option    Integer value representing the user's input.
-     */
-    private static void videoDownload(int option){
-        String url=null, fp=null;
-        if(option<3) {
-            url = Prompts.getURL(vType.VOD, oType.Download);
-            fp = Prompts.getOutFP(vType.VOD);
-        }
-        else if(option==5){
-            url= Prompts.getURL(vType.Highlight, oType.Download);
-            fp= Prompts.getURL(vType.Highlight, oType.Download);
-        }
-        else{
-            url= Prompts.getURL(vType.Clip, oType.Download);
-            fp= Prompts.getURL(vType.Clip, oType.Download);
-        }
-        boolean isM3U8 = option == 2 || (url.substring(url.lastIndexOf("." + 1)).equalsIgnoreCase("m3u8"));
-        if(isM3U8 && option!=2){
-            //Download.m3u8Download(url, fp);
-        }
-        else if(isM3U8 && option==2){
-            //VOD.subVODDownload(url, fp);
-        }
-        else{
-            //VOD.vodDownload(url, fp);
-        }
-        System.out.print("\n\nFile has being succesfully downloaded!");
-    }
-
-    /**
-     * This method handles the recovery
-     * for all videos for the CLI handler.
-     * @param option    Integer value representing the user's input.
-     */
-    private static void videoRecover(int option){
-        String url=null, fp=null;
-        ArrayList<String> results;
-        boolean repeat=true;
-        if(option==3){
-            while(repeat){
-               //printResults(VOD.vodRecover(Prompts.VODRecovery()));
-                repeat= Prompts.repeat(vType.VOD, oType.Recover);
-            }
-        }
-        else {
-            while(repeat){
-                //printResults(Highlights.recover(Prompts.getURL(vType.Highlight, oType.Recover)));
-                repeat= Prompts.repeat(vType.Highlight, oType.Recover);
-            }
-        }
+        Prompts.exitMessage();
     }
 }
