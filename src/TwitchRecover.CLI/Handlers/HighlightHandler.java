@@ -16,6 +16,7 @@
 
 package TwitchRecover.CLI.Handlers;
 
+import TwitchRecover.CLI.Enums.oType;
 import TwitchRecover.Core.Enums.FileExtension;
 import TwitchRecover.Core.Feeds;
 import TwitchRecover.Core.Highlights;
@@ -47,16 +48,25 @@ public class HighlightHandler {
         }
     }
 
+    private void retrieve(){
+        System.out.print("\n\nHighlight URL retrieval:");
+        String highturl=promptURL(oType.Retrieve);
+        Highlights highlights=new Highlights(false);
+        int quality=retrieveQuality(highturl, highlights);
+        System.out.print("\nResult: "+highlights.getFeed(quality));
+    }
+
     /**
-     * This method processes the downloading of a
-     * highlight.
+     * This method prompts the user for
+     * the highlight URL to handle
+     * and makes sure that the URL is
+     * valid.
+     * @param op        oType enum which represents what operation to prompt the user the URL for.
+     * @return String   String value which represents the highlight URL the user inputted.
      */
-    private void download(){
+    private String promptURL(oType op){
         Scanner sc=new Scanner(System.in);
-        System.out.print(
-                  "\n\nHighlight downloading:"
-                + "\nPlease enter the link of the highlight to download: "
-        );
+        System.out.print("Please enter the link of the highlight to "+op.text+": ");
         String highlightURL=sc.nextLine();
         while(!CoreHandler.isVideo(highlightURL)){
             System.out.print(
@@ -65,14 +75,32 @@ public class HighlightHandler {
             );
             highlightURL=sc.nextLine();
         }
+        sc.close();
+        return highlightURL;
+    }
+
+    /**
+     * This method processes the downloading of a
+     * highlight.
+     */
+    private void download(){
+        System.out.print("\n\nHighlight downloading:");
+        String highlightURL=promptURL(oType.Download);
         Highlights highlight=new Highlights(false);
         highlight.retrieveID(highlightURL);
         Feeds feeds=highlight.retrieveHighlightFeeds();
         int quality=CoreHandler.selectFeeds(feeds);
         FileExtension fe=CoreHandler.userFE();
         highlight.downloadHighlight(fe, feeds.getFeed(quality));
-        sc.close();
         System.out.print("\nFile downloaded at: " + highlight.getFFP());
+    }
+
+    private int retrieveQuality(String url, Highlights highlight){
+        highlight.retrieveID(url);
+        Feeds feeds=highlight.retrieveHighlightFeeds();
+        int quality=CoreHandler.selectFeeds(feeds);
+        FileExtension fe=CoreHandler.userFE();
+        return quality;
     }
 
     /**
