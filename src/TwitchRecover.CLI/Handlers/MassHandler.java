@@ -16,6 +16,11 @@
 
 package TwitchRecover.CLI.Handlers;
 
+import TwitchRecover.CLI.Enums.oType;
+import TwitchRecover.CLI.Enums.vType;
+import TwitchRecover.Core.FileIO;
+
+import java.util.Scanner;
 /**
  * MassHandler object class which
  * handles mass prompts.
@@ -25,5 +30,127 @@ public class MassHandler {
 
     public MassHandler(int option){
         this.option=option;
+        System.out.print("\n\nMass options are not available right now.\nMass recovery options will be coming in the beta version of Twitch Recover.");
+    }
+
+    //TODO: The integration of the mass options into each of the matching handler object classes.
+    //TODO: To do for the 2.0b release. Leave uncompleted for the 2.0a release.
+
+    //Everything below should be not be considered necessarily relevant to the handling of mass downloads and recoveries.
+    //If you are interested in such please check
+
+    /**
+     * This method retrieves the user's selected option for
+     * the mass recovery/download features.
+     * @return int  Integer value representing the user's selected option for the mass recovery/download feature.
+     */
+    protected int massOptions(){
+        return getIntInput(1, 5);
+    }
+
+    /**
+     * This method prints
+     * out the mass recovery menu.
+     */
+    private void recoverMenu(){
+        System.out.print(
+                  "\n\nMass Recovery:"
+                + "\n1. Retrieve stream M3U8 links."
+                + "\n2. Retrieve VOD M3U8 links."
+                + "\n3. Retrieve clip permanent links."
+        );
+    }
+
+    /**
+     * This method prints out
+     * the mass download menu.
+     */
+    private void downloadMenu(){
+        System.out.print(
+                  "\n\nMass Download:"
+                + "\n1. Download a VOD."
+                + "\n2. Download a highlight."
+                + "\n3. Download a clip."
+                + "\n4. Download M3U8."
+        );
+    }
+
+    /**
+     * Method which retrieves the file
+     * path of the location for where
+     * the file with all of the URLs for
+     * the mass recovery/download options.
+     * @return String   String value representing the file path of the location of the source file.
+     */
+    protected static String getMassFP(){
+        Scanner sc=new Scanner(System.in);
+        System.out.print("\n\nPlease enter the complete file path of the location of the file containing all of the URLs:\n");
+        String fpInput=sc.nextLine();
+        sc.close();
+        return fpInput;
+    }
+
+    /**
+     * This method retrieves the directory for
+     * where to save the downloads in cases for
+     * mass downloads.
+     * @return String   String value representing the directory for where to save the file.
+     */
+    protected static String getMassDir(){
+        Scanner sc=new Scanner(System.in);
+        System.out.print("\n\nPlease enter the directory where you want the downloaded files to be saved:\n");
+        String dir=sc.nextLine();
+        sc.close();
+        return FileIO.adjustFP(dir);
+    }
+
+    /**
+     * Method that retrieves the output file path
+     * and adjusts it if necessary.
+     * @return String   String value representing the output file path.
+     */
+    public static String getOutFP(vType v){
+        Scanner sc=new Scanner(System.in);
+        System.out.print("\n\nPlease enter the file path of the folder where you want the " + v + " to be saved:\n");
+        String fp=sc.nextLine();
+        sc.close();
+        return FileIO.adjustFP(fp);
+    }
+
+    /**
+     * This method retrieves the URL for
+     * a particular operation.
+     * @param v         vType enum representing the video type of the operation.
+     * @param o         oType enum representing the operation type.
+     * @return String   String value representing the retrieved URL.
+     */
+    public static String getURL(vType v, oType o){
+        Scanner sc=new Scanner(System.in);
+        System.out.print("\n\nPlease enter the URL of the " + v.text + " to " + o.text + ":\n");
+        String input=sc.nextLine();
+        sc.close();
+        return input;
+    }
+
+    /**
+     * This method gets an integer input from a
+     * pre-printed menu.
+     * @param min       Integer value representing the minimum available option.
+     * @param max       Integer value representing the maximum available option.
+     * @return Integer  Integer value representing the user's selected option.
+     */
+    private int getIntInput(int min, int max){
+        Scanner sc=new Scanner(System.in);
+        System.out.print("\nPlease enter the number of the option you want to select (number between " + min +"-" + max + " inclusive:\n");
+        int input=Integer.parseInt(sc.nextLine());
+        while(!(input>=min && input<=max)){
+            System.out.print(
+                    "\n\nERROR: Incorrect input"
+                            + "\nPlease enter the number of the option you want to select (number between " + max +"-" + min + " inclusive):\n"
+            );
+            input=Integer.parseInt(sc.nextLine());
+        }
+        sc.close();
+        return input;
     }
 }

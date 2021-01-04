@@ -97,9 +97,9 @@ public class Prompts {
                 + "\n13. Retrieve permanent link of a clip - never deleted."
                 + "\n14. Download a clip."
                 + "\n15. Recover ALL clips from a stream - NO time limit."
-                + "\n\nMass options:"
-                + "\n16. Mass recover options."
-                + "\n17. Mass download options."
+                + "\n\nMass options: (Currently unavailable, coming in the beta)"
+                + "\n16. Mass recover options. (Currently unavailable, coming in the beta)"
+                + "\n17. Mass download options. (Currently unavailable, coming in the beta)"
         );
     }
 
