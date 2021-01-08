@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Daylam Tayari <daylam@tayari.gg>
+ * Copyright (c) 2021 Daylam Tayari <daylam@tayari.gg>
  *
  * This library is free software. You can redistribute it and/or modify it under the terms of the GNU General Public License version 3 as published by the Free Software Foundation.
  * This program is distributed in the that it will be use, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
@@ -17,9 +17,6 @@
 package TwitchRecover.Core.API;
 
 import TwitchRecover.Core.Feeds;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 
 import java.util.ArrayList;
 
@@ -38,8 +35,7 @@ public class LiveAPI {
      */
     public static Feeds getLiveFeeds(String channel){
         String[] auth=getLiveToken(channel);    //0: Token; 1: Signature.
-        ArrayList<String> responseContents=API.getReq("https://usher.ttvnw.net/api/channel/hls/"+channel+".m3u8?sig="+auth[1]+"&token="+auth[0]);
-        return API.parseFeeds(responseContents);
+        return API.getPlaylist("https://usher.ttvnw.net/api/channel/hls/"+channel+".m3u8?sig="+auth[1]+"&token="+auth[0]);
     }
 
     /**

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Daylam Tayari <daylam@tayari.gg>
+ * Copyright (c) 2021 Daylam Tayari <daylam@tayari.gg>
  *
  * This library is free software. You can redistribute it and/or modify it under the terms of the GNU General Public License version 3 as published by the Free Software Foundation.
  * This program is distributed in the that it will be use, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
@@ -15,24 +15,28 @@
  */
 
 package TwitchRecover.Core.API;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+
 import TwitchRecover.Core.Compute;
-import TwitchRecover.Core.Enums.FileExtension;
 import TwitchRecover.Core.Enums.Quality;
+import TwitchRecover.Core.Enums.Timeout;
 import TwitchRecover.Core.Feeds;
-import TwitchRecover.Core.Fuzz;
+import TwitchRecover.Core.FileIO;
+import org.apache.commons.io.FileUtils;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * This class handles all of the
@@ -97,6 +101,25 @@ public class API {
         }
         catch(Exception ignored){}
         return responseContents;
+    }
+
+    /**
+     * This method gets a playlist
+     * file and returns the contents
+     * of the playlist file.
+     * @param url       String value which represents the URL of the playlist file.
+     * @return Feeds    Feeds object containing all of the feeds from an M3U8 playlist.
+     */
+    static Feeds getPlaylist(String url){
+        File downloadedFile= null;    //Creates the temp file.
+        try {
+            URL dURL=new URL(url);
+            downloadedFile = File.createTempFile("Playlist-", ".m3u8");
+            downloadedFile.deleteOnExit();
+            FileUtils.copyURLToFile(dURL, downloadedFile, Timeout.CONNECT.time, Timeout.READ.time);
+        }
+        catch(IOException ignored){}
+        return parseFeeds(FileIO.read(downloadedFile.getAbsolutePath()));
     }
 
     /**
