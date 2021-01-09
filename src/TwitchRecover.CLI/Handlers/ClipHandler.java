@@ -16,6 +16,7 @@
 
 package TwitchRecover.CLI.Handlers;
 
+import TwitchRecover.CLI.CLIHandler;
 import TwitchRecover.Core.Clips;
 import TwitchRecover.Core.Compute;
 import TwitchRecover.Core.WebsiteRetrieval;
@@ -52,7 +53,7 @@ public class ClipHandler {
      * from a user inputted URL.
      */
     private void downloadClip(){
-        Scanner sc=new Scanner(System.in);
+        Scanner sc=new Scanner(CLIHandler.is);
         System.out.print(
                   "\nClip downloading:"
                 + "\nPlease enter the link of the clip to download: "
@@ -110,7 +111,7 @@ public class ClipHandler {
      * link of a clip.
      */
     private void retrievePerma(){
-        Scanner sc=new Scanner(System.in);
+        Scanner sc=new Scanner(CLIHandler.is);
         System.out.print(
                   "\n\nPermanent link retrieval:"
                 + "\nPlease enter the link of the Twitch clip to get the permanent link for: "
@@ -137,7 +138,7 @@ public class ClipHandler {
      * and handling for clip recovery.
      */
     private void recoverClips(){
-        Scanner sc=new Scanner(System.in);
+        Scanner sc=new Scanner(CLIHandler.is);
         System.out.print(
                   "\n\nClip Recovery:"
                 + "\nDISCLAIMER: Please install and use Wfuzz. Otherwise, recovery will be EXTREMELY, EXTREMELY slow."

@@ -16,6 +16,7 @@
 
 package TwitchRecover.CLI.Handlers;
 
+import TwitchRecover.CLI.CLIHandler;
 import TwitchRecover.CLI.Enums.oType;
 import TwitchRecover.CLI.Enums.vType;
 import TwitchRecover.Core.FileIO;
@@ -83,7 +84,7 @@ public class MassHandler {
      * @return String   String value representing the file path of the location of the source file.
      */
     protected static String getMassFP(){
-        Scanner sc=new Scanner(System.in);
+        Scanner sc=new Scanner(CLIHandler.is);
         System.out.print("\n\nPlease enter the complete file path of the location of the file containing all of the URLs:\n");
         String fpInput=sc.nextLine();
         sc.close();
@@ -97,7 +98,7 @@ public class MassHandler {
      * @return String   String value representing the directory for where to save the file.
      */
     protected static String getMassDir(){
-        Scanner sc=new Scanner(System.in);
+        Scanner sc=new Scanner(CLIHandler.is);
         System.out.print("\n\nPlease enter the directory where you want the downloaded files to be saved:\n");
         String dir=sc.nextLine();
         sc.close();
@@ -110,7 +111,7 @@ public class MassHandler {
      * @return String   String value representing the output file path.
      */
     public static String getOutFP(vType v){
-        Scanner sc=new Scanner(System.in);
+        Scanner sc=new Scanner(CLIHandler.is);
         System.out.print("\n\nPlease enter the file path of the folder where you want the " + v + " to be saved:\n");
         String fp=sc.nextLine();
         sc.close();
@@ -125,7 +126,7 @@ public class MassHandler {
      * @return String   String value representing the retrieved URL.
      */
     public static String getURL(vType v, oType o){
-        Scanner sc=new Scanner(System.in);
+        Scanner sc=new Scanner(CLIHandler.is);
         System.out.print("\n\nPlease enter the URL of the " + v.text + " to " + o.text + ":\n");
         String input=sc.nextLine();
         sc.close();
@@ -140,7 +141,7 @@ public class MassHandler {
      * @return Integer  Integer value representing the user's selected option.
      */
     private int getIntInput(int min, int max){
-        Scanner sc=new Scanner(System.in);
+        Scanner sc=new Scanner(CLIHandler.is);
         System.out.print("\nPlease enter the number of the option you want to select (number between " + min +"-" + max + " inclusive:\n");
         int input=Integer.parseInt(sc.nextLine());
         while(!(input>=min && input<=max)){

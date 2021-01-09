@@ -16,6 +16,7 @@
 
 package TwitchRecover.CLI.Handlers;
 
+import TwitchRecover.CLI.CLIHandler;
 import TwitchRecover.CLI.Enums.oType;
 import TwitchRecover.Core.Enums.FileExtension;
 import TwitchRecover.Core.Feeds;
@@ -65,7 +66,7 @@ public class HighlightHandler {
      * @return String   String value which represents the highlight URL the user inputted.
      */
     private String promptURL(oType op){
-        Scanner sc=new Scanner(System.in);
+        Scanner sc=new Scanner(CLIHandler.is);
         System.out.print("Please enter the link of the highlight to "+op.text+": ");
         String highlightURL=sc.nextLine();
         while(!CoreHandler.isVideo(highlightURL)){
@@ -108,7 +109,7 @@ public class HighlightHandler {
      * the recovery of a highlight.
      */
     private void recover(){
-        Scanner sc=new Scanner(System.in);
+        Scanner sc=new Scanner(CLIHandler.is);
         Highlights highlight=new Highlights(true);
         System.out.print(
                   "\n\nHighlight recovery:"

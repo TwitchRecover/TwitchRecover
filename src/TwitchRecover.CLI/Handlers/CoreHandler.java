@@ -16,6 +16,7 @@
 
 package TwitchRecover.CLI.Handlers;
 
+import TwitchRecover.CLI.CLIHandler;
 import TwitchRecover.Core.Compute;
 import TwitchRecover.Core.Enums.FileExtension;
 import TwitchRecover.Core.Enums.Quality;
@@ -47,7 +48,7 @@ public class CoreHandler {
      * @return FileExtension    FileExtension enum which represents the file extension the value wants the output file to be.
      */
     protected static FileExtension userFE(){
-        Scanner feSC=new Scanner(System.in);
+        Scanner feSC=new Scanner(CLIHandler.is);
         System.out.print(
                   "\n\nPlease enter the file extension of the desired output file:"
                 + "\n1. TS."
@@ -84,7 +85,7 @@ public class CoreHandler {
     }
 
     protected static int selectFeeds(Feeds feeds){
-        Scanner scF=new Scanner(System.in);
+        Scanner scF=new Scanner(CLIHandler.is);
         System.out.print("\n\nQualities available:");
         int i=1;
         for(Quality qual: feeds.getQualities()){

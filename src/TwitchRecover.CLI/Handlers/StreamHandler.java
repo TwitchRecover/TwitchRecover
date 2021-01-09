@@ -16,6 +16,7 @@
 
 package TwitchRecover.CLI.Handlers;
 
+import TwitchRecover.CLI.CLIHandler;
 import TwitchRecover.Core.Feeds;
 import TwitchRecover.Core.Live;
 
@@ -49,15 +50,15 @@ public class StreamHandler {
      * the retrieval of live stream links.
      */
     private void retrieve(){
-        Scanner sc1=new Scanner(System.in);
+        Scanner sc=new Scanner(CLIHandler.is);
         Live live=new Live();
         System.out.print(
                   "\n\nLive stream link retrieval:"
                 + "\nEnter the channel name: "
         );
-        String response=sc1.next();
+        String response=sc.next();
         live.setChannel(response);
-        sc1.close();
+        sc.close();
         Feeds feeds=live.retrieveFeeds();
         int quality=CoreHandler.selectFeeds(feeds);
         System.out.print("M3U8 URL: "+live.getFeed(quality));
@@ -69,7 +70,7 @@ public class StreamHandler {
      * a live stream.
      */
     private void download(){
-        Scanner sc=new Scanner(System.in);
+        Scanner sc=new Scanner(CLIHandler.is);
         Live live=new Live();
         System.out.print(
                   "\n\nLive stream downloading:"

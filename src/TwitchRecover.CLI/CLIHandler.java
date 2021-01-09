@@ -28,6 +28,8 @@ import TwitchRecover.CLI.Handlers.VideoHandler;
 import TwitchRecover.CLI.Prompts;
 import TwitchRecover.Core.FileIO;
 
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 /**
@@ -35,6 +37,7 @@ import java.util.ArrayList;
  * version of Twitch Recover.
  */
 public class CLIHandler {
+    public static InputStreamReader is=new InputStreamReader(System.in);     //All scanners use this input stream and not `System.in` directly.
     /**
      * Core method of the CLI handler.
      */
@@ -104,5 +107,9 @@ public class CLIHandler {
             Prompts.goAgane();
         }
         Prompts.exitMessage();
+        try {
+            is.close();
+        }
+        catch(IOException ignored){}
     }
 }
