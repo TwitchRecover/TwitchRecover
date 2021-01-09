@@ -22,8 +22,6 @@ import TwitchRecover.Core.Enums.FileExtension;
 import TwitchRecover.Core.Feeds;
 import TwitchRecover.Core.Highlights;
 
-import java.util.Scanner;
-
 /**
  * HighlightHandler object class which
  * handles the highlight prompts.
@@ -66,17 +64,15 @@ public class HighlightHandler {
      * @return String   String value which represents the highlight URL the user inputted.
      */
     private String promptURL(oType op){
-        Scanner sc=new Scanner(CLIHandler.is);
         System.out.print("Please enter the link of the highlight to "+op.text+": ");
-        String highlightURL=sc.nextLine();
+        String highlightURL=CLIHandler.sc.nextLine();
         while(!CoreHandler.isVideo(highlightURL)){
             System.out.print(
                       "\n\nERROR: Invalid highlight link."
                     + "\nPlease enter a valid highlight URL."
             );
-            highlightURL=sc.nextLine();
+            highlightURL=CLIHandler.sc.nextLine();
         }
-        sc.close();
         return highlightURL;
     }
 
@@ -109,20 +105,19 @@ public class HighlightHandler {
      * the recovery of a highlight.
      */
     private void recover(){
-        Scanner sc=new Scanner(CLIHandler.is);
         Highlights highlight=new Highlights(true);
         System.out.print(
                   "\n\nHighlight recovery:"
                 + "\nPlease enter the exact details about the highlight in order to retrieve it:"
                 + "\nChannel name: "
         );
-        highlight.setChannel(sc.nextLine());
+        highlight.setChannel(CLIHandler.sc.nextLine());
         System.out.print("\nStream ID: ");
-        highlight.setStreamID(sc.nextLine());
+        highlight.setStreamID(CLIHandler.sc.nextLine());
         System.out.print("\nHighlight ID: ");
-        highlight.setID(Long.parseLong(sc.nextLine()));
+        highlight.setID(Long.parseLong(CLIHandler.sc.nextLine()));
         System.out.print("\nTimestamp (YYYY-MM-DD HH:mm:ss format): ");
-        highlight.setTimestamp(sc.nextLine());
+        highlight.setTimestamp(CLIHandler.sc.nextLine());
         highlight.retrieveHighlights();
         int quality=CoreHandler.selectFeeds(highlight.retrieveHighlightFeeds());
         System.out.print("\n\nM3U8 link: "+highlight.getFeed(quality));

@@ -22,8 +22,6 @@ import TwitchRecover.Core.Enums.FileExtension;
 import TwitchRecover.Core.Enums.Quality;
 import TwitchRecover.Core.Feeds;
 
-import java.util.Scanner;
-
 /**
  * This class handles the elements which
  * are common to at least 2 handler classes.
@@ -48,7 +46,6 @@ public class CoreHandler {
      * @return FileExtension    FileExtension enum which represents the file extension the value wants the output file to be.
      */
     protected static FileExtension userFE(){
-        Scanner feSC=new Scanner(CLIHandler.is);
         System.out.print(
                   "\n\nPlease enter the file extension of the desired output file:"
                 + "\n1. TS."
@@ -58,15 +55,14 @@ public class CoreHandler {
                 + "\n5. AVI."
                 + "\nPlease enter your desired file extension: "
         );
-        int selection=Integer.parseInt(feSC.nextLine());
+        int selection=Integer.parseInt(CLIHandler.sc.nextLine());
         while(!(selection>0 && selection<=5)){
             System.out.print(
                       "\n\nERROR: Invalid input!"
                     + "\nPlease enter a valid number input: "
             );
-            selection=Integer.parseInt(feSC.nextLine());
+            selection=Integer.parseInt(CLIHandler.sc.nextLine());
         }
-        feSC.close();
         if(selection==1){
             return FileExtension.TS;
         }
@@ -85,7 +81,6 @@ public class CoreHandler {
     }
 
     protected static int selectFeeds(Feeds feeds){
-        Scanner scF=new Scanner(CLIHandler.is);
         System.out.print("\n\nQualities available:");
         int i=1;
         for(Quality qual: feeds.getQualities()){
@@ -93,8 +88,7 @@ public class CoreHandler {
             i++;
         }
         System.out.print("\nPlease enter the desired quality you want to download: ");
-        String selection=scF.nextLine();
-        scF.close();
+        String selection=CLIHandler.sc.nextLine();
         return Integer.parseInt(selection);
     }
 }

@@ -19,8 +19,6 @@ package TwitchRecover.CLI;
 import TwitchRecover.CLI.Enums.oType;
 import TwitchRecover.CLI.Enums.vType;
 
-import java.util.Scanner;
-
 /**
  * This class holds all of the prompts
  * and the prompt handlers for the
@@ -47,17 +45,15 @@ public class Prompts {
      * @return Integer  Integer value representing the user's selected option.
      */
     private static int getIntInput(int min, int max){
-        Scanner sc=new Scanner(CLIHandler.is);
         System.out.print("\nPlease enter the number of the option you want to select (number between " + min +"-" + max + " inclusive:\n");
-        int input=Integer.parseInt(sc.nextLine());
+        int input=Integer.parseInt(CLIHandler.sc.nextLine());
         while(!(input>=min && input<=max)){
             System.out.print(
                       "\n\nERROR: Incorrect input"
                     + "\nPlease enter the number of the option you want to select (number between " + max +"-" + min + " inclusive):\n"
             );
-            input=Integer.parseInt(sc.nextLine());
+            input=Integer.parseInt(CLIHandler.sc.nextLine());
         }
-        sc.close();
         return input;
     }
 
@@ -112,7 +108,6 @@ public class Prompts {
      * @return boolean  Boolean value representing whether or not the user wishes to repeat the operation they just completed.
      */
     protected static boolean repeat(vType v, oType o){
-        Scanner sc=new Scanner(CLIHandler.is);
         String midWord="another";
         if(o==oType.Output){
             midWord="the";
@@ -124,15 +119,14 @@ public class Prompts {
             System.out.print("\n\nDo you want to perform a new mass "+ o.text+".");
         }
         System.out.print("\nEnter y for yes and n for no: ");
-        String response=sc.nextLine();
+        String response=CLIHandler.sc.nextLine();
         while(!(response.equalsIgnoreCase("y") || response.equalsIgnoreCase("n"))){
             System.out.print(
                       "\nINCORRECT INPUT"
                     + "\nPlease enter either a 'y' or a 'n' corresponding to your desired selection: "
             );
-            response=sc.nextLine();
+            response=CLIHandler.sc.nextLine();
         }
-        sc.close();
         return response.equalsIgnoreCase("y");
     }
 
@@ -143,20 +137,18 @@ public class Prompts {
      * @return Boolean      Boolean value which is true if the user wants to continue or false if not.
      */
     protected static boolean goAgane(){
-        Scanner sc=new Scanner(CLIHandler.is);
         System.out.print(
                 "\n\nDo you want to continue using the program/perform a new operation?"
                 + "\nPlease enter 'y' for yes and 'n' for no: "
         );
-        String response=sc.nextLine();
+        String response=CLIHandler.sc.nextLine();
         while(!(response.equalsIgnoreCase("y") || response.equalsIgnoreCase("n"))){
             System.out.print(
                     "\nINCORRECT INPUT"
                     + "\nPlease enter either a 'y' or a 'n' corresponding to your desired selection: "
             );
-            response=sc.nextLine();
+            response=CLIHandler.sc.nextLine();
         }
-        sc.close();
         return response.equalsIgnoreCase("y");
     }
 

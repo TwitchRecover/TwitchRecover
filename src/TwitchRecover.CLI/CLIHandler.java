@@ -31,13 +31,14 @@ import TwitchRecover.Core.FileIO;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 /**
  * This is the handler for the entirety of the CLI
  * version of Twitch Recover.
  */
 public class CLIHandler {
-    public static InputStreamReader is=new InputStreamReader(System.in);     //All scanners use this input stream and not `System.in` directly.
+    public static Scanner sc=new Scanner(System.in);    //All scanners use this scanner. TODO: Find better way, or a scanner for each independent usage but this will have to do for the alpha.
     /**
      * Core method of the CLI handler.
      */
@@ -106,10 +107,7 @@ public class CLIHandler {
             }
             Prompts.goAgane();
         }
+        sc.close();
         Prompts.exitMessage();
-        try {
-            is.close();
-        }
-        catch(IOException ignored){}
     }
 }
