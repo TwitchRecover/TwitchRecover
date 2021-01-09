@@ -56,21 +56,21 @@ public class ClipHandler {
                   "\nClip downloading:"
                 + "\nPlease enter the link of the clip to download: "
         );
-        String clipURL=CLIHandler.sc.nextLine();
+        String clipURL=CLIHandler.sc.next();
         while(!checkClipURL(clipURL)){
             System.out.print(
                       "\n\nERROR: Invalid Twitch clip link."
                     + "\nThe link must be a Twitch clip link or a Twitch server clip link."
                     + "\nPlease enter the link of the clip to download: "
             );
-            clipURL=CLIHandler.sc.nextLine();
+            clipURL=CLIHandler.sc.next();
         }
         Clips clip=new Clips();
         System.out.print(
                   "\nPlease enter the FILE PATH of where you want the clip saved:"
                 + "\nFile path: "
         );
-        clip.setFP(CLIHandler.sc.nextLine());
+        clip.setFP(CLIHandler.sc.next());
         if(clipURL.substring(clipURL.lastIndexOf(".")).equals(".mp4")){
             clip.setURL(clipURL);
             clip.download();
@@ -112,14 +112,14 @@ public class ClipHandler {
                   "\n\nPermanent link retrieval:"
                 + "\nPlease enter the link of the Twitch clip to get the permanent link for: "
         );
-        String clipURL=CLIHandler.sc.nextLine();
+        String clipURL=CLIHandler.sc.next();
         while(!checkClipURL(clipURL) && !clipURL.contains("clips-media-assets2.twitch.tv") && clipURL.toLowerCase().contains("twitch.tv")){
             System.out.print(
                       "\n\nERROR: Invalid link."
                     + "\nPlease enter the link of a Twitch clip, a clips.twitch.tv/... or twitch.tv/clips/... URL."
                     + "\nEnter link: "
             );
-            clipURL=CLIHandler.sc.nextLine();
+            clipURL=CLIHandler.sc.next();
         }
         Clips clip=new Clips();
         String permaLink=clip.retrieveURL(clipURL);
@@ -141,36 +141,36 @@ public class ClipHandler {
                 + "\n2. Input the stream link from a Twitch analytics website (Twitch Tracker or Streamscharts)."
                 + "\nPlease enter your desired option, 1 or 2: "
         );
-        int sourceInput=Integer.parseInt(CLIHandler.sc.nextLine());
+        int sourceInput=Integer.parseInt(CLIHandler.sc.next());
         while(!(sourceInput==1 || sourceInput==2)){
             System.out.print(
                       "\nInvalid input."
                     + "\nPlease enter either '1' or '2' based on your desired selection: "
             );
-            sourceInput=Integer.parseInt(CLIHandler.sc.nextLine());
+            sourceInput=Integer.parseInt(CLIHandler.sc.next());
         }
         Clips clip=new Clips();
         if(sourceInput==1){
             System.out.print("\nPlease input the stream ID: ");
-            clip.setStreamID(Long.parseLong(CLIHandler.sc.nextLine()));
+            clip.setStreamID(Long.parseLong(CLIHandler.sc.next()));
             System.out.print("\nPlease input the stream duration in minutes: ");
-            clip.setDuration((Long.parseLong(CLIHandler.sc.nextLine())*60));
+            clip.setDuration((Long.parseLong(CLIHandler.sc.next())*60));
         }
         else{
             System.out.print("\nPlease input the stream link from an analytics website (Twitch Tracker or Streamscharts): ");
-            String[] data= WebsiteRetrieval.getData(CLIHandler.sc.nextLine());
+            String[] data= WebsiteRetrieval.getData(CLIHandler.sc.next());
             clip.setValues(Long.parseLong(data[1]), Long.parseLong(data[3]));
         }
         System.out.print(
                   "\nPlease enter y if you have Wfuzz installed and n if not: "
         );
-        String wfuzz=CLIHandler.sc.nextLine();
+        String wfuzz=CLIHandler.sc.next();
         while(!(wfuzz.equals("y") || wfuzz.equals("n"))){
             System.out.print(
                       "\n\nERROR: Incorrect input."
                     + "\nPlease enter 'y' if you have Wfuzz installed or 'n' if not: "
             );
-            wfuzz=CLIHandler.sc.nextLine();
+            wfuzz=CLIHandler.sc.next();
         }
         clip.setWfuzz(wfuzz.equals("y"));
         System.out.print("\nRecovering clips...");
@@ -181,9 +181,9 @@ public class ClipHandler {
             System.out.print("\n"+result);
         }
         System.out.print("\n\nDo you wish to export the results ('y' for yes, 'n' for no)?: "); //TODO: Add boolean checker for beta and final release.
-        if(CLIHandler.sc.nextLine().equals("y")){
+        if(CLIHandler.sc.next().equals("y")){
             System.out.print("\nPlease input the file path where to export the results: ");
-            clip.setFP(CLIHandler.sc.nextLine());
+            clip.setFP(CLIHandler.sc.next());
             clip.exportResults();
         }
     }

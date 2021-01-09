@@ -65,13 +65,13 @@ public class HighlightHandler {
      */
     private String promptURL(oType op){
         System.out.print("Please enter the link of the highlight to "+op.text+": ");
-        String highlightURL=CLIHandler.sc.nextLine();
+        String highlightURL=CLIHandler.sc.next();
         while(!CoreHandler.isVideo(highlightURL)){
             System.out.print(
                       "\n\nERROR: Invalid highlight link."
                     + "\nPlease enter a valid highlight URL."
             );
-            highlightURL=CLIHandler.sc.nextLine();
+            highlightURL=CLIHandler.sc.next();
         }
         return highlightURL;
     }
@@ -111,13 +111,13 @@ public class HighlightHandler {
                 + "\nPlease enter the exact details about the highlight in order to retrieve it:"
                 + "\nChannel name: "
         );
-        highlight.setChannel(CLIHandler.sc.nextLine());
+        highlight.setChannel(CLIHandler.sc.next());
         System.out.print("\nStream ID: ");
-        highlight.setStreamID(CLIHandler.sc.nextLine());
+        highlight.setStreamID(CLIHandler.sc.next());
         System.out.print("\nHighlight ID: ");
-        highlight.setID(Long.parseLong(CLIHandler.sc.nextLine()));
+        highlight.setID(Long.parseLong(CLIHandler.sc.next()));
         System.out.print("\nTimestamp (YYYY-MM-DD HH:mm:ss format): ");
-        highlight.setTimestamp(CLIHandler.sc.nextLine());
+        highlight.setTimestamp(CLIHandler.sc.next());
         highlight.retrieveHighlights();
         int quality=CoreHandler.selectFeeds(highlight.retrieveHighlightFeeds());
         System.out.print("\n\nM3U8 link: "+highlight.getFeed(quality));

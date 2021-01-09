@@ -46,13 +46,13 @@ public class Prompts {
      */
     private static int getIntInput(int min, int max){
         System.out.print("\nPlease enter the number of the option you want to select (number between " + min +"-" + max + " inclusive:\n");
-        int input=Integer.parseInt(CLIHandler.sc.nextLine());
+        int input=Integer.parseInt(CLIHandler.sc.next());
         while(!(input>=min && input<=max)){
             System.out.print(
                       "\n\nERROR: Incorrect input"
                     + "\nPlease enter the number of the option you want to select (number between " + max +"-" + min + " inclusive):\n"
             );
-            input=Integer.parseInt(CLIHandler.sc.nextLine());
+            input=Integer.parseInt(CLIHandler.sc.next());
         }
         return input;
     }
@@ -119,13 +119,13 @@ public class Prompts {
             System.out.print("\n\nDo you want to perform a new mass "+ o.text+".");
         }
         System.out.print("\nEnter y for yes and n for no: ");
-        String response=CLIHandler.sc.nextLine();
+        String response=CLIHandler.sc.next();
         while(!(response.equalsIgnoreCase("y") || response.equalsIgnoreCase("n"))){
             System.out.print(
                       "\nINCORRECT INPUT"
                     + "\nPlease enter either a 'y' or a 'n' corresponding to your desired selection: "
             );
-            response=CLIHandler.sc.nextLine();
+            response=CLIHandler.sc.next();
         }
         return response.equalsIgnoreCase("y");
     }
@@ -141,13 +141,13 @@ public class Prompts {
                 "\n\nDo you want to continue using the program/perform a new operation?"
                 + "\nPlease enter 'y' for yes and 'n' for no: "
         );
-        String response=CLIHandler.sc.nextLine();
+        String response=CLIHandler.sc.next();
         while(!(response.equalsIgnoreCase("y") || response.equalsIgnoreCase("n"))){
             System.out.print(
                     "\nINCORRECT INPUT"
                     + "\nPlease enter either a 'y' or a 'n' corresponding to your desired selection: "
             );
-            response=CLIHandler.sc.nextLine();
+            response=CLIHandler.sc.next();
         }
         return response.equalsIgnoreCase("y");
     }

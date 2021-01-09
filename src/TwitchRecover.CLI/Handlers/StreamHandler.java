@@ -71,7 +71,7 @@ public class StreamHandler {
                   "\n\nLive stream downloading:"
                 + "\nEnter the channel name: "
         );
-        live.setChannel(CLIHandler.sc.nextLine());
+        live.setChannel(CLIHandler.sc.next());
         Feeds feeds=live.retrieveFeeds();
         int quality=CoreHandler.selectFeeds(feeds);
         System.out.print("\nDownloading stream...");

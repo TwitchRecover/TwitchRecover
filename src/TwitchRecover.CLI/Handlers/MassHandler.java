@@ -83,7 +83,7 @@ public class MassHandler {
      */
     protected static String getMassFP(){
         System.out.print("\n\nPlease enter the complete file path of the location of the file containing all of the URLs:\n");
-        String fpInput=CLIHandler.sc.nextLine();
+        String fpInput=CLIHandler.sc.next();
         return fpInput;
     }
 
@@ -95,7 +95,7 @@ public class MassHandler {
      */
     protected static String getMassDir(){
         System.out.print("\n\nPlease enter the directory where you want the downloaded files to be saved:\n");
-        String dir=CLIHandler.sc.nextLine();
+        String dir=CLIHandler.sc.next();
         return FileIO.adjustFP(dir);
     }
 
@@ -106,7 +106,7 @@ public class MassHandler {
      */
     public static String getOutFP(vType v){
         System.out.print("\n\nPlease enter the file path of the folder where you want the " + v + " to be saved:\n");
-        String fp=CLIHandler.sc.nextLine();
+        String fp=CLIHandler.sc.next();
         return FileIO.adjustFP(fp);
     }
 
@@ -119,7 +119,7 @@ public class MassHandler {
      */
     public static String getURL(vType v, oType o){
         System.out.print("\n\nPlease enter the URL of the " + v.text + " to " + o.text + ":\n");
-        String input=CLIHandler.sc.nextLine();
+        String input=CLIHandler.sc.next();
         return input;
     }
 
@@ -132,13 +132,13 @@ public class MassHandler {
      */
     private int getIntInput(int min, int max){
         System.out.print("\nPlease enter the number of the option you want to select (number between " + min +"-" + max + " inclusive:\n");
-        int input=Integer.parseInt(CLIHandler.sc.nextLine());
+        int input=Integer.parseInt(CLIHandler.sc.next());
         while(!(input>=min && input<=max)){
             System.out.print(
                     "\n\nERROR: Incorrect input"
                             + "\nPlease enter the number of the option you want to select (number between " + max +"-" + min + " inclusive):\n"
             );
-            input=Integer.parseInt(CLIHandler.sc.nextLine());
+            input=Integer.parseInt(CLIHandler.sc.next());
         }
         return input;
     }
