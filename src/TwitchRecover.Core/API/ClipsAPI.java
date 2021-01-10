@@ -59,10 +59,15 @@ public class ClipsAPI {
             }
         }
         catch(Exception ignored){}
-        JSONObject jo=new JSONObject(response);
-        String streamID=jo.getString("broadcast_id");
-        JSONObject vod=jo.getJSONObject("vod");
-        int offset=vod.getInt("offset")+26;
-        return "https://clips-media-assets2.twitch.tv/"+streamID+"-offset-"+offset+ FileExtension.MP4.fileExtension;
+        try{
+            JSONObject jo=new JSONObject(response);
+            String streamID=jo.getString("broadcast_id");
+            JSONObject vod=jo.getJSONObject("vod");
+            int offset=vod.getInt("offset")+26;
+            return "https://clips-media-assets2.twitch.tv/"+streamID+"-offset-"+offset+ FileExtension.MP4.fileExtension;
+        }
+        catch(Exception e){
+            return "ERROR: Clip could not be found.";
+        }
     }
 }
