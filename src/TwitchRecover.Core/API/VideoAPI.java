@@ -49,7 +49,7 @@ public class VideoAPI {
      */
     public static Feeds getVODFeeds(long VODID){
         String[] auth=getVODToken(VODID);  //0: Token; 1: Signature.
-        return API.getPlaylist("https://usher.ttvnw.net/vod/"+VODID+".m3u8?nauthsig"+auth[1]+"&nauth="+auth[0]+"&allow_source=true&player=twitchweb&allow_spectre=true&allow_audio_only=true");
+        return API.getPlaylist("https://usher.ttvnw.net/vod/"+VODID+".m3u8?sig="+auth[1]+"&token="+auth[0]+"&allow_source=true&player=twitchweb&allow_spectre=true&allow_audio_only=true");
     }
 
     /**
