@@ -61,6 +61,7 @@ public class Clips {
             Download.download(url, fFP);
         }
         catch(Exception ignored){}
+        System.out.print("\nCLip downloaded at: "+fFP);
     }
 
     /**

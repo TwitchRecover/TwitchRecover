@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Daylam Tayari <daylam@tayari.gg>
+ * Copyright (c) 2021 Daylam Tayari <daylam@tayari.gg>
  *
  * This library is free software. You can redistribute it and/or modify it under the terms of the GNU General Public License version 3 as published by the Free Software Foundation.
  * This program is distributed in the that it will be use, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
@@ -21,10 +21,7 @@ import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -62,16 +59,10 @@ public class ClipsAPI {
             }
         }
         catch(Exception ignored){}
-        //Parse JSON:
-        JSONParser parse=new JSONParser();
-        JSONObject jObj=null;
-        try{
-            jObj=(JSONObject) parse.parse(response);
-        }
-        catch(ParseException ignored){}
-        String streamID=jObj.get("broadcast_id").toString();
-        JSONArray vod=(JSONArray) jObj.get("vod");
-        int offset=Integer.parseInt(vod.get(2).toString())+26;
-        return "https://clips-media-assets2.twitch.tv/"+streamID+"-offset-"+offset+ FileExtension.MP4;
+        JSONObject jo=new JSONObject(response);
+        String streamID=jo.getString("broadcast_id");
+        JSONObject vod=jo.getJSONObject("vod");
+        int offset=vod.getInt("offset")+26;
+        return "https://clips-media-assets2.twitch.tv/"+streamID+"-offset-"+offset+ FileExtension.MP4.fileExtension;
     }
 }
