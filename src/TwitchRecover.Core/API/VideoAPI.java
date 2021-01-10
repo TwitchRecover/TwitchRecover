@@ -77,6 +77,8 @@ public class VideoAPI {
                 }
                 br.close();
             }
+            httpResponse.close();
+            httpClient.close();
         }
         catch (Exception ignored){}
         //Parse the JSON response:

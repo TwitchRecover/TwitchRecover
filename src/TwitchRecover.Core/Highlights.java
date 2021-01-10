@@ -107,7 +107,7 @@ public class Highlights {
             part1=m.group(1)+m.group(2);
             part2=m.group(3);
         }
-        feeds=Fuzz.fuzzQualities(part1, part2);
+        feeds=Fuzz.fuzzQualities("https://"+part1, part2);
         return feeds;
     }
 

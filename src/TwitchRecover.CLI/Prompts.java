@@ -44,13 +44,13 @@ public class Prompts {
      * @param max       Integer value representing the maximum available option.
      * @return Integer  Integer value representing the user's selected option.
      */
-    private static int getIntInput(int min, int max){
+    public static int getIntInput(int min, int max){
         System.out.print("\nPlease enter the number of the option you want to select (number between " + min +"-" + max + " inclusive): ");
         int input=Integer.parseInt(CLIHandler.sc.next());
         while(!(input>=min && input<=max)){
             System.out.print(
                       "\n\nERROR: Incorrect input"
-                    + "\nPlease enter the number of the option you want to select (number between " + max +"-" + min + " inclusive): "
+                    + "\nPlease enter the number of the option you want to select (number between " + min +"-" + max + " inclusive): "
             );
             input=Integer.parseInt(CLIHandler.sc.next());
         }

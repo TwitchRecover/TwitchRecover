@@ -56,14 +56,8 @@ public class VODRetrieval {
      * @return Feeds    Feeds object containing all of the possible feeds for that particular VOD.
      */
     public static Feeds retrieveVODFeeds(String baseURL){
-        String coreURL=Compute.singleRegex("(https:\\/\\/[a-z0-9]*.[a-z-]*.[net||com]*\\/[a-z0-9_]*\\/)chunked\\/index-dvr.m3u8", baseURL);
-        Feeds feeds=new Feeds();
-        for(Quality quality: Quality.values()){
-            if(Fuzz.checkURL(coreURL+quality.video+"/index-dvr.m3u8")){
-                feeds.addEntry(coreURL+quality.video+"/index-dvr.m3u8", quality);
-            }
-        }
-        return feeds;
+        String coreURL=Compute.singleRegex("(https:\\/\\/[a-z0-9\\-]*.[a-z_]*.[net||com||tv]*\\/[a-z0-9_]*\\/)chunked\\/index-dvr.m3u8", baseURL);
+        return Fuzz.fuzzQualities(coreURL, "/index-dvr.m3u8");
     }
 
     /**

@@ -69,7 +69,7 @@ public class VOD {
             getVODFeeds();
         }
         else{
-            retrieveVOD();
+            retrieveVOD(false);
             retrieveVODFeeds();
         }
         fFP=fp+fn+fe.fileExtension;
@@ -105,8 +105,13 @@ public class VOD {
      * VOD feeds from given information.
      * @return ArrayList<String>    String arraylist containing all of the source VOD feeds.
      */
-    public ArrayList<String> retrieveVOD(){
-        retrievedURLs=VODRetrieval.retrieveVOD(vodInfo[0], vodInfo[1], vodInfo[2], Boolean.parseBoolean(vodInfo[3]));
+    public ArrayList<String> retrieveVOD(boolean wr){
+        if(!wr){
+            retrievedURLs=VODRetrieval.retrieveVOD(vodInfo[0], vodInfo[1], vodInfo[2], false);
+        }
+        else{
+            retrievedURLs=VODRetrieval.retrieveVOD(vodInfo[0], vodInfo[1], vodInfo[2], Boolean.parseBoolean(vodInfo[3]));
+        }
         return retrievedURLs;
     }
 
@@ -151,7 +156,7 @@ public class VOD {
      * @return String   Feed URL corresponding to the given ID.
      */
     public String getFeed(int id){
-        return feeds.getFeed(id-1);
+        return feeds.getFeed(id);
     }
 
     /**
