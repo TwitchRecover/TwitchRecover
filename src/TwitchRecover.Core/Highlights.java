@@ -23,6 +23,8 @@ import TwitchRecover.Core.Enums.FileExtension;
 import TwitchRecover.Core.Enums.Quality;
 
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * The Highlights object
@@ -83,23 +85,29 @@ public class Highlights {
         String url=Compute.URLCompute(highlightInfo[0], streamID, timestamp);
         //Adapt URL to a highlight M3U8 URL.
         url=url.substring(0, url.indexOf("index-dvr.m3u8"));
-        url+="highlight-"+highlightID+FileExtension.M3U8;
+        url+="highlight-"+highlightID+FileExtension.M3U8.fileExtension;
         retrievedURLs=Fuzz.verifyURL(url);
         return retrievedURLs;
     }
 
     /**
-     * This method retrieves the list of
-     * all possible feeds for a deleted highlight.
-     * @return Feeds    Feeds object containing all possible feeds of a deleted highlight.
+     * This method retrieves
+     * all existing qualities
+     * of a highlight.
+     * @param url       String value representing the source M3U8 URL of the highlight.
+     * @return Feeds    Feeds object containing all of the feeds and their corresponding qualities that could be found.
      */
-    public Feeds retrieveHighlightFeeds(){
-        String coreURL=Compute.singleRegex("(https:\\/\\/[a-z0-9]*.[a-z_]*.[net||com]*\\/[a-z0-9]*\\/)chunked\\/highlight-[0-9]*.m3u8", retrievedURLs.get(0));
-        for(Quality quality: Quality.values()){
-            if(Fuzz.checkURL(coreURL+quality.video+"/highlight-"+highlightID+FileExtension.M3U8)){
-                feeds.addEntry(coreURL+quality.video+"/highlight-"+highlightID+FileExtension.M3U8, quality);
-            }
+    public Feeds retrieveQualities(){
+        String part1=null;
+        String part2=null;
+        String pattern="([vod\\-secure.twitch.tv]*|[vod\\-metro.twitch.tv]*|[[0-9a-zA-Z]*.cloudfront.net]*)(\\/[a-zA-Z0-9_]*\\/)chunked(\\/highlight-[0-9]*\\.m3u8)";
+        Pattern r= Pattern.compile(pattern);
+        Matcher m=r.matcher(retrievedURLs.get(0));
+        if(m.find()){
+            part1=m.group(1)+m.group(2);
+            part2=m.group(3);
         }
+        feeds=Fuzz.fuzzQualities(part1, part2);
         return feeds;
     }
 

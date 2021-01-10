@@ -120,9 +120,9 @@ public class HighlightHandler {
         System.out.print("\nHighlight ID: ");
         highlight.setID(Long.parseLong(CLIHandler.sc.next()));
         System.out.print("\nTimestamp (YYYY-MM-DD HH:mm:ss format): ");
-        highlight.setTimestamp(CLIHandler.sc.next());
+        highlight.setTimestamp(CLIHandler.sc.next()+" "+CLIHandler.sc.next());
         highlight.retrieveHighlights();
-        int quality=CoreHandler.selectFeeds(highlight.retrieveHighlightFeeds(), oType.Recover);
+        int quality=CoreHandler.selectFeeds(highlight.retrieveQualities(), oType.Recover);
         System.out.print("\n\nM3U8 link: "+highlight.getFeed(quality));
     }
 }

@@ -65,10 +65,9 @@ public class Compute {
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss zzz");
         Date date=null;
         try{
-            df.parse(time);
+            date=df.parse(time);
         }
         catch(ParseException ignored){}
-        assert date != null;
         return (long) date.getTime() / 1000;
     }
 
