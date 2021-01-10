@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Daylam Tayari <daylam@tayari.gg>
+ * Copyright (c) 2021 Daylam Tayari <daylam@tayari.gg>
  *
  * This library is free software. You can redistribute it and/or modify it under the terms of the GNU General Public License version 3 as published by the Free Software Foundation.
  * This program is distributed in the that it will be use, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
@@ -30,6 +30,8 @@ public enum Quality {
     QHD("1440p30fps", "1080p30", "2560x1440", 60.000),
     FHD60("1080p60fps", "1080p60", "1920x1080", 60.000),
     FHD("1080p30fps", "1080p30", "1920x1080", 30.000),
+    FMHD60("936p60fps", "936p60", "1664x936", 60.000),
+    FMHD("936p30fps", "936p30", "1664x936", 30.000),
     MHD60("900p60fps", "900p60", "1600x900", 60.000),
     MHD("900p30fps", "900p30", "1600x900", 30.000),
     HD60("720p60fps", "720p60", "1280x720", 60.000),
