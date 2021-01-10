@@ -43,7 +43,7 @@ public class HighlightHandler {
             download();
         }
         else{
-            recover();
+            retrieve();
         }
     }
 
