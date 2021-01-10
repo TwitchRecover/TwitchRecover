@@ -19,6 +19,7 @@ package TwitchRecover.CLI.Handlers;
 import TwitchRecover.CLI.CLIHandler;
 import TwitchRecover.CLI.Enums.oType;
 import TwitchRecover.CLI.Enums.vType;
+import TwitchRecover.CLI.Prompts;
 import TwitchRecover.Core.Enums.FileExtension;
 import TwitchRecover.Core.Feeds;
 import TwitchRecover.Core.VOD;
@@ -39,7 +40,7 @@ public class VODHandler {
             download();
         }
         else{
-            //recover();
+            recover();
         }
     }
 
@@ -54,7 +55,7 @@ public class VODHandler {
         vod.retrieveID(url);
         Feeds feeds=vod.getVODFeeds();
         int quality=CoreHandler.selectFeeds(feeds, oType.Retrieve);
-        System.out.print("\nResult: "+vod.getFeed(quality));
+        System.out.print("\nResult: "+vod.getFeed(quality-1));
     }
 
     /**
@@ -80,15 +81,47 @@ public class VODHandler {
     }
 
     /**
+     * This method processes the
+     * recovery of a VOD.
+     */
+    private void recover(){
+        VODRecoveryMenu();
+        int option= Prompts.getIntInput(1,2);
+        VOD vod=new VOD(true);
+        boolean wf;
+        if(option==1){
+            System.out.print("\nPlease enter the stream analytics link (supports Twitch Tracker and Stream Charts): ");
+            String url=CLIHandler.sc.next();
+            vod.retrieveVODURL(url);
+            wf=false;
+        }
+        else{
+            System.out.print("\nPlease enter the channel name: ");
+            vod.setChannel(CLIHandler.sc.next());
+            System.out.print("\nPlease enter the stream ID: ");
+            vod.setStreamID(CLIHandler.sc.next());
+            System.out.print("\nPlease enter whether or not you want to brute force to the minute ('y' for yes and 'n' for no): ");
+            wf=CLIHandler.sc.next().equalsIgnoreCase("y");
+            vod.setBF(wf);
+            System.out.print("\nPlease enter the start time of the stream: ");
+            vod.setTimestamp(CLIHandler.sc.next());
+        }
+        vod.retrieveVOD(wf);
+        Feeds feeds=vod.retrieveVODFeeds();
+        int quality=CoreHandler.selectFeeds(feeds, oType.Recover);
+        System.out.print("\nResult: "+feeds.getFeed(quality-1));
+    }
+
+    /**
      * This method prints the VOD recovery menu
      */
     private static void VODRecoveryMenu(){
         System.out.print(
-                "\n\nVOD Recovery:"
-                        + "\nTo recover a VOD (time limit of maximum 60 days), you can either:"
-                        + "\n1. Use a stream analytics link."
-                        + "\n(Supports stream links from Twitch Tracker and Stream Charts)"
-                        + "\n2. Input values manually."
+                  "\n\nVOD Recovery:"
+                + "\nTo recover a VOD (time limit of maximum 60 days), you can either:"
+                + "\n1. Use a stream analytics link."
+                + "\n(Supports stream links from Twitch Tracker and Stream Charts)"
+                + "\n2. Input values manually."
         );
     }
 }
