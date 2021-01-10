@@ -31,7 +31,6 @@ import java.util.ArrayList;
  * a VOD.
  */
 public class VOD {
-    private boolean subOnly;                    //Boolean value representing whether or not a VOD is sub-only.
     private boolean isDeleted;                  //Boolean value representing whether or not a VOD is still up.
     private Feeds feeds;                        //Feeds object corresponding to the VOD.
     private FileExtension fe;                   //Desired output file extension.
@@ -49,11 +48,9 @@ public class VOD {
      * two boolean values based on given inputs
      * and if necessary initialises the vodInfo
      * string array.
-     * @param subOnly       Boolean value representing whether or not the VOD is a sub-only VOD.
      * @param isDeleted     Boolean value representing whether or not the VOD has being deleted or not.
      */
-    public VOD(boolean subOnly, boolean isDeleted){
-        this.subOnly=subOnly;
+    public VOD(boolean isDeleted){
         this.isDeleted=isDeleted;
         if(isDeleted){
             vodInfo=new String[4];
@@ -139,10 +136,8 @@ public class VOD {
      * @return Feeds    Feeds object corresponding to the VOD of the VOD ID.
      */
     public Feeds getVODFeeds(){
-        if(!subOnly){
-            feeds= VideoAPI.getVODFeeds(VODID);
-        }
-        else{
+        feeds=VideoAPI.getVODFeeds(VODID);
+        if(feeds.getFeeds().isEmpty()){
             feeds= VideoAPI.getSubVODFeeds(VODID, false);
         }
         return feeds;

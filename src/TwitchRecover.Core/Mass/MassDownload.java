@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Daylam Tayari <daylam@tayari.gg>
+ * Copyright (c) 2021 Daylam Tayari <daylam@tayari.gg>
  *
  * This library is free software. You can redistribute it and/or modify it under the terms of the GNU General Public License version 3 as published by the Free Software Foundation.
  * This program is distributed in the that it will be use, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
@@ -17,13 +17,13 @@
 package TwitchRecover.Core.Mass;
 
 import TwitchRecover.Core.Clips;
-import TwitchRecover.Core.FileIO;
-import TwitchRecover.Core.Highlights;
-import TwitchRecover.Core.VOD;
 import TwitchRecover.Core.Downloader.Download;
 import TwitchRecover.Core.Enums.ContentType;
 import TwitchRecover.Core.Enums.FileExtension;
-import java.io.IOException;
+import TwitchRecover.Core.FileIO;
+import TwitchRecover.Core.Highlights;
+import TwitchRecover.Core.VOD;
+
 import java.util.ArrayList;
 /**
  * This object class handles all of the
@@ -58,9 +58,6 @@ public class MassDownload {
         else if(ct==ContentType.VOD){
             downloadVODs();
         }
-        else{
-            downloadSubVODs();
-        }
     }
 
     /**
@@ -90,34 +87,7 @@ public class MassDownload {
      * @param url   String value representing the feed URL to download.
      */
     private void downloadVOD(String url){
-        VOD vod=new VOD(false, false);
-        vod.setFP(fp);
-        vod.retrieveID(url);
-        String feed=vod.getFeed(1);
-        vod.downloadVOD(fe, feed);
-    }
-
-    /**
-     * This method downloads a
-     * series of sub-only VODs.
-     */
-    private void downloadSubVODs(){
-        for(String line: read){
-            Thread thread=new Thread(() ->{
-                downloadSubVOD(line);
-            });
-            thread.start();
-        }
-    }
-
-    /**
-     * This method downloads
-     * a sub-only VOD from
-     * a given URL.
-     * @param url   String value representing the feed URL to download.
-     */
-    private void downloadSubVOD(String url){
-        VOD vod=new VOD(true, false);
+        VOD vod=new VOD(false);
         vod.setFP(fp);
         vod.retrieveID(url);
         String feed=vod.getFeed(1);

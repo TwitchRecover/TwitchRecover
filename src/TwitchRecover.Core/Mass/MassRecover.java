@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Daylam Tayari <daylam@tayari.gg>
+ * Copyright (c) 2021 Daylam Tayari <daylam@tayari.gg>
  *
  * This library is free software. You can redistribute it and/or modify it under the terms of the GNU General Public License version 3 as published by the Free Software Foundation.
  * This program is distributed in the that it will be use, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
@@ -110,7 +110,7 @@ public class MassRecover {
      * @param url   String value representing a stream link of a stream from a supported analytic website.
      */
     private void processVOD(String url){
-        VOD vod=new VOD(false, true);
+        VOD vod=new VOD(true);
         vod.setVODInfo(WebsiteRetrieval.getData(url));
         results.add(vod.getFeed(1));
     }
