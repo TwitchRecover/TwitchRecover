@@ -154,6 +154,9 @@ public class Highlights {
 
     public Feeds getHighlightFeeds(){
         feeds=VideoAPI.getVODFeeds(highlightID);
+        if(feeds.getFeeds().isEmpty()){
+            feeds=VideoAPI.getSubVODFeeds(highlightID, true);
+        }
         return feeds;
     }
 
@@ -164,7 +167,7 @@ public class Highlights {
      * @return String   String value representing the corresponding feed URL.
      */
     public String getFeed(int id){
-        return feeds.getFeed(id);
+        return feeds.getFeed(id-1);
     }
 
     /**
@@ -182,6 +185,14 @@ public class Highlights {
      */
     public String getFFP(){
         return fFP;
+    }
+
+    /**
+     * Accessor for the highlight ID value.
+     * @return Long     Long value representing the highlight ID.
+     */
+    public long getHighlightID() {
+        return highlightID;
     }
 
     /**

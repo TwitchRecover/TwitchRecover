@@ -143,7 +143,7 @@ public class VOD {
             feeds= VideoAPI.getVODFeeds(VODID);
         }
         else{
-            feeds= VideoAPI.getSubVODFeeds(VODID);
+            feeds= VideoAPI.getSubVODFeeds(VODID, false);
         }
         return feeds;
     }
