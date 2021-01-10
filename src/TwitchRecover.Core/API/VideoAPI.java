@@ -17,6 +17,7 @@
 package TwitchRecover.Core.API;
 
 import TwitchRecover.Core.Compute;
+import TwitchRecover.Core.Enums.FileExtension;
 import TwitchRecover.Core.Enums.Quality;
 import TwitchRecover.Core.Feeds;
 import TwitchRecover.Core.Fuzz;
@@ -24,10 +25,8 @@ import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -59,7 +58,7 @@ public class VideoAPI {
      * @param VODID     Long value representing the VOD ID to retrieve the feeds for.
      * @return Feeds    Feeds object holding all of the feed URLs and their respective qualities.
      */
-    public static Feeds getSubVODFeeds(long VODID){
+    public static Feeds getSubVODFeeds(long VODID, Boolean highlight){
         Feeds feeds=new Feeds();
         //Get the JSON response of the VOD:
         String response="";
@@ -81,35 +80,22 @@ public class VideoAPI {
         }
         catch (Exception ignored){}
         //Parse the JSON response:
-        JSONParser parse=new JSONParser();
-        JSONObject jObj= null;
-        try {
-            jObj = (JSONObject) parse.parse(response);
+        JSONObject jO=new JSONObject(response);
+        String baseURL= Compute.singleRegex("https:\\/\\/[a-z0-9]*.cloudfront.net\\/([a-z0-9_]*)\\/storyboards\\/[0-9]*-info.json",jO.getString("seek_previews_url"));
+        String token=getVODToken(VODID)[0];
+        JSONObject jo = new JSONObject(token);
+        JSONArray restricted = jo.getJSONObject("chansub").getJSONArray("restricted_bitrates");
+        if(highlight){
+            String domain=Compute.singleRegex("(https:\\/\\/[a-z0-9\\-]*.[a-z_]*.[net||com||tv]*\\/[a-z0-9_]*\\/)chunked\\/highlight-[0-9]*.m3u8", Fuzz.verifyURL("/"+baseURL+"/chunked/highlight-"+VODID+".m3u8").get(0));
+            for(int i=0;i<restricted.length();i++){
+                feeds.addEntry(domain+restricted.get(i).toString()+"/highlight-"+VODID+FileExtension.M3U8.fileExtension, Quality.getQualityV(restricted.get(i).toString()));
+            }
         }
-        catch (ParseException ignored){}
-        String previewsURL=jObj.get("seek_previews_url").toString();   //Previews URL which is used to get the core of the VOD URL.
-        JSONArray resolutions=(JSONArray) jObj.get("resolutions");      //Get the list of resolutions.
-        JSONArray fps=(JSONArray) jObj.get("fps");      //Get the list of FPS that correspond to each resolution.
-        //Parse the previews URL to get the core of the VOD URL using regex:
-        String core= Compute.singleRegex("https:\\/\\/[a-z0-9]*.cloudfront.net\\/([a-z0-9_]*)\\/storyboards\\/[0-9]*-info.json", previewsURL);
-        //Get the full base URL of the VOD:
-        String baseURL= Fuzz.verifyURL("/"+core+"/chunked/index-dvr.m3u8").get(0);
-        //Modify the base URL to allow for the implementation of resolutions:
-        baseURL=Compute.singleRegex("([a-z0-9-:\\/]*.[a-z]*.[a-z]*\\/[a-z0-9_]*\\/)chunked\\/index-dvr.m3u8", baseURL);
-        //Go through the array, get the quality from the resolution and FPS and add them to the Feeds object.
-        String suffix="/index-dvr.m3u8";
-        feeds.addEntry(baseURL+"chunked"+suffix, Quality.Source);
-        Double fpsVal;
-        for(int i=resolutions.size()-2; i==0; i--){
-            fpsVal=Double.valueOf(((JSONObject) fps.get(i)).toString());
-            if(fpsVal>=25 && fpsVal<=35){
-                fpsVal=30.000;
+        else {
+            String domain = Compute.singleRegex("(https:\\/\\/[a-z0-9\\-]*.[a-z_]*.[net||com||tv]*\\/[a-z0-9_]*\\/)chunked\\/index-dvr.m3u8", Fuzz.verifyURL("/"+baseURL + "/chunked/index-dvr.m3u8").get(0));
+            for(int i = 0; i < restricted.length(); i++) {
+                feeds.addEntry(baseURL + "/" + restricted.get(i).toString() + "/highlight-"+VODID+ FileExtension.M3U8.fileExtension, Quality.getQualityV(restricted.get(i).toString()));
             }
-            else if(fpsVal>=55 && fpsVal<=65){
-                fpsVal=60.000;
-            }
-            Quality qual=Quality.getQualityRF(((JSONObject) resolutions.get(i)).toString(), fpsVal);
-            feeds.addEntry(baseURL+qual.video+suffix, qual);
         }
         return feeds;
     }
