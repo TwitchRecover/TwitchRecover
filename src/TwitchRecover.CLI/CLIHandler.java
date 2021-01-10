@@ -67,15 +67,15 @@ public class CLIHandler {
                     VODHandler vh = new VODHandler(mOption);
                     vt=vType.VOD;
                 }
-                else if(mOption <= 7) {     //Highlight:
+                else if(mOption <= 8) {     //Highlight:
                     HighlightHandler hh = new HighlightHandler(mOption);
                     vt=vType.Highlight;
                 }
-                else if(mOption <= 11) {    //Video:
+                else if(mOption <= 12) {    //Video:
                     VideoHandler vh = new VideoHandler(mOption);
                     vt=vType.Video;
                 }
-                else if(mOption <= 14) {    //Clip:
+                else if(mOption <= 15) {    //Clip:
                     ClipHandler ch = new ClipHandler(mOption);
                     vt=vType.Clip;
                 }
