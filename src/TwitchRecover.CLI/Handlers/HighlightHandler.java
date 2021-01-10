@@ -86,7 +86,7 @@ public class HighlightHandler {
         Highlights highlight=new Highlights(false);
         highlight.retrieveID(highlightURL);
         Feeds feeds=highlight.retrieveHighlightFeeds();
-        int quality=CoreHandler.selectFeeds(feeds);
+        int quality=CoreHandler.selectFeeds(feeds, oType.Download);
         FileExtension fe=CoreHandler.userFE();
         highlight.downloadHighlight(fe, feeds.getFeed(quality));
         System.out.print("\nFile downloaded at: " + highlight.getFFP());
@@ -95,7 +95,7 @@ public class HighlightHandler {
     private int retrieveQuality(String url, Highlights highlight){
         highlight.retrieveID(url);
         Feeds feeds=highlight.retrieveHighlightFeeds();
-        int quality=CoreHandler.selectFeeds(feeds);
+        int quality=CoreHandler.selectFeeds(feeds, oType.Retrieve);
         FileExtension fe=CoreHandler.userFE();
         return quality;
     }
@@ -119,7 +119,7 @@ public class HighlightHandler {
         System.out.print("\nTimestamp (YYYY-MM-DD HH:mm:ss format): ");
         highlight.setTimestamp(CLIHandler.sc.next());
         highlight.retrieveHighlights();
-        int quality=CoreHandler.selectFeeds(highlight.retrieveHighlightFeeds());
+        int quality=CoreHandler.selectFeeds(highlight.retrieveHighlightFeeds(), oType.Recover);
         System.out.print("\n\nM3U8 link: "+highlight.getFeed(quality));
     }
 }

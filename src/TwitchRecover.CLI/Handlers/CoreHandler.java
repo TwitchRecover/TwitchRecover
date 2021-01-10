@@ -17,6 +17,7 @@
 package TwitchRecover.CLI.Handlers;
 
 import TwitchRecover.CLI.CLIHandler;
+import TwitchRecover.CLI.Enums.oType;
 import TwitchRecover.Core.Compute;
 import TwitchRecover.Core.Enums.FileExtension;
 import TwitchRecover.Core.Enums.Quality;
@@ -80,14 +81,14 @@ public class CoreHandler {
         }
     }
 
-    protected static int selectFeeds(Feeds feeds){
+    protected static int selectFeeds(Feeds feeds, oType o){
         System.out.print("\n\nQualities available:");
         int i=1;
         for(Quality qual: feeds.getQualities()){
             System.out.print("\n"+i+". "+qual.text);
             i++;
         }
-        System.out.print("\nPlease enter the desired quality you want to download: ");
+        System.out.print("\nPlease enter the desired quality you want to "+o.text+": ");
         String selection=CLIHandler.sc.next();
         return Integer.parseInt(selection);
     }

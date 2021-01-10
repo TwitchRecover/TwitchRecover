@@ -17,6 +17,7 @@
 package TwitchRecover.CLI.Handlers;
 
 import TwitchRecover.CLI.CLIHandler;
+import TwitchRecover.CLI.Enums.oType;
 import TwitchRecover.Core.Feeds;
 import TwitchRecover.Core.Live;
 /**
@@ -56,7 +57,7 @@ public class StreamHandler {
         String response=CLIHandler.sc.next();
         live.setChannel(response);
         Feeds feeds=live.retrieveFeeds();
-        int quality=CoreHandler.selectFeeds(feeds);
+        int quality=CoreHandler.selectFeeds(feeds, oType.Retrieve);
         System.out.print("M3U8 URL: "+live.getFeed(quality));
     }
 
@@ -73,7 +74,7 @@ public class StreamHandler {
         );
         live.setChannel(CLIHandler.sc.next());
         Feeds feeds=live.retrieveFeeds();
-        int quality=CoreHandler.selectFeeds(feeds);
+        int quality=CoreHandler.selectFeeds(feeds, oType.Download);
         System.out.print("\nDownloading stream...");
         live.download(feeds.getFeed(quality));
     }
