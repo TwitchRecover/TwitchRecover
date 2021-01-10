@@ -16,6 +16,13 @@
 
 package TwitchRecover.CLI.Handlers;
 
+import TwitchRecover.CLI.CLIHandler;
+import TwitchRecover.CLI.Enums.oType;
+import TwitchRecover.CLI.Enums.vType;
+import TwitchRecover.Core.Enums.FileExtension;
+import TwitchRecover.Core.Feeds;
+import TwitchRecover.Core.VOD;
+
 /**
  * VODHandler object class which
  * handles a VOD prompt.
@@ -25,5 +32,63 @@ public class VODHandler {
 
     public VODHandler(int option){
         this.option=option;
+        if(option==3){
+            retrieve();
+        }
+        else if(option==4){
+            download();
+        }
+        else{
+            //recover();
+        }
+    }
+
+    /**
+     * This method process the retrieval
+     * of a VOD M3U8 URL.
+     */
+    private void retrieve(){
+        System.out.print("\nVOD URL retrieval:");
+        String url=CoreHandler.promptURL(oType.Retrieve, vType.VOD);
+        VOD vod=new VOD(false);
+        vod.retrieveID(url);
+        Feeds feeds=vod.getVODFeeds();
+        int quality=CoreHandler.selectFeeds(feeds, oType.Retrieve);
+        System.out.print("\nResult: "+vod.getFeed(quality));
+    }
+
+    /**
+     * This method processes the
+     * downloading of a VOD.
+     */
+    private void download(){
+        System.out.print("\nVOD downloading:");
+        String url=CoreHandler.promptURL(oType.Download, vType.VOD);
+        VOD vod=new VOD(false);
+        vod.retrieveID(url);
+        Feeds feeds=vod.getVODFeeds();
+        int quality=CoreHandler.selectFeeds(feeds, oType.Download);
+        FileExtension fe=CoreHandler.userFE();
+        System.out.print(
+                  "\nPlease enter the FILE PATH of where you want the VOD saved:"
+                + "\nFile path: "
+        );
+        vod.setFP(CLIHandler.sc.next());
+        System.out.print("\nDownloading...");
+        vod.downloadVOD(fe, feeds.getFeed(quality-1));
+        System.out.print("\nFile downloaded at: " + vod.getFFP());
+    }
+
+    /**
+     * This method prints the VOD recovery menu
+     */
+    private static void VODRecoveryMenu(){
+        System.out.print(
+                "\n\nVOD Recovery:"
+                        + "\nTo recover a VOD (time limit of maximum 60 days), you can either:"
+                        + "\n1. Use a stream analytics link."
+                        + "\n(Supports stream links from Twitch Tracker and Stream Charts)"
+                        + "\n2. Input values manually."
+        );
     }
 }

@@ -69,11 +69,11 @@ public class HighlightHandler {
         int quality=CoreHandler.selectFeeds(feeds, oType.Download);
         FileExtension fe=CoreHandler.userFE();
         System.out.print(
-                  "\nPlease enter the FILE PATH of where you want the clip saved:"
+                  "\nPlease enter the FILE PATH of where you want the highlight saved:"
                 + "\nFile path: "
         );
         highlight.setFP(CLIHandler.sc.next());
-        highlight.downloadHighlight(fe, feeds.getFeed(quality));
+        highlight.downloadHighlight(fe, feeds.getFeed(quality-1));
         System.out.print("\nFile downloaded at: " + highlight.getFFP());
     }
 

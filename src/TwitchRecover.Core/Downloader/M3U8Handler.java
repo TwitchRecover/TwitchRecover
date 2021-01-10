@@ -41,8 +41,6 @@ class M3U8Handler {
     protected static ArrayList<String> getChunks(String url) throws IOException {
         ArrayList<String> chunks=new ArrayList<String>();
         String baseURL="";
-        System.out.print("\n"+url);
-        //url.indexOf("-")!=url.length()-9 ||
         if(url.indexOf("-")!=url.length()-9 && url.indexOf("-")!=url.indexOf("highlight")+9){
             String pattern = "([a-zA-Z0-9]*\\.cloudfront\\.net\\/[a-zA-Z0-9_]*\\/[0-9]*\\/[a-zA-Z0-9_-]*\\/[0-9p]*\\/)";
             Pattern r = Pattern.compile(pattern);

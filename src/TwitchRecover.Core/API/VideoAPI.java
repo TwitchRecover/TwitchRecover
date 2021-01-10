@@ -94,7 +94,7 @@ public class VideoAPI {
         else {
             String domain = Compute.singleRegex("(https:\\/\\/[a-z0-9\\-]*.[a-z_]*.[net||com||tv]*\\/[a-z0-9_]*\\/)chunked\\/index-dvr.m3u8", Fuzz.verifyURL("/"+baseURL + "/chunked/index-dvr.m3u8").get(0));
             for(int i = 0; i < restricted.length(); i++) {
-                feeds.addEntry(baseURL + "/" + restricted.get(i).toString() + "/highlight-"+VODID+ FileExtension.M3U8.fileExtension, Quality.getQualityV(restricted.get(i).toString()));
+                feeds.addEntry(domain + restricted.get(i).toString() + "/index-dvr" + FileExtension.M3U8.fileExtension, Quality.getQualityV(restricted.get(i).toString()));
             }
         }
         return feeds;
