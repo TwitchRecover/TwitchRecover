@@ -18,6 +18,7 @@ package TwitchRecover.CLI.Handlers;
 
 import TwitchRecover.CLI.CLIHandler;
 import TwitchRecover.CLI.Enums.oType;
+import TwitchRecover.CLI.Enums.vType;
 import TwitchRecover.Core.Enums.FileExtension;
 import TwitchRecover.Core.Feeds;
 import TwitchRecover.Core.Highlights;
@@ -49,31 +50,10 @@ public class HighlightHandler {
 
     private void retrieve(){
         System.out.print("\n\nHighlight URL retrieval:");
-        String highturl=promptURL(oType.Retrieve);
+        String highturl=CoreHandler.promptURL(oType.Retrieve, vType.Highlight);
         Highlights highlights=new Highlights(false);
         int quality=retrieveQuality(highturl, highlights);
         System.out.print("\nResult: "+highlights.getFeed(quality));
-    }
-
-    /**
-     * This method prompts the user for
-     * the highlight URL to handle
-     * and makes sure that the URL is
-     * valid.
-     * @param op        oType enum which represents what operation to prompt the user the URL for.
-     * @return String   String value which represents the highlight URL the user inputted.
-     */
-    private String promptURL(oType op){
-        System.out.print("\nPlease enter the link of the highlight to "+op.text+": ");
-        String highlightURL=CLIHandler.sc.next();
-        while(!CoreHandler.isVideo(highlightURL)){
-            System.out.print(
-                      "\n\nERROR: Invalid highlight link."
-                    + "\nPlease enter a valid highlight URL."
-            );
-            highlightURL=CLIHandler.sc.next();
-        }
-        return highlightURL;
     }
 
     /**
@@ -82,7 +62,7 @@ public class HighlightHandler {
      */
     private void download(){
         System.out.print("\n\nHighlight downloading:");
-        String highlightURL=promptURL(oType.Download);
+        String highlightURL=CoreHandler.promptURL(oType.Download, vType.Highlight);
         Highlights highlight=new Highlights(false);
         highlight.retrieveID(highlightURL);
         Feeds feeds=highlight.getHighlightFeeds();

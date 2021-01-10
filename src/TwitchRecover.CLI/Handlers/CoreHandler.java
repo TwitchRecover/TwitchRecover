@@ -18,6 +18,7 @@ package TwitchRecover.CLI.Handlers;
 
 import TwitchRecover.CLI.CLIHandler;
 import TwitchRecover.CLI.Enums.oType;
+import TwitchRecover.CLI.Enums.vType;
 import TwitchRecover.Core.Compute;
 import TwitchRecover.Core.Enums.FileExtension;
 import TwitchRecover.Core.Enums.Quality;
@@ -91,5 +92,26 @@ public class CoreHandler {
         System.out.print("\nPlease enter the desired quality you want to "+o.text+": ");
         String selection=CLIHandler.sc.next();
         return Integer.parseInt(selection);
+    }
+
+    /**
+     * This method prompts the user for
+     * the highlight URL to handle
+     * and makes sure that the URL is
+     * valid.
+     * @param op        oType enum which represents what operation to prompt the user the URL for.
+     * @return String   String value which represents the highlight URL the user inputted.
+     */
+    protected static String promptURL(oType op, vType v){
+        System.out.print("\nPlease enter the link of the "+v.text+" to "+op.text+": ");
+        String highlightURL=CLIHandler.sc.next();
+        while(!CoreHandler.isVideo(highlightURL)){
+            System.out.print(
+                      "\n\nERROR: Invalid "+v.text+" link."
+                    + "\nPlease enter a valid "+v.text+" URL."
+            );
+            highlightURL=CLIHandler.sc.next();
+        }
+        return highlightURL;
     }
 }
