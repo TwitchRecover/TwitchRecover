@@ -114,7 +114,7 @@ public class API {
         File downloadedFile= null;    //Creates the temp file.
         try {
             URL dURL=new URL(url);
-            downloadedFile = File.createTempFile("Playlist-", ".m3u8");
+            downloadedFile = File.createTempFile("TwitchRecover-Playlist-", ".m3u8");
             downloadedFile.deleteOnExit();
             FileUtils.copyURLToFile(dURL, downloadedFile, Timeout.CONNECT.time, Timeout.READ.time);
         }

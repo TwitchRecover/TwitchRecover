@@ -26,17 +26,6 @@ public class CLI {
      * @param args
      */
     public static void main(String[] args){
-        new Thread(new Runnable(){
-            @Override
-            public synchronized void run(){
-                for(; ; ) {
-                    try {
-                        wait();
-                    }
-                    catch(InterruptedException ignored) {}
-                }
-            }
-        }).start();
         CLIHandler.main();
     }
 }

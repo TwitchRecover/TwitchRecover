@@ -105,7 +105,7 @@ public class CLIHandler {
                 //Repeat option prompt:
                 agane=Prompts.repeat(vt, op);
             }
-            Prompts.goAgane();
+            goAgane=Prompts.goAgane();
         }
         sc.close();
         Prompts.exitMessage();

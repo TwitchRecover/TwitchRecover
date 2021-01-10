@@ -89,7 +89,6 @@ public class CoreHandler {
         }
         System.out.print("\nPlease enter the desired quality you want to download: ");
         String selection=CLIHandler.sc.next();
-        System.out.print("\nSelection: "+selection);
         return Integer.parseInt(selection);
     }
 }
