@@ -16,6 +16,8 @@
 
 package TwitchRecover.Core;
 
+import TwitchRecover.Core.Enums.Quality;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -221,5 +223,23 @@ public class Fuzz {
             }
         }
         return results;
+    }
+
+    /**
+     * This method fuzzes all
+     * of the possible qualities
+     * for a specific URL.
+     * @param part1     String value representing the part of the URL prior to the quality value.
+     * @param part2     String value representing the part of the URL after the quality value.
+     * @return Feeds    Feeds object containing the list of feeds found and their respective qualities.
+     */
+    public static Feeds fuzzQualities(String part1, String part2){
+        Feeds feeds=new Feeds();
+        for(Quality qual: Quality.values()){
+            if(checkURL("https://"+part1+qual.video+part2)){
+                feeds.addEntry("https://"+part1+qual+part2, qual);
+            }
+        }
+        return feeds;
     }
 }
