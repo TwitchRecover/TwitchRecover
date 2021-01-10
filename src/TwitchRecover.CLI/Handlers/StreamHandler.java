@@ -55,10 +55,20 @@ public class StreamHandler {
                 + "\nEnter the channel name: "
         );
         String response=CLIHandler.sc.next();
-        live.setChannel(response);
+        live.setChannel(response.toLowerCase());
         Feeds feeds=live.retrieveFeeds();
-        int quality=CoreHandler.selectFeeds(feeds, oType.Retrieve);
-        System.out.print("M3U8 URL: "+live.getFeed(quality));
+        if(feeds.getFeeds().isEmpty()){
+            System.out.print(
+                    "\nERROR!"
+                    + "\nUnable to retrieve feeds."
+                    + "\nPlease make sure that the stream is live right now."
+            );
+        }
+        else{
+            int quality=CoreHandler.selectFeeds(feeds, oType.Retrieve);
+            System.out.print("M3U8 URL: "+live.getFeed(quality));
+        }
+
     }
 
     /**
@@ -74,8 +84,17 @@ public class StreamHandler {
         );
         live.setChannel(CLIHandler.sc.next());
         Feeds feeds=live.retrieveFeeds();
-        int quality=CoreHandler.selectFeeds(feeds, oType.Download);
-        System.out.print("\nDownloading stream...");
-        live.download(feeds.getFeed(quality));
+        if(feeds.getFeeds().isEmpty()){
+            System.out.print(
+                      "\nERROR!"
+                    + "\nUnable to retrieve feeds."
+                    + "\nPlease make sure that the stream is live right now."
+            );
+        }
+        else{
+            int quality=CoreHandler.selectFeeds(feeds, oType.Download);
+            System.out.print("\nDownloading stream...");
+            live.download(feeds.getFeed(quality));
+        }
     }
 }
