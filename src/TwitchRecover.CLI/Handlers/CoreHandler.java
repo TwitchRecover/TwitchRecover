@@ -56,13 +56,13 @@ public class CoreHandler {
                 + "\n5. AVI."
                 + "\nPlease enter your desired file extension: "
         );
-        int selection=Integer.parseInt(CLIHandler.sc.nextLine());
+        int selection=Integer.parseInt(CLIHandler.sc.next());
         while(!(selection>0 && selection<=5)){
             System.out.print(
                       "\n\nERROR: Invalid input!"
                     + "\nPlease enter a valid number input: "
             );
-            selection=Integer.parseInt(CLIHandler.sc.nextLine());
+            selection=Integer.parseInt(CLIHandler.sc.next());
         }
         if(selection==1){
             return FileExtension.TS;

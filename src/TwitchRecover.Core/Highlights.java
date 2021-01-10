@@ -61,15 +61,9 @@ public class Highlights {
      * @param fe        FileExtension enum representing the desired output file extension.
      * @param feed      String value representing the M3U8 feed to download.
      */
-    public void downloadHighlight(FileExtension fe, String feed){   //TODO: Fix this method for beta.
+    public void downloadHighlight(FileExtension fe, String feed){
         computeFN();
-        if(isDeleted){
-            getHighlightFeeds();
-        }
-        else{
-            retrieveHighlights();
-            retrieveHighlightFeeds();
-        }
+        System.out.print("\nDownloading highlight...");
         fFP=fp+fn+fe.fileExtension;
         try{
             Download.m3u8Download(feed, fFP);

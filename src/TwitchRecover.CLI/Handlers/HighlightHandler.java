@@ -43,7 +43,7 @@ public class HighlightHandler {
             download();
         }
         else{
-            retrieve();
+            recover();
         }
     }
 
@@ -64,7 +64,7 @@ public class HighlightHandler {
      * @return String   String value which represents the highlight URL the user inputted.
      */
     private String promptURL(oType op){
-        System.out.print("Please enter the link of the highlight to "+op.text+": ");
+        System.out.print("\nPlease enter the link of the highlight to "+op.text+": ");
         String highlightURL=CLIHandler.sc.next();
         while(!CoreHandler.isVideo(highlightURL)){
             System.out.print(
@@ -85,19 +85,22 @@ public class HighlightHandler {
         String highlightURL=promptURL(oType.Download);
         Highlights highlight=new Highlights(false);
         highlight.retrieveID(highlightURL);
-        Feeds feeds=highlight.retrieveHighlightFeeds();
+        Feeds feeds=highlight.getHighlightFeeds();
         int quality=CoreHandler.selectFeeds(feeds, oType.Download);
         FileExtension fe=CoreHandler.userFE();
+        System.out.print(
+                  "\nPlease enter the FILE PATH of where you want the clip saved:"
+                + "\nFile path: "
+        );
+        highlight.setFP(CLIHandler.sc.next());
         highlight.downloadHighlight(fe, feeds.getFeed(quality));
         System.out.print("\nFile downloaded at: " + highlight.getFFP());
     }
 
     private int retrieveQuality(String url, Highlights highlight){
         highlight.retrieveID(url);
-        Feeds feeds=highlight.retrieveHighlightFeeds();
-        int quality=CoreHandler.selectFeeds(feeds, oType.Retrieve);
-        FileExtension fe=CoreHandler.userFE();
-        return quality;
+        Feeds feeds=highlight.getHighlightFeeds();
+        return CoreHandler.selectFeeds(feeds, oType.Retrieve);
     }
 
     /**
