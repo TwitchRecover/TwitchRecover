@@ -78,6 +78,24 @@ public class API {
                 else if(response.get(i-2).contains("audio")){       //For when the line is an audio-only feed.
                     feeds.addEntry(response.get(i), Quality.AUDIO);
                 }
+                else if(response.get(i-2).contains("1080p60")){     //For resolutions greater or equal to 1080p60.
+                    //Get the FPS of the source resolution.
+                    String patternF="#EXT-X-MEDIA:TYPE=VIDEO,GROUP-ID=\"1080p[0-9]*\",NAME=\"(1080p[0-9]*)\",AUTOSELECT=[\"YES\"||\"NO\"]*,DEFAULT=[\"YES\"||\"NO\"]*";
+                    Pattern pF=Pattern.compile(patternF);
+                    Matcher mF=pF.matcher(response.get(i-2));
+                    Double fps=0.000;
+                    if(mF.find()){
+                        String vid=mF.group(1);
+                        fps=Double.parseDouble(vid.substring(vid.indexOf('p')+1));
+                    }
+                    //Get the resolution of the source resolution.
+                    String pattern="#EXT-X-STREAM-INF:BANDWIDTH=\\d*,CODECS=\"[a-zA-Z0-9.]*,[a-zA-Z0-9.]*\",RESOLUTION=(\\d*x\\d*),VIDEO=\"1080p[0-9]*\"";
+                    Pattern p=Pattern.compile(pattern);
+                    Matcher m=p.matcher(response.get(i-1));
+                    if(m.find()){
+                        feeds.addEntry(response.get(i), Quality.getQualityRF(m.group(1), fps));
+                    }
+                }
                 else{
                     feeds.addEntry(response.get(i), Quality.getQualityV(Compute.singleRegex("#EXT-X-MEDIA:TYPE=VIDEO,GROUP-ID=\"([\\d]*p[36]0)\",NAME=\"([0-9p]*)\",AUTOSELECT=[\"YES\"||\"NO\"]*,DEFAULT=[\"YES\"||\"NO\"]*", response.get(i-2))));
                 }
