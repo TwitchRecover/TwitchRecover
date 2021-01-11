@@ -134,4 +134,22 @@ public class FileIO {
         }
         exportResults(results, fp);
     }
+
+    /**
+     * This method 'converts' a file
+     * from one file extension to another.
+     * Both old and new file extensions must
+     * be compatible since all this does is
+     * change the file extension.
+     * @param fp        The current complete file path of the file to convert.
+     * @param fe        FileExtension enum value representing the desired output file extension.
+     * @return String   String value representing the absolute file path of the new file.
+     */
+    public static String convert(String fp, FileExtension fe){
+        File old=new File(fp);
+        String newFP=fp.substring(0, fp.lastIndexOf("."))+fe.fileExtension;
+        File newF=new File(newFP);
+        old.renameTo(newF);
+        return newF.getAbsolutePath();
+    }
 }
