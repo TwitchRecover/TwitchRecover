@@ -47,7 +47,7 @@ public class VideoHandler {
             downloadM3U8();
         }
         else{
-            //convert();
+            convert();
         }
     }
 
@@ -73,5 +73,19 @@ public class VideoHandler {
         }
         catch(IOException ignored){}
         System.out.print("\nFile downloaded at: "+fFP);
+    }
+
+    /**
+     * This method processes the
+     * conversion of a TS video file
+     * to an MP4 or other video format.
+     */
+    private void convert(){
+        System.out.print("\nTS file conversion:");
+        System.out.print("\nPlease enter the complete file path of the TS file to convert: ");
+        String fp=CLIHandler.sc.next();
+        FileExtension fe=CoreHandler.userFE();
+        String fFP=FileIO.convert(fp, fe);
+        System.out.print("\nFile converted, new file located at: "+fFP);
     }
 }
