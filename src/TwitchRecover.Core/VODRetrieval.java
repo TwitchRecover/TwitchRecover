@@ -16,7 +16,10 @@
 
 package TwitchRecover.Core;
 
-import TwitchRecover.Core.Enums.Quality;
+import TwitchRecover.Core.Downloader.Download;
+
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 /**
  * The VOD retrieval class is the class that orchestrates
@@ -78,5 +81,27 @@ public class VODRetrieval {
         else{
             return Long.parseLong(url);
         }
+    }
+
+    /**
+     * This method returns a boolean
+     * value depending on whether or
+     * not an M3U8 has muted segments.
+     * @param url       String value representing the URL of the M3U8 to check.
+     * @return boolean  Boolean value which is true if the M3U8 contains muted segments and false if otherwise.
+     */
+    public static boolean hasMuted(String url){
+        File m3u8=null;
+        try {
+            m3u8= Download.tempDownload(url);
+        }
+        catch(IOException ignored){}
+        ArrayList<String> contents=FileIO.parseRead(FileIO.read(m3u8.getAbsolutePath()));
+        for(String line: contents){
+            if(line.contains("unmuted")){
+                return true;
+            }
+        }
+        return false;
     }
 }

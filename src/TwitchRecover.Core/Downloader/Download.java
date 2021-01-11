@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Daylam Tayari <daylam@tayari.gg>
+ * Copyright (c) 2021 Daylam Tayari <daylam@tayari.gg>
  *
  * This library is free software. You can redistribute it and/or modify it under the terms of the GNU General Public License version 3 as published by the Free Software Foundation.
  * This program is distributed in the that it will be use, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
@@ -68,7 +68,7 @@ public class Download {
      * @return File     File object of the file that will be downloaded and is returned.
      * @throws IOException
      */
-    protected static File tempDownload(String url) throws IOException{
+    public static File tempDownload(String url) throws IOException{
         URL dURL=new URL(url);
         String prefix=FilenameUtils.getBaseName(dURL.getPath());
         if(prefix.length()<2){     //This has to be implemented since the prefix value of the createTempFile method

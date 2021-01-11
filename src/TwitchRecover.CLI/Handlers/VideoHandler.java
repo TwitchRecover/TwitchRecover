@@ -21,6 +21,8 @@ import TwitchRecover.Core.Downloader.Download;
 import TwitchRecover.Core.Enums.ContentType;
 import TwitchRecover.Core.Enums.FileExtension;
 import TwitchRecover.Core.FileIO;
+import TwitchRecover.Core.VODRetrieval;
+
 import java.io.IOException;
 
 /**
@@ -38,7 +40,7 @@ public class VideoHandler {
     public VideoHandler(int option){
         this.option=option;
         if(option==9){
-            //checkMute();
+            checkMute();
         }
         else if(option==10){
             //unmute();
@@ -48,6 +50,23 @@ public class VideoHandler {
         }
         else{
             convert();
+        }
+    }
+
+    /**
+     * This method processes the
+     * checking for muted segments
+     * of a specific M3U8.
+     */
+    private void checkMute(){
+        System.out.print("\nMuted segments check:");
+        System.out.print("\nPlease enter the link of the M3U8 to check: ");
+        String url=CLIHandler.sc.next();
+        if(VODRetrieval.hasMuted(url)){
+            System.out.print("\nM3U8 contains muted segments.");
+        }
+        else{
+            System.out.print("\nM3U8 DOES NOT contain any muted segments.");
         }
     }
 
