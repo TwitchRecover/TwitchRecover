@@ -17,8 +17,9 @@ public enum vType {
     Highlight("highlight", ""),
     Clip("clip", ""),
     Stream("stream", ""),
-    Video("", ""),
+    Video("video", ""),
     Mass("", ""),
+    M3U8("M3U8", ""),
     Results("results", "");
 
     public String text;
