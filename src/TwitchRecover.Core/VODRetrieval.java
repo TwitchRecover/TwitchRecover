@@ -96,12 +96,58 @@ public class VODRetrieval {
             m3u8= Download.tempDownload(url);
         }
         catch(IOException ignored){}
-        ArrayList<String> contents=FileIO.parseRead(FileIO.read(m3u8.getAbsolutePath()));
+        ArrayList<String> contents=FileIO.read(m3u8.getAbsolutePath());
         for(String line: contents){
             if(line.contains("unmuted")){
                 return true;
             }
         }
         return false;
+    }
+
+    /**
+     * This method unmutes an M3U8.
+     * @param value     String value representing either the file absolute path or the M3U8 URL.
+     * @param isFile    Boolean value representing whether or not the M3U8 input value is a file (true value) or is a URL (false value).
+     * @param outFP     String value representing the user's desired complete output file path.
+     */
+    public static void unmute(String value, boolean isFile, String outFP){
+        File m3u8=null;
+        String url="";
+        if(isFile){
+            m3u8=new File(value);
+        }
+        else{
+            try{
+                m3u8=Download.tempDownload(value);
+            }
+            catch(Exception ignored){}
+            url=value.substring(0, value.indexOf("index-dvr.m3u8"));
+        }
+        FileIO.exportResults(unmuteContents(FileIO.read(m3u8.getAbsolutePath()), url), outFP);
+    }
+
+    /**
+     * This method unmutes the contents of
+     * an arraylist representing the values
+     * of an M3U8 file.
+     * @param contents              String arraylist representing the contents of the raw M3U8 file.
+     * @param url                   String value representing the URL to add to each TS part if applicable. Can be empty.
+     * @return ArrayList<String>    String arraylist containing the unmuted contents of the M3U8 file.
+     */
+    private static ArrayList<String> unmuteContents(ArrayList<String> contents, String url) {
+        ArrayList<String> unmutedContents=new ArrayList<String>();
+        for(String line: contents){
+            if(line.contains("-unmuted.ts") && !line.startsWith("#")){
+                unmutedContents.add(url+line.substring(0, line.lastIndexOf("unmuted.ts"))+"muted.ts");
+            }
+            else if(!line.startsWith("#")){
+                unmutedContents.add(url+line);
+            }
+            else{
+                unmutedContents.add(line);
+            }
+        }
+        return unmutedContents;
     }
 }
