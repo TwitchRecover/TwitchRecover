@@ -17,6 +17,7 @@
 package TwitchRecover.CLI.Handlers;
 
 import TwitchRecover.CLI.CLIHandler;
+import TwitchRecover.CLI.Prompts;
 import TwitchRecover.Core.Downloader.Download;
 import TwitchRecover.Core.Enums.ContentType;
 import TwitchRecover.Core.Enums.FileExtension;
@@ -43,7 +44,7 @@ public class VideoHandler {
             checkMute();
         }
         else if(option==10){
-            //unmute();
+            unmute();
         }
         else if(option==11){
             downloadM3U8();
@@ -71,6 +72,40 @@ public class VideoHandler {
     }
 
     /**
+     * This method processes the
+     * unmuting of a video.
+     */
+    private void unmute(){
+        System.out.print(
+                  "\nM3U8 unmuting:"
+                + "\nDisclaimer: This 'unmuting' process allows you to watch the muted segments of an M3U8 but does not allow you to HEAR the audio from those segments."
+                + "\n1. Insert URL."
+                + "\n2. Insert file."
+        );
+        int input= Prompts.getIntInput(1,2);
+        boolean isFile;
+        String value;
+        if(input==1){
+            isFile=false;
+            System.out.print("\nPlease input the URL of the M3U8 to unmute: ");
+            value=CLIHandler.sc.next();
+        }
+        else{
+            isFile=true;
+            System.out.print("\nPlease input the complete file path of the M3U8 to unmute: ");
+            value=CLIHandler.sc.next();
+        }
+        System.out.print(
+                  "\nPlease enter the FILE PATH of where you want the unmuted M3U8 saved:"
+                + "\nFile path: "
+        );
+        String fp=FileIO.adjustFP(CLIHandler.sc.next())+FileIO.computeFN(ContentType.M3U8, String.valueOf((int) (Math.random() * 10000000)))+FileExtension.M3U8.fileExtension;
+        System.out.print("\n'Unmuting'...");
+        VODRetrieval.unmute(value, isFile, fp);
+        System.out.print("\nUnmuted file at: "+fp);
+    }
+
+    /**
      * This method processes the downloading
      * of an M3U8 URL.
      */
@@ -79,7 +114,7 @@ public class VideoHandler {
         System.out.print("\nPlease enter the link of the M3U8 file to download: ");
         String url=CLIHandler.sc.next();
         System.out.print(
-                  "\nPlease enter the FILE PATH of where you want the VOD saved:"
+                  "\nPlease enter the FILE PATH of where you want the M3U8 saved:"
                 + "\nFile path: "
         );
         String fp= FileIO.adjustFP(CLIHandler.sc.next());

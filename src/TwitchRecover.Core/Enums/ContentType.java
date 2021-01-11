@@ -25,6 +25,7 @@ public enum ContentType {
     Highlight,
     Clip,
     Video,
+    M3U8,
     Stream;
 
     ContentType(){
