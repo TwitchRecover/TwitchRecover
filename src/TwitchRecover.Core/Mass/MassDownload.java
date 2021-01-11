@@ -65,7 +65,7 @@ public class MassDownload {
      * parses the response.
      */
     private void read(){
-        read=MassCore.parseRead(FileIO.read(rFP));
+        read=FileIO.parseRead(FileIO.read(rFP));
     }
 
     /**

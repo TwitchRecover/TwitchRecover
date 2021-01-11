@@ -54,7 +54,7 @@ public class MassRecover {
      * remove any comment lines.
      */
     private void read(){
-        read=MassCore.parseRead(FileIO.read(rFP));
+        read=FileIO.parseRead(FileIO.read(rFP));
     }
 
     /**

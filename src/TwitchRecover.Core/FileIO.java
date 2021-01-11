@@ -152,4 +152,17 @@ public class FileIO {
         old.renameTo(newF);
         return newF.getAbsolutePath();
     }
+
+    /**
+     * This method parses an arraylist of
+     * values that are from a read file and
+     * removes line which are deemed to be
+     * comments.
+     * @param read                  String arraylist containing the raw lines of values read from a file.
+     * @return ArrayList<String>    String arraylist containing the read values excluding comment lines.
+     */
+    public static ArrayList<String> parseRead(ArrayList<String> read){
+        read.removeIf(line -> line.startsWith("#") || line.isEmpty() || line.startsWith("//") || line.startsWith("/**") || line.startsWith("**/") || line.startsWith("*"));
+        return read;
+    }
 }
