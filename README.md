@@ -96,6 +96,8 @@ Contact: tayari#6113 (Discord) or daylam@tayari.gg.
   
 - [Saysera](https://twitter.com/Saysera69): Helped my understanding of how some elements of Twitch's backend work.
 - [Koolski](https://twitter.com/Koolski_): Logo designer.
+- [arVahedi](https://github.com/arVahedi): His Java M3U8 downloader repository helped me understand how to download M3U8 files.
+- [Franiac](https://github.com/Franiac): His Twitch Leecher program helped me figure out a few APIs that I was missing.
 
 ## Disclaimer:
 
