@@ -48,7 +48,7 @@ class M3U8Handler {
             }
         }
         else {
-            String pattern = "([a-z0-9\\-]*.[a-z_]*.[net||com||tv]*\\/[a-z0-9_]*\\/)chunked\\/index-dvr.m3u8";
+            String pattern = "([a-z0-9\\-]*.[a-z_]*.[net||com||tv]*\\/[a-z0-9_]*\\/[a-zA-Z0-9]*\\/)index-dvr.m3u8";
             Pattern r = Pattern.compile(pattern);
             Matcher m = r.matcher(url);
             if(m.find()) {
