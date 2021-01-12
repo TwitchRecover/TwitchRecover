@@ -111,6 +111,8 @@ public class ClipHandler {
     private void retrievePerma(){
         System.out.print(
                   "\n\nPermanent link retrieval:"
+                + "\nDISCLAIMER: The computation of permanent clip links has become inconsistent in the day prior to this alpha release."
+                + "\nIf your goal is to download the clip, please use the download clip option of this program."
                 + "\nPlease enter the link of the Twitch clip to get the permanent link for: "
         );
         String clipURL=CLIHandler.sc.next();
