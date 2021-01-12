@@ -92,7 +92,7 @@ Select option 2 and paste the link and you will get the VOD links.
 - **[Daylam Tayari](https://github.com/daylamtayari): Developer of Twitch Recover.**  
 **Check out my Github to see my other projects, including Twitch related projects:**   **https://github.com/daylamtayari**  
 **If you like this and wish to support me, feel free to send a tip via PayPal or Cashapp:  https://paypal.me/daylamtayari or [$daylamtayari](https://cash.app/$daylamtayari)**  
-Contact: tayari#6113 (Discord) or daylam@tayari.gg.
+**Feel free to contact me via Discord (tayari#6113) or email ([daylam@tayari.gg](mailto:daylam@tayari.gg).**
   
 - [Saysera](https://twitter.com/Saysera69): Helped my understanding of how some elements of Twitch's backend work.
 - [Koolski](https://twitter.com/Koolski_): Designed the logo.
