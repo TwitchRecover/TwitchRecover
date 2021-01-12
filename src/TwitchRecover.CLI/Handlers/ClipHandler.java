@@ -157,7 +157,7 @@ public class ClipHandler {
             System.out.print("\nPlease input the stream ID: ");
             clip.setStreamID(Long.parseLong(CLIHandler.sc.next()));
             System.out.print("\nPlease input the stream duration in minutes: ");
-            clip.setDuration((Long.parseLong(CLIHandler.sc.next())*60));
+            clip.setDuration((Long.parseLong(CLIHandler.sc.next())));
         }
         else{
             System.out.print("\nPlease input the stream link from an analytics website (Twitch Tracker or Streamscharts): ");
