@@ -78,7 +78,13 @@ public class Download {
         else if(prefix.length()<3){
             prefix="0"+prefix;
         }
-        File downloadedFile=File.createTempFile(prefix+"-", "."+FilenameUtils.getExtension(dURL.getPath()), new File(FileHandler.TEMP_FOLDER_PATH+File.separator));    //Creates the temp file.
+        File downloadedFile;
+        if(FileHandler.TEMP_FOLDER_PATH==null){     //If no folder path has already being declared then to just store the file in the general temp folder.
+            downloadedFile=File.createTempFile(prefix+"-", "."+FilenameUtils.getExtension(dURL.getPath()));    //Creates the temp file.
+        }
+        else {
+            downloadedFile = File.createTempFile(prefix + "-", "." + FilenameUtils.getExtension(dURL.getPath()), new File(FileHandler.TEMP_FOLDER_PATH + File.separator));    //Creates the temp file.
+        }
         downloadedFile.deleteOnExit();
         FileUtils.copyURLToFile(dURL, downloadedFile, Timeout.CONNECT.time, Timeout.READ.time);
         return downloadedFile;
