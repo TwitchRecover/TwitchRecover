@@ -125,7 +125,7 @@ public class VODRetrieval {
             catch(Exception ignored){}
             url=value.substring(0, value.indexOf("index-dvr.m3u8"));
         }
-        FileIO.exportResults(unmuteContents(FileIO.read(m3u8.getAbsolutePath()), url), outFP);
+        FileIO.write(unmuteContents(FileIO.read(m3u8.getAbsolutePath()), url), outFP);
     }
 
     /**
