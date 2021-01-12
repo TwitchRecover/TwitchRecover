@@ -17,9 +17,6 @@
 
 package TwitchRecover.Core.Downloader;
 
-import org.apache.commons.io.FileUtils;
-
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -42,8 +39,8 @@ class M3U8Handler {
     protected static ArrayList<String> getChunks(String url) throws IOException {
         ArrayList<String> chunks=new ArrayList<String>();
         String baseURL="";
-        if(url.indexOf("-")!=url.length()-9 && url.indexOf("-")!=url.indexOf("highlight")+9){
-            String pattern = "([a-zA-Z0-9]*\\.cloudfront\\.net\\/[a-zA-Z0-9_]*\\/[0-9]*\\/[a-zA-Z0-9_-]*\\/[0-9p]*\\/)";
+        if(url.lastIndexOf("-")!=url.length()-9 && url.indexOf("-")!=url.indexOf("highlight")+9){
+            String pattern = "([a-z0-9\\-]*.[a-z_]*.[net||com||tv]*\\/[a-zA-Z0-9_]*\\/[0-9]*\\/[a-zA-Z0-9_-]*\\/[0-9p]*\\/)";
             Pattern r = Pattern.compile(pattern);
             Matcher m = r.matcher(url);
             if(m.find()) {
@@ -51,7 +48,7 @@ class M3U8Handler {
             }
         }
         else {
-            String pattern = "([a-zA-Z0-9]*\\.cloudfront\\.net\\/[a-zA-Z0-9_]*\\/[a-zA-Z0-9_]*\\/)";
+            String pattern = "([a-z0-9\\-]*.[a-z_]*.[net||com||tv]*\\/[a-z0-9_]*\\/)chunked\\/index-dvr.m3u8";
             Pattern r = Pattern.compile(pattern);
             Matcher m = r.matcher(url);
             if(m.find()) {

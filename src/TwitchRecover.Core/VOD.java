@@ -39,7 +39,7 @@ public class VOD {
     private String[] vodInfo;                   //String array containing the VOD info such as streamer, timestamp, etc.
     //0: Channel name; 1: Stream ID; 2. Timestamp of the start of the stream; 3: Brute force boolean.
     private ArrayList<String> retrievedURLs;    //Arraylist containing all of the VOD 'chunked' M3U8s of a particular VOD.
-    private String fp;                          //String value represnting the file path of the output file.
+    private String fp;                          //String value representing the file path of the output file.
     private String fn;                          //String value representing the file name of the output file.
     private String fFP;                         //String value which represents the final file path of the downloaded object.
 
