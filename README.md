@@ -55,6 +55,19 @@
 3. Launch Twitch Recover.
 4. Enjoy.
 
+### Can't play M3U8!
+
+You just retrieved a VOD or highlight but when you paste it into VLC it won't load or you can't watch the whole video.
+   
+#### Check if it has muted segments. Use option 9 of Twitch Recover to check if the video is muted/has muted segments.   
+#### If it does, use option 10 to unmute the video and then open that new M3U8 file in VLC and you can watch it. 
+  
+#### If the M3U8 still won't play, please create a Github issue so I can look into the issue.
+
+This is caused by how the playlist of Twitch M3U8 videos which have muted segments are structured. 
+This results in when you try playing those muted segments in VLC (or other video player), it won't be able to reach it and cause it to be unable to play it.  
+When unmuted using Twitch Recover, simply open the file in VLC or other similar video players and you should be able to watch it as usual.
+
 ## 1.2 Guide:
   
 ### Installation:
