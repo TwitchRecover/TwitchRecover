@@ -92,6 +92,7 @@ Select option 2 and paste the link and you will get the VOD links.
   
 Feel free to contact me anytime on either Discord, Twitch whispers or email.  
 For email, including any professional inquiries, please use this email address: [daylam@tayari.gg](mailto:daylam@tayari.gg)  
+   
 <img src="https://img.shields.io/badge/tayari 6113-%237289DA.svg?&style=for-the-badge&logo=discord&logoColor=white"/> <a href="mailto:daylam@tayari.gg"><img src="https://img.shields.io/badge/email-%238B89CC.svg?&style=for-the-badge&logo=protonmail&logoColor=white"/></a> <a href="https://twitch.tv/tayarics"><img src="https://img.shields.io/badge/TAYARICS-%239146FF.svg?&style=for-the-badge&logo=twitch&logoColor=white"/></a>
 
 ## Credits:
