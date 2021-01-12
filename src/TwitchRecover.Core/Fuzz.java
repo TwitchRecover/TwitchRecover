@@ -79,10 +79,10 @@ public class Fuzz {
                         if(Integer.valueOf(wm.group(1)) % 900 == 0 && true) {   //TODO: Fix the CLI boolean usage.
                             quarters++;
                             if(found==1){
-                                System.out.print("\n" + (quarters / 4) + " hours into the VOD. " + found + " clip found so far. Continuing to find clips.");
+                                System.out.print("\n" + (quarters / 4) + " hours into the VOD. " + found + " clip found so far. Continuing to find clips...");
                             }
                             else{
-                                System.out.print("\n" + (quarters / 4) + " hours into the VOD. " + found + " clips found so far. Continuing to find clips.");
+                                System.out.print("\n" + (quarters / 4) + " hours into the VOD. " + found + " clips found so far. Continuing to find clips...");
                             }
                         }
                         if(wm.group(2).equals("200")) {
