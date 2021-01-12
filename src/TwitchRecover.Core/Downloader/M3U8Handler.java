@@ -39,21 +39,17 @@ class M3U8Handler {
     protected static ArrayList<String> getChunks(String url) throws IOException {
         ArrayList<String> chunks=new ArrayList<String>();
         String baseURL="";
-        if(url.lastIndexOf("-")!=url.length()-9 && url.indexOf("-")!=url.indexOf("highlight")+9){
-            String pattern = "([a-z0-9\\-]*.[a-z_]*.[net||com||tv]*\\/[a-zA-Z0-9_]*\\/[0-9]*\\/[a-zA-Z0-9_-]*\\/[0-9p]*\\/)";
-            Pattern r = Pattern.compile(pattern);
-            Matcher m = r.matcher(url);
-            if(m.find()) {
-                baseURL = "https://" + m.group(1);
-            }
+        String pattern = "([a-z0-9\\-]*.[a-z_]*.[net||com||tv]*\\/[a-z0-9_]*\\/[a-zA-Z0-9]*\\/)index-dvr.m3u8";
+        Pattern r = Pattern.compile(pattern);
+        Matcher m = r.matcher(url);
+        if(m.find()) {
+            baseURL = "https://" + m.group(1);
         }
-        else {
-            String pattern = "([a-z0-9\\-]*.[a-z_]*.[net||com||tv]*\\/[a-z0-9_]*\\/[a-zA-Z0-9]*\\/)index-dvr.m3u8";
-            Pattern r = Pattern.compile(pattern);
-            Matcher m = r.matcher(url);
-            if(m.find()) {
-                baseURL = "https://" + m.group(1);
-            }
+        String pattern2 = "([a-z0-9\\-]*.[a-z_]*.[net||com||tv]*\\/[a-zA-Z0-9_]*\\/[0-9]*\\/[a-zA-Z0-9_-]*\\/[0-9p]*\\/)";
+        Pattern r2 = Pattern.compile(pattern2);
+        Matcher m2 = r2.matcher(url);
+        if(m2.find()) {
+            baseURL = "https://" + m2.group(1);
         }
         File m3u8File=Download.tempDownload(url);
         Scanner sc=new Scanner(m3u8File);
