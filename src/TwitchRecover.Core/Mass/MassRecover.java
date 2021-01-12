@@ -173,7 +173,7 @@ public class MassRecover {
      */
     private void processClip(String url){
         Clips clip=new Clips();
-        results.add(clip.retrieveURL(url));
+        results.add(clip.retrieveURL(url, false));
     }
 
     /**

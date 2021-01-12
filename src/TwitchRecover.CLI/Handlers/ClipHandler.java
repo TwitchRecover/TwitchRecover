@@ -123,7 +123,7 @@ public class ClipHandler {
             clipURL=CLIHandler.sc.next();
         }
         Clips clip=new Clips();
-        String permaLink=clip.retrieveURL(clipURL);
+        String permaLink=clip.retrieveURL(clipURL, false);
         System.out.print(
                   "\n\nPermanent clip link: " + permaLink
         );

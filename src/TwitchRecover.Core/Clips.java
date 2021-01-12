@@ -77,7 +77,7 @@ public class Clips {
      * clip that is still up.
      */
     public void downloadSlug(){
-        retrieveURL(slug);
+        retrieveURL(slug, true);
         download();
     }
 
@@ -108,9 +108,9 @@ public class Clips {
      * @param url       String value representing the Twitch URL of the clip.
      * @return String   String value representing the permanent URL of the clip.
      */
-    public String retrieveURL(String url){
+    public String retrieveURL(String url, boolean download){
         slug=parseSlug(url);
-        this.url= ClipsAPI.getClipLink(slug);
+        this.url= ClipsAPI.getClipLink(slug, download);
         return this.url;
     }
 

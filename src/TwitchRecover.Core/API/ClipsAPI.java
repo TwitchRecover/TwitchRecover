@@ -40,7 +40,7 @@ public class ClipsAPI {
      * @param slug      String value representing the clip's slug.
      * @return String   String value representing the permanent link of the clip.
      */
-    public static String getClipLink(String slug){
+    public static String getClipLink(String slug, boolean download){
         String response="";
         //API Query:
         try{
@@ -64,8 +64,14 @@ public class ClipsAPI {
             JSONObject jo=new JSONObject(response);
             String streamID=jo.getString("broadcast_id");
             JSONObject vod=jo.getJSONObject("vod");
-            int offset=vod.getInt("offset")+26;
-            return "https://clips-media-assets2.twitch.tv/"+streamID+"-offset-"+offset+ FileExtension.MP4.fileExtension;
+            if(download){
+                String url=vod.getString("preview_image_url");
+                return url.substring(0, url.indexOf("-preview")) + FileExtension.MP4.fileExtension;
+            }
+            else {
+                int offset = vod.getInt("offset") + 26;
+                return "https://clips-media-assets2.twitch.tv/" + streamID + "-offset-" + offset + FileExtension.MP4.fileExtension;
+            }
         }
         catch(Exception e){
             return "ERROR: Clip could not be found.";
