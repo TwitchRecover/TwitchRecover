@@ -10,7 +10,7 @@
  * If not see http://www.gnu.org/licenses/ or write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  *
  *  @author Daylam Tayari daylam@tayari.gg https://github.com/daylamtayari
- *  @version 2.0a
+ *  @version 2.0aH 2.0a    Hotifx
  *  Github project home page: https://github.com/TwitchRecover
  *  Twitch Recover repository: https://github.com/TwitchRecover/TwitchRecover
  */
@@ -18,8 +18,6 @@
 package TwitchRecover.Core.API;
 
 import TwitchRecover.Core.Feeds;
-
-import java.util.ArrayList;
 
 /**
  * This class handles all
@@ -48,7 +46,6 @@ public class LiveAPI {
      * String[2]: 0: Token; 1: Signature.
      */
     private static String[] getLiveToken(String channel){
-        ArrayList<String> responseContents=API.getReq("https://api.twitch.tv/api/channels/"+channel+"/access_token");
-        return API.parseToken(responseContents);
+        return API.getToken(channel, false);
     }
 }
