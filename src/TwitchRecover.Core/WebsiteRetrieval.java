@@ -17,17 +17,16 @@
 
 package TwitchRecover.Core;
 
-import jdk.nashorn.internal.parser.JSONParser;
 import org.json.JSONArray;
 import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.ProtocolException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.net.URL;
-import java.net.HttpURLConnection;
 
 /**
  * This class contains the core method for website data
@@ -153,9 +152,9 @@ public class WebsiteRetrieval {
                 results[3] = dm.group(1);
             }
             //Get the streamer's name and the VOD ID:
-            String pattern = "twitchtracker\\.com\\/([a-zA-Z0-9]*)\\/streams\\/(\\d*)\\/";
+            String pattern = "twitchtracker\\.com\\/([a-zA-Z0-9-_]*)\\/streams\\/(\\d*)";
             Pattern r = Pattern.compile(pattern);
-            Matcher m = r.matcher(url + "/");
+            Matcher m = r.matcher(url);
             if(m.find()) {
                 results[0] = m.group(1);
                 results[1] = m.group(2);
@@ -180,9 +179,9 @@ public class WebsiteRetrieval {
         String userID;
         double duration = 0.0;
         //Retrieve initial values:
-        String pattern = "streamscharts\\.com\\/twitch\\/channels\\/([a-zA-Z0-9]*)\\/streams\\/(\\d*)\\/";
+        String pattern = "streamscharts\\.com\\/twitch\\/channels\\/([a-zA-Z0-9_-]*)\\/streams\\/(\\d*)";
         Pattern r = Pattern.compile(pattern);
-        Matcher m = r.matcher(url + "/");
+        Matcher m = r.matcher(url);
         if(m.find()) {
             results[0] = m.group(1);
             results[1] = m.group(2);
