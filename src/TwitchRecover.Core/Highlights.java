@@ -10,7 +10,7 @@
  * If not see http://www.gnu.org/licenses/ or write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  *
  *  @author Daylam Tayari daylam@tayari.gg https://github.com/daylamtayari
- *  @version 2.0aH 2.0a    Hotifx
+ *  @version 2.0aH     2.0a Hotfix
  *  Github project home page: https://github.com/TwitchRecover
  *  Twitch Recover repository: https://github.com/TwitchRecover/TwitchRecover
  */
@@ -21,7 +21,6 @@ import TwitchRecover.Core.API.VideoAPI;
 import TwitchRecover.Core.Downloader.Download;
 import TwitchRecover.Core.Enums.ContentType;
 import TwitchRecover.Core.Enums.FileExtension;
-import TwitchRecover.Core.Enums.Quality;
 
 import java.util.ArrayList;
 import java.util.regex.Matcher;
@@ -95,7 +94,6 @@ public class Highlights {
      * This method retrieves
      * all existing qualities
      * of a highlight.
-     * @param url       String value representing the source M3U8 URL of the highlight.
      * @return Feeds    Feeds object containing all of the feeds and their corresponding qualities that could be found.
      */
     public Feeds retrieveQualities(){
