@@ -183,8 +183,7 @@ public class ClipHandler {
         for(String result: results){
             System.out.print("\n"+result);
         }
-        System.out.print("\n\nDo you wish to export the results ('y' for yes, 'n' for no)?: "); //TODO: Add boolean checker for beta and final release.
-        if(CLIHandler.sc.next().equals("y")){
+        if(CoreHandler.booleanPrompt("Do you wish to export the results")){
             System.out.print("\nPlease input the file path where to export the results: ");
             clip.setFP(CLIHandler.sc.next());
             clip.exportResults();

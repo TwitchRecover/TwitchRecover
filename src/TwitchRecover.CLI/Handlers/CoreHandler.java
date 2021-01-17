@@ -115,4 +115,26 @@ public class CoreHandler {
         }
         return highlightURL;
     }
+
+    /**
+     * This method prompts the user
+     * for a boolean input and handles
+     * incorrect user input.
+     * @param prompt    String value representing the question to prompt the user.
+     * @return boolean  Boolean value representing the user's desired option, returns true for yes and false for no.
+     */
+    protected static boolean booleanPrompt(String prompt){
+        System.out.print("\n\n"+prompt+" ('y' for yes, 'n' for no)?: ");
+        String line=CLIHandler.sc.next();
+        while(!(line.toLowerCase().startsWith("y")||line.toLowerCase().startsWith("n"))){
+            System.out.print(
+                      "\nERROR: Invalid input."
+                    + "\nPlease enter 'y' for yes or 'n' for no based on your desired selection."
+            );
+        }
+        if(line.startsWith("y")){
+            return true;
+        }
+        return false;
+    }
 }
