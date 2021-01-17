@@ -109,8 +109,17 @@ public class VODHandler {
         }
         vod.retrieveVOD(wf);
         Feeds feeds=vod.retrieveVODFeeds();
-        int quality=CoreHandler.selectFeeds(feeds, oType.Recover);
-        System.out.print("\nResult: "+feeds.getFeed(quality-1));
+        if(feeds==null){
+            System.out.print(
+                      "\nNO RESULTS FOUND."
+                    + "\nThe VOD cannot be found on Twitch servers."
+            );
+        }
+        else{
+            int quality=CoreHandler.selectFeeds(feeds, oType.Recover);
+            System.out.print("\nResult: "+feeds.getFeed(quality-1));
+        }
+
     }
 
     /**

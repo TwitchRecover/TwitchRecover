@@ -122,8 +122,13 @@ public class VOD {
      * @return Feeds    Feeds object containing all possible feeds of a deleted VOD.
      */
     public Feeds retrieveVODFeeds(){
-        feeds=VODRetrieval.retrieveVODFeeds(retrievedURLs.get(0));
-        return feeds;
+        if(retrievedURLs.isEmpty()){
+            return null;
+        }
+        else{
+            feeds=VODRetrieval.retrieveVODFeeds(retrievedURLs.get(0));
+            return feeds;
+        }
     }
 
     /**
