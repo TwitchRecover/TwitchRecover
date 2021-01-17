@@ -162,7 +162,7 @@ public class ClipHandler {
         else{
             System.out.print("\nPlease input the stream link from an analytics website (Twitch Tracker or Streamscharts): ");
             String[] data= WebsiteRetrieval.getData(CLIHandler.sc.next());
-            clip.setValues(Long.parseLong(data[1]), Long.parseLong(data[3]));
+            clip.setValues(Long.parseLong(data[1]), Long.parseLong(data[3].substring(0, data[3].indexOf("."))));
         }
         System.out.print(
                   "\nPlease enter y if you have Wfuzz installed and n if not: "

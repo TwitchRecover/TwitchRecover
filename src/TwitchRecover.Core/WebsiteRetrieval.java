@@ -188,14 +188,14 @@ public class WebsiteRetrieval {
         }
 
         //Retrieve user ID:
-        String idJSON = getJSON("https://api.twitch.tv/v5/users/?login=" + results[2] + "&client_id=ohroxg880bxrq1izlrinohrz3k4vy6");
+        String idJSON = getJSON("https://api.twitch.tv/v5/users/?login=" + results[0] + "&client_id=ohroxg880bxrq1izlrinohrz3k4vy6");
         JSONObject joID = new JSONObject(idJSON);
-        JSONObject users = joID.getJSONObject("users");
-        JSONObject user = users.getJSONObject("0");
+        JSONArray users = joID.getJSONArray("users");
+        JSONObject user = users.getJSONObject(0);
         userID = user.getString("_id");
 
         //Retrieve stream values:
-        String dataJSON = getJSON("https://alla.streamscharts.com/api/free/streaming/platforms/1/channels/" + userID + "/streams/" + results[2] + "/statuses");
+        String dataJSON = getJSON("https://alla.streamscharts.com/api/free/streaming/platforms/1/channels/" + userID + "/streams/" + results[1] + "/statuses");
         JSONObject joD = new JSONObject(dataJSON);
         JSONArray items = joD.getJSONArray("items");
         for(int i = 0; i < items.length(); i++) {
