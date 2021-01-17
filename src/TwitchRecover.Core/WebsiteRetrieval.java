@@ -10,24 +10,23 @@
  * If not see http://www.gnu.org/licenses/ or write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  *
  *  @author Daylam Tayari daylam@tayari.gg https://github.com/daylamtayari
- *  @version 2.0a
+ *  @version 2.0aH     2.0a Hotfix
  *  Github project home page: https://github.com/TwitchRecover
  *  Twitch Recover repository: https://github.com/TwitchRecover/TwitchRecover
  */
 
 package TwitchRecover.Core;
 
-import jdk.nashorn.internal.parser.JSONParser;
 import org.json.JSONArray;
 import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.ProtocolException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.net.URL;
-import java.net.HttpURLConnection;
 
 /**
  * This class contains the core method for website data
@@ -153,9 +152,9 @@ public class WebsiteRetrieval {
                 results[3] = dm.group(1);
             }
             //Get the streamer's name and the VOD ID:
-            String pattern = "twitchtracker\\.com\\/([a-zA-Z0-9]*)\\/streams\\/(\\d*)\\/";
+            String pattern = "twitchtracker\\.com\\/([a-zA-Z0-9-_]*)\\/streams\\/(\\d*)";
             Pattern r = Pattern.compile(pattern);
-            Matcher m = r.matcher(url + "/");
+            Matcher m = r.matcher(url);
             if(m.find()) {
                 results[0] = m.group(1);
                 results[1] = m.group(2);
@@ -180,23 +179,23 @@ public class WebsiteRetrieval {
         String userID;
         double duration = 0.0;
         //Retrieve initial values:
-        String pattern = "streamscharts\\.com\\/twitch\\/channels\\/([a-zA-Z0-9]*)\\/streams\\/(\\d*)\\/";
+        String pattern = "streamscharts\\.com\\/twitch\\/channels\\/([a-zA-Z0-9_-]*)\\/streams\\/(\\d*)";
         Pattern r = Pattern.compile(pattern);
-        Matcher m = r.matcher(url + "/");
+        Matcher m = r.matcher(url);
         if(m.find()) {
             results[0] = m.group(1);
             results[1] = m.group(2);
         }
 
         //Retrieve user ID:
-        String idJSON = getJSON("https://api.twitch.tv/v5/users/?login=" + results[2] + "&client_id=ohroxg880bxrq1izlrinohrz3k4vy6");
+        String idJSON = getJSON("https://api.twitch.tv/v5/users/?login=" + results[0] + "&client_id=ohroxg880bxrq1izlrinohrz3k4vy6");
         JSONObject joID = new JSONObject(idJSON);
-        JSONObject users = joID.getJSONObject("users");
-        JSONObject user = users.getJSONObject("0");
+        JSONArray users = joID.getJSONArray("users");
+        JSONObject user = users.getJSONObject(0);
         userID = user.getString("_id");
 
         //Retrieve stream values:
-        String dataJSON = getJSON("https://alla.streamscharts.com/api/free/streaming/platforms/1/channels/" + userID + "/streams/" + results[2] + "/statuses");
+        String dataJSON = getJSON("https://alla.streamscharts.com/api/free/streaming/platforms/1/channels/" + userID + "/streams/" + results[1] + "/statuses");
         JSONObject joD = new JSONObject(dataJSON);
         JSONArray items = joD.getJSONArray("items");
         for(int i = 0; i < items.length(); i++) {

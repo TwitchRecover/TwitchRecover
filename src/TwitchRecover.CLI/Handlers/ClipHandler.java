@@ -10,7 +10,7 @@
  * If not see http://www.gnu.org/licenses/ or write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  *
  *  @author Daylam Tayari daylam@tayari.gg https://github.com/daylamtayari
- *  @version 2.0a
+ *  @version 2.0aH     2.0a Hotfix
  *  Github project home page: https://github.com/TwitchRecover
  *  Twitch Recover repository: https://github.com/TwitchRecover/TwitchRecover
  */
@@ -162,7 +162,7 @@ public class ClipHandler {
         else{
             System.out.print("\nPlease input the stream link from an analytics website (Twitch Tracker or Streamscharts): ");
             String[] data= WebsiteRetrieval.getData(CLIHandler.sc.next());
-            clip.setValues(Long.parseLong(data[1]), Long.parseLong(data[3]));
+            clip.setValues(Long.parseLong(data[1]), Long.parseLong(data[3].substring(0, data[3].indexOf("."))));
         }
         System.out.print(
                   "\nPlease enter y if you have Wfuzz installed and n if not: "
@@ -183,8 +183,7 @@ public class ClipHandler {
         for(String result: results){
             System.out.print("\n"+result);
         }
-        System.out.print("\n\nDo you wish to export the results ('y' for yes, 'n' for no)?: "); //TODO: Add boolean checker for beta and final release.
-        if(CLIHandler.sc.next().equals("y")){
+        if(CoreHandler.booleanPrompt("Do you wish to export the results")){
             System.out.print("\nPlease input the file path where to export the results: ");
             clip.setFP(CLIHandler.sc.next());
             clip.exportResults();

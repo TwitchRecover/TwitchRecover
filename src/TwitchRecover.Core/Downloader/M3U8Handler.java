@@ -10,7 +10,7 @@
  * If not see http://www.gnu.org/licenses/ or write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  *
  *  @author Daylam Tayari daylam@tayari.gg https://github.com/daylamtayari
- *  @version 2.0a
+ *  @version 2.0aH     2.0a Hotfix
  *  Github project home page: https://github.com/TwitchRecover
  *  Twitch Recover repository: https://github.com/TwitchRecover/TwitchRecover
  */
@@ -39,7 +39,7 @@ class M3U8Handler {
     protected static ArrayList<String> getChunks(String url) throws IOException {
         ArrayList<String> chunks=new ArrayList<String>();
         String baseURL="";
-        String pattern = "([a-z0-9\\-]*.[a-z_]*.[net||com||tv]*\\/[a-z0-9_]*\\/[a-zA-Z0-9]*\\/)index-dvr.m3u8";
+        String pattern = "([a-z0-9\\-]*.[a-z_]*.[net||com||tv]*\\/[a-z0-9_]*\\/[a-zA-Z0-9]*\\/)index[0-9a-zA-Z-]*.m3u8";
         Pattern r = Pattern.compile(pattern);
         Matcher m = r.matcher(url);
         if(m.find()) {

@@ -10,7 +10,7 @@
  * If not see http://www.gnu.org/licenses/ or write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  *
  *  @author Daylam Tayari daylam@tayari.gg https://github.com/daylamtayari
- *  @version 2.0a
+ *  @version 2.0aH     2.0a Hotfix
  *  Github project home page: https://github.com/TwitchRecover
  *  Twitch Recover repository: https://github.com/TwitchRecover/TwitchRecover
  */
@@ -114,5 +114,27 @@ public class CoreHandler {
             highlightURL=CLIHandler.sc.next();
         }
         return highlightURL;
+    }
+
+    /**
+     * This method prompts the user
+     * for a boolean input and handles
+     * incorrect user input.
+     * @param prompt    String value representing the question to prompt the user.
+     * @return boolean  Boolean value representing the user's desired option, returns true for yes and false for no.
+     */
+    protected static boolean booleanPrompt(String prompt){
+        System.out.print("\n\n"+prompt+" ('y' for yes, 'n' for no)?: ");
+        String line=CLIHandler.sc.next();
+        while(!(line.toLowerCase().startsWith("y")||line.toLowerCase().startsWith("n"))){
+            System.out.print(
+                      "\nERROR: Invalid input."
+                    + "\nPlease enter 'y' for yes or 'n' for no based on your desired selection."
+            );
+        }
+        if(line.startsWith("y")){
+            return true;
+        }
+        return false;
     }
 }

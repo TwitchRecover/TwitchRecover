@@ -10,7 +10,7 @@
  * If not see http://www.gnu.org/licenses/ or write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  *
  *  @author Daylam Tayari daylam@tayari.gg https://github.com/daylamtayari
- *  @version 2.0a
+ *  @version 2.0aH     2.0a Hotfix
  *  Github project home page: https://github.com/TwitchRecover
  *  Twitch Recover repository: https://github.com/TwitchRecover/TwitchRecover
  */
@@ -39,7 +39,6 @@ public class Fuzz {
      * @param streamID Long value which represents the stream ID for which clips should be fuzzed for.
      * @param duration Long value which represents the duration of the stream.
      * @param wfuzz    Boolean which represents whether Wfuzz is installed and should be used or not.
-     * @param cli      Boolean which represents whether the method calling this is the CLI or GUI version.
      * @return ArrayList<String>    String arraylist which holds all of the results of clips.
      */
     public static ArrayList<String> fuzz(long streamID, long duration, boolean wfuzz) {
@@ -58,7 +57,6 @@ public class Fuzz {
      * Method which utlises Wfuzz for fuzzing clips from a stream.
      * @param streamID Long value which represents the stream ID for which clips should be fuzzed for.
      * @param reps     Integer value which represents the maximum range for a particular stream.
-     * @param cli      Boolean which represents whether the method calling this is the CLI or GUI version.
      * @return ArrayList<String>    String arraylist which holds all of the results of clips.
      */
     private static ArrayList<String> wfuzz(long streamID, int reps) {
