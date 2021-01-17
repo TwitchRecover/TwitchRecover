@@ -12,7 +12,7 @@
 ## Downloads:  
 <break/>  
   
-### - [2.0 Alpha](https://github.com/TwitchRecover/TwitchRecover/releases/download/2.0a/Twitch.Recover.Setup.exe): [https://github.com/TwitchRecover/TwitchRecover/releases/tag/2.0a](https://github.com/TwitchRecover/TwitchRecover/releases/tag/2.0a)  
+### - [2.0 Alpha](https://github.com/TwitchRecover/TwitchRecover/releases/download/2.0aH/Twitch.Recover.Setup.exe): [https://github.com/TwitchRecover/TwitchRecover/releases/tag/2.0aH](https://github.com/TwitchRecover/TwitchRecover/releases/tag/2.0aH)  
 ### - [1.2 Release](https://github.com/TwitchRecover/TwitchRecover/releases/download/1.2/TwitchRecover-CLI-v1.2.exe): [https://github.com/TwitchRecover/TwitchRecover/releases/tag/1.2](https://github.com/TwitchRecover/TwitchRecover/releases/tag/1.2)  
   
 ## Features:
@@ -50,7 +50,7 @@
 **For Windows users please use the installer.**
 **For linux and MacOS users, please download the JAR and run it.**
   
-1. Download the installer: [https://github.com/TwitchRecover/TwitchRecover/releases/download/2.0a/Twitch.Recover.Setup.exe](https://github.com/TwitchRecover/TwitchRecover/releases/download/2.0a/Twitch.Recover.Setup.exe)
+1. Download the installer: [https://github.com/TwitchRecover/TwitchRecover/releases/download/2.0aH/Twitch.Recover.Setup.exe](https://github.com/TwitchRecover/TwitchRecover/releases/download/2.0aH/Twitch.Recover.Setup.exe)
 2. Run and install the installer.
 3. Launch Twitch Recover.
 4. Enjoy.
