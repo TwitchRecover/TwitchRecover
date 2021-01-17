@@ -10,7 +10,7 @@
  * If not see http://www.gnu.org/licenses/ or write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  *
  *  @author Daylam Tayari daylam@tayari.gg https://github.com/daylamtayari
- *  @version 2.0a
+ *  @version 2.0aH     2.0a Hotfix
  *  Github project home page: https://github.com/TwitchRecover
  *  Twitch Recover repository: https://github.com/TwitchRecover/TwitchRecover
  */
@@ -109,8 +109,17 @@ public class VODHandler {
         }
         vod.retrieveVOD(wf);
         Feeds feeds=vod.retrieveVODFeeds();
-        int quality=CoreHandler.selectFeeds(feeds, oType.Recover);
-        System.out.print("\nResult: "+feeds.getFeed(quality-1));
+        if(feeds==null){
+            System.out.print(
+                      "\nNO RESULTS FOUND."
+                    + "\nThe VOD cannot be found on Twitch servers."
+            );
+        }
+        else{
+            int quality=CoreHandler.selectFeeds(feeds, oType.Recover);
+            System.out.print("\nResult: "+feeds.getFeed(quality-1));
+        }
+
     }
 
     /**

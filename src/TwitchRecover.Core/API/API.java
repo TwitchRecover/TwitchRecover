@@ -10,7 +10,7 @@
  * If not see http://www.gnu.org/licenses/ or write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  *
  *  @author Daylam Tayari daylam@tayari.gg https://github.com/daylamtayari
- *  @version 2.0a
+ *  @version 2.0aH     2.0a Hotfix
  *  Github project home page: https://github.com/TwitchRecover
  *  Twitch Recover repository: https://github.com/TwitchRecover/TwitchRecover
  */
@@ -25,11 +25,12 @@ import TwitchRecover.Core.FileIO;
 import org.apache.commons.io.FileUtils;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -163,23 +164,65 @@ public class API {
      * This method parses and returns
      * the token and signature values
      * from a given API JSON response.
-     * @param response      String arraylist containing the JSON response from the API call.
+     * @param response      String containing the JSON response from the API call.
+     * @param isVOD         Boolean value that is true if the token is for a video and false if it is for a stream.
      * @return String[]     String array containing the token and signature values.
      * String[2]: 0: Token; 1: Signature.
      */
-    protected static String[] parseToken(ArrayList<String> response){
+    protected static String[] parseToken(String response, boolean isVOD){
         String[] results=new String[2];
         //Parse JSON:
-        JSONParser parse=new JSONParser();
-        JSONObject jObj=null;
-        try{
-            jObj=(JSONObject) parse.parse(response.get(0));
+        JSONObject jO=new JSONObject(response);
+        JSONObject tokenCat=jO.getJSONObject("data");
+        if(isVOD){
+            tokenCat=tokenCat.getJSONObject("videoPlaybackAccessToken");
         }
-        catch(ParseException ignored){}
-        String token=jObj.get("token").toString();
-        results[1]=jObj.get("sig").toString();
+        else{
+            tokenCat=tokenCat.getJSONObject("streamPlaybackAccessToken");
+        }
+        String token=tokenCat.getString("value");
+        results[1]=tokenCat.getString("signature");
         //Remove back slashes from token:
         results[0]=token.replace("\\", "");
         return results;
+    }
+
+    /**
+     * This method retrieves an
+     * @param id            String value representing the ID to input into the query.
+     * @param isVOD         Boolean value that is true if the token being retrieved is for a VOD and false if it is for a live stream.
+     * @return String[]     String array containing the token and signature values.
+     * String[2]: 0: Token; 1: Signature.
+     */
+    protected static String[] getToken(String id, boolean isVOD){
+        String json;
+        String response="";
+        if(isVOD){
+            json="{\"operationName\": \"PlaybackAccessToken\",\"variables\": {\"isLive\": false,\"login\": \"\",\"isVod\": true,\"vodID\": \"" + id + "\",\"playerType\": \"channel_home_live\"},\"extensions\": {\"persistedQuery\": {\"version\": 1,\"sha256Hash\": \"0828119ded1c13477966434e15800ff57ddacf13ba1911c129dc2200705b0712\"}}}";
+        }
+        else{
+            json="{\"operationName\": \"PlaybackAccessToken\",\"variables\": {\"isLive\": true,\"login\": \""+id+"\",\"isVod\": false,\"vodID\": \"\",\"playerType\": \"channel_home_live\"},\"extensions\": {\"persistedQuery\": {\"version\": 1,\"sha256Hash\": \"0828119ded1c13477966434e15800ff57ddacf13ba1911c129dc2200705b0712\"}}}";
+        }
+        try{
+            CloseableHttpClient httpClient=HttpClients.createDefault();
+            HttpPost httppost=new HttpPost("https://gql.twitch.tv/gql");
+            httppost.addHeader("Content-Type", "text/plain;charset=UTF-8");
+            httppost.addHeader("Client-ID", "kimne78kx3ncx6brgo4mv6wki5h1ko");
+            StringEntity sE=new StringEntity(json);
+            httppost.setEntity(sE);
+            CloseableHttpResponse httpResponse=httpClient.execute(httppost);
+            if(httpResponse.getStatusLine().getStatusCode()==200){
+                BufferedReader br=new BufferedReader(new InputStreamReader(httpResponse.getEntity().getContent()));
+                String line;
+                while ((line = br.readLine()) != null) {
+                    response+=line;
+                }
+                br.close();
+            }
+            httpResponse.close();
+            httpClient.close();
+        }
+        catch(Exception ignored){}
+        return parseToken(response, isVOD);
     }
 }
