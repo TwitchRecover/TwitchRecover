@@ -49,6 +49,7 @@ public class API {
     protected static final String WEB_CI="kimne78kx3ncx6brgo4mv6wki5h1ko";
     protected static final String PERSONAL_CI="ohroxg880bxrq1izlrinohrz3k4vy6";     //DO NOT use this for your personal use. This is the client ID for Twitch Recover.
     protected static final String UTF8_CT="text/plain;charset=UTF-8";
+    protected static final int HTTP_OK=200;
     //Header constants:
     protected static final String ACCEPT="Accept";
     protected static final String CI="Client-ID";
@@ -137,11 +138,10 @@ public class API {
         try{
             CloseableHttpClient httpClient=HttpClients.createDefault();
             HttpGet httpget=new HttpGet(url);
-            httpget.addHeader("User-Agent", "Mozilla/5.0");
             httpget.addHeader(ACCEPT, TWITCH_ACCEPT);
             httpget.addHeader(CI, WEB_CI);
             CloseableHttpResponse httpResponse=httpClient.execute(httpget);
-            if(httpResponse.getStatusLine().getStatusCode()==200){
+            if(httpResponse.getStatusLine().getStatusCode()==HTTP_OK){
                 BufferedReader br=new BufferedReader(new InputStreamReader(httpResponse.getEntity().getContent()));
                 String line;
                 while ((line = br.readLine()) != null) {
@@ -224,7 +224,7 @@ public class API {
             StringEntity sE=new StringEntity(json);
             httppost.setEntity(sE);
             CloseableHttpResponse httpResponse=httpClient.execute(httppost);
-            if(httpResponse.getStatusLine().getStatusCode()==200){
+            if(httpResponse.getStatusLine().getStatusCode()==HTTP_OK){
                 BufferedReader br=new BufferedReader(new InputStreamReader(httpResponse.getEntity().getContent()));
                 String line;
                 while ((line = br.readLine()) != null) {

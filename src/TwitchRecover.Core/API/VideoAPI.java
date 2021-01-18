@@ -66,11 +66,10 @@ public class VideoAPI {
         try{
             CloseableHttpClient httpClient= HttpClients.createDefault();
             HttpGet httpget=new HttpGet(API_D+"/kraken/videos/"+VODID);
-            httpget.addHeader("User-Agent", "Mozilla/5.0");
             httpget.addHeader(ACCEPT, TWITCH_ACCEPT);
             httpget.addHeader(CI, WEB_CI);
             CloseableHttpResponse httpResponse=httpClient.execute(httpget);
-            if(httpResponse.getStatusLine().getStatusCode()==200){
+            if(httpResponse.getStatusLine().getStatusCode()==HTTP_OK){
                 BufferedReader br=new BufferedReader(new InputStreamReader(httpResponse.getEntity().getContent()));
                 String line;
                 while ((line = br.readLine()) != null) {
