@@ -23,6 +23,7 @@ import TwitchRecover.Core.Enums.Timeout;
 import TwitchRecover.Core.Feeds;
 import TwitchRecover.Core.FileIO;
 import org.apache.commons.io.FileUtils;
+import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
@@ -195,12 +196,7 @@ public class API {
             httppost.setEntity(sE);
             CloseableHttpResponse httpResponse=httpClient.execute(httppost);
             if(httpResponse.getStatusLine().getStatusCode()==HTTP_OK){
-                BufferedReader br=new BufferedReader(new InputStreamReader(httpResponse.getEntity().getContent()));
-                String line;
-                while ((line = br.readLine()) != null) {
-                    response+=line;
-                }
-                br.close();
+                response=getResponse(httpResponse);
             }
             httpResponse.close();
             httpClient.close();
@@ -247,5 +243,23 @@ public class API {
                 feeds.addEntry(response.get(i), Quality.getQualityRF(mF.group(1), fps));
             }
         }
+    }
+
+    /**
+     * This method gets the contents
+     * from a given HttpResponse.
+     * @param httpresponse  A given HttpResponse to be parsed.
+     * @return String       String value representing the response from the HttpResponse.
+     * @throws IOException
+     */
+    protected static String getResponse(HttpResponse httpresponse) throws IOException {
+        String response="";
+        BufferedReader br=new BufferedReader(new InputStreamReader(httpresponse.getEntity().getContent()));
+        String line;
+        while ((line = br.readLine()) != null) {
+            response+=line;
+        }
+        br.close();
+        return response;
     }
 }

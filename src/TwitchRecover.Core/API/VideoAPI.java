@@ -30,9 +30,6 @@ import org.apache.http.impl.client.HttpClients;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-
 /**
  * This class handles all
  * of the API methods directly
@@ -70,12 +67,7 @@ public class VideoAPI {
             httpget.addHeader(CI, WEB_CI);
             CloseableHttpResponse httpResponse=httpClient.execute(httpget);
             if(httpResponse.getStatusLine().getStatusCode()==HTTP_OK){
-                BufferedReader br=new BufferedReader(new InputStreamReader(httpResponse.getEntity().getContent()));
-                String line;
-                while ((line = br.readLine()) != null) {
-                    response+=line;
-                }
-                br.close();
+                response=getResponse(httpResponse);
             }
             httpResponse.close();
             httpClient.close();
