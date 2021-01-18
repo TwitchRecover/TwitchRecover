@@ -17,6 +17,7 @@
 
 package TwitchRecover.Core.API;
 
+import static TwitchRecover.Core.API.API.USHER;
 import TwitchRecover.Core.Feeds;
 
 /**
@@ -34,7 +35,7 @@ public class LiveAPI {
      */
     public static Feeds getLiveFeeds(String channel){
         String[] auth=getLiveToken(channel);    //0: Token; 1: Signature.
-        return API.getPlaylist("https://usher.ttvnw.net/api/channel/hls/"+channel+".m3u8?sig="+auth[1]+"&token="+auth[0]+"&allow_source=true&allow_audio_only=true");
+        return API.getPlaylist(USHER+"/api/channel/hls/"+channel+".m3u8?sig="+auth[1]+"&token="+auth[0]+"&allow_source=true&allow_audio_only=true");
     }
 
     /**

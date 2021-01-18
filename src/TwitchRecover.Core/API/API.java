@@ -56,7 +56,7 @@ public class API {
     //Domain constants:
     protected static final String USHER="https://usher.ttvnw.net";
     protected static final String GQL="https://gql.twitch.tv/gql";
-    protected static final String API="https://api.twitch.tv";
+    protected static final String API_D="https://api.twitch.tv";
 
     /**
      * Method which parses the feeds from a given
@@ -138,8 +138,8 @@ public class API {
             CloseableHttpClient httpClient=HttpClients.createDefault();
             HttpGet httpget=new HttpGet(url);
             httpget.addHeader("User-Agent", "Mozilla/5.0");
-            httpget.addHeader("Accept", "application/vnd.twitchtv.v5+json");
-            httpget.addHeader("Client-ID", "kimne78kx3ncx6brgo4mv6wki5h1ko");   //Web client client ID (check out my explanation of Twitch's video system for more details).
+            httpget.addHeader(ACCEPT, TWITCH_ACCEPT);
+            httpget.addHeader(CI, WEB_CI);
             CloseableHttpResponse httpResponse=httpClient.execute(httpget);
             if(httpResponse.getStatusLine().getStatusCode()==200){
                 BufferedReader br=new BufferedReader(new InputStreamReader(httpResponse.getEntity().getContent()));
@@ -218,9 +218,9 @@ public class API {
         }
         try{
             CloseableHttpClient httpClient=HttpClients.createDefault();
-            HttpPost httppost=new HttpPost("https://gql.twitch.tv/gql");
-            httppost.addHeader("Content-Type", "text/plain;charset=UTF-8");
-            httppost.addHeader("Client-ID", "kimne78kx3ncx6brgo4mv6wki5h1ko");
+            HttpPost httppost=new HttpPost(GQL);
+            httppost.addHeader(CT, UTF8_CT);
+            httppost.addHeader(CI, WEB_CI);
             StringEntity sE=new StringEntity(json);
             httppost.setEntity(sE);
             CloseableHttpResponse httpResponse=httpClient.execute(httppost);

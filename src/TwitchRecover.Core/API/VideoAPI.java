@@ -17,6 +17,7 @@
 
 package TwitchRecover.Core.API;
 
+import static TwitchRecover.Core.API.API.*;
 import TwitchRecover.Core.Compute;
 import TwitchRecover.Core.Enums.FileExtension;
 import TwitchRecover.Core.Enums.Quality;
@@ -48,7 +49,7 @@ public class VideoAPI {
      */
     public static Feeds getVODFeeds(long VODID){
         String[] auth=getVODToken(VODID);  //0: Token; 1: Signature.
-        return API.getPlaylist("https://usher.ttvnw.net/vod/"+VODID+".m3u8?sig="+auth[1]+"&token="+auth[0]+"&allow_source=true&player=twitchweb&allow_spectre=true&allow_audio_only=true");
+        return API.getPlaylist(USHER+"/vod/"+VODID+".m3u8?sig="+auth[1]+"&token="+auth[0]+"&allow_source=true&player=twitchweb&allow_spectre=true&allow_audio_only=true");
     }
 
     /**
@@ -64,10 +65,10 @@ public class VideoAPI {
         String response="";
         try{
             CloseableHttpClient httpClient= HttpClients.createDefault();
-            HttpGet httpget=new HttpGet("https://api.twitch.tv/kraken/videos/"+VODID);
+            HttpGet httpget=new HttpGet(API_D+"/kraken/videos/"+VODID);
             httpget.addHeader("User-Agent", "Mozilla/5.0");
-            httpget.addHeader("Accept", "application/vnd.twitchtv.v5+json");
-            httpget.addHeader("Client-ID", "kimne78kx3ncx6brgo4mv6wki5h1ko");
+            httpget.addHeader(ACCEPT, TWITCH_ACCEPT);
+            httpget.addHeader(CI, WEB_CI);
             CloseableHttpResponse httpResponse=httpClient.execute(httpget);
             if(httpResponse.getStatusLine().getStatusCode()==200){
                 BufferedReader br=new BufferedReader(new InputStreamReader(httpResponse.getEntity().getContent()));

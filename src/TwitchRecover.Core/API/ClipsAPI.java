@@ -17,6 +17,7 @@
 
 package TwitchRecover.Core.API;
 
+import static TwitchRecover.Core.API.API.*;
 import TwitchRecover.Core.Enums.FileExtension;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -45,10 +46,10 @@ public class ClipsAPI {
         //API Query:
         try{
             CloseableHttpClient httpClient= HttpClients.createDefault();
-            HttpGet httpget=new HttpGet("https://api.twitch.tv/kraken/clips/"+slug);
+            HttpGet httpget=new HttpGet(API_D+"/kraken/clips/"+slug);
             httpget.addHeader("User-Agent", "Mozilla/5.0");
-            httpget.addHeader("Accept", "application/vnd.twitchtv.v5+json");
-            httpget.addHeader("Client-ID", "ohroxg880bxrq1izlrinohrz3k4vy6");
+            httpget.addHeader(ACCEPT, TWITCH_ACCEPT);
+            httpget.addHeader(CI, PERSONAL_CI);
             CloseableHttpResponse httpResponse=httpClient.execute(httpget);
             if(httpResponse.getStatusLine().getStatusCode()==200){
                 BufferedReader br=new BufferedReader(new InputStreamReader(httpResponse.getEntity().getContent()));
