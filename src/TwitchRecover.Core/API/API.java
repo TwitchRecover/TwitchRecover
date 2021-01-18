@@ -78,44 +78,14 @@ public class API {
                         feeds.addEntryPos(response.get(i), Quality.getQualityRF(Compute.singleRegex("#EXT-X-STREAM-INF:BANDWIDTH=\\d*,CODECS=\"[a-zA-Z0-9.]*,[a-zA-Z0-9.]*\",RESOLUTION=(\\d*x\\d*),VIDEO=\"chunked\"", response.get(i-1)), 60.000), 1);
                     }
                     else {
-                        //Get the FPS of the source resolution.
-                        String patternF = "#EXT-X-MEDIA:TYPE=VIDEO,GROUP-ID=\"chunked\",NAME=\"([0-9p]*) \\(source\\)\",AUTOSELECT=[\"YES\"||\"NO\"]*,DEFAULT=[\"YES\"||\"NO\"]*";
-                        Pattern pF = Pattern.compile(patternF);
-                        Matcher mF = pF.matcher(response.get(i - 2));
-                        Double fps = 0.000;
-                        if(mF.find()) {
-                            String vid = mF.group(1);
-                            fps = Double.parseDouble(vid.substring(vid.indexOf('p') + 1));
-                        }
-                        //Get the resolution of the source resolution.
-                        String pattern = "#EXT-X-STREAM-INF:BANDWIDTH=\\d*,RESOLUTION=(\\d*x\\d*),CODECS=\"[a-zA-Z0-9.]*,[a-zA-Z0-9.]*\",VIDEO=\"chunked\"";
-                        Pattern p = Pattern.compile(pattern);
-                        Matcher m = p.matcher(response.get(i - 1));
-                        if(m.find()) {
-                            feeds.addEntryPos(response.get(i), Quality.getQualityRF(m.group(1), fps), 1);
-                        }
+                        getQuality(feeds, i, response, true);
                     }
                 }
                 else if(response.get(i-2).contains("audio")){       //For when the line is an audio-only feed.
                     feeds.addEntry(response.get(i), Quality.AUDIO);
                 }
                 else if(response.get(i-2).contains("1080p60")){     //For resolutions greater or equal to 1080p60.
-                    //Get the FPS of the source resolution.
-                    String patternF="#EXT-X-MEDIA:TYPE=VIDEO,GROUP-ID=\"1080p[0-9]*\",NAME=\"(1080p[0-9]*)\",AUTOSELECT=[\"YES\"||\"NO\"]*,DEFAULT=[\"YES\"||\"NO\"]*";
-                    Pattern pF=Pattern.compile(patternF);
-                    Matcher mF=pF.matcher(response.get(i-2));
-                    Double fps=0.000;
-                    if(mF.find()){
-                        String vid=mF.group(1);
-                        fps=Double.parseDouble(vid.substring(vid.indexOf('p')+1));
-                    }
-                    //Get the resolution of the source resolution.
-                    String pattern="#EXT-X-STREAM-INF:BANDWIDTH=\\d*,CODECS=\"[a-zA-Z0-9.]*,[a-zA-Z0-9.]*\",RESOLUTION=(\\d*x\\d*),VIDEO=\"1080p[0-9]*\"";
-                    Pattern p=Pattern.compile(pattern);
-                    Matcher m=p.matcher(response.get(i-1));
-                    if(m.find()){
-                        feeds.addEntry(response.get(i), Quality.getQualityRF(m.group(1), fps));
-                    }
+                    getQuality(feeds, i, response, false);
                 }
                 else{
                     feeds.addEntry(response.get(i), Quality.getQualityV(Compute.singleRegex("#EXT-X-MEDIA:TYPE=VIDEO,GROUP-ID=\"([\\d]*p[36]0)\",NAME=\"([0-9p]*)\",AUTOSELECT=[\"YES\"||\"NO\"]*,DEFAULT=[\"YES\"||\"NO\"]*", response.get(i-2))));
@@ -237,5 +207,45 @@ public class API {
         }
         catch(Exception ignored){}
         return parseToken(response, isVOD);
+    }
+
+    /**
+     * This method gets the quality for a source resolution
+     * and a resolution that is either 1080p or higher.
+     * @param feeds         Feeds object representing the feeds object to add the entries to.
+     * @param i             Integer value representing at what point in the arraylist sorting that the loop is at.
+     * @param response      String arraylist containing all of the lines of the playlist file.
+     * @param source        Boolean value that is true if the call is being made for a source resolution and false if otherwise.
+     */
+    private static void getQuality(Feeds feeds, int i, ArrayList<String> response, boolean source){
+        String patternF;
+        String patternR;
+        if(source){
+            patternF = "#EXT-X-MEDIA:TYPE=VIDEO,GROUP-ID=\"chunked\",NAME=\"([0-9p]*) \\(source\\)\",AUTOSELECT=[\"YES\"||\"NO\"]*,DEFAULT=[\"YES\"||\"NO\"]*";
+            patternR = "#EXT-X-STREAM-INF:BANDWIDTH=\\d*,RESOLUTION=(\\d*x\\d*),CODECS=\"[a-zA-Z0-9.]*,[a-zA-Z0-9.]*\",VIDEO=\"chunked\"";
+        }
+        else{
+            patternF="#EXT-X-MEDIA:TYPE=VIDEO,GROUP-ID=\"1080p[0-9]*\",NAME=\"(1080p[0-9]*)\",AUTOSELECT=[\"YES\"||\"NO\"]*,DEFAULT=[\"YES\"||\"NO\"]*";
+            patternR="#EXT-X-STREAM-INF:BANDWIDTH=\\d*,CODECS=\"[a-zA-Z0-9.]*,[a-zA-Z0-9.]*\",RESOLUTION=(\\d*x\\d*),VIDEO=\"1080p[0-9]*\"";
+        }
+        //Get the FPS:
+        Pattern pF=Pattern.compile(patternF);
+        Matcher mF=pF.matcher(response.get(i-2));
+        Double fps=0.000;
+        if(mF.find()){
+            String vid=mF.group(1);
+            fps=Double.parseDouble(vid.substring(vid.indexOf('p')+1));
+        }
+        //Get the resolution:
+        Pattern pR=Pattern.compile(patternR);
+        Matcher mR=pR.matcher(response.get(i-1));
+        if(mF.find()){
+            if(source){
+                feeds.addEntryPos(response.get(i), Quality.getQualityRF(mF.group(1), fps), 1);
+            }
+            else{
+                feeds.addEntry(response.get(i), Quality.getQualityRF(mF.group(1), fps));
+            }
+        }
     }
 }
