@@ -30,7 +30,6 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -45,6 +44,20 @@ import java.util.regex.Pattern;
  * API calls and retrievals.
  */
 public class API {
+    //Constants:
+    protected static final String TWITCH_ACCEPT="application/vnd.twitchtv.v5+json";
+    protected static final String WEB_CI="kimne78kx3ncx6brgo4mv6wki5h1ko";
+    protected static final String PERSONAL_CI="ohroxg880bxrq1izlrinohrz3k4vy6";     //DO NOT use this for your personal use. This is the client ID for Twitch Recover.
+    protected static final String UTF8_CT="text/plain;charset=UTF-8";
+    //Header constants:
+    protected static final String ACCEPT="Accept";
+    protected static final String CI="Client-ID";
+    protected static final String CT="Content-Type";
+    //Domain constants:
+    protected static final String USHER="https://usher.ttvnw.net";
+    protected static final String GQL="https://gql.twitch.tv/gql";
+    protected static final String API="https://api.twitch.tv";
+
     /**
      * Method which parses the feeds from a given
      * arraylist which includes all of the lines that
