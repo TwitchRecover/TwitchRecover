@@ -104,6 +104,7 @@ public class VOD {
      * This method gets an arraylist
      * of chunked (source quality)
      * VOD feeds from given information.
+     * @param wr                    Boolean input representing whether or not to brute force a VOD's values.
      * @return ArrayList<String>    String arraylist containing all of the source VOD feeds.
      */
     public ArrayList<String> retrieveVOD(boolean wr){

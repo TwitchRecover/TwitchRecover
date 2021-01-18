@@ -105,7 +105,7 @@ public class VODHandler {
             wf=CLIHandler.sc.next().equalsIgnoreCase("y");
             vod.setBF(wf);
             System.out.print("\nPlease enter the start time of the stream: ");
-            vod.setTimestamp(CLIHandler.sc.next());
+            vod.setTimestamp(CLIHandler.sc.next()+" "+CLIHandler.sc.next());
         }
         vod.retrieveVOD(wf);
         Feeds feeds=vod.retrieveVODFeeds();
