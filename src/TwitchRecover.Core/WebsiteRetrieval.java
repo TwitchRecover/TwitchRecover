@@ -10,7 +10,7 @@
  * If not see http://www.gnu.org/licenses/ or write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  *
  *  @author Daylam Tayari daylam@tayari.gg https://github.com/daylamtayari
- *  @version 2.0aH     2.0a Hotfix
+ *  @version 2.0b
  *  Github project home page: https://github.com/TwitchRecover
  *  Twitch Recover repository: https://github.com/TwitchRecover/TwitchRecover
  */
