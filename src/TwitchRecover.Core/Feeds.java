@@ -16,7 +16,9 @@
  */
 
 package TwitchRecover.Core;
+
 import TwitchRecover.Core.Enums.Quality;
+
 import java.util.ArrayList;
 
 /**
@@ -171,5 +173,26 @@ public class Feeds {
      */
     public ArrayList<Quality> getQualities(){
         return qualities;
+    }
+
+    /**
+     * This method sorts the qualities,
+     * including the corresponding feeds,
+     * in the order from best to worse.
+     */
+    public void sort(){
+        for(int i=0; i<qualities.size(); i++){
+            int key=qualities.get(i).order;
+            Quality qKey=qualities.get(i);
+            String fKey=feeds.get(i);
+            int j=i-1;
+            while(j>=0 && qualities.get(j).order>key){
+                qualities.set(j+1, qualities.get(j));
+                feeds.set(j+1, feeds.get(j));
+                j=j-1;
+            }
+            qualities.set(j+1, qKey);
+            feeds.set(j+1, fKey);
+        }
     }
 }
