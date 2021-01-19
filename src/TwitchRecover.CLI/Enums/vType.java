@@ -30,10 +30,18 @@ public enum vType {
     M3U8("M3U8", ""),
     Results("results", "");
 
-    public String text;
+    String text;
     String stream;
     vType(String t, String s) {
         text = t;
         stream = s;
+    }
+
+    /**
+     * Accessor for the text variable.
+     * @return String   Variable for the text variable.
+     */
+    public String getText(){
+        return text;
     }
 }

@@ -90,7 +90,7 @@ public class CoreHandler {
             System.out.print("\n"+i+". "+qual.getText());
             i++;
         }
-        System.out.print("\nPlease enter the desired quality you want to "+o.text+": ");
+        System.out.print("\nPlease enter the desired quality you want to "+o.getText()+": ");
         String selection=CLIHandler.sc.next();
         return Integer.parseInt(selection);
     }
@@ -104,12 +104,12 @@ public class CoreHandler {
      * @return String   String value which represents the highlight URL the user inputted.
      */
     protected static String promptURL(oType op, vType v){
-        System.out.print("\nPlease enter the link of the "+v.text+" to "+op.text+": ");
+        System.out.print("\nPlease enter the link of the "+v.getText()+" to "+op.getText()+": ");
         String highlightURL=CLIHandler.sc.next();
         while(!CoreHandler.isVideo(highlightURL)){
             System.out.print(
-                      "\n\nERROR: Invalid "+v.text+" link."
-                    + "\nPlease enter a valid "+v.text+" URL."
+                      "\n\nERROR: Invalid "+v.getText()+" link."
+                    + "\nPlease enter a valid "+v.getText()+" URL."
             );
             highlightURL=CLIHandler.sc.next();
         }

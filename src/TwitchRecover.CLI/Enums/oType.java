@@ -29,8 +29,16 @@ public enum oType{
     Unmute("unmute"),
     Output("export");
 
-    public String text;
+    String text;
     oType(String t){
         text=t;
+    }
+
+    /**
+     * Accessor for the text variable.
+     * @return String   Value of the text variable.
+     */
+    public String getText(){
+        return text;
     }
 }

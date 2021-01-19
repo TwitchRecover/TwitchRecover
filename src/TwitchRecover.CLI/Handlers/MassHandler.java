@@ -119,9 +119,8 @@ public class MassHandler {
      * @return String   String value representing the retrieved URL.
      */
     public static String getURL(vType v, oType o){
-        System.out.print("\n\nPlease enter the URL of the " + v.text + " to " + o.text + ":\n");
-        String input=CLIHandler.sc.next();
-        return input;
+        System.out.print("\n\nPlease enter the URL of the " + v.getText() + " to " + o.getText() + ":\n");
+        return CLIHandler.sc.next();
     }
 
     /**
