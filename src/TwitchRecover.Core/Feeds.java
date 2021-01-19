@@ -182,11 +182,11 @@ public class Feeds {
      */
     public void sort(){
         for(int i=0; i<qualities.size(); i++){
-            int key=qualities.get(i).order;
+            int key=qualities.get(i).getOrder();
             Quality qKey=qualities.get(i);
             String fKey=feeds.get(i);
             int j=i-1;
-            while(j>=0 && qualities.get(j).order>key){
+            while(j>=0 && qualities.get(j).getOrder()>key){
                 qualities.set(j+1, qualities.get(j));
                 feeds.set(j+1, feeds.get(j));
                 j=j-1;

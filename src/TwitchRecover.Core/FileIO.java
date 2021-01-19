@@ -130,7 +130,7 @@ public class FileIO {
     protected static void exportFeeds(Feeds feeds, String fp){
         ArrayList<String> results=new ArrayList<String>();
         for(int i=0; i<feeds.getFeeds().size(); i++){
-            results.add("# Quality: "+feeds.getQuality(i).text);
+            results.add("# Quality: "+feeds.getQuality(i).getText());
             results.add(feeds.getFeed(i));
         }
         exportResults(results, fp);

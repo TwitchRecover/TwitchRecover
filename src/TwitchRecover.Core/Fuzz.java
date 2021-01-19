@@ -235,8 +235,8 @@ public class Fuzz {
     public static Feeds fuzzQualities(String part1, String part2){
         Feeds feeds=new Feeds();
         for(Quality qual: Quality.values()){
-            if(checkURL(part1+qual.video+part2)){
-                feeds.addEntry(part1+qual.video+part2, qual);
+            if(checkURL(part1+qual.getVideo()+part2)){
+                feeds.addEntry(part1+qual.getVideo()+part2, qual);
             }
         }
         return feeds;

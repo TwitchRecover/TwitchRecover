@@ -87,7 +87,7 @@ public class CoreHandler {
         System.out.print("\n\nQualities available:");
         int i=1;
         for(Quality qual: feeds.getQualities()){
-            System.out.print("\n"+i+". "+qual.text);
+            System.out.print("\n"+i+". "+qual.getText());
             i++;
         }
         System.out.print("\nPlease enter the desired quality you want to "+o.text+": ");

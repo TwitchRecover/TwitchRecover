@@ -47,17 +47,41 @@ public enum Quality {
     SLHD("144p30fps", "144p30", "256×144", 30.000, 22),
     AUDIO("Audio only", "audio_only", "0x0", 0.000, 23);
 
-    public String text;
-    public String video;
+    String text;
+    String video;
     String resolution;
     double fps;
-    public int order;
+    int order;
     Quality(String t, String v, String r, double f, int o){
         text=t;
         video=v;
         resolution=r;
         fps=f;
         order=o;
+    }
+
+    /**
+     * Accessor for the text variable.
+     * @return String   String variable representing the text value.
+     */
+    public String getText(){
+        return text;
+    }
+
+    /**
+     * Accessor for the video variable.
+     * @return String   String variable representing the video value.
+     */
+    public String getVideo(){
+        return video;
+    }
+
+    /**
+     * Accessor for the order variable.
+     * @return int  Integer value representing the order value.
+     */
+    public int getOrder(){
+        return order;
     }
 
     /**
