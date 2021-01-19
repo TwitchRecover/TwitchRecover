@@ -64,12 +64,12 @@ public class Clips {
      */
     public void download(){
         computeFN();
-        fFP=fp+fn+FileExtension.MP4.fileExtension;
+        fFP=fp+fn;
         try{
             Download.download(url, fFP);
         }
         catch(Exception ignored){}
-        System.out.print("\nCLip downloaded at: "+fFP);
+        System.out.print("\nCLip downloaded at: "+fFP+FileExtension.MP4.getFE());
     }
 
     /**
