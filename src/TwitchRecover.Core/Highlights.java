@@ -66,7 +66,7 @@ public class Highlights {
     public void downloadHighlight(FileExtension fe, String feed){
         computeFN();
         System.out.print("\nDownloading highlight...");
-        fFP=fp+fn+fe.fileExtension;
+        fFP=fp+fn+fe.getFE();
         try{
             Download.m3u8Download(feed, fFP);
         }
@@ -85,7 +85,7 @@ public class Highlights {
         String url=Compute.URLCompute(highlightInfo[0], streamID, timestamp);
         //Adapt URL to a highlight M3U8 URL.
         url=url.substring(0, url.indexOf("index-dvr.m3u8"));
-        url+="highlight-"+highlightID+FileExtension.M3U8.fileExtension;
+        url+="highlight-"+highlightID+FileExtension.M3U8.getFE();
         retrievedURLs=Fuzz.verifyURL(url);
         return retrievedURLs;
     }
@@ -130,7 +130,7 @@ public class Highlights {
      */
     public void exportResults(){
         computeFN();
-        fFP=fp+fn+FileExtension.TXT.fileExtension;
+        fFP=fp+fn+FileExtension.TXT.getFE();
         FileIO.exportResults(retrievedURLs, fFP);
     }
 
@@ -140,7 +140,7 @@ public class Highlights {
      */
     public void exportFeed(){
         computeFN();
-        fFP=fp+fn+FileExtension.TXT.fileExtension;
+        fFP=fp+fn+FileExtension.TXT.getFE();
         FileIO.exportFeeds(feeds, fFP);
     }
 

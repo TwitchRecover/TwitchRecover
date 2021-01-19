@@ -61,7 +61,7 @@ public class Live {
      */
     public void exportFeed(){
         computeFN();
-        fFP=fp+fn+ FileExtension.TXT.fileExtension;
+        fFP=fp+fn+ FileExtension.TXT.getFE();
         FileIO.exportFeeds(feeds, fFP);
     }
 

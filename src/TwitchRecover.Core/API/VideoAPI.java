@@ -82,13 +82,13 @@ public class VideoAPI {
         if(highlight){
             String domain=Compute.singleRegex("(https:\\/\\/[a-z0-9\\-]*.[a-z_]*.[net||com||tv]*\\/[a-z0-9_]*\\/)chunked\\/highlight-[0-9]*.m3u8", Fuzz.verifyURL("/"+baseURL+"/chunked/highlight-"+VODID+".m3u8").get(0));
             for(int i=0;i<restricted.length();i++){
-                feeds.addEntry(domain+restricted.get(i).toString()+"/highlight-"+VODID+FileExtension.M3U8.fileExtension, Quality.getQualityV(restricted.get(i).toString()));
+                feeds.addEntry(domain+restricted.get(i).toString()+"/highlight-"+VODID+FileExtension.M3U8.getFE(), Quality.getQualityV(restricted.get(i).toString()));
             }
         }
         else {
             String domain = Compute.singleRegex("(https:\\/\\/[a-z0-9\\-]*.[a-z_]*.[net||com||tv]*\\/[a-z0-9_]*\\/)chunked\\/index-dvr.m3u8", Fuzz.verifyURL("/"+baseURL + "/chunked/index-dvr.m3u8").get(0));
             for(int i = 0; i < restricted.length(); i++) {
-                feeds.addEntry(domain + restricted.get(i).toString() + "/index-dvr" + FileExtension.M3U8.fileExtension, Quality.getQualityV(restricted.get(i).toString()));
+                feeds.addEntry(domain + restricted.get(i).toString() + "/index-dvr" + FileExtension.M3U8.getFE(), Quality.getQualityV(restricted.get(i).toString()));
             }
         }
         return feeds;

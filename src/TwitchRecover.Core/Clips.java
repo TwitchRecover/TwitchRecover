@@ -96,7 +96,7 @@ public class Clips {
      */
     public void exportResults(){
         computeFN();
-        fFP=fp+fn+FileExtension.TXT.fileExtension;
+        fFP=fp+fn+FileExtension.TXT.getFE();
         FileIO.exportResults(results, fFP);
     }
 
@@ -164,7 +164,7 @@ public class Clips {
      */
     public String getDFP(){
         computeFN();
-        return fp+fn+FileExtension.MP4.fileExtension;
+        return fp+fn+FileExtension.MP4.getFE();
     }
 
     /**

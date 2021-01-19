@@ -51,7 +51,7 @@ public class Converter {
         }
         getRaw();
         File ogFile=new File(ogFP);
-        File newFile=new File(rawFP+fe.fileExtension);
+        File newFile=new File(rawFP+fe.getFE());
         ogFile.renameTo(newFile);
     }
 

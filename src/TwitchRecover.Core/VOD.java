@@ -73,7 +73,7 @@ public class VOD {
             retrieveVOD(false);
             retrieveVODFeeds();
         }
-        fFP=fp+fn+fe.fileExtension;
+        fFP=fp+fn+fe.getFE();
         try {
             Download.m3u8Download(feed, fFP);
         }
@@ -86,7 +86,7 @@ public class VOD {
      */
     public void exportResults(){
         computeFN();
-        fFP=fp+fn+FileExtension.TXT.fileExtension;
+        fFP=fp+fn+FileExtension.TXT.getFE();
         FileIO.exportResults(retrievedURLs, fFP);
     }
 
@@ -96,7 +96,7 @@ public class VOD {
      */
     public void exportFeed(){
         computeFN();
-        fFP=fp+fn+FileExtension.TXT.fileExtension;
+        fFP=fp+fn+FileExtension.TXT.getFE();
         FileIO.exportFeeds(feeds, fFP);
     }
 

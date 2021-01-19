@@ -58,11 +58,11 @@ public class ClipsAPI {
             JSONObject vod=jo.getJSONObject("vod");
             if(download){
                 String url=vod.getString("preview_image_url");
-                return url.substring(0, url.indexOf("-preview")) + FileExtension.MP4.fileExtension;
+                return url.substring(0, url.indexOf("-preview")) + FileExtension.MP4.getFE();
             }
             else {
                 int offset = vod.getInt("offset") + 26;
-                return "https://clips-media-assets2.twitch.tv/" + streamID + "-offset-" + offset + FileExtension.MP4.fileExtension;
+                return "https://clips-media-assets2.twitch.tv/" + streamID + "-offset-" + offset + FileExtension.MP4.getFE();
             }
         }
         catch(Exception e){
