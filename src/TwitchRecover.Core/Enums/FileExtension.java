@@ -30,8 +30,16 @@ public enum FileExtension {
     AVI(".avi"),
     MP4(".mp4");
 
-    public String fileExtension;
+    String fileExtension;
     FileExtension(String fe){
         fileExtension=fe;
+    }
+
+    /**
+     * Accessor for the file extension variable.
+     * @return String   Value for the file extension variable.
+     */
+    public String getFE(){
+        return fileExtension;
     }
 }

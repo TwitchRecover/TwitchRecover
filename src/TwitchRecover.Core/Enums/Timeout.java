@@ -21,8 +21,16 @@ public enum Timeout {
     CONNECT(60000),
     READ(60000);
 
-    public int time;    //Timeout time in milliseconds.
+    int time;    //Timeout time in milliseconds.
     Timeout(int m){
         time=m;
+    }
+
+    /**
+     * Accessor for the time variable.
+     * @return int  Value of the time variable.
+     */
+    public int getTime(){
+        return time;
     }
 }

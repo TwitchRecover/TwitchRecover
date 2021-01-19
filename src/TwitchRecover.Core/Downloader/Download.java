@@ -51,7 +51,7 @@ public class Download {
         String extension=url.substring(url.lastIndexOf("."));
         URL dURL=new URL(url);
         File dFile=new File(fp+extension);
-        FileUtils.copyURLToFile(dURL, dFile, Timeout.CONNECT.time, Timeout.READ.time);
+        FileUtils.copyURLToFile(dURL, dFile, Timeout.CONNECT.getTime(), Timeout.READ.getTime());
         return dFile.getAbsolutePath();
     }
 
@@ -86,7 +86,7 @@ public class Download {
             downloadedFile = File.createTempFile(prefix + "-", "." + FilenameUtils.getExtension(dURL.getPath()), new File(FileHandler.TEMP_FOLDER_PATH + File.separator));    //Creates the temp file.
         }
         downloadedFile.deleteOnExit();
-        FileUtils.copyURLToFile(dURL, downloadedFile, Timeout.CONNECT.time, Timeout.READ.time);
+        FileUtils.copyURLToFile(dURL, downloadedFile, Timeout.CONNECT.getTime(), Timeout.READ.getTime());
         return downloadedFile;
     }
 

@@ -148,7 +148,7 @@ public class FileIO {
      */
     public static String convert(String fp, FileExtension fe){
         File old=new File(fp);
-        String newFP=fp.substring(0, fp.lastIndexOf("."))+fe.fileExtension;
+        String newFP=fp.substring(0, fp.lastIndexOf("."))+fe.getFE();
         File newF=new File(newFP);
         old.renameTo(newF);
         return newF.getAbsolutePath();

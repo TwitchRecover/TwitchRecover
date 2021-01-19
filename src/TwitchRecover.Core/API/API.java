@@ -138,7 +138,7 @@ public class API {
             URL dURL=new URL(url);
             downloadedFile = File.createTempFile("TwitchRecover-Playlist-", ".m3u8");
             downloadedFile.deleteOnExit();
-            FileUtils.copyURLToFile(dURL, downloadedFile, Timeout.CONNECT.time, Timeout.READ.time);
+            FileUtils.copyURLToFile(dURL, downloadedFile, Timeout.CONNECT.getTime(), Timeout.READ.getTime());
         }
         catch(IOException ignored){}
         return parseFeeds(FileIO.read(downloadedFile.getAbsolutePath()));
