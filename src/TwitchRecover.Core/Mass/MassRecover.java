@@ -182,7 +182,7 @@ public class MassRecover {
      * output file.
      */
     private void computeFN(){
-        fn=FileIO.computeFN(ct, "Mass-"+Math.random()*1000);
+        fn=FileIO.computeFN(ct, "Mass-"+((int) (Math.random()*1000000)));
     }
 
     /**

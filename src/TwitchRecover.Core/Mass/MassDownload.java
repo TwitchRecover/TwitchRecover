@@ -143,7 +143,7 @@ public class MassDownload {
         Clips clip=new Clips();
         clip.setFP(fp);
         if(url.lastIndexOf(".mp4")==url.length()-5){
-            clip.setSlug(String.valueOf(Math.random()*1000));
+            clip.setSlug(String.valueOf((int) (Math.random()*1000000)));
             String ffp=clip.getDFP();
             try {
                 Download.download(url, ffp);

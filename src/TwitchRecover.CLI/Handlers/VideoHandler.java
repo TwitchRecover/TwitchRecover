@@ -100,7 +100,7 @@ public class VideoHandler {
                   "\nPlease enter the FILE PATH of where you want the unmuted M3U8 saved:"
                 + "\nFile path: "
         );
-        String fp=FileIO.adjustFP(CLIHandler.sc.next())+FileIO.computeFN(ContentType.M3U8, String.valueOf((int) (Math.random() * 10000000)))+FileExtension.M3U8.getFE();
+        String fp=FileIO.adjustFP(CLIHandler.sc.next())+FileIO.computeFN(ContentType.M3U8, String.valueOf((int) (Math.random()*1000000)))+FileExtension.M3U8.getFE();
         System.out.print("\n'Unmuting'...");
         VODRetrieval.unmute(value, isFile, fp);
         System.out.print("\nUnmuted file at: "+fp);
@@ -119,7 +119,7 @@ public class VideoHandler {
                 + "\nFile path: "
         );
         String fp= FileIO.adjustFP(CLIHandler.sc.next());
-        String fn=FileIO.computeFN(ContentType.Video, String.valueOf((int) (Math.random() * 10000000)));
+        String fn=FileIO.computeFN(ContentType.Video, String.valueOf((int) (Math.random()*1000000)));
         FileExtension fe=CoreHandler.userFE();
         String fFP=fp+fn+fe.getFE();
         System.out.print("\nDowloading...");
