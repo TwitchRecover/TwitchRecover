@@ -38,7 +38,7 @@ public class CoreHandler {
      * @return boolean  Boolean value which is true if the URL is indeed a Twitch video link and false otherwise.
      */
     protected static boolean isVideo(String url){
-        return Compute.singleRegex("(twitch.tv/[0-9]*)", url)!=null;
+        return Compute.singleRegex("(twitch.tv/[0-9]*)", url.toLowerCase())!=null;
     }
 
     /**

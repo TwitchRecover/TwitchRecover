@@ -123,10 +123,10 @@ public class Clips {
      */
     private String parseSlug(String url){
         if(url.contains("clips.twitch.tv")){
-            return Compute.singleRegex("clips.twitch.tv/([a-zA-Z]*)", url);
+            return Compute.singleRegex("clips.twitch.tv/([a-zA-Z]*)", url.toLowerCase());
         }
         else if(url.contains("twitch.tv/clips")){
-            return Compute.singleRegex("twitch.tv/clips/([a-zA-Z]*)", url);
+            return Compute.singleRegex("twitch.tv/clips/([a-zA-Z]*)", url.toLowerCase());
         }
         else{
             return url;

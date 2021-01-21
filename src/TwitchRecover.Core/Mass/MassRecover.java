@@ -140,7 +140,7 @@ public class MassRecover {
     private void processStream(String url){
         Live live=new Live();
         if(url.contains("twitch.tv/")){
-            live.setChannel(Compute.singleRegex("twitch.tv/([a-z0-9A-Z]*)", url));
+            live.setChannel(Compute.singleRegex("twitch.tv/([a-z0-9A-Z]*)", url.toLowerCase()));
         }
         else{
             live.setChannel(url);

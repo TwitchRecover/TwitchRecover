@@ -91,17 +91,29 @@ public class ClipHandler {
      */
     private boolean checkClipURL(String url){
         if(url.contains("clips.twitch.tv")){
-            return !Compute.checkNullString(Compute.singleRegex("(clips.twitch.tv/[a-zA-Z]*)", url));
+            return checkURLType("(clips.twitch.tv/[a-zA-Z]*)", url);
         }
         else if(url.contains("twitch.tv/clips")){
-            return !Compute.checkNullString(Compute.singleRegex("(twitch.tv/clips/[a-zA-Z]*)", url));
+            return checkURLType("(twitch.tv/clips/[a-zA-Z]*)", url);
         }
         else if(url.contains("clips-media-assets2.twitch.tv")){
-            return !Compute.checkNullString(Compute.singleRegex("(clips-media-assets2.twitch.tv\\/[0-9]*-offset-[0-9]*.mp4)", url));
+            return checkURLType("(clips-media-assets2.twitch.tv\\/[0-9]*-offset-[0-9]*.mp4)", url);
         }
         else{
-            return !Compute.checkNullString(Compute.singleRegex("([a-z]*)", url));
+            return checkURLType("([a-z]*)", url);
         }
+    }
+
+    /**
+     * This method processes the checking
+     * of a URL type, by checking if a
+     * URL matches a given regex value.
+     * @param regex     String value representing the regex to check the URL for.
+     * @param url       String value representing the URL to check.
+     * @return boolean  Boolean value that is false if the URL does not match the regex pattern and false otherwise.
+     */
+    private boolean checkURLType(String regex, String url){
+        return !Compute.checkNullString(Compute.singleRegex(regex, url.toLowerCase()));
     }
 
     /**

@@ -60,7 +60,7 @@ public class VODRetrieval {
      * @return Feeds    Feeds object containing all of the possible feeds for that particular VOD.
      */
     public static Feeds retrieveVODFeeds(String baseURL){
-        String coreURL=Compute.singleRegex("(https:\\/\\/[a-z0-9\\-]*.[a-z_]*.[net||com||tv]*\\/[a-z0-9_]*\\/)chunked\\/index-dvr.m3u8", baseURL);
+        String coreURL=Compute.singleRegex("(https:\\/\\/[a-z0-9\\-]*.[a-z_]*.[net||com||tv]*\\/[a-z0-9_]*\\/)chunked\\/index-dvr.m3u8", baseURL.toLowerCase());
         return Fuzz.fuzzQualities(coreURL, "/index-dvr.m3u8");
     }
 
@@ -70,14 +70,14 @@ public class VODRetrieval {
      * @param url   Twitch VOD link (or raw ID) of a VOD.
      */
     public static Long retrieveID(String url){
-        if(Compute.singleRegex("(twitch.tv\\/[a-z0-9]*\\/v\\[0-9]*)", url)!=null){
-            return Long.parseLong(Compute.singleRegex("twitch.tv\\/[a-zA-Z0-9]*\\/v\\/([0-9]*)", url));
+        if(Compute.singleRegex("(twitch.tv\\/[a-z0-9]*\\/v\\[0-9]*)", url.toLowerCase())!=null){
+            return Long.parseLong(Compute.singleRegex("twitch.tv\\/[a-zA-Z0-9]*\\/v\\/([0-9]*)", url.toLowerCase()));
         }
-        else if(Compute.singleRegex("(twitch.tv\\/[a-z0-9]*\\/videos\\/[0-9]*)", url)!=null){
-            return Long.parseLong(Compute.singleRegex("twitch.tv\\/[a-z0-9]*\\/videos\\/([0-9]*)", url));
+        else if(Compute.singleRegex("(twitch.tv\\/[a-z0-9]*\\/videos\\/[0-9]*)", url.toLowerCase())!=null){
+            return Long.parseLong(Compute.singleRegex("twitch.tv\\/[a-z0-9]*\\/videos\\/([0-9]*)", url.toLowerCase()));
         }
-        else if(Compute.singleRegex("(twitch.tv\\/videos\\/[0-9]*)", url)!=null){
-            return Long.parseLong(Compute.singleRegex("twitch.tv\\/videos\\/([0-9]*)", url));
+        else if(Compute.singleRegex("(twitch.tv\\/videos\\/[0-9]*)", url.toLowerCase())!=null){
+            return Long.parseLong(Compute.singleRegex("twitch.tv\\/videos\\/([0-9]*)", url.toLowerCase()));
         }
         else{
             return Long.parseLong(url);
