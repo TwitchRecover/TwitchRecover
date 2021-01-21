@@ -29,7 +29,7 @@
 | Retrieve highlight feeds  | ❌  | ✔  | ✔  | ✔  |
 | Download highlight  | ❌  | ✔  | ✔  | ✔  |
 | Recover highlight  | ❌  | ✔  | ✔  | ✔  |
-| Check for muted segments  | ✔  | ❌  | ✔  | ✔  |
+| Check for muted segments  | ❌  | ✔  | ✔  | ✔  |
 | 'Unmute' video  | ✔  | ✔  | ✔  | ✔  |
 | Download M3U8  | ❌  | ✔  | ✔  | ✔  |
 | Convert TS files  | ❌  | ✔  | ✔  | ✔  |
