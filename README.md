@@ -13,33 +13,40 @@
 <break/>  
   
 ### - [2.0 Alpha](https://github.com/TwitchRecover/TwitchRecover/releases/download/2.0aH/Twitch.Recover.Setup.exe): [https://github.com/TwitchRecover/TwitchRecover/releases/tag/2.0aH](https://github.com/TwitchRecover/TwitchRecover/releases/tag/2.0aH)  
-### - [1.2 Release](https://github.com/TwitchRecover/TwitchRecover/releases/download/1.2/TwitchRecover-CLI-v1.2.exe): [https://github.com/TwitchRecover/TwitchRecover/releases/tag/1.2](https://github.com/TwitchRecover/TwitchRecover/releases/tag/1.2)  
+### - [1.2 Release (last stable release)](https://github.com/TwitchRecover/TwitchRecover/releases/download/1.2/TwitchRecover-CLI-v1.2.exe): [https://github.com/TwitchRecover/TwitchRecover/releases/tag/1.2](https://github.com/TwitchRecover/TwitchRecover/releases/tag/1.2)  
   
 ## Features:
   
-| Features  | 2.0 Alpha | 1.2 Release  | 2.0 Final Release |
-| ------------- | ------------- | ------------- | ------------- |
-| GUI  | ❌  | ❌  | ✔  |
-| Get live stream feeds  | ✔  | ❌  | ✔  |
-| Download live stream  | ❌  | ❌  | ✔  |
-| Get VOD feeds  | ✔  | ✔  | ✔  |
-| Download VOD  | ✔  | ❌  | ✔  |
-| Recover VOD  | ✔  | ✔  | ✔  |
-| Retrieve highlight feeds  | ✔  | ❌  | ✔  |
-| Download highlight  | ✔  | ❌  | ✔  |
-| Recover highlight  | ✔  | ❌  | ✔  |
-| Check for muted segments  | ✔  | ❌  | ✔  |
-| 'Unmute' video  | ✔  | ✔  | ✔  |
-| Download M3U8  | ✔  | ❌  | ✔  |
-| Convert TS files  | ✔  | ❌  | ✔  |
-| Retrieve permanent clip links  | 🟡  | ❌  | 🟡  |
-| Download a clip  | ✔  | ❌  | ✔  |
-| Recover ALL clips from a stream  | ✔  | ❌  | ✔  |
-| Download chat from live stream  | ❌  | ❌  | ✔  |
-| Download chat from clip  | ❌  | ❌  | ✔  |
-| Download chat from VOD/highlight  | ❌  | ❌  | ✔  |
-| Mass download features  | ❌  | ❌  | ✔  |
-| Mass recovery features  | ❌  | ❌  | ✔  |
+| Features  | 1.2 Release  | 2.0 Alpha | 2.0 Beta | 2.0 Final Release |  
+| ------------- | ------------- | ------------- | ------------- |------------- |
+| GUI  | ❌  | ❌  | ✔  | ✔  |
+| Get live stream feeds  | ❌  | ✔  | ✔  | ✔  |
+| Get sub-only live stream feeds  | ❌  | ❌  | ✔  | ✔  |
+| Download live stream  | ❌  | ❌  | ✔  | ✔  |
+| Get VOD feeds  | ✔  | ✔  | ✔  | ✔  |
+| Download VOD  | ❌  | ✔  | ✔  | ✔  |
+| Recover VOD  | ✔  | ✔  | ✔  | ✔  |
+| Retrieve highlight feeds  | ❌  | ✔  | ✔  | ✔  |
+| Download highlight  | ❌  | ✔  | ✔  | ✔  |
+| Recover highlight  | ❌  | ✔  | ✔  | ✔  |
+| Check for muted segments  | ✔  | ❌  | ✔  | ✔  |
+| 'Unmute' video  | ✔  | ✔  | ✔  | ✔  |
+| Download M3U8  | ❌  | ✔  | ✔  | ✔  |
+| Convert TS files  | ❌  | ✔  | ✔  | ✔  |
+| Retrieve permanent clip links  | ❌  | 🟡  | 🟡  | 🟡  |
+| Download a clip  | ❌  | ✔  | ✔  | ✔  |
+| Recover ALL clips from a stream  | ❌  | ✔  | ✔  | ✔  |
+| Download chat from live stream  | ❌  | ❌  | ✔  | ✔  |
+| Download chat from clip  | ❌  | ❌  | ✔  | ✔  |
+| Download chat from VOD/highlight  | ❌  | ❌  | ✔  | ✔  |
+| Mass download features  | ❌  | ❌  | ✔  | ✔  |
+| Mass recovery features  | ❌  | ❌  | ✔  | ✔  |
+| User preferences  | ❌  | ❌  | ✔  | ✔  |
+| Multi language support (10+)  | ❌  | ❌  | ❌  | ✔  |
+| Direct Twitch Recover URLs  | ❌  | ❌  | ❌  | ✔  |
+| Detailed wiki and video tutorials  | ❌  | ❌  | ❌  | ✔  |
+| Website  | ❌  | ❌  | ❌  | ✔  |
+| Browser extension  | ❌  | ❌  | ❌  | ✔  |
 
 ### If there is a feature you don't see above and would like to see, please create a Github issue suggesting the feature.
 <break/>  
