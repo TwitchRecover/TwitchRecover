@@ -32,15 +32,13 @@ public class VODRetrieval {
      * This method retrieves the VOD M3U8
      * URLs from given String values.
      * @param name                  String value representing the streamer's name.
-     * @param sID                   String value representing the stream ID.
-     * @param ts                    String value representing the timestamp of the stream.
+     * @param streamID              Long value representing the stream ID.
+     * @param timestamp             Long value representing the timestamp of the stream.
      * @param bf                    Boolean value which represents whether a VOD brute force should be carried out.
      * @return ArrayList<String>    String arraylist which represents all of the working VOD M3U8 URLs.
      */
-    public static ArrayList<String> retrieveVOD(String name, String sID, String ts, boolean bf){
+    public static ArrayList<String> retrieveVOD(String name, long streamID, long timestamp, boolean bf){
         ArrayList<String> results=new ArrayList<String>();
-        long timestamp=Compute.getUNIX(ts);
-        long streamID=Long.parseLong(sID);
         if(bf){
             results=Fuzz.BFURLs(name, streamID, timestamp);
         }

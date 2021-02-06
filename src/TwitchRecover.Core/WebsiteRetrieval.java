@@ -41,12 +41,10 @@ public class WebsiteRetrieval {
      * Core method which retrieves the 4 principal values (streamer's name, stream ID, timestamp, duration)
      * of a stream and returns in a string array in that order.
      * @param url URL to retrieve the values from.
-     * @return String[4]    String array containing the 4 principal values (streamer's name, stream ID,
-     * timestamp of the start of the stream and the duration) in that respective order. If all values of the
-     * array are null, the URL is invalid.
+     * @return VODInfo  VODInfo object containing all of the information of the stream.
      */
-    public static String[] getData(String url) {
-        String[] results = new String[4];     //0: streamer's name; 1: Stream ID; 2: Timestamp; 3: Duration.
+    public static VODInfo getData(String url) {
+        VODInfo results=new VODInfo();
         int source = checkURL(url);
         if(source == -1) {         //Invalid URL.
             return results;
@@ -117,12 +115,11 @@ public class WebsiteRetrieval {
      * This method gets the 4 principal values (streamer's name, stream ID, timestamp and the duration)
      * from a Twitch Tracker stream URL.
      * @param url String value representing the Twitch Tracker stream URL.
-     * @return String[4]    String array containing the 4 principal values (streamer's name, stream ID,
-     * timestamp of the start of the stream and the duration) in that respective order.
+     * @return VODInfo  VODInfo object containing all of the information of the stream.
      * @throws IOException
      */
-    private static String[] getTTData(String url) throws IOException {
-        String[] results = new String[4];
+    private static VODInfo getTTData(String url) throws IOException {
+        VODInfo results=new VODInfo();
         URL obj = new URL(url);
         HttpURLConnection httpcon = (HttpURLConnection) obj.openConnection();
         httpcon.setRequestMethod("GET");
@@ -136,7 +133,7 @@ public class WebsiteRetrieval {
                 response = brt.readLine();
                 if(i == 7) {
                     int tsIndex = response.indexOf(" on ") + 4;
-                    results[2] = response.substring(tsIndex, tsIndex + 19);
+                    results.setTimestamp(response.substring(tsIndex, tsIndex + 19));
                 }
                 //Stream duration fetcher:
                 if(response.contains("stats-value to-time-lg")) {
@@ -149,15 +146,15 @@ public class WebsiteRetrieval {
             Pattern dr = Pattern.compile(durationPattern);
             Matcher dm = dr.matcher(responseD);
             if(dm.find()) {
-                results[3] = dm.group(1);
+                results.setDuration(Integer.parseInt(dm.group(1)));
             }
             //Get the streamer's name and the VOD ID:
             String pattern = "twitchtracker\\.com\\/([a-zA-Z0-9-_]*)\\/streams\\/(\\d*)";
             Pattern r = Pattern.compile(pattern);
             Matcher m = r.matcher(url);
             if(m.find()) {
-                results[0] = m.group(1);
-                results[1] = m.group(2);
+                results.setName(m.group(1));
+                results.setIDS(m.group(2));
             }
             //Return the array:
             return results;
@@ -170,12 +167,11 @@ public class WebsiteRetrieval {
      * This method gets the 4 principal values (streamer's name, stream ID, timestamp and the duration)
      * from a Stream Charts stream URL.
      * @param url String value representing the Stream Charts stream URL.
-     * @return String[4]    String array containing the 4 principal values (streamer's name, stream ID,
-     * timestamp of the start of the stream and the duration) in that respective order.
+     * @return VODInfo  VODInfo object containing all of the information of the stream.
      * @throws IOException
      */
-    private static String[] getSCData(String url) throws IOException {
-        String[] results = new String[4];     //0: streamer's name; 1: Stream ID; 2: Timestamp; 3: Duration.
+    private static VODInfo getSCData(String url) throws IOException {
+        VODInfo results=new VODInfo();
         String userID;
         double duration = 0.0;
         //Retrieve initial values:
@@ -183,29 +179,29 @@ public class WebsiteRetrieval {
         Pattern r = Pattern.compile(pattern);
         Matcher m = r.matcher(url);
         if(m.find()) {
-            results[0] = m.group(1);
-            results[1] = m.group(2);
+            results.setName(m.group(1));
+            results.setIDS(m.group(2));
         }
 
         //Retrieve user ID:
-        String idJSON = getJSON("https://api.twitch.tv/v5/users/?login=" + results[0] + "&client_id=ohroxg880bxrq1izlrinohrz3k4vy6");
+        String idJSON = getJSON("https://api.twitch.tv/v5/users/?login=" + results.getName() + "&client_id=ohroxg880bxrq1izlrinohrz3k4vy6");
         JSONObject joID = new JSONObject(idJSON);
         JSONArray users = joID.getJSONArray("users");
         JSONObject user = users.getJSONObject(0);
         userID = user.getString("_id");
 
         //Retrieve stream values:
-        String dataJSON = getJSON("https://alla.streamscharts.com/api/free/streaming/platforms/1/channels/" + userID + "/streams/" + results[1] + "/statuses");
+        String dataJSON = getJSON("https://alla.streamscharts.com/api/free/streaming/platforms/1/channels/" + userID + "/streams/" + results.getID() + "/statuses");
         JSONObject joD = new JSONObject(dataJSON);
         JSONArray items = joD.getJSONArray("items");
         for(int i = 0; i < items.length(); i++) {
             JSONObject item = items.getJSONObject(i);
             if(i == 0) {
-                results[2] = item.getString("stream_created_at");
+                results.setTimestamp(item.getString("stream_created_at"));
             }
             duration += item.getDouble("air_time");
         }
-        results[3] = String.valueOf(duration * 60);
+        results.setDuration((int) (duration * 60));
         return results;
     }
 }

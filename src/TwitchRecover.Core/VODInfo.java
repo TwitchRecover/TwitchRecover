@@ -27,6 +27,7 @@ public class VODInfo {
     private String timestamp;       //String value representing the timestamp in YYYY-MM-DD HH:mm:ss format.
     private long unixTimestamp;     //Long value representing the UNIX timestamp.
     private boolean bruteForce;     //Boolean value representing whether or not the last minute should be brute forced.
+    private int duration;           //Integer value representing the duration of the stream in minutes.
 
     /**
      * Constructor of the object class
@@ -86,6 +87,14 @@ public class VODInfo {
         bruteForce=BF;
     }
 
+    /**
+     * Mutator for the duration variable.
+     * @param d     Integer value representing the duration of the stream in question in minutes.
+     */
+    public void setDuration(int d){
+        duration=d;
+    }
+
     //Accessors:
 
     /**
@@ -129,5 +138,13 @@ public class VODInfo {
      */
     public boolean getBF(){
         return bruteForce;
+    }
+
+    /**
+     * Accessor for the duration variable.
+     * @return int      Integer value representing the duration of the stream in minutes.
+     */
+    public int getD(){
+        return duration;
     }
 }

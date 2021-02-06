@@ -20,6 +20,7 @@ package TwitchRecover.CLI.Handlers;
 import TwitchRecover.CLI.CLIHandler;
 import TwitchRecover.Core.Clips;
 import TwitchRecover.Core.Compute;
+import TwitchRecover.Core.VODInfo;
 import TwitchRecover.Core.WebsiteRetrieval;
 
 import java.util.ArrayList;
@@ -173,8 +174,8 @@ public class ClipHandler {
         }
         else{
             System.out.print("\nPlease input the stream link from an analytics website (Twitch Tracker or Streamscharts): ");
-            String[] data= WebsiteRetrieval.getData(CLIHandler.sc.next());
-            clip.setValues(Long.parseLong(data[1]), Long.parseLong(data[3].substring(0, data[3].indexOf("."))));
+            VODInfo data= WebsiteRetrieval.getData(CLIHandler.sc.next());
+            clip.setValues(data.getID(), data.getD());
         }
         System.out.print(
                   "\nPlease enter y if you have Wfuzz installed and n if not: "
