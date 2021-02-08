@@ -9,6 +9,8 @@
 ### There are two current versions available, the alpha of the 2.0 version which has 17 different features and the 1.2 version which is the last current stable version.  
 **If you use the 2.0 alpha and experience an issue, please report the issue so I can fix it for the beta and final releases.**  
 
+### Twitch has just started fully deleting a greater percentage of VODs also from their VOD servers when a streamer deletes the VOD. If you cannot find a VOD it is because that one has fallen fate to Twitch's updated deletion process.
+
 ## Downloads:  
 <break/>  
   
