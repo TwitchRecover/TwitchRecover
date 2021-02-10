@@ -21,6 +21,7 @@ import static TwitchRecover.Core.API.API.*;
 import TwitchRecover.Core.Compute;
 import TwitchRecover.Core.Enums.FileExtension;
 import TwitchRecover.Core.Enums.Quality;
+import TwitchRecover.Core.Enums.VideoType;
 import TwitchRecover.Core.Feeds;
 import TwitchRecover.Core.Fuzz;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -104,5 +105,17 @@ public class VideoAPI {
      */
     private static String[] getVODToken(long VODID){
         return API.getToken(String.valueOf(VODID), true);
+    }
+
+    /**
+     * This method returns the broadcast
+     * type of a particular Twitch video.
+     * @param VODID         String value representing the video ID to query.
+     * @return VideoType    VideoType enum which represents the broadcast type of the Twitch video in question.
+     */
+    public static VideoType getVideoType(long VODID){
+        String videoType="";
+        //TODO: Insert GQL API Query.
+        return VideoType.getVideoType(videoType);
     }
 }

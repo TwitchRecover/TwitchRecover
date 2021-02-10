@@ -13,4 +13,20 @@ public enum VideoType {
 
     VideoType(){
     }
+
+    /**
+     * This method takes in a string input
+     * and returns the corresponding video
+     * type enum.
+     * @param vt    String variable representing the video type to search.
+     * @return VideoType    VideoType enum which represents the VideoType enum that is equal to the given string value.
+     */
+    public static VideoType getVideoType(String vt){
+        for(VideoType videoType: VideoType.values()){
+            if(videoType.toString().equals(vt)){
+                return videoType;
+            }
+        }
+        return null;
+    }
 }
