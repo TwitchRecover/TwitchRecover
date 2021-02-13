@@ -28,6 +28,7 @@ public class VODInfo {
     private long unixTimestamp;     //Long value representing the UNIX timestamp.
     private boolean bruteForce;     //Boolean value representing whether or not the last minute should be brute forced.
     private int duration;           //Integer value representing the duration of the stream in minutes.
+    private long VODID;             //Long value representing the VOD ID of the VOD.
 
     /**
      * Constructor of the object class
@@ -95,6 +96,14 @@ public class VODInfo {
         duration=d;
     }
 
+    /**
+     * Mutator for the VODID variable.
+     * @param v     Long value representing the VOD ID of the stream in question.
+     */
+    public void setVODID(long v){
+        VODID=v;
+    }
+
     //Accessors:
 
     /**
@@ -146,5 +155,13 @@ public class VODInfo {
      */
     public int getD(){
         return duration;
+    }
+
+    /**
+     * Accessor for the VODID variable.
+     * @return long     Long value representing the VOD ID of the stream.
+     */
+    public long getVODID(){
+        return VODID;
     }
 }

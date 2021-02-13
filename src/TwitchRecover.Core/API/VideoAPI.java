@@ -24,6 +24,7 @@ import TwitchRecover.Core.Enums.Quality;
 import TwitchRecover.Core.Enums.VideoType;
 import TwitchRecover.Core.Feeds;
 import TwitchRecover.Core.Fuzz;
+import TwitchRecover.Core.VODInfo;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
@@ -168,5 +169,41 @@ public class VideoAPI {
         //Parse the JSON:
         JSONObject jo=new JSONObject(response);
         return jo.getJSONObject("data").getJSONObject("video").getJSONObject("download").getString("url");
+    }
+
+    /**
+     * This method gets the channel name and stream ID
+     * from a video with a video ID.
+     * @param id            Long value representing the VOD ID.
+     * @return VODInfo      VODInfo object which contains the VOD ID, stream ID and the channel name.
+     */
+    public static VODInfo getInfo(long id){
+        String response="";
+        String query="{\"operationName\": \"ChannelVideoCore\",\"variables\": {\"videoID\": \""+id+"\"},\"extensions\": {\"persistedQuery\": {\"version\": 1,\"sha256Hash\": \"ce114698319f9fa4a1e375ab0dfb65304c9db244ef440bf530b1414d79e7e9f2\"}}}\n";
+        try{
+            CloseableHttpClient httpClient=HttpClients.createDefault();
+            HttpPost httppost=new HttpPost(GQL);
+            httppost.addHeader(CT,UTF8_CT);
+            httppost.addHeader(CI,WEB_CI);
+            StringEntity sE=new StringEntity(query);
+            httppost.setEntity(sE);
+            CloseableHttpResponse httpResponse=httpClient.execute(httppost);
+            if(httpResponse.getStatusLine().getStatusCode()==HTTP_OK){
+                response+=getResponse(httpResponse);
+            }
+            httpResponse.close();
+            httpClient.close();
+        }
+        catch(Exception ignored){}
+        //Parse the JSON:
+        System.out.print(response);
+        response=response.replaceAll(",\"__typename\":\"[a-zA-Z]*\"", "");
+        JSONObject jo=new JSONObject(response);
+        jo=jo.getJSONObject("data").getJSONObject("video").getJSONObject("owner");
+        VODInfo vodInfo=new VODInfo();
+        vodInfo.setVODID(id);
+        vodInfo.setName(jo.getString("login"));
+        vodInfo.setIDS(jo.getJSONObject("stream").getString("id"));
+        return vodInfo;
     }
 }
