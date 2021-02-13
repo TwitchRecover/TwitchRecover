@@ -115,10 +115,28 @@ public class VideoAPI {
      * @param VODID         String value representing the video ID to query.
      * @return VideoType    VideoType enum which represents the broadcast type of the Twitch video in question.
      */
-    public static VideoType getVideoType(long VODID){
-        String videoType="";
-        //TODO: Insert GQL API Query.
-        return VideoType.getVideoType(videoType);
+    public static VideoType getVideoType(long VODID, String name){
+        String response="";
+        String query="{\"operationName\":\"VideoMetadata\",\"variables\":{\"channelLogin\":\""+name+"\",\"videoID\":\""+VODID+"\", \"broadcastType\":\"\"},\"extensions\":{\"persistedQuery\":{\"version\":1,\"sha256Hash\":\"226edb3e692509f727fd56821f5653c05740242c82b0388883e0c0e75dcbf687\"}}}";
+        try{
+            CloseableHttpClient httpClient=HttpClients.createDefault();
+            HttpPost httppost=new HttpPost(GQL);
+            httppost.addHeader(CT, UTF8_CT);
+            httppost.addHeader(CI, WEB_CI);
+            StringEntity sE=new StringEntity(query);
+            httppost.setEntity(sE);
+            CloseableHttpResponse httpResponse=httpClient.execute(httppost);
+            if(httpResponse.getStatusLine().getStatusCode()==HTTP_OK){
+                response+=getResponse(httpResponse);
+            }
+            httpResponse.close();
+            httpClient.close();
+        }
+        catch(Exception ignored){}
+        //Parse the JSON:
+        response=response.replaceAll(",\"__typename\":\"Video\"", "");
+        JSONObject jo=new JSONObject(response);
+        return VideoType.getVideoType(jo.getJSONObject("data").getJSONObject("video").getString("broadcastType"));
     }
 
     /**
