@@ -92,7 +92,7 @@ public class MassDownload {
         vod.setFP(fp);
         vod.retrieveID(url);
         String feed=vod.getFeed(1);
-        vod.downloadVOD(fe, feed);
+        //vod.downloadVOD(fe, feed);
     }
 
     /**

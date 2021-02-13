@@ -65,7 +65,7 @@ public class VOD {
      * @param fe    FileExtension enum representing the desired output file extension.
      * @param feed  String value representing the desired feed to download.
      */
-    public void downloadVOD(FileExtension fe, String feed){
+    public void downloadVOD(FileExtension fe, String feed, long VODID){
         computeFN();
         if(vodInfo.getName()==null){
             getVODFeeds();
@@ -75,6 +75,12 @@ public class VOD {
             retrieveVODFeeds();
         }
         fFP=fp+fn+fe.getFE();
+        if(fe==FileExtension.MP4){
+            String mp4URL=VideoAPI.getMP4URL(VODID);
+            if(!mp4URL.equals("")){
+                feed=mp4URL;
+            }
+        }
         try {
             Download.m3u8Download(feed, fFP);
         }
@@ -191,6 +197,14 @@ public class VOD {
      */
     public ArrayList<String> getRetrievedURLs(){
         return retrievedURLs;
+    }
+
+    /**
+     * Accessor for the vodInfo object.
+     * @return VODInfo      VODInfo object containing the information of the VOD.
+     */
+    public VODInfo getVodInfo(){
+        return vodInfo;
     }
 
     /**

@@ -77,7 +77,7 @@ public class VODHandler {
         );
         vod.setFP(CLIHandler.sc.next());
         System.out.print("\nDownloading...");
-        vod.downloadVOD(fe, feeds.getFeed(quality-1));
+        vod.downloadVOD(fe, feeds.getFeed(quality-1), vod.getVodInfo().getID());
         System.out.print("\nFile downloaded at: " + vod.getFFP());
     }
 
