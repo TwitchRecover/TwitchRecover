@@ -179,29 +179,13 @@ public class API {
      * String[2]: 0: Token; 1: Signature.
      */
     protected static String[] getToken(String id, boolean isVOD){
-        String json;
         String response="";
         if(isVOD){
-            json="{\"operationName\": \"PlaybackAccessToken\",\"variables\": {\"isLive\": false,\"login\": \"\",\"isVod\": true,\"vodID\": \"" + id + "\",\"playerType\": \"channel_home_live\"},\"extensions\": {\"persistedQuery\": {\"version\": 1,\"sha256Hash\": \"0828119ded1c13477966434e15800ff57ddacf13ba1911c129dc2200705b0712\"}}}";
+            response=gqlGet("{\"operationName\": \"PlaybackAccessToken\",\"variables\": {\"isLive\": false,\"login\": \"\",\"isVod\": true,\"vodID\": \"" + id + "\",\"playerType\": \"channel_home_live\"},\"extensions\": {\"persistedQuery\": {\"version\": 1,\"sha256Hash\": \"0828119ded1c13477966434e15800ff57ddacf13ba1911c129dc2200705b0712\"}}}");
         }
         else{
-            json="{\"operationName\": \"PlaybackAccessToken\",\"variables\": {\"isLive\": true,\"login\": \""+id+"\",\"isVod\": false,\"vodID\": \"\",\"playerType\": \"channel_home_live\"},\"extensions\": {\"persistedQuery\": {\"version\": 1,\"sha256Hash\": \"0828119ded1c13477966434e15800ff57ddacf13ba1911c129dc2200705b0712\"}}}";
+            response=gqlGet("{\"operationName\": \"PlaybackAccessToken\",\"variables\": {\"isLive\": true,\"login\": \""+id+"\",\"isVod\": false,\"vodID\": \"\",\"playerType\": \"channel_home_live\"},\"extensions\": {\"persistedQuery\": {\"version\": 1,\"sha256Hash\": \"0828119ded1c13477966434e15800ff57ddacf13ba1911c129dc2200705b0712\"}}}");
         }
-        try{
-            CloseableHttpClient httpClient=HttpClients.createDefault();
-            HttpPost httppost=new HttpPost(GQL);
-            httppost.addHeader(CT, UTF8_CT);
-            httppost.addHeader(CI, WEB_CI);
-            StringEntity sE=new StringEntity(json);
-            httppost.setEntity(sE);
-            CloseableHttpResponse httpResponse=httpClient.execute(httppost);
-            if(httpResponse.getStatusLine().getStatusCode()==HTTP_OK){
-                response=getResponse(httpResponse);
-            }
-            httpResponse.close();
-            httpClient.close();
-        }
-        catch(Exception ignored){}
         return parseToken(response, isVOD);
     }
 
@@ -260,6 +244,33 @@ public class API {
             response+=line;
         }
         br.close();
+        return response;
+    }
+
+    /**
+     * This function performs a query to the
+     * GQL API and returns the response
+     * (with typename values removed).
+     * @param query     String value representing the API query to perform.
+     * @return String   String value containing the API response (excluding '__typename' values).
+     */
+    protected static String gqlGet(String query){
+        String response="";
+        try{
+            CloseableHttpClient httpClient=HttpClients.createDefault();
+            HttpPost httpPost=new HttpPost(GQL);
+            httpPost.addHeader(CI,WEB_CI);
+            StringEntity stringEntity=new StringEntity(query);
+            httpPost.setEntity(stringEntity);
+            CloseableHttpResponse httpResponse=httpClient.execute(httpPost);
+            if(httpResponse.getStatusLine().getStatusCode()==HTTP_OK){
+                response+=getResponse(httpResponse);
+            }
+            httpResponse.close();
+            httpClient.close();
+        }
+        catch(Exception ignored){}
+        response=response.replaceAll(",\"__typename\":\"[a-zA-Z]*\"", "");
         return response;
     }
 }

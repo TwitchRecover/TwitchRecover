@@ -117,25 +117,8 @@ public class VideoAPI {
      * @return VideoType    VideoType enum which represents the broadcast type of the Twitch video in question.
      */
     public static VideoType getVideoType(long VODID, String name){
-        String response="";
-        String query="{\"operationName\":\"VideoMetadata\",\"variables\":{\"channelLogin\":\""+name+"\",\"videoID\":\""+VODID+"\", \"broadcastType\":\"\"},\"extensions\":{\"persistedQuery\":{\"version\":1,\"sha256Hash\":\"226edb3e692509f727fd56821f5653c05740242c82b0388883e0c0e75dcbf687\"}}}";
-        try{
-            CloseableHttpClient httpClient=HttpClients.createDefault();
-            HttpPost httppost=new HttpPost(GQL);
-            httppost.addHeader(CT, UTF8_CT);
-            httppost.addHeader(CI, WEB_CI);
-            StringEntity sE=new StringEntity(query);
-            httppost.setEntity(sE);
-            CloseableHttpResponse httpResponse=httpClient.execute(httppost);
-            if(httpResponse.getStatusLine().getStatusCode()==HTTP_OK){
-                response+=getResponse(httpResponse);
-            }
-            httpResponse.close();
-            httpClient.close();
-        }
-        catch(Exception ignored){}
+        String response=gqlGet("{\"operationName\":\"VideoMetadata\",\"variables\":{\"channelLogin\":\""+name+"\",\"videoID\":\""+VODID+"\", \"broadcastType\":\"\"},\"extensions\":{\"persistedQuery\":{\"version\":1,\"sha256Hash\":\"226edb3e692509f727fd56821f5653c05740242c82b0388883e0c0e75dcbf687\"}}}");
         //Parse the JSON:
-        response=response.replaceAll(",\"__typename\":\"Video\"", "");
         JSONObject jo=new JSONObject(response);
         return VideoType.getVideoType(jo.getJSONObject("data").getJSONObject("video").getString("broadcastType"));
     }
@@ -148,24 +131,7 @@ public class VideoAPI {
      * @return String   String value representing the MP4 URL if it exists or a blank string if it does not exist.
      */
     public static String getMP4URL(long ID){
-        String response="";
-        String query="{\"operationName\":\"VideoManager_VideoDownload\",\"variables\":{\"videoID\":\""+ID+"\", \"broadcastType\":\"\"},\"extensions\":{\"persistedQuery\":{\"version\":1,\"sha256Hash\":\"dc73ae4ca87da62676a42a61866bbe725b41e8859077f438b8718e2083b6db3c\"}}}";
-        //Retrieve the MP4 download URL if there is one.
-        try{
-            CloseableHttpClient httpClient=HttpClients.createDefault();
-            HttpPost httppost=new HttpPost(GQL);
-            httppost.addHeader(CT, UTF8_CT);
-            httppost.addHeader(CI, WEB_CI);
-            StringEntity sE=new StringEntity(query);
-            httppost.setEntity(sE);
-            CloseableHttpResponse httpResponse=httpClient.execute(httppost);
-            if(httpResponse.getStatusLine().getStatusCode()==HTTP_OK){
-                response=getResponse(httpResponse);
-            }
-            httpResponse.close();
-            httpClient.close();
-        }
-        catch(Exception ignored){}
+        String response=API.gqlGet("{\"operationName\":\"VideoManager_VideoDownload\",\"variables\":{\"videoID\":\""+ID+"\", \"broadcastType\":\"\"},\"extensions\":{\"persistedQuery\":{\"version\":1,\"sha256Hash\":\"dc73ae4ca87da62676a42a61866bbe725b41e8859077f438b8718e2083b6db3c\"}}}");
         //Parse the JSON:
         JSONObject jo=new JSONObject(response);
         return jo.getJSONObject("data").getJSONObject("video").getJSONObject("download").getString("url");
@@ -178,26 +144,8 @@ public class VideoAPI {
      * @return VODInfo      VODInfo object which contains the VOD ID, stream ID and the channel name.
      */
     public static VODInfo getInfo(long id){
-        String response="";
-        String query="{\"operationName\": \"ChannelVideoCore\",\"variables\": {\"videoID\": \""+id+"\"},\"extensions\": {\"persistedQuery\": {\"version\": 1,\"sha256Hash\": \"ce114698319f9fa4a1e375ab0dfb65304c9db244ef440bf530b1414d79e7e9f2\"}}}\n";
-        try{
-            CloseableHttpClient httpClient=HttpClients.createDefault();
-            HttpPost httppost=new HttpPost(GQL);
-            httppost.addHeader(CT,UTF8_CT);
-            httppost.addHeader(CI,WEB_CI);
-            StringEntity sE=new StringEntity(query);
-            httppost.setEntity(sE);
-            CloseableHttpResponse httpResponse=httpClient.execute(httppost);
-            if(httpResponse.getStatusLine().getStatusCode()==HTTP_OK){
-                response+=getResponse(httpResponse);
-            }
-            httpResponse.close();
-            httpClient.close();
-        }
-        catch(Exception ignored){}
+        String response=API.gqlGet("{\\\"operationName\\\": \\\"ChannelVideoCore\\\",\\\"variables\\\": {\\\"videoID\\\": \\\"\"+id+\"\\\"},\\\"extensions\\\": {\\\"persistedQuery\\\": {\\\"version\\\": 1,\\\"sha256Hash\\\": \\\"ce114698319f9fa4a1e375ab0dfb65304c9db244ef440bf530b1414d79e7e9f2\\\"}}}");
         //Parse the JSON:
-        System.out.print(response);
-        response=response.replaceAll(",\"__typename\":\"[a-zA-Z]*\"", "");
         JSONObject jo=new JSONObject(response);
         jo=jo.getJSONObject("data").getJSONObject("video").getJSONObject("owner");
         VODInfo vodInfo=new VODInfo();
