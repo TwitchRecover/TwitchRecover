@@ -23,7 +23,6 @@
 | ------------- | ------------- | ------------- | ------------- |------------- |
 | GUI  | ❌  | ❌  | ✔  | ✔  |
 | Get live stream feeds  | ❌  | ✔  | ✔  | ✔  |
-| Get sub-only live stream feeds  | ❌  | ❌  | ✔  | ✔  |
 | Download live stream  | ❌  | ❌  | ✔  | ✔  |
 | Get VOD feeds  | ✔  | ✔  | ✔  | ✔  |
 | Download VOD  | ❌  | ✔  | ✔  | ✔  |
