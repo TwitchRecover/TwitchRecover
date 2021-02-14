@@ -21,6 +21,7 @@ import TwitchRecover.Core.API.VideoAPI;
 import TwitchRecover.Core.Downloader.Download;
 import TwitchRecover.Core.Enums.ContentType;
 import TwitchRecover.Core.Enums.FileExtension;
+import TwitchRecover.Core.Enums.VideoType;
 
 import java.util.ArrayList;
 import java.util.regex.Matcher;
@@ -154,7 +155,7 @@ public class Highlights {
     public Feeds getHighlightFeeds(){
         feeds=VideoAPI.getVODFeeds(highlightID);
         if(feeds.getFeeds().isEmpty()){
-            feeds=VideoAPI.getSubVODFeeds(highlightID, true);
+            feeds=VideoAPI.getSubVODFeeds(highlightID, VideoType.HIGHLIGHT);
         }
         return feeds;
     }

@@ -60,42 +60,64 @@ public class VideoAPI {
      * @param VODID     Long value representing the VOD ID to retrieve the feeds for.
      * @return Feeds    Feeds object holding all of the feed URLs and their respective qualities.
      */
-    public static Feeds getSubVODFeeds(long VODID, Boolean highlight){
+    public static Feeds getSubVODFeeds(long VODID, VideoType vt){
         Feeds feeds=new Feeds();
-        //Get the JSON response of the VOD:
-        String response="";
-        try{
-            CloseableHttpClient httpClient= HttpClients.createDefault();
-            HttpGet httpget=new HttpGet(API_D+"/kraken/videos/"+VODID);
-            httpget.addHeader(ACCEPT, TWITCH_ACCEPT);
-            httpget.addHeader(CI, WEB_CI);
-            CloseableHttpResponse httpResponse=httpClient.execute(httpget);
-            if(httpResponse.getStatusLine().getStatusCode()==HTTP_OK){
-                response=getResponse(httpResponse);
-            }
-            httpResponse.close();
-            httpClient.close();
-        }
-        catch (Exception ignored){}
-        //Parse the JSON response:
+        String response=getKraken(VODID);
         JSONObject jO=new JSONObject(response);
-        String baseURL= Compute.singleRegex("https:\\/\\/[a-z0-9]*.cloudfront.net\\/([a-z0-9_]*)\\/storyboards\\/[0-9]*-info.json",jO.getString("seek_previews_url").toLowerCase());
+        String baseURL="";
+        if(vt!=VideoType.UPLOAD){
+            baseURL=Compute.singleRegex("https:\\/\\/[a-z0-9]*.cloudfront.net\\/([a-z0-9_]*)\\/storyboards\\/[0-9]*-info.json",jO.getString("seek_previews_url").toLowerCase());
+        }
+        else{
+            baseURL=Compute.singleRegex("https:\\/\\/[a-z0-9]*.cloudfront.net\\/([a-z]*\\/[0-9]*\\/[a-z0-9_-]*)\\/storyboards\\/[0-9]*-info.json",jO.getString("seek_previews_url").toLowerCase());
+        }
         String token=getVODToken(VODID)[0];
         JSONObject jo = new JSONObject(token);
         JSONArray restricted = jo.getJSONObject("chansub").getJSONArray("restricted_bitrates");
-        if(highlight){
+        if(vt==VideoType.HIGHLIGHT){
             String domain=Compute.singleRegex("(https:\\/\\/[a-z0-9\\-]*.[a-z_]*.[net||com||tv]*\\/[a-z0-9_]*\\/)chunked\\/highlight-[0-9]*.m3u8", Fuzz.verifyURL("/"+baseURL+"/chunked/highlight-"+VODID+".m3u8").get(0).toLowerCase());
             for(int i=0;i<restricted.length();i++){
                 feeds.addEntry(domain+restricted.get(i).toString()+"/highlight-"+VODID+FileExtension.M3U8.getFE(), Quality.getQualityV(restricted.get(i).toString()));
             }
         }
-        else {
+        else if(vt==VideoType.ARCHIVE) {
             String domain = Compute.singleRegex("(https:\\/\\/[a-z0-9\\-]*.[a-z_]*.[net||com||tv]*\\/[a-z0-9_]*\\/)chunked\\/index-dvr.m3u8", Fuzz.verifyURL("/"+baseURL + "/chunked/index-dvr.m3u8").get(0).toLowerCase());
             for(int i = 0; i < restricted.length(); i++) {
                 feeds.addEntry(domain + restricted.get(i).toString() + "/index-dvr" + FileExtension.M3U8.getFE(), Quality.getQualityV(restricted.get(i).toString()));
             }
         }
+        else if(vt==VideoType.UPLOAD){
+            String domain = Compute.singleRegex("(https:\\/\\/[a-z0-9\\-]*.[a-z_]*.[net||com||tv]*\\/[a-z]*\\/[0-9]*\\/[a-z0-9_-]*\\/)audio_only\\/index-dvr.m3u8", Fuzz.verifyURL("/"+baseURL + "/audio_only/index-dvr.m3u8").get(0).toLowerCase());
+            for(int i = 0; i < restricted.length(); i++) {
+                feeds.addEntry(domain + restricted.get(i).toString() + "/index-dvr" + FileExtension.M3U8.getFE(), Quality.getQualityV(restricted.get(i).toString()));
+            }
+        }
         return feeds;
+    }
+
+    /**
+     * This function performs the API
+     * query for the videos endpoints
+     * for Twitch's Kraken API.
+     * @param VODID     Long value representing the VOD ID.
+     * @return String   API query response.
+     */
+    public static String getKraken(long VODID){
+        String response="";
+        try{
+            CloseableHttpClient httpClient= HttpClients.createDefault();
+            HttpGet httpGet=new HttpGet(API_D+"/kraken/videos/"+VODID);
+            httpGet.addHeader(ACCEPT, TWITCH_ACCEPT);
+            httpGet.addHeader(CI, WEB_CI);
+            CloseableHttpResponse httpResponse=httpClient.execute(httpGet);
+            if(httpResponse.getStatusLine().getStatusCode()==HTTP_OK){
+                response+=getResponse(httpResponse);
+            }
+            httpResponse.close();
+            httpClient.close();
+        }
+        catch (Exception ignored){}
+        return response;
     }
 
     /**
@@ -144,14 +166,13 @@ public class VideoAPI {
      * @return VODInfo      VODInfo object which contains the VOD ID, stream ID and the channel name.
      */
     public static VODInfo getInfo(long id){
-        String response=API.gqlGet("{\\\"operationName\\\": \\\"ChannelVideoCore\\\",\\\"variables\\\": {\\\"videoID\\\": \\\"\"+id+\"\\\"},\\\"extensions\\\": {\\\"persistedQuery\\\": {\\\"version\\\": 1,\\\"sha256Hash\\\": \\\"ce114698319f9fa4a1e375ab0dfb65304c9db244ef440bf530b1414d79e7e9f2\\\"}}}");
+        String response=API.gqlGet("{\"operationName\": \"ChannelVideoCore\",\"variables\": {\"videoID\": \""+id+"\"},\"extensions\": {\"persistedQuery\": {\"version\": 1,\"sha256Hash\": \"ce114698319f9fa4a1e375ab0dfb65304c9db244ef440bf530b1414d79e7e9f2\"}}}");
         //Parse the JSON:
         JSONObject jo=new JSONObject(response);
         jo=jo.getJSONObject("data").getJSONObject("video").getJSONObject("owner");
         VODInfo vodInfo=new VODInfo();
         vodInfo.setVODID(id);
         vodInfo.setName(jo.getString("login"));
-        vodInfo.setIDS(jo.getJSONObject("stream").getString("id"));
         return vodInfo;
     }
 }

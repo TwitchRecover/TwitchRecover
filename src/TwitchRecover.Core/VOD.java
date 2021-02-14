@@ -21,6 +21,7 @@ import TwitchRecover.Core.API.VideoAPI;
 import TwitchRecover.Core.Downloader.Download;
 import TwitchRecover.Core.Enums.ContentType;
 import TwitchRecover.Core.Enums.FileExtension;
+import TwitchRecover.Core.Enums.VideoType;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -155,7 +156,7 @@ public class VOD {
     public Feeds getVODFeeds(){
         feeds=VideoAPI.getVODFeeds(VODID);
         if(feeds.getFeeds().isEmpty()){
-            feeds= VideoAPI.getSubVODFeeds(VODID, false);
+            feeds=VideoAPI.getSubVODFeeds(VODID, VideoAPI.getVideoType(VODID,VideoAPI.getInfo(VODID).getName()));
         }
         return feeds;
     }

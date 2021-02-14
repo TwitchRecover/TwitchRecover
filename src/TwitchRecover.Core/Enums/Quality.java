@@ -93,9 +93,17 @@ public enum Quality {
      * @return Quality  Quality enum which matches the inputted string video value, or null if none were found.
      */
     public static Quality getQualityV(String qual){
-        for(Quality quality: Quality.values()){
-            if(quality.video.equals(qual)){
-                return quality;
+        if(qual.equals("1080p60")){
+            return FHD60;
+        }
+        else if(qual.equals("1080p30")){
+            return FHD;
+        }
+        else{
+            for(Quality quality: Quality.values()){
+                if(quality.video.equals(qual)){
+                    return quality;
+                }
             }
         }
         return null;
