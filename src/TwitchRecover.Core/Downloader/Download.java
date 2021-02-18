@@ -122,6 +122,7 @@ public class Download {
                             break;
                         }
                         catch(Exception ignored) {}
+                        currentTries++;
                     }
                 }
             });
