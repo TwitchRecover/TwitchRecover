@@ -92,10 +92,10 @@ public class ClipHandler {
      */
     private boolean checkClipURL(String url){
         if(url.contains("clips.twitch.tv")){
-            return checkURLType("(clips.twitch.tv/[a-zA-Z]*)", url);
+            return checkURLType("(clips.twitch.tv/[a-zA-Z0-9-_]*)", url);
         }
         else if(url.contains("twitch.tv/clips")){
-            return checkURLType("(twitch.tv/clips/[a-zA-Z]*)", url);
+            return checkURLType("(twitch.tv/clips/[a-zA-Z0-9-_]*)", url);
         }
         else if(url.contains("clips-media-assets2.twitch.tv")){
             return checkURLType("(clips-media-assets2.twitch.tv\\/[0-9]*-offset-[0-9]*.mp4)", url);
