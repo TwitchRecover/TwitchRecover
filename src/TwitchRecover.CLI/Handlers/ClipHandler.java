@@ -97,6 +97,9 @@ public class ClipHandler {
         else if(url.contains("twitch.tv/clips")){
             return checkURLType("(twitch.tv/clips/[a-zA-Z0-9-_]*)", url);
         }
+        else if(url.contains("twitch.tv/")){
+            return checkURLType("(twitch.tv/[a-zA-Z0-9-_]*/clips/[a-zA-Z0-9-_]*)", url);
+        }
         else if(url.contains("clips-media-assets2.twitch.tv")){
             return checkURLType("(clips-media-assets2.twitch.tv\\/[0-9]*-offset-[0-9]*.mp4)", url);
         }

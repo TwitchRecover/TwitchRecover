@@ -136,6 +136,9 @@ public class Clips {
         else if(url.contains("twitch.tv/clips")){
             return Compute.singleRegex("twitch.tv/clips/([a-zA-Z0-9-_]*)", url);
         }
+        else if(url.contains("twitch.tv/")){
+            return Compute.singleRegex("twitch.tv/[a-zA-Z0-9-_]*/clips/(a-zA-Z0-9-_]*)", url);
+        }
         else{
             return url;
         }
