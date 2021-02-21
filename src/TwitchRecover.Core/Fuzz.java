@@ -37,18 +37,18 @@ public class Fuzz {
      * This is the core method for fuzzing all of the
      * clips of a particular stream.
      * @param streamID Long value which represents the stream ID for which clips should be fuzzed for.
-     * @param duration Long value which represents the duration of the stream.
+     * @param start    Integer value representing the fuzzing start value.
+     * @param end      Integer value representing the fuzzing end value.
      * @param wfuzz    Boolean which represents whether Wfuzz is installed and should be used or not.
      * @return ArrayList<String>    String arraylist which holds all of the results of clips.
      */
-    public static ArrayList<String> fuzz(long streamID, long duration, boolean wfuzz) {
+    public static ArrayList<String> fuzz(long streamID, int start, int end, boolean wfuzz) {
         ArrayList<String> results = new ArrayList<String>();
-        int reps = (((int) duration) * 60) + 2000;
         if(wfuzz) {
-            results = wfuzz(streamID, reps);
+            results = wfuzz(streamID, start, end);
         }
         else {
-            results = jFuzz(streamID, reps);
+            results = jFuzz(streamID, start, end);
         }
         return results;
     }
@@ -56,12 +56,13 @@ public class Fuzz {
     /**
      * Method which utlises Wfuzz for fuzzing clips from a stream.
      * @param streamID Long value which represents the stream ID for which clips should be fuzzed for.
-     * @param reps     Integer value which represents the maximum range for a particular stream.
+     * @param start    Integer value representing the start value of the fuzzing.
+     * @param end      Integer value representing the end value of the fuzzing.
      * @return ArrayList<String>    String arraylist which holds all of the results of clips.
      */
-    private static ArrayList<String> wfuzz(long streamID, int reps) {
+    private static ArrayList<String> wfuzz(long streamID, int start, int end) {
         ArrayList<String> fuzzRes = new ArrayList<String>();
-        String command = "wfuzz -o csv -z range,0-" + reps + " --hc 404 https://clips-media-assets2.twitch.tv/" + streamID + "-offset-FUZZ.mp4";
+        String command = "wfuzz -o csv -z range,"+start+"-" + end + " --hc 404 https://clips-media-assets2.twitch.tv/" + streamID + "-offset-FUZZ.mp4";
         try {
             Process process = Runtime.getRuntime().exec(command);
             BufferedReader br = new BufferedReader(new InputStreamReader(process.getInputStream()));
@@ -74,7 +75,7 @@ public class Fuzz {
                 if(atResults) {
                     Matcher wm = wp.matcher(line);
                     if(wm.find()) {
-                        if(Integer.valueOf(wm.group(1)) % 900 == 0 && true) {   //TODO: Fix the CLI boolean usage.
+                        if(Integer.parseInt(wm.group(1)) % 900 == 0 && true) {   //TODO: Fix the CLI boolean usage.
                             quarters++;
                             if(found==1){
                                 System.out.print("\n" + (quarters / 4) + " hours into the VOD. " + found + " clip found so far. Continuing to find clips...");
@@ -105,13 +106,14 @@ public class Fuzz {
      * clips from a given stream.
      * NOTICE: Extremely slow.
      * @param streamID Long value which represents the stream ID for which clips should be fuzzed for.
-     * @param reps     Integer value which represents the maximum range for a particular stream.
+     * @param start    Integer value representing the start fuzzing value.
+     * @param end      Integer value representing the end fuzzing value.
      * @return ArrayList<String>    String arraylist which holds all of the results of clips.
      */
-    private static ArrayList<String> jFuzz(long streamID, int reps) {
+    private static ArrayList<String> jFuzz(long streamID, int start, int end) {
         ArrayList<String> jfuzzRes = new ArrayList<String>();
         String baseURL = "https://clips-media-assets2.twitch.tv/" + streamID + "-offset-";
-        for(int i = 0; i < reps; i++) {
+        for(int i = start; i < end; i++) {
             String clip = baseURL + i + ".mp4";
             try {
                 new URL(clip).openStream();

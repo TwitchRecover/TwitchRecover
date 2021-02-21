@@ -47,6 +47,8 @@ public class Clips {
     private String fn;                  //String value representing the file name of the downloaded clip.
     private ArrayList<String> results;  //String arraylist containing all of the fuzz results;
     private String fFP;                 //String value which represents the final file path of the downloaded object.
+    private Integer fuzzStart;          //Integer value representing a custom fuzzing start time. If it is null, the start will be 0.
+    private Integer fuzzEnd;            //Integer value representing a custom fuzzing end time. If it is null, it will be set to the stream duration.
 
     /**
      * The constructor of a
@@ -87,7 +89,13 @@ public class Clips {
      * stream (fuzzing the possibilities).
      */
     public void recover(){
-        results=Fuzz.fuzz(streamID, duration, wfuzz);
+        if(fuzzEnd==null){
+            fuzzEnd=(((int) duration) * 60) + 2000;
+        }
+        if(fuzzStart==null){
+            fuzzStart=0;
+        }
+        results=Fuzz.fuzz(streamID, fuzzStart, fuzzEnd, wfuzz);
     }
 
     /**
@@ -227,6 +235,22 @@ public class Clips {
      */
     public void setSlug(String url){
         slug=parseSlug(url);
+    }
+
+    /**
+     * Mutator for the fuzzStart variable.
+     * @param start     Integer value representing a custom fuzzing start time.
+     */
+    public void setFuzzStart(int start){
+        fuzzStart=start;
+    }
+
+    /**
+     * Mutator for the fuzzEnd variable.
+     * @param end   Integer value representing a custom fuzzing end time.
+     */
+    public void setFuzzEnd(int end){
+        fuzzEnd=end;
     }
 
     /**
