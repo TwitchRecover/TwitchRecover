@@ -134,7 +134,7 @@ public class Fuzz {
         ArrayList<String> domains=new ArrayList<String>();
         boolean added=false;
         try {
-            URL dURL=new URL("https://raw.githubusercontent.com/TwitchRecover/TwitchRecover/main/domains.txt");
+            URL dURL=new URL("https://raw.githubusercontent.com/TwitchRecover/TwitchRecover/master/domains.txt");
             HttpURLConnection con=(HttpURLConnection) dURL.openConnection();
             con.setRequestMethod("GET");
             con.setRequestProperty("User-Agent", "Mozilla/5.0");
