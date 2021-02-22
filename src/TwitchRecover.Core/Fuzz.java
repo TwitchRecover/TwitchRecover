@@ -17,6 +17,7 @@
 
 package TwitchRecover.Core;
 
+import TwitchRecover.Core.Enums.BruteForce;
 import TwitchRecover.Core.Enums.Quality;
 
 import java.io.BufferedReader;
@@ -190,18 +191,29 @@ public class Fuzz {
      * up to the minute.
      * @param name                  String value which represents the streamer's name.
      * @param streamID              Long value representing the stream ID.
-     * @param timestamp             Long value representing the UNIX timestamp of the minute in question.
+     * @param timestamp             Long value representing the UNIX timestamp of the minute or hour in question.
      * @return ArrayList<String>    String arraylist which represents the working
      * VOD M3U8 URLs.
      */
-    protected static ArrayList<String> BFURLs(String name, long streamID, long timestamp){
+    protected static ArrayList<String> BFURLs(String name, long streamID, long timestamp, BruteForce bf){
         ArrayList<String> results=new ArrayList<String>();
-        for(int i=0; i<60; i++){
-            String url=Compute.URLCompute(name, streamID, timestamp+i);
-            if(checkURL(url)){
-                ArrayList<String> vResults=verifyURL(url);
-                for(String u: vResults){
-                    results.add(u);
+        if(bf==BruteForce.Minute){
+            for(int i=0; i<60; i++){
+                String url=Compute.URLCompute(name, streamID, timestamp+i);
+                if(checkURL(url)){
+                    ArrayList<String> vResults=verifyURL(url);
+                    results.addAll(vResults);
+                }
+            }
+        }
+        else if(bf==BruteForce.Hour){
+            for(int j=0; j<60; j++){
+                for(int i=0; i<60; i++){
+                    String url=Compute.URLCompute(name, streamID, timestamp+j+i);
+                    if(checkURL(url)){
+                        ArrayList<String> vResults=verifyURL(url);
+                        results.addAll(vResults);
+                    }
                 }
             }
         }

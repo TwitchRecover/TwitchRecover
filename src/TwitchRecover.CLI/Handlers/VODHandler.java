@@ -21,6 +21,7 @@ import TwitchRecover.CLI.CLIHandler;
 import TwitchRecover.CLI.Enums.oType;
 import TwitchRecover.CLI.Enums.vType;
 import TwitchRecover.CLI.Prompts;
+import TwitchRecover.Core.Enums.BruteForce;
 import TwitchRecover.Core.Enums.FileExtension;
 import TwitchRecover.Core.Feeds;
 import TwitchRecover.Core.VOD;
@@ -94,7 +95,7 @@ public class VODHandler {
             System.out.print("\nPlease enter the stream analytics link (supports Twitch Tracker and Stream Charts): ");
             String url=CLIHandler.sc.next();
             vod.retrieveVODURL(url);
-            wf=false;
+            vod.setBF(BruteForce.None);
         }
         else{
             System.out.print("\nPlease enter the channel name: ");
@@ -103,11 +104,11 @@ public class VODHandler {
             vod.setStreamID(CLIHandler.sc.next());
             System.out.print("\nPlease enter whether or not you want to brute force to the minute ('y' for yes and 'n' for no): ");
             wf=CLIHandler.sc.next().equalsIgnoreCase("y");
-            vod.setBF(wf);
+            vod.setBF(BruteForce.None); //TODO: List all brute force options when the text prompts are redesigned and reorganised.
             System.out.print("\nPlease enter the start time of the stream: ");
             vod.setTimestamp(CLIHandler.sc.next()+" "+CLIHandler.sc.next());
         }
-        vod.retrieveVOD(wf);
+        vod.retrieveVOD();
         Feeds feeds=vod.retrieveVODFeeds();
         if(feeds==null){
             System.out.print(

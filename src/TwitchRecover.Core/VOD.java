@@ -19,6 +19,7 @@ package TwitchRecover.Core;
 
 import TwitchRecover.Core.API.VideoAPI;
 import TwitchRecover.Core.Downloader.Download;
+import TwitchRecover.Core.Enums.BruteForce;
 import TwitchRecover.Core.Enums.ContentType;
 import TwitchRecover.Core.Enums.FileExtension;
 import TwitchRecover.Core.Enums.VideoType;
@@ -70,7 +71,8 @@ public class VOD {
             getVODFeeds();
         }
         else{
-            retrieveVOD(false);
+            vodInfo.setBF(BruteForce.None);
+            retrieveVOD();
             retrieveVODFeeds();
         }
         fFP=fp+fn+fe.getFE();
@@ -110,16 +112,10 @@ public class VOD {
      * This method gets an arraylist
      * of chunked (source quality)
      * VOD feeds from given information.
-     * @param wr                    Boolean input representing whether or not to brute force a VOD's values.
      * @return ArrayList<String>    String arraylist containing all of the source VOD feeds.
      */
-    public ArrayList<String> retrieveVOD(boolean wr){
-        if(!wr){
-            retrievedURLs=VODRetrieval.retrieveVOD(vodInfo.getName(), vodInfo.getID(), vodInfo.getTS(), false);
-        }
-        else{
-            retrievedURLs=VODRetrieval.retrieveVOD(vodInfo.getName(), vodInfo.getID(), vodInfo.getTS(), vodInfo.getBF());
-        }
+    public ArrayList<String> retrieveVOD(){
+        retrievedURLs=VODRetrieval.retrieveVOD(vodInfo.getName(), vodInfo.getID(), vodInfo.getTS(), vodInfo.getBF());
         return retrievedURLs;
     }
 
@@ -266,9 +262,9 @@ public class VOD {
     /**
      * Mutator for the brute force
      * value of the vodInfo array.
-     * @param bf    Boolean value representing whether or not the VOD start timestamp is to the second or to the minute.
+     * @param bf    Brute force enum value which represents the brute force type to be applied to the VOD recovery.
      */
-    public void setBF(boolean bf){
+    public void setBF(BruteForce bf){
         vodInfo.setBF(bf);
     }
 

@@ -17,6 +17,8 @@
 
 package TwitchRecover.Core;
 
+import TwitchRecover.Core.Enums.BruteForce;
+
 /**
  * Object class which conatains
  * the VOD information.
@@ -26,7 +28,7 @@ public class VODInfo {
     private long streamID;          //Long value representing the stream ID.
     private String timestamp;       //String value representing the timestamp in YYYY-MM-DD HH:mm:ss format.
     private long unixTimestamp;     //Long value representing the UNIX timestamp.
-    private boolean bruteForce;     //Boolean value representing whether or not the last minute should be brute forced.
+    private BruteForce bruteForce;  //Brute force value which represents the type of brute force, if any, to be applied.
     private int duration;           //Integer value representing the duration of the stream in minutes.
     private long VODID;             //Long value representing the VOD ID of the VOD.
 
@@ -82,10 +84,10 @@ public class VODInfo {
 
     /**
      * Mutator for the brute force boolean.
-     * @param BF    Boolean value representing whether or not to brute force to the minute.
+     * @param bf    Brute force enum value representing the level of brute force applied.
      */
-    public void setBF(boolean BF){
-        bruteForce=BF;
+    public void setBF(BruteForce bf){
+        bruteForce=bf;
     }
 
     /**
@@ -143,9 +145,9 @@ public class VODInfo {
 
     /**
      * Accessor for the brute force boolean value.
-     * @return boolean  Boolean value for the brute force boolean.
+     * @return BruteForce  Brute Force enum value representing the extent of brute force to apply.
      */
-    public boolean getBF(){
+    public BruteForce getBF(){
         return bruteForce;
     }
 

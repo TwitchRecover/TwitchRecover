@@ -18,6 +18,7 @@
 package TwitchRecover.Core;
 
 import TwitchRecover.Core.Downloader.Download;
+import TwitchRecover.Core.Enums.BruteForce;
 
 import java.io.File;
 import java.io.IOException;
@@ -37,10 +38,10 @@ public class VODRetrieval {
      * @param bf                    Boolean value which represents whether a VOD brute force should be carried out.
      * @return ArrayList<String>    String arraylist which represents all of the working VOD M3U8 URLs.
      */
-    public static ArrayList<String> retrieveVOD(String name, long streamID, long timestamp, boolean bf){
+    public static ArrayList<String> retrieveVOD(String name, long streamID, long timestamp, BruteForce bf){
         ArrayList<String> results=new ArrayList<String>();
-        if(bf){
-            results=Fuzz.BFURLs(name, streamID, timestamp);
+        if(bf!=BruteForce.None){
+            results=Fuzz.BFURLs(name, streamID, timestamp, bf);
         }
         else{
             String url=Compute.URLCompute(name, streamID, timestamp);
