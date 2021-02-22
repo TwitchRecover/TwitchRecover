@@ -1,0 +1,9 @@
+# This file contains the Twitch website client ID which is required for certain API queries.
+# This file contains the Twitch website client ID and exists in order to allow for Twitch to change their website client ID without
+# breaking this program and requiring me to release an update which would be the case if the client ID was hardcoded in the program.
+#
+# Current main client ID (which is used by the program):
+kimne78kx3ncx6brgo4mv6wki5h1ko
+#
+# Backup client IDs (client IDs which Twitch use on their website but are not used until the main client ID stops being functional.
+b31o4btkqth5bzbvr9ub2ovr79umhh
