@@ -35,6 +35,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
@@ -47,7 +48,7 @@ import java.util.regex.Pattern;
 public class API {
     //Constants:
     protected static final String TWITCH_ACCEPT="application/vnd.twitchtv.v5+json";
-    protected static final String WEB_CI="kimne78kx3ncx6brgo4mv6wki5h1ko";
+    protected static String WEB_CI;
     protected static final String PERSONAL_CI="ohroxg880bxrq1izlrinohrz3k4vy6";     //DO NOT use this for your personal use. This is the client ID for Twitch Recover.
     protected static final String UTF8_CT="text/plain;charset=UTF-8";
     protected static final int HTTP_OK=200;
@@ -59,6 +60,46 @@ public class API {
     protected static final String USHER="https://usher.ttvnw.net";
     protected static final String GQL="https://gql.twitch.tv/gql";
     protected static final String API_D="https://api.twitch.tv";
+
+    /**
+     * This method retrieves the web client IDs from
+     * the dedicated file in the repo and then sets
+     * them to the WEB_CI variable if they are functional.
+     */
+    public static void retrieveWEBCI(){
+        boolean added=false;
+        try{
+            String response="";
+            ArrayList<String> responses=API.getReq("https://raw.githubusercontent.com/TwitchRecover/TwitchRecover/master/WEB_CI.txt");
+            for(String s: responses){
+                if(!s.startsWith("#")){
+                    if(testWEBCI(s)){
+                        added=true;
+                        return;
+                    }
+                }
+            }
+        }
+        catch(Exception ignored){}
+        finally{
+            if(!added){
+                WEB_CI="kimne78kx3ncx6brgo4mv6wki5h1ko";
+            }
+        }
+    }
+
+    /**
+     * This method tests if a web client ID is valid.
+     * @param web_ci    String value representing the web client ID to test.
+     * @return          Boolean value which is true if the client ID is functional and false if otherwise.
+     */
+    private static boolean testWEBCI(String web_ci){
+        WEB_CI=web_ci;
+        if(gqlGet("{\"operationName\":\"Core_Services_Spade_CurrentUser\",\"variables\":{},\"extensions\":{\"persistedQuery\":{\"version\":1,\"sha256Hash\":\"482be6fdcd0ff8e6a55192210e2ec6db8a67392f206021e81abe0347fc727ebe\"}}}")==null){
+            return false;
+        }
+        return true;
+    }
 
     /**
      * Method which parses the feeds from a given
