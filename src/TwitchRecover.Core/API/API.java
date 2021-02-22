@@ -62,46 +62,6 @@ public class API {
     protected static final String API_D="https://api.twitch.tv";
 
     /**
-     * This method retrieves the web client IDs from
-     * the dedicated file in the repo and then sets
-     * them to the WEB_CI variable if they are functional.
-     */
-    public static void retrieveWEBCI(){
-        boolean added=false;
-        try{
-            String response="";
-            ArrayList<String> responses=API.getReq("https://raw.githubusercontent.com/TwitchRecover/TwitchRecover/master/WEB_CI.txt");
-            for(String s: responses){
-                if(!s.startsWith("#")){
-                    if(testWEBCI(s)){
-                        added=true;
-                        return;
-                    }
-                }
-            }
-        }
-        catch(Exception ignored){}
-        finally{
-            if(!added){
-                WEB_CI="kimne78kx3ncx6brgo4mv6wki5h1ko";
-            }
-        }
-    }
-
-    /**
-     * This method tests if a web client ID is valid.
-     * @param web_ci    String value representing the web client ID to test.
-     * @return          Boolean value which is true if the client ID is functional and false if otherwise.
-     */
-    private static boolean testWEBCI(String web_ci){
-        WEB_CI=web_ci;
-        if(gqlGet("{\"operationName\":\"Core_Services_Spade_CurrentUser\",\"variables\":{},\"extensions\":{\"persistedQuery\":{\"version\":1,\"sha256Hash\":\"482be6fdcd0ff8e6a55192210e2ec6db8a67392f206021e81abe0347fc727ebe\"}}}")==null){
-            return false;
-        }
-        return true;
-    }
-
-    /**
      * Method which parses the feeds from a given
      * arraylist which includes all of the lines that
      * were read from the web query and creates and
@@ -145,7 +105,7 @@ public class API {
      * @param url                   String value representing the URL to perform the get request on.
      * @return ArrayList<String>    String arraylist holding the entire response from the get request, each line representing an entry.
      */
-    static ArrayList<String> getReq(String url){
+    public static ArrayList<String> getReq(String url){
         ArrayList<String> responseContents=new ArrayList<String>();
         try{
             CloseableHttpClient httpClient=HttpClients.createDefault();
@@ -295,7 +255,7 @@ public class API {
      * @param query     String value representing the API query to perform.
      * @return String   String value containing the API response (excluding '__typename' values).
      */
-    protected static String gqlGet(String query){
+    public static String gqlGet(String query){
         String response="";
         try{
             CloseableHttpClient httpClient=HttpClients.createDefault();
@@ -313,5 +273,13 @@ public class API {
         catch(Exception ignored){}
         response=response.replaceAll(",\"__typename\":\"[a-zA-Z]*\"", "");
         return response;
+    }
+
+    /**
+     * Mutator for the WEB_CI variable.
+     * @param web_ci    String value set
+     */
+    public static void setWEBCI(String web_ci){
+        WEB_CI=web_ci;
     }
 }

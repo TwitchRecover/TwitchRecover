@@ -34,6 +34,8 @@ import java.util.regex.Pattern;
  * core fuzzing method which is called to find a clip.
  */
 public class Fuzz {
+    private static ArrayList<String> domains;
+
     /**
      * This is the core method for fuzzing all of the
      * clips of a particular stream.
@@ -125,42 +127,7 @@ public class Fuzz {
         return jfuzzRes;
     }
 
-    /**
-     * This method gets all of the Twitch M3U8 VOD domains
-     * from the domains file of the Twitch Recover repository.
-     * @return ArrayList<String>    String arraylist representing all of the Twitch M3U8 VOD domains.
-     */
-    private static ArrayList<String> getDomains(){
-        ArrayList<String> domains=new ArrayList<String>();
-        boolean added=false;
-        try {
-            URL dURL=new URL("https://raw.githubusercontent.com/TwitchRecover/TwitchRecover/master/domains.txt");
-            HttpURLConnection con=(HttpURLConnection) dURL.openConnection();
-            con.setRequestMethod("GET");
-            con.setRequestProperty("User-Agent", "Mozilla/5.0");
-            if(con.getResponseCode()==HttpURLConnection.HTTP_OK){
-                BufferedReader br=new BufferedReader(new InputStreamReader(con.getInputStream()));
-                String line = null;
-                while((line=br.readLine()) !=null){
-                    String response=line.toString();
-                    domains.add(response);
-                    added=true;
-                }
-            }
-        }
-        catch(IOException ignored){}
-        finally{
-            if(!added){     //To execute if the domains from the domains file were not added as a backup.
-                domains.add("https://vod-secure.twitch.tv");
-                domains.add("https://vod-metro.twitch.tv");
-                domains.add("https://d2e2de1etea730.cloudfront.net");
-                domains.add("https://dqrpb9wgowsf5.cloudfront.net");
-                domains.add("https://ds0h3roq6wcgc.cloudfront.net");
-                domains.add("https://dqrpb9wgowsf5.cloudfront.net");
-            }
-        }
-        return domains;
-    }
+
 
     /**
      * Checks if a URL is up by querying it
@@ -228,7 +195,6 @@ public class Fuzz {
      * working VOD M3U8 URLs.
      */
     public static ArrayList<String> verifyURL(String url){
-        ArrayList<String> domains=getDomains();
         ArrayList<String> results=new ArrayList<String>();
         for(String d: domains){
             if(checkURL(d+url)){
@@ -254,5 +220,13 @@ public class Fuzz {
             }
         }
         return feeds;
+    }
+
+    /**
+     * Mutator for the domains arraylist.
+     * @param domainList
+     */
+    public static void setDomains(ArrayList<String> domainList){
+        domains=domainList;
     }
 }

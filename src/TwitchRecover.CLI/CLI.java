@@ -17,6 +17,8 @@
 
 package TwitchRecover.CLI;
 
+import TwitchRecover.Core.Boot;
+
 /**
  * CLI class which is the root of the CLI
  * version of Twitch Recover.
@@ -27,6 +29,7 @@ public class CLI {
      * @param args
      */
     public static void main(String[] args){
+        Boot.bootRunner();
         CLIHandler.main();
     }
 }
