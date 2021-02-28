@@ -122,7 +122,7 @@ public class VideoHandler {
         String fn=FileIO.computeFN(ContentType.Video, String.valueOf((int) (Math.random()*1000000)));
         FileExtension fe=CoreHandler.userFE();
         String fFP=fp+fn+fe.getFE();
-        System.out.print("\nDowloading...");
+        System.out.print("\nDownloading...");
         try {
             Download.m3u8Download(url, fFP);
         }
