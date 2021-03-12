@@ -104,7 +104,12 @@ public class VODHandler {
             vod.setStreamID(CLIHandler.sc.next());
             System.out.print("\nPlease enter whether or not you want to brute force to the minute ('y' for yes and 'n' for no): ");
             wf=CLIHandler.sc.next().equalsIgnoreCase("y");
-            vod.setBF(BruteForce.None); //TODO: List all brute force options when the text prompts are redesigned and reorganised.
+            if(wf){
+                vod.setBF(BruteForce.Minute);
+            }
+            else{
+                vod.setBF(BruteForce.None);
+            }
             System.out.print("\nPlease enter the start time of the stream: ");
             vod.setTimestamp(CLIHandler.sc.next()+" "+CLIHandler.sc.next());
         }

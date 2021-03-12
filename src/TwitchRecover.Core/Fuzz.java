@@ -167,9 +167,11 @@ public class Fuzz {
         if(bf==BruteForce.Minute){
             for(int i=0; i<60; i++){
                 String url=Compute.URLCompute(name, streamID, timestamp+i);
-                if(checkURL(url)){
-                    ArrayList<String> vResults=verifyURL(url);
-                    results.addAll(vResults);
+                for(int j=0; j<domains.size();j++){
+                    if(checkURL(domains.get(j)+url)){
+                        ArrayList<String> vResults=verifyURL(url);
+                        results.addAll(vResults);
+                    }
                 }
             }
         }
@@ -177,9 +179,11 @@ public class Fuzz {
             for(int j=0; j<60; j++){
                 for(int i=0; i<60; i++){
                     String url=Compute.URLCompute(name, streamID, timestamp+j+i);
-                    if(checkURL(url)){
-                        ArrayList<String> vResults=verifyURL(url);
-                        results.addAll(vResults);
+                    for(int k=0; k<domains.size();k++){
+                        if(checkURL(domains.get(k)+url)){
+                            ArrayList<String> vResults=verifyURL(url);
+                            results.addAll(vResults);
+                        }
                     }
                 }
             }
