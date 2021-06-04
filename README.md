@@ -119,13 +119,6 @@ Select option 2 and paste the link and you will get the VOD links.
 4. Input the timestamp in the same format but set the seconds value to 00.
     **'YYYY-MM-DD HH:mm:00'**
 
-## Contact:
-  
-Feel free to contact me anytime on either Discord, Twitch whispers or email.  
-For email, including any professional inquiries, please use this email address: [daylam@tayari.gg](mailto:daylam@tayari.gg)  
-   
-<img src="https://img.shields.io/badge/tayari 6113-%237289DA.svg?&style=for-the-badge&logo=discord&logoColor=white"/> <a href="mailto:daylam@tayari.gg"><img src="https://img.shields.io/badge/email-%238B89CC.svg?&style=for-the-badge&logo=protonmail&logoColor=white"/></a> <a href="https://twitch.tv/tayarics"><img src="https://img.shields.io/badge/TAYARICS-%239146FF.svg?&style=for-the-badge&logo=twitch&logoColor=white"/></a>
-
 ## Credits:
 - **[Daylam Tayari](https://github.com/daylamtayari): Developer of Twitch Recover.**  
 **Check out my Github to see my other projects, including Twitch related projects:**   **https://github.com/daylamtayari**  
