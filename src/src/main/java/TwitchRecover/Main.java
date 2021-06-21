@@ -15,13 +15,16 @@
  *  Twitch Recover repository: https://github.com/TwitchRecover/TwitchRecover
  */
 
-package TwitchRecover.CLI;
+package TwitchRecover;
+
+import TwitchRecover.CLI.CLIHandler;
+
 
 /**
  * CLI class which is the root of the CLI
  * version of Twitch Recover.
  */
-public class CLI {
+public class Main {
     /**
      * Core method of the CLI version of Twitch Recover.
      * @param args

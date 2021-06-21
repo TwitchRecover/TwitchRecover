@@ -43,7 +43,7 @@ public class CLIHandler {
     /**
      * Core method of the CLI handler.
      */
-    protected static void main(){
+    public static void main(){
         Prompts.alphaDisclaimer();
         System.out.print("\n"); //TODO: To remove for the final version.
         Prompts.welcome();
