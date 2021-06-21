@@ -27,5 +27,9 @@ jar {
 	manifest {
 		attributes 'Main-Class': 'TwitchRecover.Main'
 	}
+	exclude 'META-INF/**'
+	from {
+		configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+	}
 }
 
