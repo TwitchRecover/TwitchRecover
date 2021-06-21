@@ -1,6 +1,22 @@
+# gradle
+HELP.md
+.gradle
+build/
+!gradle/wrapper/gradle-wrapper.jar
+hs_*
+.syntastic*
+!**/src/main/**
+!**/src/test/**
+
+# intelliJ
+.idea
+*.iws
+*.iml
+*.ipr
+out/
+
 /bin/
 .classpath
 .project
 *.class
-/.idea/
 *.eml
