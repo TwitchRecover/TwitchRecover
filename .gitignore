@@ -4,3 +4,7 @@
 *.class
 /.idea/
 *.eml
+
+out/
+run.bat
+lib/
