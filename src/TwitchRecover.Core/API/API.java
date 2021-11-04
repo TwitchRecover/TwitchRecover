@@ -71,7 +71,11 @@ public class API {
                         Double fps = 0.000;
                         if(mF.find()) {
                             String vid = mF.group(1);
-                            fps = Double.parseDouble(vid.substring(vid.indexOf('p') + 1));
+                            // Handle resolutions like 720p w/o fps attribute like 720p30fps
+                            if (vid.indexOf('p') == vid.length() - 1)
+                                fps = 60.00;
+                            else
+                                fps = Double.parseDouble(vid.substring(vid.indexOf('p') + 1));
                         }
                         //Get the resolution of the source resolution.
                         String pattern = "#EXT-X-STREAM-INF:BANDWIDTH=\\d*,RESOLUTION=(\\d*x\\d*),CODECS=\"[a-zA-Z0-9.]*,[a-zA-Z0-9.]*\",VIDEO=\"chunked\"";
