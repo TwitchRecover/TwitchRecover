@@ -139,7 +139,7 @@ public class Prompts {
      */
     protected static boolean goAgane(){
         System.out.print(
-                "\n\nDo you want to continue using the program/perform a new operation?"
+                "\nDo you want to continue using the program/perform a new operation?"
                 + "\nPlease enter 'y' for yes and 'n' for no: "
         );
         String response=CLIHandler.sc.next();
@@ -184,8 +184,7 @@ public class Prompts {
         System.out.print(
                   "\n\nThank you for using Twitch Recover!"
                 + "\nIf this tool was useful, please consider support me."
-                + "\nCheck out my projects - https://github.com/daylamtayari"
-                + "\nSupport me financially - https://paypal.me/daylamtayari https://cash.app/$daylamtayari BTC: 15KcKrsqW6DQdyZPrgRXXmsKkyyZzHAQVX"
+                + "\nCheck out my projects - https://github.com/daylamtayari\n"
         );
     }
 
