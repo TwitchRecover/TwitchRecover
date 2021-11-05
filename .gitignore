@@ -4,6 +4,7 @@
 *.class
 /.idea/
 *.eml
+scratch
 
 TwitchRecover.iml
 **/META-INF/**/*
@@ -18,3 +19,6 @@ tags
 
 # Ignore Gradle build output directory
 build
+
+# Ignore vim files
+*.vim
