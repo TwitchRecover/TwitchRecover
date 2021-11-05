@@ -39,64 +39,63 @@ import java.util.Scanner;
  * version of Twitch Recover.
  */
 public class CLIHandler {
-    public static Scanner sc=new Scanner(System.in);    //All scanners use this scanner. TODO: Find better way, or a scanner for each independent usage but this will have to do for the alpha.
+    // All scanners use this scanner.
+    // TODO:
+    // Find better way, or a scanner for each independent usage
+    // but this will have to do for the alpha.
+    public static Scanner sc=new Scanner(System.in);
     /**
      * Core method of the CLI handler.
      */
     protected static void main() {
-        Prompts.alphaDisclaimer();
-        System.out.print("\n"); //TODO: To remove for the final version.
-        Prompts.welcome();
-        int mOption=Prompts.menu();
-        boolean agane=true;
+        int menuOption=Prompts.menu();
         oType op;
         vType vt;
         //Call the coordinating handler object and set the vType enum variable.
-        if(mOption <= 2) {      //Stream:
-            StreamHandler sh = new StreamHandler(mOption);
+        if(menuOption <= 2) {      //Stream:
+            StreamHandler sh = new StreamHandler(menuOption);
             vt=vType.Stream;
         }
-        else if(mOption <= 5) {     //VOD:
-            VODHandler vh = new VODHandler(mOption);
+        else if(menuOption <= 5) {     //VOD:
+            VODHandler vh = new VODHandler(menuOption);
             vt=vType.VOD;
         }
-        else if(mOption <= 8) {     //Highlight:
-            HighlightHandler hh = new HighlightHandler(mOption);
+        else if(menuOption <= 8) {     //Highlight:
+            HighlightHandler hh = new HighlightHandler(menuOption);
             vt=vType.Highlight;
         }
-        else if(mOption <= 12) {    //Video:
-            VideoHandler vh = new VideoHandler(mOption);
+        else if(menuOption <= 12) {    //Video:
+            VideoHandler vh = new VideoHandler(menuOption);
             vt=vType.Video;
         }
-        else if(mOption <= 15) {    //Clip:
-            ClipHandler ch = new ClipHandler(mOption);
+        else if(menuOption <= 15) {    //Clip:
+            ClipHandler ch = new ClipHandler(menuOption);
             vt=vType.Clip;
         }
         else {      //Mass recovery options:
-            MassHandler mh = new MassHandler(mOption);
+            MassHandler mh = new MassHandler(menuOption);
             vt=vType.Mass;
         }
         //Set the oType enum variable correctly matching to the operation:
-        if(mOption==1 || mOption==3 || mOption==6 || mOption==13){
-            op=oType.Retrieve;
+        switch (menuOption) {
+            case 1: case 3: case 6: case 13:
+                op = oType.Retrieve;
+                break;
+            case 2: case 4: case 7: case 11: case 14: case 17:
+                op = oType.Download;
+                break;
+            case 5: case 8: case 15: case 16:
+                op = oType.Recover;
+                break;
+            case 9:
+                op = oType.Check;
+                break;
+            case 10:
+                op = oType.Unmute;
+                break;
+            default:
+                op = oType.Convert;
+                break;
         }
-        else if(mOption==2 || mOption==4 || mOption==7 || mOption==11 || mOption==14 || mOption==17){
-            op=oType.Download;
-        }
-        else if(mOption==5 || mOption==8 || mOption==15 || mOption==16){
-            op=oType.Recover;
-        }
-        else if(mOption==9){
-            op=oType.Check;
-        }
-        else if(mOption==10){
-            op=oType.Unmute;
-        }
-        else{
-            op=oType.Convert;
-        }
-
-        sc.close();
-        Prompts.exitMessage();
     }
 }
