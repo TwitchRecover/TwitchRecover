@@ -5,6 +5,9 @@
 /.idea/
 *.eml
 
+TwitchRecover.iml
+**/META-INF/**/*
+
 out/
 run.bat
 lib/
