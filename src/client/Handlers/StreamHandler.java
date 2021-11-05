@@ -19,6 +19,7 @@ package client.Handlers;
 
 import client.CLIHandler;
 import client.Enums.oType;
+import client.ClipBoard;
 import core.Feeds;
 import core.Live;
 /**
@@ -27,6 +28,7 @@ import core.Live;
  */
 public class StreamHandler {
     private int option;     //Integer value which represents the user's selected option.
+    private ClipBoard clipboard = new ClipBoard();
 
     /**
      * Constructor and main method
@@ -67,7 +69,10 @@ public class StreamHandler {
         }
         else{
             int quality=CoreHandler.selectFeeds(feeds, oType.Retrieve);
-            System.out.print("M3U8 URL: "+live.getFeed(quality));
+            String streamlink = live.getFeed(quality);
+            System.out.print("\nM3U8 URL: " + streamlink);
+            clipboard.copyText(streamlink);
+            System.out.print("\nLink is copied to clipboard\n");
         }
 
     }

@@ -21,6 +21,7 @@ import client.CLIHandler;
 import client.Enums.oType;
 import client.Enums.vType;
 import client.Prompts;
+import client.ClipBoard;
 import core.Enums.FileExtension;
 import core.Feeds;
 import core.VOD;
@@ -31,6 +32,7 @@ import core.VOD;
  */
 public class VODHandler {
     private int option;     //Integer value representing the user's desired option.
+    private ClipBoard clipboard = new ClipBoard();
 
     public VODHandler(int option){
         this.option=option;
@@ -56,7 +58,11 @@ public class VODHandler {
         vod.retrieveID(url);
         Feeds feeds=vod.getVODFeeds();
         int quality=CoreHandler.selectFeeds(feeds, oType.Retrieve);
-        System.out.print("\nResult: "+vod.getFeed(quality-1));
+
+        String vodlink = vod.getFeed(quality-1);
+        System.out.print("\nLink: " + vodlink);
+        clipboard.copyText(vodlink);
+        System.out.print("\nLink is copied to clipboard\n");
     }
 
     /**
