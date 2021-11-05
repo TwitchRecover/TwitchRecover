@@ -12,3 +12,9 @@ out/
 run.bat
 lib/
 tags
+
+# Ignore Gradle project-specific cache directory
+.gradle
+
+# Ignore Gradle build output directory
+build
