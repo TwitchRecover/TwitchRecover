@@ -64,17 +64,16 @@ public class StreamHandler {
             System.out.print(
                     "\nERROR!"
                     + "\nUnable to retrieve feeds."
-                    + "\nPlease make sure that the stream is live right now."
+                    + "\nPlease make sure that the stream is live right now.\n"
             );
-        }
-        else{
-            int quality=CoreHandler.selectFeeds(feeds, oType.Retrieve);
-            String streamlink = live.getFeed(quality);
-            System.out.print("\nM3U8 URL: " + streamlink);
-            clipboard.copyText(streamlink);
-            System.out.print("\nLink is copied to clipboard\n");
+            return;
         }
 
+        int quality=CoreHandler.selectFeeds(feeds, oType.Retrieve);
+        String streamlink = live.getFeed(quality);
+        System.out.print("\nM3U8 URL: " + streamlink);
+        clipboard.copyText(streamlink);
+        System.out.print("\nLink is copied to clipboard\n");
     }
 
     /**

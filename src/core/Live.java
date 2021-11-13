@@ -17,6 +17,8 @@
 
 package core;
 
+import java.util.Objects;
+
 import core.API.LiveAPI;
 import core.Enums.ContentType;
 import core.Enums.FileExtension;
@@ -41,13 +43,12 @@ public class Live {
     }
 
     /**
-     * Method which retrieves
-     * all of the live feeds
-     * of a channel.
+     * Retrieve all of the live feeds of a channel.
      * @return Feeds    Feeds object containing all of the feeds of the live stream.
      */
     public Feeds retrieveFeeds(){
-        feeds= LiveAPI.getLiveFeeds(channel);
+        feeds = LiveAPI.getLiveFeeds(channel);
+        feeds.getQualities().removeIf(Objects::isNull);
         return feeds;
     }
 
