@@ -13,53 +13,50 @@
  *  @version 2.0aH     2.0a Hotfix
  *  Github project home page: https://github.com/TwitchRecover
  *  Twitch Recover repository: https://github.com/TwitchRecover/TwitchRecover
+ *
+ *
+ *
+ *  This project was forked and severly refactored for personal use
+ *  @author Enan Ajmain https://github.com/3N4N
+ *
  */
 
 package client.Handlers;
 
 import client.CLIHandler;
-import client.Enums.oType;
 import client.ClipBoard;
 import core.Feeds;
 import core.Live;
+
 /**
  * StreamHandler object class which
  * handles stream prompts;
  */
 public class StreamHandler {
-    private int option;     //Integer value which represents the user's selected option.
     private ClipBoard clipboard = new ClipBoard();
 
     /**
      * Constructor and main method
      * of the StreamHandler
      * object class.
-     * @param option    Integer value representing the user's selected option.
      */
-    public StreamHandler(int option){
-        this.option=option;
-        if(option==1){
-            retrieve();
-        }
-        else{
-            System.out.print("\n\nThis feature is currently unavailable.\nIt will be released in the 2.0 beta release.");
-            //download();
-        }
+    public StreamHandler() {
+        retrieve();
     }
 
     /**
      * This method prompts and handles
      * the retrieval of live stream links.
      */
-    private void retrieve(){
-        Live live=new Live();
+    private void retrieve() {
+        Live live = new Live();
         System.out.print(
                   "\n\nLive stream link retrieval:"
                 + "\nEnter the channel name: "
         );
-        String response=CLIHandler.sc.next();
+        String response = CLIHandler.sc.next();
         live.setChannel(response.toLowerCase());
-        Feeds feeds=live.retrieveFeeds();
+        Feeds feeds = live.retrieveFeeds();
         if(feeds.getFeeds().isEmpty()){
             System.out.print(
                     "\nERROR!"
@@ -69,37 +66,10 @@ public class StreamHandler {
             return;
         }
 
-        int quality=CoreHandler.selectFeeds(feeds, oType.Retrieve);
+        int quality = CoreHandler.selectFeeds(feeds);
         String streamlink = live.getFeed(quality);
-        System.out.print("\nM3U8 URL: " + streamlink);
+        System.out.println("\nM3U8 URL: " + streamlink);
         clipboard.copyText(streamlink);
-        System.out.print("\nLink is copied to clipboard\n");
-    }
-
-    /**
-     * This method prompts and
-     * handles the downloading of
-     * a live stream.
-     */
-    private void download(){
-        Live live=new Live();
-        System.out.print(
-                  "\n\nLive stream downloading:"
-                + "\nEnter the channel name: "
-        );
-        live.setChannel(CLIHandler.sc.next());
-        Feeds feeds=live.retrieveFeeds();
-        if(feeds.getFeeds().isEmpty()){
-            System.out.print(
-                      "\nERROR!"
-                    + "\nUnable to retrieve feeds."
-                    + "\nPlease make sure that the stream is live right now."
-            );
-        }
-        else{
-            int quality=CoreHandler.selectFeeds(feeds, oType.Download);
-            System.out.print("\nDownloading stream...");
-            live.download(feeds.getFeed(quality));
-        }
+        System.out.println("\nLink is copied to clipboard");
     }
 }

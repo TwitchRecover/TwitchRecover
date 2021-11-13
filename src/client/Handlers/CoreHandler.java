@@ -13,13 +13,18 @@
  *  @version 2.0aH     2.0a Hotfix
  *  Github project home page: https://github.com/TwitchRecover
  *  Twitch Recover repository: https://github.com/TwitchRecover/TwitchRecover
+ *
+ *
+ *
+ *  This project was forked and severly refactored for personal use
+ *  @author Enan Ajmain https://github.com/3N4N
+ *
  */
 
 package client.Handlers;
 
 import client.CLIHandler;
-import client.Enums.oType;
-import client.Enums.vType;
+import client.Enums.VideoType;
 import core.Compute;
 import core.Enums.FileExtension;
 import core.Enums.Quality;
@@ -38,7 +43,7 @@ public class CoreHandler {
      * @return boolean  Boolean value which is true if the URL is indeed a Twitch video link and false otherwise.
      */
     protected static boolean isVideo(String url){
-        return Compute.singleRegex("(twitch.tv/[0-9]*)", url)!=null;
+        return Compute.singleRegex("(twitch.tv/[0-9]*)", url) != null;
     }
 
     /**
@@ -58,24 +63,24 @@ public class CoreHandler {
                 + "\n5. AVI."
                 + "\nPlease enter your desired file extension: "
         );
-        int selection=Integer.parseInt(CLIHandler.sc.next());
-        while(!(selection>0 && selection<=5)){
+        int selection = Integer.parseInt(CLIHandler.sc.next());
+        while (!(selection > 0 && selection <= 5)){
             System.out.print(
                       "\n\nERROR: Invalid input!"
                     + "\nPlease enter a valid number input: "
             );
-            selection=Integer.parseInt(CLIHandler.sc.next());
+            selection = Integer.parseInt(CLIHandler.sc.next());
         }
-        if(selection==1){
+        if(selection == 1){
             return FileExtension.TS;
         }
-        else if(selection==2){
+        else if(selection == 2){
             return FileExtension.MPEG;
         }
-        else if(selection==3){
+        else if(selection == 3){
             return FileExtension.MP4;
         }
-        else if(selection==4){
+        else if(selection == 4){
             return FileExtension.MOV;
         }
         else{
@@ -83,15 +88,15 @@ public class CoreHandler {
         }
     }
 
-    protected static int selectFeeds(Feeds feeds, oType o){
+    protected static int selectFeeds(Feeds feeds){
         System.out.print("\n\nQualities available:");
-        int i=1;
+        int i = 1;
         for(Quality qual: feeds.getQualities()){
-            System.out.print("\n"+i+". "+qual.text);
+            System.out.println(i+". "+qual.text);
             i++;
         }
-        System.out.print("\nPlease enter the desired quality you want to "+o.text+": ");
-        String selection=CLIHandler.sc.next();
+        System.out.print("Please enter the desired quality: ");
+        String selection = CLIHandler.sc.next();
         return Integer.parseInt(selection);
     }
 
@@ -100,18 +105,17 @@ public class CoreHandler {
      * the highlight URL to handle
      * and makes sure that the URL is
      * valid.
-     * @param op        oType enum which represents what operation to prompt the user the URL for.
      * @return String   String value which represents the highlight URL the user inputted.
      */
-    protected static String promptURL(oType op, vType v){
-        System.out.print("\nPlease enter the link of the "+v.text+" to "+op.text+": ");
-        String highlightURL=CLIHandler.sc.next();
+    protected static String promptURL(VideoType v){
+        System.out.print("Please enter the link of the " + v.text + ": ");
+        String highlightURL = CLIHandler.sc.next();
         while(!CoreHandler.isVideo(highlightURL)){
             System.out.print(
                       "\n\nERROR: Invalid "+v.text+" link."
                     + "\nPlease enter a valid "+v.text+" URL."
             );
-            highlightURL=CLIHandler.sc.next();
+            highlightURL = CLIHandler.sc.next();
         }
         return highlightURL;
     }
@@ -125,7 +129,7 @@ public class CoreHandler {
      */
     protected static boolean booleanPrompt(String prompt){
         System.out.print("\n\n"+prompt+" ('y' for yes, 'n' for no)?: ");
-        String line=CLIHandler.sc.next();
+        String line = CLIHandler.sc.next();
         while(!(line.toLowerCase().startsWith("y")||line.toLowerCase().startsWith("n"))){
             System.out.print(
                       "\nERROR: Invalid input."

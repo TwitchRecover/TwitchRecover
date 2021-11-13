@@ -13,6 +13,12 @@
  *  @version 2.0aH     2.0a Hotfix
  *  Github project home page: https://github.com/TwitchRecover
  *  Twitch Recover repository: https://github.com/TwitchRecover/TwitchRecover
+ *
+ *
+ *
+ *  This project was forked and severly refactored for personal use
+ *  @author Enan Ajmain https://github.com/3N4N
+ *
  */
 
 package client;

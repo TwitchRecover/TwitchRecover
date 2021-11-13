@@ -13,26 +13,20 @@
  *  @version 2.0aH     2.0a Hotfix
  *  Github project home page: https://github.com/TwitchRecover
  *  Twitch Recover repository: https://github.com/TwitchRecover/TwitchRecover
+ *
+ *
+ *
+ *  This project was forked and severly refactored for personal use
+ *  @author Enan Ajmain https://github.com/3N4N
+ *
  */
 
 package client;
 
-//import core.Download;
-import client.Enums.oType;
-import client.Enums.vType;
-import client.Handlers.ClipHandler;
-import client.Handlers.HighlightHandler;
-import client.Handlers.MassHandler;
+import java.util.Scanner;
+
 import client.Handlers.StreamHandler;
 import client.Handlers.VODHandler;
-import client.Handlers.VideoHandler;
-import client.Prompts;
-import core.FileIO;
-
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Scanner;
 
 /**
  * This is the handler for the entirety of the CLI
@@ -43,58 +37,28 @@ public class CLIHandler {
     // TODO:
     // Find better way, or a scanner for each independent usage
     // but this will have to do for the alpha.
-    public static Scanner sc=new Scanner(System.in);
+    public static Scanner sc = new Scanner(System.in);
     /**
      * Core method of the CLI handler.
      */
     protected static void main() {
-        int menuOption=Prompts.menu();
-        oType op;
-        vType vt;
-        //Call the coordinating handler object and set the vType enum variable.
-        if(menuOption <= 2) {      //Stream:
-            StreamHandler sh = new StreamHandler(menuOption);
-            vt=vType.Stream;
-        }
-        else if(menuOption <= 5) {     //VOD:
-            VODHandler vh = new VODHandler(menuOption);
-            vt=vType.VOD;
-        }
-        else if(menuOption <= 8) {     //Highlight:
-            HighlightHandler hh = new HighlightHandler(menuOption);
-            vt=vType.Highlight;
-        }
-        else if(menuOption <= 12) {    //Video:
-            VideoHandler vh = new VideoHandler(menuOption);
-            vt=vType.Video;
-        }
-        else if(menuOption <= 15) {    //Clip:
-            ClipHandler ch = new ClipHandler(menuOption);
-            vt=vType.Clip;
-        }
-        else {      //Mass recovery options:
-            MassHandler mh = new MassHandler(menuOption);
-            vt=vType.Mass;
-        }
-        //Set the oType enum variable correctly matching to the operation:
+        System.out.println(
+                "\n1. Get a live stream link"
+                + "\n2. Get the link to a VOD"
+        );
+        int menuOption = 0;
+        do {
+            menuOption = sc.nextInt();
+        } while (menuOption < 1 || menuOption > 2);
+
         switch (menuOption) {
-            case 1: case 3: case 6: case 13:
-                op = oType.Retrieve;
+            case 1:
+                StreamHandler sh = new StreamHandler();
                 break;
-            case 2: case 4: case 7: case 11: case 14: case 17:
-                op = oType.Download;
-                break;
-            case 5: case 8: case 15: case 16:
-                op = oType.Recover;
-                break;
-            case 9:
-                op = oType.Check;
-                break;
-            case 10:
-                op = oType.Unmute;
+            case 2:
+                VODHandler vh = new VODHandler();
                 break;
             default:
-                op = oType.Convert;
                 break;
         }
     }

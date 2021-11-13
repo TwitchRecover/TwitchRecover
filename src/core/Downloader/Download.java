@@ -13,6 +13,12 @@
  *  @version 2.0aH     2.0a Hotfix
  *  Github project home page: https://github.com/TwitchRecover
  *  Twitch Recover repository: https://github.com/TwitchRecover/TwitchRecover
+ *
+ *
+ *
+ *  This project was forked and severly refactored for personal use
+ *  @author Enan Ajmain https://github.com/3N4N
+ *
  */
 
 package core.Downloader;
@@ -39,9 +45,7 @@ import java.util.concurrent.TimeUnit;
 public class Download {
     private static final int MAX_TRIES=5;
     /**
-     * This method downloads a file from a
-     * given URL and downloads it at a given
-     * file path.
+     * Download a file from a given URL and save in a given file path.
      * @param url           String value representing the URL to download.
      * @param fp            String value representing the complete file path of the file.
      * @return String       String value representing the complete file path of where the file was downloaded.
@@ -53,13 +57,6 @@ public class Download {
         File dFile=new File(fp+extension);
         FileUtils.copyURLToFile(dURL, dFile, Timeout.CONNECT.time, Timeout.READ.time);
         return dFile.getAbsolutePath();
-    }
-
-    public static String m3u8Download(String url, String fp) throws IOException {
-        FileHandler.createTempFolder();
-        ArrayList<String> chunks=M3U8Handler.getChunks(url);
-        NavigableMap<Integer, File> segmentMap=TSDownload(chunks);
-        return FileHandler.mergeFile(segmentMap, fp);
     }
 
     /**

@@ -18,7 +18,6 @@
 package core;
 
 import core.API.VideoAPI;
-import core.Downloader.Download;
 import core.Enums.ContentType;
 import core.Enums.FileExtension;
 
@@ -56,28 +55,6 @@ public class VOD {
         if(isDeleted){
             vodInfo=new String[4];
         }
-    }
-
-    /**
-     * This method processes the downloading of a
-     * VOD.
-     * @param fe    FileExtension enum representing the desired output file extension.
-     * @param feed  String value representing the desired feed to download.
-     */
-    public void downloadVOD(FileExtension fe, String feed){
-        computeFN();
-        if(vodInfo==null){
-            getVODFeeds();
-        }
-        else{
-            retrieveVOD(false);
-            retrieveVODFeeds();
-        }
-        fFP=fp+fn+fe.fileExtension;
-        try {
-            Download.m3u8Download(feed, fFP);
-        }
-        catch (IOException ignored){}
     }
 
     /**
