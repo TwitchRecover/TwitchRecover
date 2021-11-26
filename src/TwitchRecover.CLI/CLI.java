@@ -39,15 +39,15 @@ public class CLI {
     /**
      * Goes through all cli arguments and sets
      * properties accordingly.
-     * @param args  Command line arguments passed in when executing
+     *
+     * @param args Command line arguments passed in when executing
      */
     private static void extractArguments(String[] args) {
         for (int i = 0; i < args.length; i++) {
-            if (Objects.equals(args[i], "--temppath") || Objects.equals(args[i], "-tp")) {
-                if (args.length > i + 1) {
-                    OVERRIDE_TEMP_PATH = args[i + 1];
-                    break; // Exit after argument found
-                }
+            if ((Objects.equals(args[i], "--temppath")
+                    || Objects.equals(args[i], "-tp")) && args.length > i + 1) {
+                OVERRIDE_TEMP_PATH = args[i + 1];
+                break; // Exit after argument found
             }
         }
     }
