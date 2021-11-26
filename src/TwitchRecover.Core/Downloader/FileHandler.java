@@ -17,13 +17,15 @@
 
 package TwitchRecover.Core.Downloader;
 
-import TwitchRecover.Core.Enums.FileExtension;
+import TwitchRecover.CLI.CLI;
 import lombok.Cleanup;
 import org.apache.commons.io.IOUtils;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.NavigableMap;
+import java.util.UUID;
 
 /**
  * This class handles all of the file handling
@@ -38,8 +40,14 @@ class FileHandler {
      * @throws IOException
      */
     protected static void createTempFolder() throws IOException {
-        TEMP_FOLDER_PATH= Files.createTempDirectory("TwitchRecover-").toAbsolutePath();
+        if (CLI.OVERRIDE_TEMP_PATH == null) {
+            TEMP_FOLDER_PATH= Files.createTempDirectory("TwitchRecover-").toAbsolutePath();
+        } else {
+            TEMP_FOLDER_PATH = Paths.get(CLI.OVERRIDE_TEMP_PATH).resolve("TwitchRecover-" + UUID.randomUUID());
+        }
+
         File tempDir=new File(String.valueOf(TEMP_FOLDER_PATH));
+        tempDir.mkdirs();
         tempDir.deleteOnExit();
     }
 
