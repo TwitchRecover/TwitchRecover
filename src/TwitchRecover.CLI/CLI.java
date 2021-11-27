@@ -25,7 +25,8 @@ import java.util.Objects;
  */
 public class CLI {
 
-    public static String OVERRIDE_TEMP_PATH;    // Can be used to override the temporary download path
+    public static String OVERRIDE_TEMP_PATH;                    // Can be used to override the temporary download path
+    public static Boolean OVERRIDE_USE_TARGETPATH_AS_TEMPPATH;  // Can be used to override the temporary download path
 
     /**
      * Core method of the CLI version of Twitch Recover.
@@ -47,6 +48,10 @@ public class CLI {
             if ((Objects.equals(args[i], "--temppath")
                     || Objects.equals(args[i], "-tp")) && args.length > i + 1) {
                 OVERRIDE_TEMP_PATH = args[i + 1];
+                break; // Exit after argument found
+            } else if (Objects.equals(args[i], "--downloadtotargetpath")
+                    || Objects.equals(args[i], "-dttp")) {
+                OVERRIDE_USE_TARGETPATH_AS_TEMPPATH = true;
                 break; // Exit after argument found
             }
         }
