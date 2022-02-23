@@ -170,29 +170,15 @@ public class WebsiteRetrieval {
     }
 
     private static Integer airTimeFromString(String airTimeString) {
-        Pattern p = null;
-        Matcher matcher = null;
-        int airTime = 0;
 
-        for (int i = 1; i <= 2; i++) {
+        Pattern p = Pattern.compile("([0-9]+h)*\\s*([0-9]+m)");
+        Matcher matcher = p.matcher(airTimeString);
 
-            switch (i) {
-                case 1:
-                    p = Pattern.compile("([0-9]*h)");
-                    matcher = p.matcher(airTimeString);
-                    break;
-                case 2:
-                    p = Pattern.compile("([0-9]*m)");
-                    matcher = p.matcher(airTimeString);
-                    break;
-            }
-
-            if (matcher.find()) {
-                airTime += i == 1 ? Integer.parseInt(matcher.group(0).replace("h", ""))*60 : Integer.parseInt(matcher.group(0).replace("m", ""));
-            }
+        if (matcher.find()) {
+             return matcher.group(1) == null ? Integer.parseInt(matcher.group(2).replace("m", "")) : Integer.parseInt(matcher.group(1).replace("h", ""))*60 + Integer.parseInt(matcher.group(2).replace("m", ""));
         }
 
-        return airTime;
+        return null;
     }
 }
 
