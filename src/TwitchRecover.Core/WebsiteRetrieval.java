@@ -118,6 +118,11 @@ public class WebsiteRetrieval {
             results[1] = m.group(2);
         }
 
+        Element startDateDom = doc.select("div.stream-timestamp-dt").first();
+        if (startDateDom != null) {
+            results[2] = startDateDom.text() + " GMT+00:00";
+        }
+
         //Return the array:
         return results;
     }
