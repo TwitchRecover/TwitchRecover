@@ -17,14 +17,15 @@
 
 package TwitchRecover.Core;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -79,35 +80,10 @@ public class WebsiteRetrieval {
         if(url.contains("twitchtracker.com/") && url.contains("/streams/")) {
             return 1;   //Twitch Tracker URL.
         }
-        else if(url.contains("streamscharts.com/twitch/channels/") && url.contains("/streams/")) {
+        else if(url.contains("streamscharts.com/channels/") && url.contains("/streams/")) {
             return 2;   //Streams Charts URL.
         }
         return -1;
-    }
-
-    /**
-     * This method gets the JSON return from a URL.
-     * @param url String representing the URL to get the JSON response from.
-     * @return String   String response representing the JSON response of the URL.
-     * @throws IOException
-     */
-    private static String getJSON(String url) throws IOException {
-        String json = "";
-        URL jsonFetch = new URL(url);
-        HttpURLConnection httpcon = (HttpURLConnection) jsonFetch.openConnection();
-        httpcon.setRequestMethod("GET");
-        httpcon.setRequestProperty("User-Agent", "Mozilla/5.0");
-        String readLine = null;
-        if(httpcon.getResponseCode() == HttpURLConnection.HTTP_OK) {
-            BufferedReader br = new BufferedReader(new InputStreamReader(httpcon.getInputStream()));
-            StringBuffer response = new StringBuffer();
-            while((readLine = br.readLine()) != null) {
-                response.append(readLine);
-            }
-            br.close();
-            json = response.toString();
-        }
-        return json;
     }
 
     //Individual website retrieval:
@@ -119,50 +95,36 @@ public class WebsiteRetrieval {
      * @param url String value representing the Twitch Tracker stream URL.
      * @return String[4]    String array containing the 4 principal values (streamer's name, stream ID,
      * timestamp of the start of the stream and the duration) in that respective order.
-     * @throws IOException
      */
-    private static String[] getTTData(String url) throws IOException {
+    private static String[] getTTData(String url) throws IOException
+    {
         String[] results = new String[4];
-        URL obj = new URL(url);
-        HttpURLConnection httpcon = (HttpURLConnection) obj.openConnection();
-        httpcon.setRequestMethod("GET");
-        httpcon.setRequestProperty("User-Agent", "Mozilla/5.0");
-        if(httpcon.getResponseCode() == HttpURLConnection.HTTP_OK) {
-            //Get the timestamp:
-            BufferedReader brt = new BufferedReader(new InputStreamReader(httpcon.getInputStream()));
-            String response;
-            String responseD = "";
-            for(int i = 0; i < 300; i++) {
-                response = brt.readLine();
-                if(i == 7) {
-                    int tsIndex = response.indexOf(" on ") + 4;
-                    results[2] = response.substring(tsIndex, tsIndex + 19);
-                }
-                //Stream duration fetcher:
-                if(response.contains("stats-value to-time-lg")) {
-                    responseD = response;
-                }
-            }
 
-            //Get the stream duration:
-            String durationPattern = "<div class=\"stats-value to-time-lg\">(\\d*)</div>";
-            Pattern dr = Pattern.compile(durationPattern);
-            Matcher dm = dr.matcher(responseD);
-            if(dm.find()) {
-                results[3] = dm.group(1);
-            }
-            //Get the streamer's name and the VOD ID:
-            String pattern = "twitchtracker\\.com\\/([a-zA-Z0-9-_]*)\\/streams\\/(\\d*)";
-            Pattern r = Pattern.compile(pattern);
-            Matcher m = r.matcher(url);
-            if(m.find()) {
-                results[0] = m.group(1);
-                results[1] = m.group(2);
-            }
-            //Return the array:
-            return results;
+        //Get the stream duration:
+
+        Document doc = Jsoup.connect(url).get();
+        Element airTimeDom = doc.select("div.g-x-s-value").first();
+
+        if (airTimeDom != null) {
+            results[3] = airTimeDom.text();
         }
-        throw new IOException();
+
+        //Get the streamer's name and the VOD ID:
+        String pattern = "twitchtracker\\.com/([a-zA-Z0-9-_]*)/streams/(\\d*)";
+        Pattern r = Pattern.compile(pattern);
+        Matcher m = r.matcher(url);
+        if(m.find()) {
+            results[0] = m.group(1);
+            results[1] = m.group(2);
+        }
+
+        Element startDateDom = doc.select("div.stream-timestamp-dt").first();
+        if (startDateDom != null) {
+            results[2] = startDateDom.text();
+        }
+
+        //Return the array:
+        return results;
     }
 
     //Stream Charts retrieval:
@@ -172,14 +134,11 @@ public class WebsiteRetrieval {
      * @param url String value representing the Stream Charts stream URL.
      * @return String[4]    String array containing the 4 principal values (streamer's name, stream ID,
      * timestamp of the start of the stream and the duration) in that respective order.
-     * @throws IOException
      */
     private static String[] getSCData(String url) throws IOException {
         String[] results = new String[4];     //0: streamer's name; 1: Stream ID; 2: Timestamp; 3: Duration.
-        String userID;
-        double duration = 0.0;
         //Retrieve initial values:
-        String pattern = "streamscharts\\.com\\/twitch\\/channels\\/([a-zA-Z0-9_-]*)\\/streams\\/(\\d*)";
+        String pattern = "streamscharts\\.com/channels/([a-zA-Z0-9_-]*)/streams/(\\d*)";
         Pattern r = Pattern.compile(pattern);
         Matcher m = r.matcher(url);
         if(m.find()) {
@@ -187,25 +146,39 @@ public class WebsiteRetrieval {
             results[1] = m.group(2);
         }
 
-        //Retrieve user ID:
-        String idJSON = getJSON("https://api.twitch.tv/v5/users/?login=" + results[0] + "&client_id=ohroxg880bxrq1izlrinohrz3k4vy6");
-        JSONObject joID = new JSONObject(idJSON);
-        JSONArray users = joID.getJSONArray("users");
-        JSONObject user = users.getJSONObject(0);
-        userID = user.getString("_id");
+        Document doc = Jsoup.connect(url).get();
+        Element airTimeDom = doc.select("span.mx-2").first();
 
-        //Retrieve stream values:
-        String dataJSON = getJSON("https://alla.streamscharts.com/api/free/streaming/platforms/1/channels/" + userID + "/streams/" + results[1] + "/statuses");
-        JSONObject joD = new JSONObject(dataJSON);
-        JSONArray items = joD.getJSONArray("items");
-        for(int i = 0; i < items.length(); i++) {
-            JSONObject item = items.getJSONObject(i);
-            if(i == 0) {
-                results[2] = item.getString("stream_created_at");
-            }
-            duration += item.getDouble("air_time");
+        // START TIME
+
+        SimpleDateFormat streamsChartsFormatString = new SimpleDateFormat("dd MM yyyy, HH:mm", Locale.ENGLISH);
+        SimpleDateFormat formatStringForCompute = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
+        Date startDate = null;
+        pattern = "stream_created_at&quot;:&quot;([0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2})&quot;,&quot;";
+        r = Pattern.compile(pattern);
+        m = r.matcher(doc.html());
+        if (m.find())
+        {
+           results[2] = m.group(1);
         }
-        results[3] = String.valueOf(duration * 60);
+
+        if (airTimeDom != null) {
+            results[3] = String.valueOf(airTimeFromString(airTimeDom.text().replace(",", "").replace(" ", "")) * 60);
+        }
+
         return results;
     }
+
+    private static Integer airTimeFromString(String airTimeString) {
+
+        Pattern p = Pattern.compile("([0-9]+h)*\\s*([0-9]+m)");
+        Matcher matcher = p.matcher(airTimeString);
+
+        if (matcher.find()) {
+             return matcher.group(1) == null ? Integer.parseInt(matcher.group(2).replace("m", "")) : Integer.parseInt(matcher.group(1).replace("h", ""))*60 + Integer.parseInt(matcher.group(2).replace("m", ""));
+        }
+
+        return null;
+    }
 }
+
