@@ -120,7 +120,7 @@ public class WebsiteRetrieval {
 
         Element startDateDom = doc.select("div.stream-timestamp-dt").first();
         if (startDateDom != null) {
-            results[2] = startDateDom.text() + " GMT+00:00";
+            results[2] = startDateDom.text();
         }
 
         //Return the array:
@@ -148,24 +148,19 @@ public class WebsiteRetrieval {
 
         Document doc = Jsoup.connect(url).get();
         Element airTimeDom = doc.select("span.mx-2").first();
-        Element startDateDom = doc.select("time.ml-2").first();
-
 
         // START TIME
 
-        SimpleDateFormat streamsChartsFormatString = new SimpleDateFormat("dd MMM yyyy, HH:mm zzz", Locale.ENGLISH);
-        SimpleDateFormat formatStringForCompute = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss zzz", Locale.ENGLISH);
+        SimpleDateFormat streamsChartsFormatString = new SimpleDateFormat("dd MM yyyy, HH:mm", Locale.ENGLISH);
+        SimpleDateFormat formatStringForCompute = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
         Date startDate = null;
-        try {
-            if (startDateDom != null)
-            {
-                startDate = streamsChartsFormatString.parse(startDateDom.text() + " GMT+00:00");
-            }
-        } catch (ParseException e) {
-            e.printStackTrace();
+        pattern = "stream_created_at&quot;:&quot;([0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2})&quot;,&quot;";
+        r = Pattern.compile(pattern);
+        m = r.matcher(doc.html());
+        if (m.find())
+        {
+           results[2] = m.group(1);
         }
-
-        results[2] = formatStringForCompute.format(startDate);
 
         if (airTimeDom != null) {
             results[3] = String.valueOf(airTimeFromString(airTimeDom.text().replace(",", "").replace(" ", "")) * 60);
