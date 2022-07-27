@@ -1,6 +1,8 @@
 ### If you want to help:
 
-* #### Bitcoin wallet: 1DXrtXnrCKdDm24x8ioXY8ZkNWDDCxEFg4
+* #### Bitcoin: 1DXrtXnrCKdDm24x8ioXY8ZkNWDDCxEFg4
+* #### ETH: 0x41bed90bfd6571407d2ab891276c8f9589178e69
+* #### USDT 0x41bed90bfd6571407d2ab891276c8f9589178e69
 
 # Twitch Recover
 
