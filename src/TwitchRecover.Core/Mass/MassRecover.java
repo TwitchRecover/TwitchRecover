@@ -17,14 +17,10 @@
 
 package TwitchRecover.Core.Mass;
 
-import TwitchRecover.Core.FileIO;
-import TwitchRecover.Core.Compute;
-import TwitchRecover.Core.VOD;
-import TwitchRecover.Core.Clips;
-import TwitchRecover.Core.Live;
-import TwitchRecover.Core.WebsiteRetrieval;
+import TwitchRecover.Core.*;
 import TwitchRecover.Core.Enums.ContentType;
 import TwitchRecover.Core.Enums.FileExtension;
+
 import java.util.ArrayList;
 
 /**
@@ -97,9 +93,7 @@ public class MassRecover {
      */
     private void processVODs(){
         for(String line: read){
-            Thread thread=new Thread(()->{
-                processVOD(line);
-            });
+            Thread thread=new Thread(()-> processVOD(line));
            thread.start();
         }
     }
@@ -124,9 +118,7 @@ public class MassRecover {
      */
     private void processStreams(){
         for(String line: read){
-            Thread thread=new Thread(()-> {
-                processStream(line);
-            });
+            Thread thread=new Thread(()-> processStream(line));
             thread.start();
         }
     }
@@ -158,9 +150,7 @@ public class MassRecover {
      */
     private void processClips(){
         for(String line: read){
-            Thread thread=new Thread(() ->{
-                processClip(line);
-            });
+            Thread thread=new Thread(() -> processClip(line));
             thread.start();
         }
     }

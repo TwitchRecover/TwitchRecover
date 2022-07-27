@@ -26,7 +26,6 @@ import TwitchRecover.Core.Live;
  * handles stream prompts;
  */
 public class StreamHandler {
-    private int option;     //Integer value which represents the user's selected option.
 
     /**
      * Constructor and main method
@@ -35,7 +34,7 @@ public class StreamHandler {
      * @param option    Integer value representing the user's selected option.
      */
     public StreamHandler(int option){
-        this.option=option;
+        //Integer value which represents the user's selected option.
         if(option==1){
             retrieve();
         }
@@ -52,17 +51,22 @@ public class StreamHandler {
     private void retrieve(){
         Live live=new Live();
         System.out.print(
-                  "\n\nLive stream link retrieval:"
-                + "\nEnter the channel name: "
+                """
+
+
+                        Live stream link retrieval:
+                        Enter the channel name:\s"""
         );
         String response=CLIHandler.sc.next();
         live.setChannel(response.toLowerCase());
         Feeds feeds=live.retrieveFeeds();
         if(feeds.getFeeds().isEmpty()){
             System.out.print(
-                    "\nERROR!"
-                    + "\nUnable to retrieve feeds."
-                    + "\nPlease make sure that the stream is live right now."
+                    """
+
+                            ERROR!
+                            Unable to retrieve feeds.
+                            Please make sure that the stream is live right now."""
             );
         }
         else{
@@ -80,16 +84,21 @@ public class StreamHandler {
     private void download(){
         Live live=new Live();
         System.out.print(
-                  "\n\nLive stream downloading:"
-                + "\nEnter the channel name: "
+                """
+
+
+                        Live stream downloading:
+                        Enter the channel name:\s"""
         );
         live.setChannel(CLIHandler.sc.next());
         Feeds feeds=live.retrieveFeeds();
         if(feeds.getFeeds().isEmpty()){
             System.out.print(
-                      "\nERROR!"
-                    + "\nUnable to retrieve feeds."
-                    + "\nPlease make sure that the stream is live right now."
+                    """
+
+                            ERROR!
+                            Unable to retrieve feeds.
+                            Please make sure that the stream is live right now."""
             );
         }
         else{

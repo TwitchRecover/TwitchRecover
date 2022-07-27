@@ -47,10 +47,10 @@ public enum Quality {
     SLHD("144p30fps", "144p30", "256×144", 30.000),
     AUDIO("Audio only", "audio_only", "0x0", 0.000);
 
-    public String text;
-    public String video;
-    String resolution;
-    double fps;
+    public final String text;
+    public final String video;
+    final String resolution;
+    final double fps;
     Quality(String t, String v, String r, double f){
         text=t;
         video=v;

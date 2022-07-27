@@ -50,19 +50,25 @@ public class CoreHandler {
      */
     protected static FileExtension userFE(){
         System.out.print(
-                  "\n\nPlease enter the file extension of the desired output file:"
-                + "\n1. TS."
-                + "\n2. MPEG."
-                + "\n3. MP4."
-                + "\n4. MOV."
-                + "\n5. AVI."
-                + "\nPlease enter your desired file extension: "
+                """
+
+
+                        Please enter the file extension of the desired output file:
+                        1. TS.
+                        2. MPEG.
+                        3. MP4.
+                        4. MOV.
+                        5. AVI.
+                        Please enter your desired file extension:\s"""
         );
         int selection=Integer.parseInt(CLIHandler.sc.next());
         while(!(selection>0 && selection<=5)){
             System.out.print(
-                      "\n\nERROR: Invalid input!"
-                    + "\nPlease enter a valid number input: "
+                    """
+
+
+                            ERROR: Invalid input!
+                            Please enter a valid number input:\s"""
             );
             selection=Integer.parseInt(CLIHandler.sc.next());
         }
@@ -120,21 +126,20 @@ public class CoreHandler {
      * This method prompts the user
      * for a boolean input and handles
      * incorrect user input.
-     * @param prompt    String value representing the question to prompt the user.
+     *
      * @return boolean  Boolean value representing the user's desired option, returns true for yes and false for no.
      */
-    protected static boolean booleanPrompt(String prompt){
-        System.out.print("\n\n"+prompt+" ('y' for yes, 'n' for no)?: ");
+    protected static boolean booleanPrompt(){
+        System.out.print("\n\n"+ "Do you wish to export the results" +" ('y' for yes, 'n' for no)?: ");
         String line=CLIHandler.sc.next();
         while(!(line.toLowerCase().startsWith("y")||line.toLowerCase().startsWith("n"))){
             System.out.print(
-                      "\nERROR: Invalid input."
-                    + "\nPlease enter 'y' for yes or 'n' for no based on your desired selection."
+                    """
+
+                            ERROR: Invalid input.
+                            Please enter 'y' for yes or 'n' for no based on your desired selection."""
             );
         }
-        if(line.startsWith("y")){
-            return true;
-        }
-        return false;
+        return line.startsWith("y");
     }
 }

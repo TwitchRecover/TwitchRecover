@@ -41,7 +41,7 @@ public class ClipsAPI {
      * @return String   String value representing the permanent link of the clip.
      */
     public static String getClipLink(String slug, boolean download){
-        String response="";
+        StringBuilder response= new StringBuilder();
         //API Query:
         try{
             CloseableHttpClient httpClient= HttpClients.createDefault();
@@ -54,14 +54,14 @@ public class ClipsAPI {
                 BufferedReader br=new BufferedReader(new InputStreamReader(httpResponse.getEntity().getContent()));
                 String line;
                 while((line=br.readLine())!=null){
-                    response+=line;
+                    response.append(line);
                 }
                 br.close();
             }
         }
         catch(Exception ignored){}
         try{
-            JSONObject jo=new JSONObject(response);
+            JSONObject jo=new JSONObject(response.toString());
             String streamID=jo.getString("broadcast_id");
             JSONObject vod=jo.getJSONObject("vod");
             if(download){

@@ -32,7 +32,6 @@ import java.io.IOException;
  * handles video prompts.
  */
 public class VideoHandler {
-    private int option;     //Integer value representing the user's selected option;
 
     /**
      * Constructor of the VideoHandler
@@ -40,7 +39,7 @@ public class VideoHandler {
      * @param option int    Integer value representing the user's selected option.
      */
     public VideoHandler(int option){
-        this.option=option;
+        //Integer value representing the user's selected option;
         if(option==9){
             checkMute();
         }
@@ -78,10 +77,12 @@ public class VideoHandler {
      */
     private void unmute(){
         System.out.print(
-                  "\nM3U8 unmuting:"
-                + "\nDisclaimer: This 'unmuting' process allows you to watch the muted segments of an M3U8 but does not allow you to HEAR the audio from those segments."
-                + "\n1. Insert URL."
-                + "\n2. Insert file."
+                """
+
+                        M3U8 unmuting:
+                        Disclaimer: This 'unmuting' process allows you to watch the muted segments of an M3U8 but does not allow you to HEAR the audio from those segments.
+                        1. Insert URL.
+                        2. Insert file."""
         );
         int input= Prompts.getIntInput(1,2);
         boolean isFile;
@@ -89,16 +90,17 @@ public class VideoHandler {
         if(input==1){
             isFile=false;
             System.out.print("\nPlease input the URL of the M3U8 to unmute: ");
-            value=CLIHandler.sc.next();
         }
         else{
             isFile=true;
             System.out.print("\nPlease input the complete file path of the M3U8 to unmute: ");
-            value=CLIHandler.sc.next();
         }
+        value=CLIHandler.sc.next();
         System.out.print(
-                  "\nPlease enter the FILE PATH of where you want the unmuted M3U8 saved:"
-                + "\nFile path: "
+                """
+
+                        Please enter the FILE PATH of where you want the unmuted M3U8 saved:
+                        File path:\s"""
         );
         String fp=FileIO.adjustFP(CLIHandler.sc.next())+FileIO.computeFN(ContentType.M3U8, String.valueOf((int) (Math.random() * 10000000)))+FileExtension.M3U8.fileExtension;
         System.out.print("\n'Unmuting'...");
@@ -115,8 +117,10 @@ public class VideoHandler {
         System.out.print("\nPlease enter the link of the M3U8 file to download: ");
         String url=CLIHandler.sc.next();
         System.out.print(
-                  "\nPlease enter the FILE PATH of where you want the M3U8 saved:"
-                + "\nFile path: "
+                """
+
+                        Please enter the FILE PATH of where you want the M3U8 saved:
+                        File path:\s"""
         );
         String fp= FileIO.adjustFP(CLIHandler.sc.next());
         String fn=FileIO.computeFN(ContentType.Video, String.valueOf((int) (Math.random() * 10000000)));

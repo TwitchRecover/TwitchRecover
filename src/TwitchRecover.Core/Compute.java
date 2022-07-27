@@ -17,18 +17,11 @@
 
 package TwitchRecover.Core;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -69,7 +62,7 @@ public class Compute {
             date=df.parse(time);
         }
         catch(ParseException ignored){}
-        return (long) date.getTime() / 1000;
+        return date.getTime() / 1000;
     }
 
     /**
@@ -78,7 +71,6 @@ public class Compute {
      * returns the first 20 characters of the hash.
      * @param baseString    Base string for which to compute the hash for.
      * @return String       First 20 characters of the SHA1 hash of the given base string.
-     * @throws NoSuchAlgorithmException
      */
     private static String hash(String baseString){
         MessageDigest md= null;
@@ -87,7 +79,7 @@ public class Compute {
         }
         catch(NoSuchAlgorithmException ignored){}
         byte[] result=md.digest(baseString.getBytes());
-        StringBuffer sb=new StringBuffer();
+        StringBuilder sb=new StringBuilder();
         for(byte val: result){
             sb.append(Integer.toString((val&0xff)+0x100, 16).substring(1));
         }
@@ -121,9 +113,6 @@ public class Compute {
      * @return boolean  Boolean value which is true if the string is null and false otherwise.
      */
     public static boolean checkNullString(String string){
-        if(string==null){
-            return true;
-        }
-        return false;
+        return string != null;
     }
 }

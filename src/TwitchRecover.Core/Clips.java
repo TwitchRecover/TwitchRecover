@@ -30,6 +30,7 @@ import TwitchRecover.Core.Enums.ContentType;
 import TwitchRecover.Core.Enums.FileExtension;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * The Clips object holds
@@ -235,11 +236,6 @@ public class Clips {
      * for a downloaded clip.
      */
     private void computeFN(){
-        if(slug==null){
-            fn=FileIO.computeFN(ContentType.Clip, String.valueOf(streamID));
-        }
-        else{
-            fn= FileIO.computeFN(ContentType.Clip, slug);
-        }
+        fn = FileIO.computeFN(ContentType.Clip, Objects.requireNonNullElseGet(slug, () -> String.valueOf(streamID)));
     }
 }

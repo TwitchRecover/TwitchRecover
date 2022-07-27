@@ -26,10 +26,9 @@ import TwitchRecover.Core.FileIO;
  * handles mass prompts.
  */
 public class MassHandler {
-    private int option;     //Integer value which represents the user's selected option.
 
     public MassHandler(int option){
-        this.option=option;
+        //Integer value which represents the user's selected option.
         System.out.print("\n\nMass options are not available right now.\nMass recovery options will be coming in the beta version of Twitch Recover.");
     }
 
@@ -45,7 +44,7 @@ public class MassHandler {
      * @return int  Integer value representing the user's selected option for the mass recovery/download feature.
      */
     protected int massOptions(){
-        return getIntInput(1, 5);
+        return getIntInput();
     }
 
     /**
@@ -54,10 +53,13 @@ public class MassHandler {
      */
     private void recoverMenu(){
         System.out.print(
-                  "\n\nMass Recovery:"
-                + "\n1. Retrieve stream M3U8 links."
-                + "\n2. Retrieve VOD M3U8 links."
-                + "\n3. Retrieve clip permanent links."
+                """
+
+
+                        Mass Recovery:
+                        1. Retrieve stream M3U8 links.
+                        2. Retrieve VOD M3U8 links.
+                        3. Retrieve clip permanent links."""
         );
     }
 
@@ -67,11 +69,14 @@ public class MassHandler {
      */
     private void downloadMenu(){
         System.out.print(
-                  "\n\nMass Download:"
-                + "\n1. Download a VOD."
-                + "\n2. Download a highlight."
-                + "\n3. Download a clip."
-                + "\n4. Download M3U8."
+                """
+
+
+                        Mass Download:
+                        1. Download a VOD.
+                        2. Download a highlight.
+                        3. Download a clip.
+                        4. Download M3U8."""
         );
     }
 
@@ -84,8 +89,7 @@ public class MassHandler {
      */
     protected static String getMassFP(){
         System.out.print("\n\nPlease enter the complete file path of the location of the file containing all of the URLs:\n");
-        String fpInput=CLIHandler.sc.next();
-        return fpInput;
+        return CLIHandler.sc.next();
     }
 
     /**
@@ -120,24 +124,22 @@ public class MassHandler {
      */
     public static String getURL(vType v, oType o){
         System.out.print("\n\nPlease enter the URL of the " + v.text + " to " + o.text + ":\n");
-        String input=CLIHandler.sc.next();
-        return input;
+        return CLIHandler.sc.next();
     }
 
     /**
      * This method gets an integer input from a
      * pre-printed menu.
-     * @param min       Integer value representing the minimum available option.
-     * @param max       Integer value representing the maximum available option.
+     *
      * @return Integer  Integer value representing the user's selected option.
      */
-    private int getIntInput(int min, int max){
-        System.out.print("\nPlease enter the number of the option you want to select (number between " + min +"-" + max + " inclusive:\n");
+    private int getIntInput(){
+        System.out.print("\nPlease enter the number of the option you want to select (number between " + 1 +"-" + 5 + " inclusive:\n");
         int input=Integer.parseInt(CLIHandler.sc.next());
-        while(!(input>=min && input<=max)){
+        while(!(input>= 1 && input<= 5)){
             System.out.print(
                     "\n\nERROR: Incorrect input"
-                            + "\nPlease enter the number of the option you want to select (number between " + max +"-" + min + " inclusive):\n"
+                            + "\nPlease enter the number of the option you want to select (number between " + 5 +"-" + 1 + " inclusive):\n"
             );
             input=Integer.parseInt(CLIHandler.sc.next());
         }

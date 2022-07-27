@@ -27,8 +27,8 @@ import java.io.File;
  * another file extension.
  */
 public class Converter {
-    private String ogFP;            //String value representing the original file path.
-    private FileExtension fe;       //FileExtension enum which represents the desired output file extension.
+    private final String ogFP;            //String value representing the original file path.
+    private final FileExtension fe;       //FileExtension enum which represents the desired output file extension.
     private String rawFP;           //String value representing the raw file path without the current file extension.
 
     /**
@@ -69,9 +69,6 @@ public class Converter {
      * @return Boolean  Boolean value representing whether or not the file is a TS file.
      */
     private boolean checkTS(){
-        if(ogFP.substring(ogFP.lastIndexOf(".")).toLowerCase().equals(".ts")){
-            return true;
-        }
-        return false;
+        return ogFP.substring(ogFP.lastIndexOf(".")).toLowerCase().equals(".ts");
     }
 }

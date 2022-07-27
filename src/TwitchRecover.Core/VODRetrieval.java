@@ -38,7 +38,7 @@ public class VODRetrieval {
      * @return ArrayList<String>    String arraylist which represents all of the working VOD M3U8 URLs.
      */
     public static ArrayList<String> retrieveVOD(String name, String sID, String ts, boolean bf){
-        ArrayList<String> results=new ArrayList<String>();
+        ArrayList<String> results= new ArrayList<>();
         long timestamp=Compute.getUNIX(ts);
         long streamID=Long.parseLong(sID);
         if(bf){
@@ -137,7 +137,7 @@ public class VODRetrieval {
      * @return ArrayList<String>    String arraylist containing the unmuted contents of the M3U8 file.
      */
     private static ArrayList<String> unmuteContents(ArrayList<String> contents, String url) {
-        ArrayList<String> unmutedContents=new ArrayList<String>();
+        ArrayList<String> unmutedContents= new ArrayList<>();
         for(String line: contents){
             if(line.contains("-unmuted.ts") && !line.startsWith("#")){
                 unmutedContents.add(url+line.substring(0, line.lastIndexOf("unmuted.ts"))+"muted.ts");

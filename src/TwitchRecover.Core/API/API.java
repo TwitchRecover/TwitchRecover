@@ -65,10 +65,10 @@ public class API {
                     }
                     else {
                         //Get the FPS of the source resolution.
-                        String patternF = "#EXT-X-MEDIA:TYPE=VIDEO,GROUP-ID=\"chunked\",NAME=\"([0-9p]*) \\(source\\)\",AUTOSELECT=[\"YES\"||\"NO\"]*,DEFAULT=[\"YES\"||\"NO\"]*";
+                        String patternF = "#EXT-X-MEDIA:TYPE=VIDEO,GROUP-ID=\"chunked\",NAME=\"([0-9p]*) \\(source\\)\",AUTOSELECT=[\"YES|NO]*,DEFAULT=[\"YES|NO]*";
                         Pattern pF = Pattern.compile(patternF);
                         Matcher mF = pF.matcher(response.get(i - 2));
-                        Double fps = 0.000;
+                        double fps = 0.000;
                         if(mF.find()) {
                             String vid = mF.group(1);
                             fps = Double.parseDouble(vid.substring(vid.indexOf('p') + 1));
@@ -87,10 +87,10 @@ public class API {
                 }
                 else if(response.get(i-2).contains("1080p60")){     //For resolutions greater or equal to 1080p60.
                     //Get the FPS of the source resolution.
-                    String patternF="#EXT-X-MEDIA:TYPE=VIDEO,GROUP-ID=\"1080p[0-9]*\",NAME=\"(1080p[0-9]*)\",AUTOSELECT=[\"YES\"||\"NO\"]*,DEFAULT=[\"YES\"||\"NO\"]*";
+                    String patternF="#EXT-X-MEDIA:TYPE=VIDEO,GROUP-ID=\"1080p[0-9]*\",NAME=\"(1080p[0-9]*)\",AUTOSELECT=[\"YES|NO]*,DEFAULT=[\"YES|NO]*";
                     Pattern pF=Pattern.compile(patternF);
                     Matcher mF=pF.matcher(response.get(i-2));
-                    Double fps=0.000;
+                    double fps=0.000;
                     if(mF.find()){
                         String vid=mF.group(1);
                         fps=Double.parseDouble(vid.substring(vid.indexOf('p')+1));
@@ -120,7 +120,7 @@ public class API {
      * @return ArrayList<String>    String arraylist holding the entire response from the get request, each line representing an entry.
      */
     static ArrayList<String> getReq(String url){
-        ArrayList<String> responseContents=new ArrayList<String>();
+        ArrayList<String> responseContents= new ArrayList<>();
         try{
             CloseableHttpClient httpClient=HttpClients.createDefault();
             HttpGet httpget=new HttpGet(url);
@@ -196,7 +196,7 @@ public class API {
      */
     protected static String[] getToken(String id, boolean isVOD){
         String json;
-        String response="";
+        StringBuilder response= new StringBuilder();
         if(isVOD){
             json="{\"operationName\": \"PlaybackAccessToken\",\"variables\": {\"isLive\": false,\"login\": \"\",\"isVod\": true,\"vodID\": \"" + id + "\",\"playerType\": \"channel_home_live\"},\"extensions\": {\"persistedQuery\": {\"version\": 1,\"sha256Hash\": \"0828119ded1c13477966434e15800ff57ddacf13ba1911c129dc2200705b0712\"}}}";
         }
@@ -215,7 +215,7 @@ public class API {
                 BufferedReader br=new BufferedReader(new InputStreamReader(httpResponse.getEntity().getContent()));
                 String line;
                 while ((line = br.readLine()) != null) {
-                    response+=line;
+                    response.append(line);
                 }
                 br.close();
             }
@@ -223,6 +223,6 @@ public class API {
             httpClient.close();
         }
         catch(Exception ignored){}
-        return parseToken(response, isVOD);
+        return parseToken(response.toString(), isVOD);
     }
 }

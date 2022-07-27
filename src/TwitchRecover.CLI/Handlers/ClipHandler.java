@@ -28,7 +28,6 @@ import java.util.ArrayList;
  * handles a clip prompt.
  */
 public class ClipHandler {
-    private int option;     //Integer value representing the user's desired option.
 
     /**
      * Constructor and main method of
@@ -36,7 +35,7 @@ public class ClipHandler {
      * @param option    Integer value representing the user's selected option.
      */
     public ClipHandler(int option){
-        this.option=option;
+        //Integer value representing the user's desired option.
         if(option==13){
             retrievePerma();
         }
@@ -54,22 +53,29 @@ public class ClipHandler {
      */
     private void downloadClip(){
         System.out.print(
-                  "\nClip downloading:"
-                + "\nPlease enter the link of the clip to download: "
+                """
+
+                        Clip downloading:
+                        Please enter the link of the clip to download:\s"""
         );
         String clipURL=CLIHandler.sc.next();
-        while(!checkClipURL(clipURL)){
+        while(checkClipURL(clipURL)){
             System.out.print(
-                      "\n\nERROR: Invalid Twitch clip link."
-                    + "\nThe link must be a Twitch clip link or a Twitch server clip link."
-                    + "\nPlease enter the link of the clip to download: "
+                    """
+
+
+                            ERROR: Invalid Twitch clip link.
+                            The link must be a Twitch clip link or a Twitch server clip link.
+                            Please enter the link of the clip to download:\s"""
             );
             clipURL=CLIHandler.sc.next();
         }
         Clips clip=new Clips();
         System.out.print(
-                  "\nPlease enter the FILE PATH of where you want the clip saved:"
-                + "\nFile path: "
+                """
+
+                        Please enter the FILE PATH of where you want the clip saved:
+                        File path:\s"""
         );
         clip.setFP(CLIHandler.sc.next());
         if(clipURL.substring(clipURL.lastIndexOf(".")).equals(".mp4")){
@@ -110,17 +116,23 @@ public class ClipHandler {
      */
     private void retrievePerma(){
         System.out.print(
-                  "\n\nPermanent link retrieval:"
-                + "\nDISCLAIMER: The computation of permanent clip links has become inconsistent in the day prior to this alpha release."
-                + "\nIf your goal is to download the clip, please use the download clip option of this program."
-                + "\nPlease enter the link of the Twitch clip to get the permanent link for: "
+                """
+
+
+                        Permanent link retrieval:
+                        DISCLAIMER: The computation of permanent clip links has become inconsistent in the day prior to this alpha release.
+                        If your goal is to download the clip, please use the download clip option of this program.
+                        Please enter the link of the Twitch clip to get the permanent link for:\s"""
         );
         String clipURL=CLIHandler.sc.next();
-        while(!checkClipURL(clipURL) && !clipURL.contains("clips-media-assets2.twitch.tv") && clipURL.toLowerCase().contains("twitch.tv")){
+        while(checkClipURL(clipURL) && !clipURL.contains("clips-media-assets2.twitch.tv") && clipURL.toLowerCase().contains("twitch.tv")){
             System.out.print(
-                      "\n\nERROR: Invalid link."
-                    + "\nPlease enter the link of a Twitch clip, a clips.twitch.tv/... or twitch.tv/clips/... URL."
-                    + "\nEnter link: "
+                    """
+
+
+                            ERROR: Invalid link.
+                            Please enter the link of a Twitch clip, a clips.twitch.tv/... or twitch.tv/clips/... URL.
+                            Enter link:\s"""
             );
             clipURL=CLIHandler.sc.next();
         }
@@ -137,18 +149,24 @@ public class ClipHandler {
      */
     private void recoverClips(){
         System.out.print(
-                  "\n\nClip Recovery:"
-                + "\nDISCLAIMER: Please install and use Wfuzz. Otherwise, recovery will be EXTREMELY, EXTREMELY slow."
-                + "\nInstructions to install Wfuzz are available here: https://github.com/TwitchRecover/TwitchRecover/wiki/Wfuzz-Integration"
-                + "\n\n1. Input stream information manually."
-                + "\n2. Input the stream link from a Twitch analytics website (Twitch Tracker or Streamscharts)."
-                + "\nPlease enter your desired option, 1 or 2: "
+                """
+
+
+                        Clip Recovery:
+                        DISCLAIMER: Please install and use Wfuzz. Otherwise, recovery will be EXTREMELY, EXTREMELY slow.
+                        Instructions to install Wfuzz are available here: https://github.com/TwitchRecover/TwitchRecover/wiki/Wfuzz-Integration
+
+                        1. Input stream information manually.
+                        2. Input the stream link from a Twitch analytics website (Twitch Tracker or Streamscharts).
+                        Please enter your desired option, 1 or 2:\s"""
         );
         int sourceInput=Integer.parseInt(CLIHandler.sc.next());
         while(!(sourceInput==1 || sourceInput==2)){
             System.out.print(
-                      "\nInvalid input."
-                    + "\nPlease enter either '1' or '2' based on your desired selection: "
+                    """
+
+                            Invalid input.
+                            Please enter either '1' or '2' based on your desired selection:\s"""
             );
             sourceInput=Integer.parseInt(CLIHandler.sc.next());
         }
@@ -170,8 +188,11 @@ public class ClipHandler {
         String wfuzz=CLIHandler.sc.next();
         while(!(wfuzz.equals("y") || wfuzz.equals("n"))){
             System.out.print(
-                      "\n\nERROR: Incorrect input."
-                    + "\nPlease enter 'y' if you have Wfuzz installed or 'n' if not: "
+                    """
+
+
+                            ERROR: Incorrect input.
+                            Please enter 'y' if you have Wfuzz installed or 'n' if not:\s"""
             );
             wfuzz=CLIHandler.sc.next();
         }
@@ -183,7 +204,7 @@ public class ClipHandler {
         for(String result: results){
             System.out.print("\n"+result);
         }
-        if(CoreHandler.booleanPrompt("Do you wish to export the results")){
+        if(CoreHandler.booleanPrompt()){
             System.out.print("\nPlease input the file path where to export the results: ");
             clip.setFP(CLIHandler.sc.next());
             clip.exportResults();

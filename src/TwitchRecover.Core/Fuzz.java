@@ -42,7 +42,7 @@ public class Fuzz {
      * @return ArrayList<String>    String arraylist which holds all of the results of clips.
      */
     public static ArrayList<String> fuzz(long streamID, long duration, boolean wfuzz) {
-        ArrayList<String> results = new ArrayList<String>();
+        ArrayList<String> results;
         int reps = (((int) duration) * 60) + 2000;
         if(wfuzz) {
             results = wfuzz(streamID, reps);
@@ -60,7 +60,7 @@ public class Fuzz {
      * @return ArrayList<String>    String arraylist which holds all of the results of clips.
      */
     private static ArrayList<String> wfuzz(long streamID, int reps) {
-        ArrayList<String> fuzzRes = new ArrayList<String>();
+        ArrayList<String> fuzzRes = new ArrayList<>();
         String command = "wfuzz -o csv -z range,0-" + reps + " --hc 404 https://clips-media-assets2.twitch.tv/" + streamID + "-offset-FUZZ.mp4";
         try {
             Process process = Runtime.getRuntime().exec(command);
@@ -74,7 +74,7 @@ public class Fuzz {
                 if(atResults) {
                     Matcher wm = wp.matcher(line);
                     if(wm.find()) {
-                        if(Integer.valueOf(wm.group(1)) % 900 == 0 && true) {   //TODO: Fix the CLI boolean usage.
+                        if(Integer.parseInt(wm.group(1)) % 900 == 0) {   //TODO: Fix the CLI boolean usage.
                             quarters++;
                             if(found==1){
                                 System.out.print("\n" + (quarters / 4) + " hours into the VOD. " + found + " clip found so far. Continuing to find clips...");
@@ -109,7 +109,7 @@ public class Fuzz {
      * @return ArrayList<String>    String arraylist which holds all of the results of clips.
      */
     private static ArrayList<String> jFuzz(long streamID, int reps) {
-        ArrayList<String> jfuzzRes = new ArrayList<String>();
+        ArrayList<String> jfuzzRes = new ArrayList<>();
         String baseURL = "https://clips-media-assets2.twitch.tv/" + streamID + "-offset-";
         for(int i = 0; i < reps; i++) {
             String clip = baseURL + i + ".mp4";
@@ -128,19 +128,18 @@ public class Fuzz {
      * @return ArrayList<String>    String arraylist representing all of the Twitch M3U8 VOD domains.
      */
     private static ArrayList<String> getDomains(){
-        ArrayList<String> domains=new ArrayList<String>();
+        ArrayList<String> domains= new ArrayList<>();
         boolean added=false;
         try {
-            URL dURL=new URL("https://raw.githubusercontent.com/TwitchRecover/TwitchRecover/main/domains.txt");
+            URL dURL=new URL("https://raw.githubusercontent.com/NosferatuZoddd/TwitchRecover/master/domains.txt");
             HttpURLConnection con=(HttpURLConnection) dURL.openConnection();
             con.setRequestMethod("GET");
             con.setRequestProperty("User-Agent", "Mozilla/5.0");
             if(con.getResponseCode()==HttpURLConnection.HTTP_OK){
                 BufferedReader br=new BufferedReader(new InputStreamReader(con.getInputStream()));
-                String line = null;
+                String line;
                 while((line=br.readLine()) !=null){
-                    String response=line.toString();
-                    domains.add(response);
+                    domains.add(line);
                     added=true;
                 }
             }
@@ -150,10 +149,32 @@ public class Fuzz {
             if(!added){     //To execute if the domains from the domains file were not added as a backup.
                 domains.add("https://vod-secure.twitch.tv");
                 domains.add("https://vod-metro.twitch.tv");
+                domains.add("https://vod-pop-secure.twitch.tv");
                 domains.add("https://d2e2de1etea730.cloudfront.net");
                 domains.add("https://dqrpb9wgowsf5.cloudfront.net");
                 domains.add("https://ds0h3roq6wcgc.cloudfront.net");
-                domains.add("https://dqrpb9wgowsf5.cloudfront.net");
+                domains.add("https://d2nvs31859zcd8.cloudfront.net");
+                domains.add("https://d2aba1wr3818hz.cloudfront.net");
+                domains.add("https://d3c27h4odz752x.cloudfront.net");
+                domains.add("https://dgeft87wbj63p.cloudfront.net");
+                domains.add("https://d1m7jfoe9zdc1j.cloudfront.net");
+                domains.add("https://d3vd9lfkzbru3h.cloudfront.net");
+                domains.add("https://d2vjef5jvl6bfs.cloudfront.net");
+                domains.add("https://d1ymi26ma8va5x.cloudfront.net");
+                domains.add("https://d1mhjrowxxagfy.cloudfront.net");
+                domains.add("https://ddacn6pr5v0tl.cloudfront.net");
+                domains.add("https://d3aqoihi2n8ty8.cloudfront.net");
+                domains.add("https://d1xhnb4ptk05mw.cloudfront.net");
+                domains.add("https://d6tizftlrpuof.cloudfront.net");
+                domains.add("https://d36nr0u3xmc4mm.cloudfront.net");
+                domains.add("https://d1oca24q5dwo6d.cloudfront.net");
+                domains.add("https://d2um2qdswy1tb0.cloudfront.net");
+                domains.add("https://d1w2poirtb3as9.cloudfront.net");
+                domains.add("https://d6d4ismr40iw.cloudfront.net");
+                domains.add("https://d1g1f25tn8m2e6.cloudfront.net");
+                domains.add("https://dykkng5hnh52u.cloudfront.net");
+                domains.add("https://d2dylwb3shzel1.cloudfront.net");
+                domains.add("https://d2xmjdvx03ij56.cloudfront.net");
             }
         }
         return domains;
@@ -172,10 +193,7 @@ public class Fuzz {
             HttpURLConnection con = (HttpURLConnection) uObj.openConnection();
             con.setRequestMethod("GET");
             con.setRequestProperty("User-Agent", "Mozilla/5.0");
-            if(con.getResponseCode()==HttpURLConnection.HTTP_OK){
-                return true;
-            }
-            return false;
+            return con.getResponseCode() == HttpURLConnection.HTTP_OK;
         }
         catch(IOException ignored) {
             return false;
@@ -193,14 +211,12 @@ public class Fuzz {
      * VOD M3U8 URLs.
      */
     protected static ArrayList<String> BFURLs(String name, long streamID, long timestamp){
-        ArrayList<String> results=new ArrayList<String>();
+        ArrayList<String> results= new ArrayList<>();
         for(int i=0; i<60; i++){
             String url=Compute.URLCompute(name, streamID, timestamp+i);
             if(checkURL(url)){
                 ArrayList<String> vResults=verifyURL(url);
-                for(String u: vResults){
-                    results.add(u);
-                }
+                results.addAll(vResults);
             }
         }
         return results;
@@ -215,7 +231,7 @@ public class Fuzz {
      */
     public static ArrayList<String> verifyURL(String url){
         ArrayList<String> domains=getDomains();
-        ArrayList<String> results=new ArrayList<String>();
+        ArrayList<String> results= new ArrayList<>();
         for(String d: domains){
             if(checkURL(d+url)){
                 results.add(d+url);

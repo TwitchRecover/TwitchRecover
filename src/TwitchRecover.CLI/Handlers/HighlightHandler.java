@@ -29,7 +29,6 @@ import TwitchRecover.Core.Highlights;
  * handles the highlight prompts.
  */
 public class HighlightHandler {
-    private int option;     //Integer value representing the user's selected option.
 
     /**
      * Constructor and main handler
@@ -37,7 +36,7 @@ public class HighlightHandler {
      * @param option    Integer value that represents the user's selected option.
      */
     public HighlightHandler(int option){
-        this.option=option;
+        //Integer value representing the user's selected option.
         if(option==6){
             retrieve();
         }
@@ -70,8 +69,10 @@ public class HighlightHandler {
         int quality=CoreHandler.selectFeeds(feeds, oType.Download);
         FileExtension fe=CoreHandler.userFE();
         System.out.print(
-                  "\nPlease enter the FILE PATH of where you want the highlight saved:"
-                + "\nFile path: "
+                """
+
+                        Please enter the FILE PATH of where you want the highlight saved:
+                        File path:\s"""
         );
         highlight.setFP(CLIHandler.sc.next());
         highlight.downloadHighlight(fe, feeds.getFeed(quality-1));
@@ -91,9 +92,12 @@ public class HighlightHandler {
     private void recover(){
         Highlights highlight=new Highlights(true);
         System.out.print(
-                  "\n\nHighlight recovery:"
-                + "\nPlease enter the exact details about the highlight in order to retrieve it:"
-                + "\nChannel name: "
+                """
+
+
+                        Highlight recovery:
+                        Please enter the exact details about the highlight in order to retrieve it:
+                        Channel name:\s"""
         );
         highlight.setChannel(CLIHandler.sc.next());
         System.out.print("\nStream ID: ");

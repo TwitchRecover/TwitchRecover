@@ -19,6 +19,7 @@ package TwitchRecover.Core;
 
 import TwitchRecover.Core.Enums.ContentType;
 import TwitchRecover.Core.Enums.FileExtension;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -59,7 +60,7 @@ public class FileIO {
      */
     public static ArrayList<String> read(String fp){
         File file=new File(fp);
-        ArrayList<String> contents=new ArrayList<String>();
+        ArrayList<String> contents= new ArrayList<>();
         try{
             Scanner sc=new Scanner(file);
             while(sc.hasNextLine()){
@@ -128,7 +129,7 @@ public class FileIO {
      * @param fp        String value representing the complete file path of the file to output.
      */
     protected static void exportFeeds(Feeds feeds, String fp){
-        ArrayList<String> results=new ArrayList<String>();
+        ArrayList<String> results= new ArrayList<>();
         for(int i=0; i<feeds.getFeeds().size(); i++){
             results.add("# Quality: "+feeds.getQuality(i).text);
             results.add(feeds.getFeed(i));

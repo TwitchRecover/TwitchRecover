@@ -89,7 +89,6 @@ public class WebsiteRetrieval {
      * This method gets the JSON return from a URL.
      * @param url String representing the URL to get the JSON response from.
      * @return String   String response representing the JSON response of the URL.
-     * @throws IOException
      */
     private static String getJSON(String url) throws IOException {
         String json = "";
@@ -100,7 +99,7 @@ public class WebsiteRetrieval {
         String readLine = null;
         if(httpcon.getResponseCode() == HttpURLConnection.HTTP_OK) {
             BufferedReader br = new BufferedReader(new InputStreamReader(httpcon.getInputStream()));
-            StringBuffer response = new StringBuffer();
+            StringBuilder response = new StringBuilder();
             while((readLine = br.readLine()) != null) {
                 response.append(readLine);
             }
@@ -119,7 +118,6 @@ public class WebsiteRetrieval {
      * @param url String value representing the Twitch Tracker stream URL.
      * @return String[4]    String array containing the 4 principal values (streamer's name, stream ID,
      * timestamp of the start of the stream and the duration) in that respective order.
-     * @throws IOException
      */
     private static String[] getTTData(String url) throws IOException {
         String[] results = new String[4];
@@ -152,7 +150,7 @@ public class WebsiteRetrieval {
                 results[3] = dm.group(1);
             }
             //Get the streamer's name and the VOD ID:
-            String pattern = "twitchtracker\\.com\\/([a-zA-Z0-9-_]*)\\/streams\\/(\\d*)";
+            String pattern = "twitchtracker\\.com/([a-zA-Z0-9-_]*)/streams/(\\d*)";
             Pattern r = Pattern.compile(pattern);
             Matcher m = r.matcher(url);
             if(m.find()) {
@@ -172,14 +170,13 @@ public class WebsiteRetrieval {
      * @param url String value representing the Stream Charts stream URL.
      * @return String[4]    String array containing the 4 principal values (streamer's name, stream ID,
      * timestamp of the start of the stream and the duration) in that respective order.
-     * @throws IOException
      */
     private static String[] getSCData(String url) throws IOException {
         String[] results = new String[4];     //0: streamer's name; 1: Stream ID; 2: Timestamp; 3: Duration.
         String userID;
         double duration = 0.0;
         //Retrieve initial values:
-        String pattern = "streamscharts\\.com\\/twitch\\/channels\\/([a-zA-Z0-9_-]*)\\/streams\\/(\\d*)";
+        String pattern = "streamscharts\\.com/twitch/channels/([a-zA-Z0-9_-]*)/streams/(\\d*)";
         Pattern r = Pattern.compile(pattern);
         Matcher m = r.matcher(url);
         if(m.find()) {

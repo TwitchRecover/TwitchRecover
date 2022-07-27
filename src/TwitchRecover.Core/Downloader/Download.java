@@ -20,6 +20,7 @@ package TwitchRecover.Core.Downloader;
 import TwitchRecover.Core.Enums.Timeout;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
+
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -45,7 +46,6 @@ public class Download {
      * @param url           String value representing the URL to download.
      * @param fp            String value representing the complete file path of the file.
      * @return String       String value representing the complete file path of where the file was downloaded.
-     * @throws IOException
      */
     public static String download(String url, String fp) throws IOException {
         String extension=url.substring(url.lastIndexOf("."));
@@ -67,7 +67,6 @@ public class Download {
      * from a URL.
      * @param url       URL of the file to be downloaded.
      * @return File     File object of the file that will be downloaded and is returned.
-     * @throws IOException
      */
     public static File tempDownload(String url) throws IOException{
         URL dURL=new URL(url);
@@ -110,15 +109,13 @@ public class Download {
             String item=downloadQueue.poll();
             final int finalIndex=index;
             downloadTPE.execute(new Runnable() {
-                int currentTries=1;
+                final int currentTries=1;
                 @Override
                 public void run() {
                     while(currentTries<=MAX_TRIES) {
-                        final int threadIndex = finalIndex;
-                        final String threadItem = item;
                         try {
-                            File tempTS = tempDownload(threadItem);
-                            segmentMap.put(threadIndex, tempTS);
+                            File tempTS = tempDownload(item);
+                            segmentMap.put(finalIndex, tempTS);
                             break;
                         }
                         catch(Exception ignored) {}

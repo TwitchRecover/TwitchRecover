@@ -30,10 +30,9 @@ import TwitchRecover.Core.VOD;
  * handles a VOD prompt.
  */
 public class VODHandler {
-    private int option;     //Integer value representing the user's desired option.
 
     public VODHandler(int option){
-        this.option=option;
+        //Integer value representing the user's desired option.
         if(option==3){
             retrieve();
         }
@@ -72,8 +71,10 @@ public class VODHandler {
         int quality=CoreHandler.selectFeeds(feeds, oType.Download);
         FileExtension fe=CoreHandler.userFE();
         System.out.print(
-                  "\nPlease enter the FILE PATH of where you want the VOD saved:"
-                + "\nFile path: "
+                """
+
+                        Please enter the FILE PATH of where you want the VOD saved:
+                        File path:\s"""
         );
         vod.setFP(CLIHandler.sc.next());
         System.out.print("\nDownloading...");
@@ -111,8 +112,10 @@ public class VODHandler {
         Feeds feeds=vod.retrieveVODFeeds();
         if(feeds==null){
             System.out.print(
-                      "\nNO RESULTS FOUND."
-                    + "\nThe VOD cannot be found on Twitch servers."
+                    """
+
+                            NO RESULTS FOUND.
+                            The VOD cannot be found on Twitch servers."""
             );
         }
         else{
@@ -127,11 +130,14 @@ public class VODHandler {
      */
     private static void VODRecoveryMenu(){
         System.out.print(
-                  "\n\nVOD Recovery:"
-                + "\nTo recover a VOD (time limit of maximum 60 days), you can either:"
-                + "\n1. Use a stream analytics link."
-                + "\n(Supports stream links from Twitch Tracker and Stream Charts)"
-                + "\n2. Input values manually."
+                """
+
+
+                        VOD Recovery:
+                        To recover a VOD (time limit of maximum 60 days), you can either:
+                        1. Use a stream analytics link.
+                        (Supports stream links from Twitch Tracker and Stream Charts)
+                        2. Input values manually."""
         );
     }
 }

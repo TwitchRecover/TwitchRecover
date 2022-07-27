@@ -61,7 +61,7 @@ public class VideoAPI {
     public static Feeds getSubVODFeeds(long VODID, Boolean highlight){
         Feeds feeds=new Feeds();
         //Get the JSON response of the VOD:
-        String response="";
+        StringBuilder response= new StringBuilder();
         try{
             CloseableHttpClient httpClient= HttpClients.createDefault();
             HttpGet httpget=new HttpGet("https://api.twitch.tv/kraken/videos/"+VODID);
@@ -73,7 +73,7 @@ public class VideoAPI {
                 BufferedReader br=new BufferedReader(new InputStreamReader(httpResponse.getEntity().getContent()));
                 String line;
                 while ((line = br.readLine()) != null) {
-                    response+=line;
+                    response.append(line);
                 }
                 br.close();
             }
@@ -82,7 +82,7 @@ public class VideoAPI {
         }
         catch (Exception ignored){}
         //Parse the JSON response:
-        JSONObject jO=new JSONObject(response);
+        JSONObject jO=new JSONObject(response.toString());
         String baseURL= Compute.singleRegex("https:\\/\\/[a-z0-9]*.cloudfront.net\\/([a-z0-9_]*)\\/storyboards\\/[0-9]*-info.json",jO.getString("seek_previews_url"));
         String token=getVODToken(VODID)[0];
         JSONObject jo = new JSONObject(token);

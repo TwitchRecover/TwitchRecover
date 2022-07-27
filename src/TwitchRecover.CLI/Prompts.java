@@ -31,10 +31,12 @@ public class Prompts {
      */
     public static void welcome(){
         System.out.print(
-                  "\nWelcome to Twitch Recover!"
-                + "\nThe number one Twitch recovery tool created by Daylam Tayari (https://github.com/daylamtayari)"
-                + "\nIf you like this tool please help support me: https://paypal.me/daylamtayari https://cash.app/$daylamtayari BTC: 15KcKrsqW6DQdyZPrgRXXmsKkyyZzHAQVX"
-                + "\n"
+                """
+
+                        Welcome to Twitch Recover!
+                        The number one Twitch recovery tool created by Daylam Tayari (https://github.com/daylamtayari)
+                        If you like this tool please help support me: https://paypal.me/daylamtayari https://cash.app/$daylamtayari BTC: 15KcKrsqW6DQdyZPrgRXXmsKkyyZzHAQVX
+                        """
         );
     }
 
@@ -73,30 +75,38 @@ public class Prompts {
      */
     private static void menuPrinter(){
         System.out.print(
-                  "\n\nMenu:"
-                + "\nStreams:"
-                + "\n1. Get a live stream link (get the M3U8 stream link of a live stream)."
-                + "\n2. Download a stream live. (Currently unavailable, coming in the beta)"
-                + "\n\nVODs:"
-                + "\n3. Get the link to a VOD (including sub-only)."
-                + "\n4. Download a VOD (including sub-only)."
-                + "\n5. Recover a VOD - 60 days maximum (can be less in rare cases)."
-                + "\n\nHighlights:"
-                + "\n6. Retrieve the link to a highlight."
-                + "\n7. Download a highlight."
-                + "\n8. Recover a highlight."
-                + "\n\nVideos:"
-                + "\n9. Check if a VOD/highlight has muted segments."
-                + "\n10. 'Unmute' a VOD/highlight (be able to view the muted segments of the M3U8)."
-                + "\n11. Download an M3U8 file."
-                + "\n12. Convert a TS file to MP4."
-                + "\n\nClips:"
-                + "\n13. Retrieve permanent link of a clip - never deleted."
-                + "\n14. Download a clip."
-                + "\n15. Recover ALL clips from a stream - NO time limit."
-                + "\n\nMass options: (Currently unavailable, coming in the beta)"
-                + "\n16. Mass recover options. (Currently unavailable, coming in the beta)"
-                + "\n17. Mass download options. (Currently unavailable, coming in the beta)"
+                """
+
+
+                        Menu:
+                        Streams:
+                        1. Get a live stream link (get the M3U8 stream link of a live stream).
+                        2. Download a stream live. (Currently unavailable, coming in the beta)
+
+                        VODs:
+                        3. Get the link to a VOD (including sub-only).
+                        4. Download a VOD (including sub-only).
+                        5. Recover a VOD - 60 days maximum (can be less in rare cases).
+
+                        Highlights:
+                        6. Retrieve the link to a highlight.
+                        7. Download a highlight.
+                        8. Recover a highlight.
+
+                        Videos:
+                        9. Check if a VOD/highlight has muted segments.
+                        10. 'Unmute' a VOD/highlight (be able to view the muted segments of the M3U8).
+                        11. Download an M3U8 file.
+                        12. Convert a TS file to MP4.
+
+                        Clips:
+                        13. Retrieve permanent link of a clip - never deleted.
+                        14. Download a clip.
+                        15. Recover ALL clips from a stream - NO time limit.
+
+                        Mass options: (Currently unavailable, coming in the beta)
+                        16. Mass recover options. (Currently unavailable, coming in the beta)
+                        17. Mass download options. (Currently unavailable, coming in the beta)"""
         );
     }
 
@@ -123,8 +133,10 @@ public class Prompts {
         String response=CLIHandler.sc.next();
         while(!(response.equalsIgnoreCase("y") || response.equalsIgnoreCase("n"))){
             System.out.print(
-                      "\nINCORRECT INPUT"
-                    + "\nPlease enter either a 'y' or a 'n' corresponding to your desired selection: "
+                    """
+
+                            INCORRECT INPUT
+                            Please enter either a 'y' or a 'n' corresponding to your desired selection:\s"""
             );
             response=CLIHandler.sc.next();
         }
@@ -139,14 +151,19 @@ public class Prompts {
      */
     protected static boolean goAgane(){
         System.out.print(
-                "\n\nDo you want to continue using the program/perform a new operation?"
-                + "\nPlease enter 'y' for yes and 'n' for no: "
+                """
+
+
+                        Do you want to continue using the program/perform a new operation?
+                        Please enter 'y' for yes and 'n' for no:\s"""
         );
         String response=CLIHandler.sc.next();
         while(!(response.equalsIgnoreCase("y") || response.equalsIgnoreCase("n"))){
             System.out.print(
-                    "\nINCORRECT INPUT"
-                    + "\nPlease enter either a 'y' or a 'n' corresponding to your desired selection: "
+                    """
+
+                            INCORRECT INPUT
+                            Please enter either a 'y' or a 'n' corresponding to your desired selection:\s"""
             );
             response=CLIHandler.sc.next();
         }
@@ -160,9 +177,11 @@ public class Prompts {
      */
     protected static void repeatWelcome(){
         System.out.print(
-                  "\nIf you like this tool and find it useful, please consider supporting me."
-                + "\nCheck out my projects - https://github.com/daylamtayari"
-                + "\nSupport me financially - https://paypal.me/daylamtayari https://cash.app/$daylamtayari BTC: 15KcKrsqW6DQdyZPrgRXXmsKkyyZzHAQVX"
+                """
+
+                        If you like this tool and find it useful, please consider supporting me.
+                        Check out my projects - https://github.com/daylamtayari
+                        Support me financially - https://paypal.me/daylamtayari https://cash.app/$daylamtayari BTC: 15KcKrsqW6DQdyZPrgRXXmsKkyyZzHAQVX"""
         );
     }
 
@@ -182,10 +201,13 @@ public class Prompts {
      */
     protected static void exitMessage(){
         System.out.print(
-                  "\n\nThank you for using Twitch Recover!"
-                + "\nIf this tool was useful, please consider support me."
-                + "\nCheck out my projects - https://github.com/daylamtayari"
-                + "\nSupport me financially - https://paypal.me/daylamtayari https://cash.app/$daylamtayari BTC: 15KcKrsqW6DQdyZPrgRXXmsKkyyZzHAQVX"
+                """
+
+
+                        Thank you for using Twitch Recover!
+                        If this tool was useful, please consider support me.
+                        Check out my projects - https://github.com/daylamtayari
+                        Support me financially - https://paypal.me/daylamtayari https://cash.app/$daylamtayari BTC: 15KcKrsqW6DQdyZPrgRXXmsKkyyZzHAQVX"""
         );
     }
 
@@ -196,11 +218,13 @@ public class Prompts {
      */
     protected static void alphaDisclaimer(){
         System.out.print(
-                  "\nDISCLAIMER:"
-                + "\nThis is only the alpha version of this program."
-                + "\nThis should not be treated as a complete and final program."
-                + "\nThere may be bugs and issues, which if you do experience please report on the Github project page - https://github.com/twitchrecover/twitchrecover"
-                + "\nThank you for your understanding."
+                """
+
+                        DISCLAIMER:
+                        This is only the alpha version of this program.
+                        This should not be treated as a complete and final program.
+                        There may be bugs and issues, which if you do experience please report on the Github project page - https://github.com/twitchrecover/twitchrecover
+                        Thank you for your understanding."""
         );
     }
 }

@@ -16,7 +16,9 @@
  */
 
 package TwitchRecover.Core;
+
 import TwitchRecover.Core.Enums.Quality;
+
 import java.util.ArrayList;
 
 /**
@@ -35,8 +37,8 @@ public class Feeds {
      * qualities arraylists.
      */
     public Feeds(){
-        feeds=new ArrayList<String>();
-        qualities=new ArrayList<Quality>();
+        feeds= new ArrayList<>();
+        qualities= new ArrayList<>();
     }
 
     /**

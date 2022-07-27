@@ -24,7 +24,6 @@ package TwitchRecover.CLI;
 public class CLI {
     /**
      * Core method of the CLI version of Twitch Recover.
-     * @param args
      */
     public static void main(String[] args){
         CLIHandler.main();

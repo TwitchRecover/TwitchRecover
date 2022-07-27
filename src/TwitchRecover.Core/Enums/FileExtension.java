@@ -30,7 +30,7 @@ public enum FileExtension {
     AVI(".avi"),
     MP4(".mp4");
 
-    public String fileExtension;
+    public final String fileExtension;
     FileExtension(String fe){
         fileExtension=fe;
     }

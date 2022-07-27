@@ -30,8 +30,8 @@ public enum vType {
     M3U8("M3U8", ""),
     Results("results", "");
 
-    public String text;
-    String stream;
+    public final String text;
+    final String stream;
     vType(String t, String s) {
         text = t;
         stream = s;

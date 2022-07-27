@@ -18,11 +18,11 @@
 package TwitchRecover.Core.Enums;
 
 public enum Timeout {
-    CONNECT(60000),
-    READ(60000);
+    CONNECT(),
+    READ();
 
-    public int time;    //Timeout time in milliseconds.
-    Timeout(int m){
-        time=m;
+    public final int time;    //Timeout time in milliseconds.
+    Timeout(){
+        time= 60000;
     }
 }

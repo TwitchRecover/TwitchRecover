@@ -33,9 +33,7 @@ import java.util.regex.Pattern;
  * process a highlight.
  */
 public class Highlights {
-    private boolean isDeleted;                  //Boolean value representing whether or not the highlight is still up.
     private Feeds feeds;                        //Feeds object corresponding to the highlight.
-    private FileExtension fe;                   //Desired output file extension.
     private long highlightID;                   //Highlight ID of the highlight if it is still up.
     private String[] highlightInfo;             //String array containing the VOD info such as streamer, timestamp, etc.
     //0: Channel name; 1: Stream ID; 2. Timestamp of the start of the stream.
@@ -50,7 +48,7 @@ public class Highlights {
      * @param isDeleted     Boolean value representing whether or not the highlight is deleted.
      */
     public Highlights(boolean isDeleted){
-        this.isDeleted=isDeleted;
+        //Boolean value representing whether or not the highlight is still up.
         if(isDeleted){
             highlightInfo=new String[4];
         }
@@ -99,7 +97,7 @@ public class Highlights {
     public Feeds retrieveQualities(){
         String part1=null;
         String part2=null;
-        String pattern="([vod\\-secure.twitch.tv]*|[vod\\-metro.twitch.tv]*|[[0-9a-zA-Z]*.cloudfront.net]*)(\\/[a-zA-Z0-9_]*\\/)chunked(\\/highlight-[0-9]*\\.m3u8)";
+        String pattern="([vod\\-secur.twih]*|[vod\\-metr.wich]*|[0-9a-zA-Z*.cloudfrnte]*)(/[a-zA-Z0-9_]*/)chunked(/highlight-[0-9]*\\.m3u8)";
         Pattern r= Pattern.compile(pattern);
         Matcher m=r.matcher(retrievedURLs.get(0));
         if(m.find()){
@@ -216,7 +214,7 @@ public class Highlights {
      * @param fe    FileExtension enum representing the user's desired output file.
      */
     public void setFE(FileExtension fe){
-        this.fe=fe;
+        //Desired output file extension.
     }
 
     /**

@@ -17,9 +17,9 @@
 
 package TwitchRecover.Core.Downloader;
 
-import TwitchRecover.Core.Enums.FileExtension;
 import lombok.Cleanup;
 import org.apache.commons.io.IOUtils;
+
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -35,7 +35,6 @@ class FileHandler {
     /**
      * This method creates a temp folder where all of the temporary TS
      * files (M3U8 parts) will be saved.
-     * @throws IOException
      */
     protected static void createTempFolder() throws IOException {
         TEMP_FOLDER_PATH= Files.createTempDirectory("TwitchRecover-").toAbsolutePath();
@@ -65,7 +64,6 @@ class FileHandler {
      * Method which merges two files together.
      * @param input     File to be merged.
      * @param output    File to be merged into.
-     * @throws IOException
      */
     private static void fileMerger(File input, File output) throws IOException {
         @Cleanup OutputStream os= new BufferedOutputStream(new FileOutputStream(output, true));

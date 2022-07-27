@@ -34,18 +34,17 @@ class M3U8Handler {
      * chunks of an M3U8 URL.
      * @param url                   URL of the M3U8 file to retrieve the chunks off.
      * @return ArrayList<String>    String arraylist containing all of the chunks of the M3U8 file.
-     * @throws IOException
      */
     protected static ArrayList<String> getChunks(String url) throws IOException {
-        ArrayList<String> chunks=new ArrayList<String>();
+        ArrayList<String> chunks= new ArrayList<>();
         String baseURL="";
-        String pattern = "([a-z0-9\\-]*.[a-z_]*.[net||com||tv]*\\/[a-z0-9_]*\\/[a-zA-Z0-9]*\\/)index[0-9a-zA-Z-]*.m3u8";
+        String pattern = "([a-z0-9\\-]*.[a-z_]*.[net|comv]*/[a-z0-9_]*/[a-zA-Z0-9]*/)index[0-9a-zA-Z-]*.m3u8";
         Pattern r = Pattern.compile(pattern);
         Matcher m = r.matcher(url);
         if(m.find()) {
             baseURL = "https://" + m.group(1);
         }
-        String pattern2 = "([a-z0-9\\-]*.[a-z_]*.[net||com||tv]*\\/[a-zA-Z0-9_]*\\/[0-9]*\\/[a-zA-Z0-9_-]*\\/[0-9p]*\\/)";
+        String pattern2 = "([a-z0-9\\-]*.[a-z_]*.[net|comv]*/[a-zA-Z0-9_]*/[0-9]*/[a-zA-Z0-9_-]*/[0-9p]*/)";
         Pattern r2 = Pattern.compile(pattern2);
         Matcher m2 = r2.matcher(url);
         if(m2.find()) {

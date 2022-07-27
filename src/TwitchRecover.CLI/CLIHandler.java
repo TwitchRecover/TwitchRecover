@@ -18,20 +18,11 @@
 package TwitchRecover.CLI;
 
 //import TwitchRecover.Core.Download;
+
 import TwitchRecover.CLI.Enums.oType;
 import TwitchRecover.CLI.Enums.vType;
-import TwitchRecover.CLI.Handlers.ClipHandler;
-import TwitchRecover.CLI.Handlers.HighlightHandler;
-import TwitchRecover.CLI.Handlers.MassHandler;
-import TwitchRecover.CLI.Handlers.StreamHandler;
-import TwitchRecover.CLI.Handlers.VODHandler;
-import TwitchRecover.CLI.Handlers.VideoHandler;
-import TwitchRecover.CLI.Prompts;
-import TwitchRecover.Core.FileIO;
+import TwitchRecover.CLI.Handlers.*;
 
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -39,7 +30,7 @@ import java.util.Scanner;
  * version of Twitch Recover.
  */
 public class CLIHandler {
-    public static Scanner sc=new Scanner(System.in);    //All scanners use this scanner. TODO: Find better way, or a scanner for each independent usage but this will have to do for the alpha.
+    public static final Scanner sc=new Scanner(System.in);    //All scanners use this scanner. TODO: Find better way, or a scanner for each independent usage but this will have to do for the alpha.
     /**
      * Core method of the CLI handler.
      */

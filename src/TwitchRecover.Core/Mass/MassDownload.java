@@ -75,9 +75,7 @@ public class MassDownload {
      */
     private void downloadVODs(){
         for(String line: read){
-            Thread thread=new Thread(() ->{
-               downloadVOD(line);
-            });
+            Thread thread=new Thread(() -> downloadVOD(line));
             thread.start();
         }
     }
@@ -101,9 +99,7 @@ public class MassDownload {
      */
     private void downloadHighlights(){
         for(String line: read){
-            Thread thread=new Thread(() ->{
-                downloadHighlight(line);
-            });
+            Thread thread=new Thread(() -> downloadHighlight(line));
             thread.start();
         }
     }
@@ -126,9 +122,7 @@ public class MassDownload {
      */
     private void downloadClips(){
         for(String line: read){
-            Thread thread=new Thread(() ->{
-                downloadClip(line);
-            });
+            Thread thread=new Thread(() -> downloadClip(line));
             thread.start();
         }
     }

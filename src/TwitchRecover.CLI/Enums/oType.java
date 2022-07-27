@@ -29,7 +29,7 @@ public enum oType{
     Unmute("unmute"),
     Output("export");
 
-    public String text;
+    public final String text;
     oType(String t){
         text=t;
     }
