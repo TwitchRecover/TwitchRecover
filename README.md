@@ -1,67 +1,64 @@
-<a href="https://paypal.me/daylamtayari"><img src="https://img.shields.io/badge//daylamtayari-%2300457C.svg?&style=for-the-badge&logo=PayPal&logoColor=white&labelColor=black"></a> 
-<a href="https://cash.app/$daylamtayari"><img src="https://img.shields.io/badge//$daylamtayari-%2300C244.svg?&style=for-the-badge&logo=Cash-App&logoColor=white&labelColor=black"></a> 
-<a href="https://www.blockchain.com/btc/address/15KcKrsqW6DQdyZPrgRXXmsKkyyZzHAQVX"><img src="https://img.shields.io/badge/15KcKrsqW6DQdyZPrgRXXmsKkyyZzHAQVX-%23F7931A.svg?&style=for-the-badge&logo=bitcoin&logoColor=white&labelColor=black"></a>
+### If you want to help:
+
+* #### Bitcoin wallet: 1DXrtXnrCKdDm24x8ioXY8ZkNWDDCxEFg4
 
 # Twitch Recover
 
 ### Twitch Recover is a free tool that allows you to view, recover and download all types of Twitch videos (VODs, clips, streams and highlights).
   
-### There are two current versions available, the alpha of the 2.0 version which has 17 different features and the 1.2 version which is the last current stable version.  
-**If you use the 2.0 alpha and experience an issue, please report the issue so I can fix it for the beta and final releases.**  
+### The current version available is the alpha of the 2.1 version which has 17 different features.
+**If you use the 2.1 alpha and experience an issue, please report the issue so I can fix it for the beta and final releases.**  
 
 ### Twitch has just started fully deleting a greater percentage of VODs also from their VOD servers when a streamer deletes the VOD. If you cannot find a VOD it is because that one has fallen fate to Twitch's updated deletion process.
 
 ## Downloads:  
 <break/>  
   
-### - [2.0 Alpha](https://github.com/TwitchRecover/TwitchRecover/releases/download/2.0aH/Twitch.Recover.Setup.exe): [https://github.com/TwitchRecover/TwitchRecover/releases/tag/2.0aH](https://github.com/TwitchRecover/TwitchRecover/releases/tag/2.0aH)  
-### - [1.2 Release (last stable release)](https://github.com/TwitchRecover/TwitchRecover/releases/download/1.2/TwitchRecover-CLI-v1.2.exe): [https://github.com/TwitchRecover/TwitchRecover/releases/tag/1.2](https://github.com/TwitchRecover/TwitchRecover/releases/tag/1.2)  
-  
+### - [2.1 Alpha](https://github.com/NosferatuZoddd/TwitchRecover/releases/tag/2.1a): [https://github.com/NosferatuZoddd/TwitchRecover/releases/tag/2.1a](https://github.com/NosferatuZoddd/TwitchRecover/releases/tag/2.1a)  
+ 
 ## Features:
-  
-| Features  | 1.2 Release  | 2.0 Alpha | 2.0 Beta | 2.0 Final Release |  
-| ------------- | ------------- | ------------- | ------------- |------------- |
-| GUI  | ❌  | ❌  | ✔  | ✔  |
-| Get live stream feeds  | ❌  | ✔  | ✔  | ✔  |
-| Download live stream  | ❌  | ❌  | ✔  | ✔  |
-| Get VOD feeds  | ✔  | ✔  | ✔  | ✔  |
-| Download VOD  | ❌  | ✔  | ✔  | ✔  |
-| Recover VOD  | ✔  | ✔  | ✔  | ✔  |
-| Retrieve highlight feeds  | ❌  | ✔  | ✔  | ✔  |
-| Download highlight  | ❌  | ✔  | ✔  | ✔  |
-| Recover highlight  | ❌  | ✔  | ✔  | ✔  |
-| Check for muted segments  | ❌  | ✔  | ✔  | ✔  |
-| 'Unmute' video  | ✔  | ✔  | ✔  | ✔  |
-| Download M3U8  | ❌  | ✔  | ✔  | ✔  |
-| Convert TS files  | ❌  | ✔  | ✔  | ✔  |
-| Retrieve permanent clip links  | ❌  | 🟡  | 🟡  | 🟡  |
-| Download a clip  | ❌  | ✔  | ✔  | ✔  |
-| Recover ALL clips from a stream  | ❌  | ✔  | ✔  | ✔  |
-| Download chat from live stream  | ❌  | ❌  | ✔  | ✔  |
-| Download chat from clip  | ❌  | ❌  | ✔  | ✔  |
-| Download chat from VOD/highlight  | ❌  | ❌  | ✔  | ✔  |
-| Mass download features  | ❌  | ❌  | ✔  | ✔  |
-| Mass recovery features  | ❌  | ❌  | ✔  | ✔  |
-| User preferences  | ❌  | ❌  | ✔  | ✔  |
-| Multi language support (10+)  | ❌  | ❌  | ❌  | ✔  |
-| Direct Twitch Recover URLs  | ❌  | ❌  | ❌  | ✔  |
-| Detailed wiki and video tutorials  | ❌  | ❌  | ❌  | ✔  |
-| Website  | ❌  | ❌  | ❌  | ✔  |
-| Browser extension  | ❌  | ❌  | ❌  | ✔  |
+
+| Features  | 2.1 Alpha | 3.0 Beta | 4.0 Final Release |  
+| ------------- |-----------|----------|-------------------|
+| GUI  | ❌         | ✔        | ✔                 |
+| Get live stream feeds  | ✔         | ✔        | ✔                 |
+| Download live stream  | ❌         | ✔        | ✔                 |
+| Get VOD feeds  | ✔         | ✔        | ✔                 |
+| Download VOD  | ✔         | ✔        | ✔                 |
+| Recover VOD  | ✔         | ✔        | ✔                 |
+| Retrieve highlight feeds  | ✔         | ✔        | ✔                 |
+| Download highlight  | ✔         | ✔        | ✔                 |
+| Recover highlight  | ✔         | ✔        | ✔                 |
+| Check for muted segments  | ✔         | ✔        | ✔                 |
+| 'Unmute' video  | ✔         | ✔        | ✔                 |
+| Download M3U8  | ✔         | ✔        | ✔                 |
+| Convert TS files  | ✔         | ✔        | ✔                 |
+| Retrieve permanent clip links  | 🟡        | 🟡       | 🟡                |
+| Download a clip  | ✔         | ✔        | ✔                 |
+| Recover ALL clips from a stream  | ✔         | ✔        | ✔                 |
+| Download chat from live stream  | ❌         | ✔        | ✔                 |
+| Download chat from clip  | ❌         | ✔        | ✔                 |
+| Download chat from VOD/highlight  | ❌         | ✔        | ✔                 |
+| Mass download features  | ❌         | ✔        | ✔                 |
+| Mass recovery features  | ❌         | ✔        | ✔                 |
+| User preferences  | ❌         | ✔        | ✔                 |
+| Multi language support (10+)  | ❌         | ❌        | ✔                 |
+| Direct Twitch Recover URLs  | ❌         | ❌        | ✔                 |
+| Detailed wiki and video tutorials  | ❌         | ❌        | ✔                 |
+| Website  | ❌         | ❌        | ✔                 |
+| Browser extension  | ❌         | ❌        | ✔                 |
 
 ### If there is a feature you don't see above and would like to see, please create a Github issue suggesting the feature.
 <break/>  
 
-## 2.0 Alpha Guide:  
+## 2.1 Alpha Guide:  
   
 ### Installation:  
-**For Windows users please use the installer.**
-**For linux and MacOS users, please download the JAR and run it.**
+**Available on all platforms (Windows, Linux, macOS)**
   
-1. Download the installer: [https://github.com/TwitchRecover/TwitchRecover/releases/download/2.0aH/Twitch.Recover.Setup.exe](https://github.com/TwitchRecover/TwitchRecover/releases/download/2.0aH/Twitch.Recover.Setup.exe)
-2. Run and install the installer.
-3. Launch Twitch Recover.
-4. Enjoy.
+1. Download the latest release: [https://github.com/NosferatuZoddd/TwitchRecover/releases/](https://github.com/NosferatuZoddd/TwitchRecover/releases/)
+2. Launch Twitch Recover.
+3. Enjoy.
 
 ### Can't play M3U8!
 
@@ -75,26 +72,6 @@ You just retrieved a VOD or highlight but when you paste it into VLC it won't lo
 This is caused by how the playlist of Twitch M3U8 videos which have muted segments are structured. 
 This results in when you try playing those muted segments in VLC (or other video player), it won't be able to reach it and cause it to be unable to play it.  
 When unmuted using Twitch Recover, simply open the file in VLC or other similar video players and you should be able to watch it as usual.  
-   
-### Wfuzz
-
-**If you are attempting to recover clips from a stream, PLEASE utilise the Wfuzz integration and use Wfuzz.**   
-**It will shorten your recovery time from literal hours to a couple of minutes.**
-**Not using Wfuzz is very heavily unrecommended.**  
-   
-#### To install and setup Wfuzz for integration with Twitch Recover, please follow the instructions that are on the [Wiki page](https://github.com/TwitchRecover/TwitchRecover/wiki/Wfuzz-Integration).
-**- Wfuzz Integration wiki page: [https://github.com/TwitchRecover/TwitchRecover/wiki/Wfuzz-Integration](https://github.com/TwitchRecover/TwitchRecover/wiki/Wfuzz-Integration).**  
-**- Wfuzz Integration video tutorial: [https://youtu.be/ZldxgvOrsDE](https://youtu.be/ZldxgvOrsDE).**
-
-## 1.2 Guide:
-  
-### Installation:
-1. Download the exe file for your desired version.
-    - [Graphical (GUI) Version (WIP, coming soon)]()
-    - [Command Line Version](https://github.com/TwitchRecover/TwitchRecover/releases/download/1.2/TwitchRecover-CLI-v1.2.exe)
-2. Run the exe. **Ignore the Windows Defender popup, click more info and run anyway. It is a certificate issue, not a security issue.**
-3. Paste the result URL into VLC or another similar video client.  
-<img src="https://i.gyazo.com/8de89763015852c0ab70aabc6447ec04.gif" width="646.5" height="426"/>
 
 ### Guide:
 ### Using a Twitch Tracker link:
@@ -120,15 +97,14 @@ Select option 2 and paste the link and you will get the VOD links.
     **'YYYY-MM-DD HH:mm:00'**
 
 ## Credits:
-- **[Daylam Tayari](https://github.com/daylamtayari): Developer of Twitch Recover.**  
-**Check out my Github to see my other projects, including Twitch related projects:**   **https://github.com/daylamtayari**  
-**If you like this and wish to support me, feel free to send a tip via PayPal or Cashapp:  https://paypal.me/daylamtayari or [$daylamtayari](https://cash.app/$daylamtayari)**   
-  
-- [Saysera](https://twitter.com/Saysera69): Helped my understanding of how some elements of Twitch's backend work.
+- **[NosferatuZoddd](https://github.com/NosferatuZoddd): I continue to work on the application, improve and optimize the app.**
+- **[Daylam Tayari](https://github.com/daylamtayari): The first developer of Twitch Recover.**
+- [Saysera](https://twitter.com/Saysera69): Helped him understanding of how some elements of Twitch's backend work.
 - [Koolski](https://twitter.com/Koolski_): Designed the logo.
 - [arVahedi](https://github.com/arVahedi): His Java M3U8 downloader repository helped me understand how to download M3U8 files.
-- [Franiac](https://github.com/Franiac): His Twitch Leecher program helped me figure out a few APIs that I was missing.
-- [Lay295](https://github.com/lay295): Helped me figure out how to 'unmute' a VOD.
+- [Franiac](https://github.com/Franiac): His Twitch Leecher program helped him figure out a few APIs that I was missing.
+- [Lay295](https://github.com/lay295): Helped him figure out how to 'unmute' a VOD.
+
 
 ## Disclaimer:
 
