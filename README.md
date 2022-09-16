@@ -5,7 +5,28 @@
 # Twitch Recover
 
 ### Twitch Recover is a free tool that allows you to view, recover and download all types of Twitch videos (VODs, clips, streams and highlights).
-  
+
+---
+
+## PROJECT UPDATE
+
+After a long absence for which I sincerely apologise, I am back to working on the project and going to resolve issues, patch errors and afterwards rework it.   
+
+**If you want to help contribute to the project or want help with using the program, please join the discord: [https://discord.twitchrecover.com](https://discord.twitchrecover.com).**
+
+### Project Roadmap
+
+- 24th of September - Community council on the future of the project to get the input of anyone interested in participating the project.
+- End of September - Finish going through all GitHub issues.
+- 15th of October - Twitch Domain Retriever complete and active. Built in Go.
+- End of October - Release a minor version of Twitch Recover which fixes all functional and most prevalent issues.
+
+**Afterwards, in November**
+
+Rewrite the entire of Twitch Recover in Go, fixing various fundamental issues and designing it in a way for additional features to be easily implemented.
+
+---
+
 ### There are two current versions available, the alpha of the 2.0 version which has 17 different features and the 1.2 version which is the last current stable version.  
 **If you use the 2.0 alpha and experience an issue, please report the issue so I can fix it for the beta and final releases.**  
 
