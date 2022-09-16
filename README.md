@@ -14,6 +14,8 @@ After a long absence for which I sincerely apologise, I am back to working on th
 
 **If you want to help contribute to the project or want help with using the program, please join the discord: [https://discord.twitchrecover.com](https://discord.twitchrecover.com).**
 
+A full FAQ is present in the Discord under the `#readme-faq`.
+
 ### Project Roadmap
 
 - 24th of September - Community council on the future of the project to get the input of anyone interested in participating the project.
