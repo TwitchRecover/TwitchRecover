@@ -16,16 +16,10 @@ After a long absence for which I sincerely apologise, I am back to working on th
 
 A full FAQ is present in the Discord under the `#readme-faq`.
 
-### Project Roadmap
 
-- 24th of September - Community council on the future of the project to get the input of anyone interested in participating the project.
-- End of September - Finish going through all GitHub issues.
-- 15th of October - Twitch Domain Retriever complete and active. Built in Go.
-- End of October - Release a minor version of Twitch Recover which fixes all functional and most prevalent issues.
+**I am currently in the middle of rewriting Twitch Recover as a whole from scratch in Go to fix many of the fundamental issues and also allow for other projects to utilise its features.**   
 
-**Afterwards, in November**
-
-Rewrite the entire of Twitch Recover in Go, fixing various fundamental issues and designing it in a way for additional features to be easily implemented.
+**It is my main focus (during my free time obviously) as of right now and doing as much as I can, if you want to help contribute, join the discord.**
 
 ---
 
