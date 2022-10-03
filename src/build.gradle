@@ -1,0 +1,35 @@
+plugins {
+	id 'application'
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	testImplementation 'junit:junit:4.13.2'
+
+	implementation 'com.google.guava:guava:30.1-jre'
+	implementation 'org.json:json:20201115'
+	implementation 'commons-io:commons-io:2.8.0'
+	implementation 'org.apache.httpcomponents:fluent-hc:4.5.13'
+	implementation 'org.apache.directory.studio:org.apache.commons.io:2.4'
+	implementation 'org.projectlombok:lombok:1.18.16'
+}
+
+application {
+	mainClass = 'TwitchRecover.CLI'
+}
+
+jar {
+	archiveBaseName = 'TwitchRecover'
+	archiveVersion = ''
+	manifest {
+		attributes 'Main-Class': 'twitchrecover.Main'
+	}
+	exclude 'META-INF/**'
+	from {
+		configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+	}
+}
+

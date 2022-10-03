@@ -28,6 +28,27 @@ A full FAQ is present in the Discord under the `#readme-faq`.
 
 ### Twitch has just started fully deleting a greater percentage of VODs also from their VOD servers when a streamer deletes the VOD. If you cannot find a VOD it is because that one has fallen fate to Twitch's updated deletion process.
 
+## Build:
+```
+$ # Build on *nix
+$ cd src
+$ ./gradlew build
+$
+$ # Run application
+$ java -jar build/libs/TwitchRecover.jar
+```
+
+```
+> @ Build on Windows
+> cd src
+> .\gradlew.bat build
+>
+> # Run application
+> java -jar build/libs/TwitchRecover.jar
+```
+
+For integration with your IDE, import the src/build.gradle file.
+
 ## Downloads:  
 <break/>  
   
