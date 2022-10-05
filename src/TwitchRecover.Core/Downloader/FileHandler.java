@@ -17,13 +17,16 @@
 
 package TwitchRecover.Core.Downloader;
 
-import TwitchRecover.Core.Enums.FileExtension;
+import TwitchRecover.CLI.CLI;
 import lombok.Cleanup;
 import org.apache.commons.io.IOUtils;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.NavigableMap;
+import java.util.stream.Collectors;
 
 /**
  * This class handles all of the file handling
@@ -37,10 +40,37 @@ class FileHandler {
      * files (M3U8 parts) will be saved.
      * @throws IOException
      */
-    protected static void createTempFolder() throws IOException {
-        TEMP_FOLDER_PATH= Files.createTempDirectory("TwitchRecover-").toAbsolutePath();
+    protected static void createTempFolder(String fp) throws IOException {
+        if (CLI.OVERRIDE_TEMP_PATH != null) {
+            String[] pathParts = divideFinalPathIntoDirectoryAndFilename(fp);
+            TEMP_FOLDER_PATH = Paths.get(CLI.OVERRIDE_TEMP_PATH).resolve("." + pathParts[1]);
+        } else if (CLI.OVERRIDE_USE_TARGETPATH_AS_TEMPPATH) {
+            String[] pathParts = divideFinalPathIntoDirectoryAndFilename(fp);
+            TEMP_FOLDER_PATH = Paths.get(pathParts[0]).resolve("." + pathParts[1]);
+        } else {
+            TEMP_FOLDER_PATH= Files.createTempDirectory("TwitchRecover-").toAbsolutePath();
+        }
+
         File tempDir=new File(String.valueOf(TEMP_FOLDER_PATH));
+        tempDir.mkdirs();
         tempDir.deleteOnExit();
+    }
+
+    /**
+     * Takes the final download path + filename and divides it up into directory and filename.
+     * @param fp            Final file path of the file.
+     * @return String[]     The final path divided into its actual directory and the file name
+     */
+    protected static String[] divideFinalPathIntoDirectoryAndFilename(String fp) {
+        String pathSeparator = File.separator;
+        if (pathSeparator.equals("\\")) {
+            pathSeparator = "\\\\";
+        }
+        String[] pathParts = fp.split(pathSeparator);
+        String lastPart = pathParts[pathParts.length - 1];
+        return new String[] { Arrays.stream(pathParts)
+                .takeWhile(s -> !s.equals(lastPart))
+                .collect(Collectors.joining(File.separator)), lastPart };
     }
 
     /**

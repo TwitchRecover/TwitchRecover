@@ -17,16 +17,43 @@
 
 package TwitchRecover.CLI;
 
+import java.util.Objects;
+
 /**
  * CLI class which is the root of the CLI
  * version of Twitch Recover.
  */
 public class CLI {
+
+    public static String OVERRIDE_TEMP_PATH;                    // Can be used to override the temporary download path
+    public static Boolean OVERRIDE_USE_TARGETPATH_AS_TEMPPATH;  // Can be used to override the temporary download path
+
     /**
      * Core method of the CLI version of Twitch Recover.
      * @param args
      */
     public static void main(String[] args){
+        extractArguments(args);
         CLIHandler.main();
+    }
+
+    /**
+     * Goes through all cli arguments and sets
+     * properties accordingly.
+     *
+     * @param args Command line arguments passed in when executing
+     */
+    private static void extractArguments(String[] args) {
+        for (int i = 0; i < args.length; i++) {
+            if ((Objects.equals(args[i], "--temppath")
+                    || Objects.equals(args[i], "-tp")) && args.length > i + 1) {
+                OVERRIDE_TEMP_PATH = args[i + 1];
+                break; // Exit after argument found
+            } else if (Objects.equals(args[i], "--downloadtotargetpath")
+                    || Objects.equals(args[i], "-dttp")) {
+                OVERRIDE_USE_TARGETPATH_AS_TEMPPATH = true;
+                break; // Exit after argument found
+            }
+        }
     }
 }

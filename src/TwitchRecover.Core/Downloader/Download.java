@@ -56,7 +56,7 @@ public class Download {
     }
 
     public static String m3u8Download(String url, String fp) throws IOException {
-        FileHandler.createTempFolder();
+        FileHandler.createTempFolder(fp);
         ArrayList<String> chunks=M3U8Handler.getChunks(url);
         NavigableMap<Integer, File> segmentMap=TSDownload(chunks);
         return FileHandler.mergeFile(segmentMap, fp);
