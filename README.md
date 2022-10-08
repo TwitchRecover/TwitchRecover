@@ -151,3 +151,17 @@ Select option 2 and paste the link and you will get the VOD links.
 
 Twitch Recover is not associated with Amazon, Twitch, Twitch Tracker, Sullygnome, Streamscharts or any of their partners and parent companies.
 All copyrights belong to their respective owners.
+
+
+## Environment setup (Intellij IDE) 
+1. [File > new > project from VCS](https://blog.jetbrains.com/idea/2020/10/clone-a-project-from-github/)
+2. From the directories hierarchy, right click TwitchRecover.CLI and select "mark directory as generated sources root" 
+3. Add a "run configuration" as "Application" 
+4. Ensure Intellij knows what version of Java to use by choosing your version from the first dropdown menu under "Build and run" 
+	3.1 This is usually C:\Program Files\Java\jdk-17 
+5. Set TwitchRecover/TwitchRecover.CLI/CLI.java as your main class, the text field should become "TwitchRecover.CLI.CLI" 
+6. Select ok and apply 
+7. [delegate build & run actions to maven](https://www.jetbrains.com/help/idea/delegate-build-and-run-actions-to-maven.html#delegate_to_maven) 
+	6.1 You may need to right click > maven > reload project if you edit the pom.xml file, or [configure auto reload](https://www.jetbrains.com/help/idea/delegate-build-and-run-actions-to-maven.html#auto_reload_maven) 
+7. Assuming everything is ok, you should be able to build the project then run or debug the project 
+
