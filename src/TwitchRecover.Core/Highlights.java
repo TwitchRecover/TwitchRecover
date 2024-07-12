@@ -22,6 +22,7 @@ import TwitchRecover.Core.Downloader.Download;
 import TwitchRecover.Core.Enums.ContentType;
 import TwitchRecover.Core.Enums.FileExtension;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -79,7 +80,7 @@ public class Highlights {
      * given information.
      * @return ArrayList<String>    String arraylist containing all of the source highlight feeds.
      */
-    public ArrayList<String> retrieveHighlights(){
+    public ArrayList<String> retrieveHighlights() throws ParseException {
         long timestamp=Compute.getUNIX(highlightInfo[2]);
         long streamID=Long.parseLong(highlightInfo[1]);
         String url=Compute.URLCompute(highlightInfo[0], streamID, timestamp);

@@ -29,7 +29,8 @@
       </library>
     </orderEntry>
     <orderEntry type="module-library" exported="">
-      <library>
+      <library name="org.projectlombok:lombok:1.18.16" type="repository">
+        <properties maven-id="org.projectlombok:lombok:1.18.16" />
         <CLASSES>
           <root url="jar://$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.16/lombok-1.18.16.jar!/" />
         </CLASSES>

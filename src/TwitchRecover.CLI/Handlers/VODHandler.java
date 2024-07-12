@@ -25,6 +25,8 @@ import TwitchRecover.Core.Enums.FileExtension;
 import TwitchRecover.Core.Feeds;
 import TwitchRecover.Core.VOD;
 
+import java.text.ParseException;
+
 /**
  * VODHandler object class which
  * handles a VOD prompt.
@@ -104,10 +106,23 @@ public class VODHandler {
             System.out.print("\nPlease enter whether or not you want to brute force to the minute ('y' for yes and 'n' for no): ");
             wf=CLIHandler.sc.next().equalsIgnoreCase("y");
             vod.setBF(wf);
-            System.out.print("\nPlease enter the start time of the stream: ");
-            vod.setTimestamp(CLIHandler.sc.next());
+            System.out.print("\nPlease enter the start time of the stream (YYYY-MM-DD HH:mm:ss): ");
+            vod.setTimestamp(CLIHandler.sc.next()+" "+CLIHandler.sc.next());
         }
-        vod.retrieveVOD(wf);
+        while (true) {
+            try {
+                vod.retrieveVOD(wf);
+                break;
+            } catch (ParseException e) {
+                if (option==1) {
+                    throw new RuntimeException("The stream analytics link has an incorrect date format, try input values manually.", e);
+                } else {
+                    System.out.print("Wrong timestamp format.");
+                    System.out.print("\nPlease enter the start time of the stream (YYYY-MM-DD HH:mm:ss): ");
+                    vod.setTimestamp(CLIHandler.sc.next() + " " + CLIHandler.sc.next());
+                }
+            }
+        }
         Feeds feeds=vod.retrieveVODFeeds();
         if(feeds==null){
             System.out.print(

@@ -23,6 +23,7 @@ import TwitchRecover.Core.Enums.ContentType;
 import TwitchRecover.Core.Enums.FileExtension;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.ArrayList;
 
 /**
@@ -70,7 +71,11 @@ public class VOD {
             getVODFeeds();
         }
         else{
-            retrieveVOD(false);
+            try {
+                retrieveVOD(false);
+            } catch (ParseException e) {
+                throw new RuntimeException("VOD has an incorrect date format.", e);
+            }
             retrieveVODFeeds();
         }
         fFP=fp+fn+fe.fileExtension;
@@ -106,7 +111,7 @@ public class VOD {
      * VOD feeds from given information.
      * @return ArrayList<String>    String arraylist containing all of the source VOD feeds.
      */
-    public ArrayList<String> retrieveVOD(boolean wr){
+    public ArrayList<String> retrieveVOD(boolean wr) throws ParseException {
         if(!wr){
             retrievedURLs=VODRetrieval.retrieveVOD(vodInfo[0], vodInfo[1], vodInfo[2], false);
         }

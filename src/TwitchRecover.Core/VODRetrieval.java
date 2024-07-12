@@ -21,6 +21,7 @@ import TwitchRecover.Core.Downloader.Download;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.ArrayList;
 /**
  * The VOD retrieval class is the class that orchestrates
@@ -37,7 +38,7 @@ public class VODRetrieval {
      * @param bf                    Boolean value which represents whether a VOD brute force should be carried out.
      * @return ArrayList<String>    String arraylist which represents all of the working VOD M3U8 URLs.
      */
-    public static ArrayList<String> retrieveVOD(String name, String sID, String ts, boolean bf){
+    public static ArrayList<String> retrieveVOD(String name, String sID, String ts, boolean bf) throws ParseException {
         ArrayList<String> results=new ArrayList<String>();
         long timestamp=Compute.getUNIX(ts);
         long streamID=Long.parseLong(sID);

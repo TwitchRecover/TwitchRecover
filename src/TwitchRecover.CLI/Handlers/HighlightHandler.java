@@ -24,6 +24,8 @@ import TwitchRecover.Core.Enums.FileExtension;
 import TwitchRecover.Core.Feeds;
 import TwitchRecover.Core.Highlights;
 
+import java.text.ParseException;
+
 /**
  * HighlightHandler object class which
  * handles the highlight prompts.
@@ -100,9 +102,16 @@ public class HighlightHandler {
         highlight.setStreamID(CLIHandler.sc.next());
         System.out.print("\nHighlight ID: ");
         highlight.setID(Long.parseLong(CLIHandler.sc.next()));
-        System.out.print("\nTimestamp (YYYY-MM-DD HH:mm:ss format): ");
-        highlight.setTimestamp(CLIHandler.sc.next()+" "+CLIHandler.sc.next());
-        highlight.retrieveHighlights();
+        while (true) {
+            System.out.print("\nTimestamp (YYYY-MM-DD HH:mm:ss format): ");
+            highlight.setTimestamp(CLIHandler.sc.next()+" "+CLIHandler.sc.next());
+            try {
+                highlight.retrieveHighlights();
+                break;
+            } catch (ParseException e) {
+                System.out.print("Wrong timestamp format.");
+            }
+        }
         int quality=CoreHandler.selectFeeds(highlight.retrieveQualities(), oType.Recover);
         System.out.print("\n\nM3U8 link: "+highlight.getFeed(quality));
     }

@@ -61,14 +61,11 @@ public class Compute {
      * @param ts        String value representing the timestamp.
      * @return long     Long value which represents the UNIX timestamp.
      */
-    protected static long getUNIX(String ts){
+    protected static long getUNIX(String ts) throws ParseException {
         String time = ts + " UTC";
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss zzz");
         Date date=null;
-        try{
-            date=df.parse(time);
-        }
-        catch(ParseException ignored){}
+        date=df.parse(time);
         return (long) date.getTime() / 1000;
     }
 
@@ -78,14 +75,14 @@ public class Compute {
      * returns the first 20 characters of the hash.
      * @param baseString    Base string for which to compute the hash for.
      * @return String       First 20 characters of the SHA1 hash of the given base string.
-     * @throws NoSuchAlgorithmException
      */
     private static String hash(String baseString){
         MessageDigest md= null;
         try {
             md = MessageDigest.getInstance("SHA1");
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
         }
-        catch(NoSuchAlgorithmException ignored){}
         byte[] result=md.digest(baseString.getBytes());
         StringBuffer sb=new StringBuffer();
         for(byte val: result){
