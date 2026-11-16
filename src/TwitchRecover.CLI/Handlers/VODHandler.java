@@ -107,7 +107,13 @@ public class VODHandler {
             System.out.print("\nPlease enter the start time of the stream: ");
             vod.setTimestamp(CLIHandler.sc.next());
         }
-        vod.retrieveVOD(wf);
+        try{
+            vod.retrieveVOD(wf);
+        }
+        catch(IllegalArgumentException e){
+            System.out.print("\nERROR: "+e.getMessage());
+            return;
+        }
         Feeds feeds=vod.retrieveVODFeeds();
         if(feeds==null){
             System.out.print(

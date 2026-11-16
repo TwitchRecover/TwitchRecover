@@ -97,6 +97,9 @@ public class VODRetrieval {
             m3u8= Download.tempDownload(url);
         }
         catch(IOException ignored){}
+        if(m3u8==null){
+            return false;
+        }
         ArrayList<String> contents=FileIO.read(m3u8.getAbsolutePath());
         for(String line: contents){
             if(line.contains("unmuted")){
@@ -123,7 +126,12 @@ public class VODRetrieval {
                 m3u8=Download.tempDownload(value);
             }
             catch(Exception ignored){}
-            url=value.substring(0, value.indexOf("index-dvr.m3u8"));
+            int lastSlash=value.lastIndexOf('/');
+            url=lastSlash>=0 ? value.substring(0, lastSlash+1) : "";
+        }
+        if(m3u8==null){
+            System.out.print("\nERROR: Unable to retrieve the M3U8.");
+            return;
         }
         FileIO.write(unmuteContents(FileIO.read(m3u8.getAbsolutePath()), url), outFP);
     }
@@ -143,7 +151,7 @@ public class VODRetrieval {
                 unmutedContents.add(url+line.substring(0, line.lastIndexOf("unmuted.ts"))+"muted.ts");
             }
             else if(!line.startsWith("#")){
-                unmutedContents.add(url+line);
+                unmutedContents.add(line.startsWith("http") ? line : url+line);
             }
             else{
                 unmutedContents.add(line);

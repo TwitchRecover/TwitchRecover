@@ -127,42 +127,48 @@ public class WebsiteRetrieval {
         HttpURLConnection httpcon = (HttpURLConnection) obj.openConnection();
         httpcon.setRequestMethod("GET");
         httpcon.setRequestProperty("User-Agent", "Mozilla/5.0");
-        if(httpcon.getResponseCode() == HttpURLConnection.HTTP_OK) {
-            //Get the timestamp:
-            BufferedReader brt = new BufferedReader(new InputStreamReader(httpcon.getInputStream()));
-            String response;
-            String responseD = "";
-            for(int i = 0; i < 300; i++) {
-                response = brt.readLine();
-                if(i == 7) {
-                    int tsIndex = response.indexOf(" on ") + 4;
-                    results[2] = response.substring(tsIndex, tsIndex + 19);
-                }
-                //Stream duration fetcher:
-                if(response.contains("stats-value to-time-lg")) {
-                    responseD = response;
-                }
-            }
-
-            //Get the stream duration:
-            String durationPattern = "<div class=\"stats-value to-time-lg\">(\\d*)</div>";
-            Pattern dr = Pattern.compile(durationPattern);
-            Matcher dm = dr.matcher(responseD);
-            if(dm.find()) {
-                results[3] = dm.group(1);
-            }
-            //Get the streamer's name and the VOD ID:
-            String pattern = "twitchtracker\\.com\\/([a-zA-Z0-9-_]*)\\/streams\\/(\\d*)";
-            Pattern r = Pattern.compile(pattern);
-            Matcher m = r.matcher(url);
-            if(m.find()) {
-                results[0] = m.group(1);
-                results[1] = m.group(2);
-            }
-            //Return the array:
-            return results;
+        if(httpcon.getResponseCode() != HttpURLConnection.HTTP_OK) {
+            throw new IOException();
         }
-        throw new IOException();
+
+        //Read the whole page. Do not depend on line positions since Twitch Tracker's layout changes.
+        StringBuilder pageBuilder = new StringBuilder();
+        try(BufferedReader br = new BufferedReader(new InputStreamReader(httpcon.getInputStream()))) {
+            String line;
+            while((line = br.readLine()) != null) {
+                pageBuilder.append(line).append('\n');
+            }
+        }
+        String page = pageBuilder.toString();
+
+        //Get the timestamp from the page description or the stream timestamp element:
+        String[] timestampPatterns = {
+                "stream on (\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2})",
+                "class=\"stream-timestamp-dt[^\"]*\"[^>]*>(\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2})<"
+        };
+        for(String timestampPattern: timestampPatterns) {
+            Matcher tm = Pattern.compile(timestampPattern).matcher(page);
+            if(tm.find()) {
+                results[2] = tm.group(1);
+                break;
+            }
+        }
+
+        //Get the stream duration in minutes. Twitch Tracker has used both
+        //the 'stats-value' and 'g-x-s-value' CSS classes.
+        Matcher dm = Pattern.compile("class=\"[^\"]*to-time-lg\"[^>]*>(\\d+)</div>").matcher(page);
+        if(dm.find()) {
+            results[3] = dm.group(1);
+        }
+
+        //Get the streamer's name and the stream ID from the URL:
+        String pattern = "twitchtracker\\.com\\/([a-zA-Z0-9-_]*)\\/streams\\/(\\d*)";
+        Matcher m = Pattern.compile(pattern).matcher(url);
+        if(m.find()) {
+            results[0] = m.group(1);
+            results[1] = m.group(2);
+        }
+        return results;
     }
 
     //Stream Charts retrieval:
