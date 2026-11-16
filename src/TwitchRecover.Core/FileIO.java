@@ -78,8 +78,8 @@ public class FileIO {
      * @return String   String value representing the adjusted file path.
      */
     public static String adjustFP(String fp){
-        if(fp.indexOf('\\')!=fp.length()-1){
-            fp+="\\";
+        if(!(fp.endsWith("/") || fp.endsWith("\\"))){
+            fp+=File.separator;
         }
         return fp;
     }
@@ -93,7 +93,7 @@ public class FileIO {
      * @return boolean  Boolean value representing whether or not a file alredy exists at that location or not.
      */
     public static boolean checkFileExistence(String fp, FileExtension fe){
-        File location=new File(fp+fe);
+        File location=new File(fp+fe.fileExtension);
         return location.exists();
     }
 

@@ -48,9 +48,8 @@ public class Download {
      * @throws IOException
      */
     public static String download(String url, String fp) throws IOException {
-        String extension=url.substring(url.lastIndexOf("."));
         URL dURL=new URL(url);
-        File dFile=new File(fp+extension);
+        File dFile=new File(fp);
         FileUtils.copyURLToFile(dURL, dFile, Timeout.CONNECT.time, Timeout.READ.time);
         return dFile.getAbsolutePath();
     }

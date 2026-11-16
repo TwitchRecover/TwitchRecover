@@ -62,14 +62,19 @@ public class Compute {
      * @return long     Long value which represents the UNIX timestamp.
      */
     protected static long getUNIX(String ts){
-        String time = ts + " UTC";
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss zzz");
-        Date date=null;
-        try{
-            date=df.parse(time);
+        if(ts==null || ts.trim().isEmpty()){
+            throw new IllegalArgumentException("Missing stream start timestamp. The analytics page could not be parsed or the link is invalid.");
         }
-        catch(ParseException ignored){}
-        return (long) date.getTime() / 1000;
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss zzz");
+        df.setLenient(false);
+        Date date;
+        try{
+            date=df.parse(ts.trim()+" UTC");
+        }
+        catch(ParseException e){
+            throw new IllegalArgumentException("Unable to parse stream start timestamp '" + ts + "'. Expected 'YYYY-MM-DD HH:mm:ss'.");
+        }
+        return date.getTime() / 1000;
     }
 
     /**

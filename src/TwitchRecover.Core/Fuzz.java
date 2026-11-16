@@ -21,10 +21,13 @@ import TwitchRecover.Core.Enums.Quality;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -128,35 +131,49 @@ public class Fuzz {
      * @return ArrayList<String>    String arraylist representing all of the Twitch M3U8 VOD domains.
      */
     private static ArrayList<String> getDomains(){
-        ArrayList<String> domains=new ArrayList<String>();
-        boolean added=false;
+        LinkedHashSet<String> domains=new LinkedHashSet<String>();
+        //Bundled domain list from this fork. This is the list we control.
+        try(InputStream is=Fuzz.class.getResourceAsStream("/domains.txt")){
+            if(is!=null){
+                BufferedReader br=new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));
+                String line;
+                while((line=br.readLine())!=null){
+                    line=line.trim();
+                    if(!line.isEmpty() && !line.startsWith("#")){
+                        domains.add(line);
+                    }
+                }
+            }
+        }
+        catch(IOException ignored){}
+        //Upstream list may contain domains added after the bundled list was built.
         try {
             URL dURL=new URL("https://raw.githubusercontent.com/TwitchRecover/TwitchRecover/main/domains.txt");
             HttpURLConnection con=(HttpURLConnection) dURL.openConnection();
             con.setRequestMethod("GET");
             con.setRequestProperty("User-Agent", "Mozilla/5.0");
             if(con.getResponseCode()==HttpURLConnection.HTTP_OK){
-                BufferedReader br=new BufferedReader(new InputStreamReader(con.getInputStream()));
-                String line = null;
-                while((line=br.readLine()) !=null){
-                    String response=line.toString();
-                    domains.add(response);
-                    added=true;
+                BufferedReader br=new BufferedReader(new InputStreamReader(con.getInputStream(), StandardCharsets.UTF_8));
+                String line;
+                while((line=br.readLine())!=null){
+                    line=line.trim();
+                    if(!line.isEmpty() && !line.startsWith("#")){
+                        domains.add(line);
+                    }
                 }
+                br.close();
             }
         }
         catch(IOException ignored){}
-        finally{
-            if(!added){     //To execute if the domains from the domains file were not added as a backup.
-                domains.add("https://vod-secure.twitch.tv");
-                domains.add("https://vod-metro.twitch.tv");
-                domains.add("https://d2e2de1etea730.cloudfront.net");
-                domains.add("https://dqrpb9wgowsf5.cloudfront.net");
-                domains.add("https://ds0h3roq6wcgc.cloudfront.net");
-                domains.add("https://dqrpb9wgowsf5.cloudfront.net");
-            }
+        if(domains.isEmpty()){     //Backup if neither the bundled nor the upstream list could be loaded.
+            domains.add("https://vod-secure.twitch.tv");
+            domains.add("https://vod-metro.twitch.tv");
+            domains.add("https://d2e2de1etea730.cloudfront.net");
+            domains.add("https://dqrpb9wgowsf5.cloudfront.net");
+            domains.add("https://ds0h3roq6wcgc.cloudfront.net");
+            domains.add("https://d2vi6trrdongqn.cloudfront.net");
         }
-        return domains;
+        return new ArrayList<String>(domains);
     }
 
     /**

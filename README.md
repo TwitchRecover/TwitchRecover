@@ -34,6 +34,17 @@ A full FAQ is present in the Discord under the `#readme-faq`.
 ### - [2.0 Alpha](https://github.com/TwitchRecover/TwitchRecover/releases/download/2.0aH/Twitch.Recover.Setup.exe): [https://github.com/TwitchRecover/TwitchRecover/releases/tag/2.0aH](https://github.com/TwitchRecover/TwitchRecover/releases/tag/2.0aH)  
 ### - [1.2 Release (last stable release)](https://github.com/TwitchRecover/TwitchRecover/releases/download/1.2/TwitchRecover-CLI-v1.2.exe): [https://github.com/TwitchRecover/TwitchRecover/releases/tag/1.2](https://github.com/TwitchRecover/TwitchRecover/releases/tag/1.2)  
   
+## Building and running from source (Linux)
+
+Requires JDK 8 or newer and Maven 3.6+.
+
+```bash
+mvn package
+java -jar target/twitchrecover-cli.jar
+```
+
+`mvn package` builds a self-contained JAR with all dependencies bundled at `target/twitchrecover-cli.jar`.
+
 ## Features:
   
 | Features  | 1.2 Release  | 2.0 Alpha | 2.0 Beta | 2.0 Final Release |  
