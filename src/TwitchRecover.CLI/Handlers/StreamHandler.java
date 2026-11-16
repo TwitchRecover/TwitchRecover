@@ -67,7 +67,7 @@ public class StreamHandler {
         }
         else{
             int quality=CoreHandler.selectFeeds(feeds, oType.Retrieve);
-            System.out.print("M3U8 URL: "+live.getFeed(quality));
+            System.out.print("M3U8 URL: "+live.getFeed(quality-1));
         }
 
     }

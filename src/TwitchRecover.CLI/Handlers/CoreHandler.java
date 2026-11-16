@@ -129,10 +129,11 @@ public class CoreHandler {
         while(!(line.toLowerCase().startsWith("y")||line.toLowerCase().startsWith("n"))){
             System.out.print(
                       "\nERROR: Invalid input."
-                    + "\nPlease enter 'y' for yes or 'n' for no based on your desired selection."
+                    + "\nPlease enter 'y' for yes or 'n' for no based on your desired selection: "
             );
+            line=CLIHandler.sc.next();
         }
-        if(line.startsWith("y")){
+        if(line.toLowerCase().startsWith("y")){
             return true;
         }
         return false;

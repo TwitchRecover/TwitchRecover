@@ -17,8 +17,6 @@
 
 package TwitchRecover.Core.Downloader;
 
-import TwitchRecover.Core.Enums.FileExtension;
-import lombok.Cleanup;
 import org.apache.commons.io.IOUtils;
 import java.io.*;
 import java.nio.file.Files;
@@ -68,10 +66,9 @@ class FileHandler {
      * @throws IOException
      */
     private static void fileMerger(File input, File output) throws IOException {
-        @Cleanup OutputStream os= new BufferedOutputStream(new FileOutputStream(output, true));
-        @Cleanup InputStream is=new BufferedInputStream(new FileInputStream(input));
-        IOUtils.copy(is, os);
-        is.close();
-        os.close();
+        try (OutputStream os = new BufferedOutputStream(new FileOutputStream(output, true));
+             InputStream is = new BufferedInputStream(new FileInputStream(input))) {
+            IOUtils.copy(is, os);
+        }
     }
 }
